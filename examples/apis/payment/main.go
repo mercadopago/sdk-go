@@ -9,9 +9,9 @@ import (
 	"github.com/mercadopago/sdk-go/pkg/payment"
 )
 
-var rc = mp.NewRestClient("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
-
 func main() {
+	mp.SetAccessToken("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
+
 	id := createPayment()
 	time.Sleep(5 * time.Second)
 	searchPayment()
@@ -21,7 +21,7 @@ func main() {
 var externalReference = uuid.New().String()
 
 func createPayment() int64 {
-	pc := payment.NewClient(rc)
+	pc := payment.NewClient()
 
 	request := payment.Request{
 		TransactionAmount: 1.5,
@@ -43,7 +43,7 @@ func createPayment() int64 {
 }
 
 func searchPayment() {
-	pc := payment.NewClient(rc)
+	pc := payment.NewClient()
 
 	request := payment.Filters{
 		Sort:              "date_created",
@@ -65,7 +65,7 @@ func searchPayment() {
 }
 
 func getPayment(id int64) {
-	pc := payment.NewClient(rc)
+	pc := payment.NewClient()
 
 	res, err := pc.Get(id)
 	if err != nil {
