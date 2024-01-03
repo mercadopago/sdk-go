@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/mercadopago/sdk-go/pkg/mp/rest"
+	"github.com/mercadopago/sdk-go/pkg/httpclient"
 )
 
 const url = "https://api.mercadopago.com/v1/payment_methods"
@@ -14,31 +14,33 @@ type Client interface {
 	// List lists all payment methods.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payment_methods
 	// Reference: https://www.mercadopago.com.br/developers/pt/reference/payment_methods/_payment_methods/get/
-	List(opts ...rest.Option) ([]Response, error)
+	List(opts ...httpclient.RequestOption) ([]Response, error)
 }
 
 // client is the implementation of Client.
 type client struct {
-	rc rest.Client
+	requester httpclient.Requester
 }
 
 // NewClient returns a new Payment Methods API Client.
-func NewClient(restClient rest.Client) Client {
+func NewClient(opts ...httpclient.APIOption) Client {
+	built := httpclient.BuildAPIClientOptions(opts...)
+
 	return &client{
-		rc: restClient,
+		requester: built.APIRequester,
 	}
 }
 
-func (c *client) List(opts ...rest.Option) ([]Response, error) {
+func (c *client) List(opts ...httpclient.RequestOption) ([]Response, error) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return nil, &rest.ErrorResponse{
+		return nil, &httpclient.ErrorResponse{
 			StatusCode: http.StatusInternalServerError,
 			Message:    "error creating request: " + err.Error(),
 		}
 	}
 
-	res, err := c.rc.Send(req, opts...)
+	res, err := httpclient.Send(c.requester, req, opts...)
 	if err != nil {
 		return nil, err
 	}

@@ -4,30 +4,30 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/mercadopago/sdk-go/pkg/httpclient"
 	"github.com/mercadopago/sdk-go/pkg/mp"
-	"github.com/mercadopago/sdk-go/pkg/mp/rest"
 	"github.com/mercadopago/sdk-go/pkg/payment"
 )
 
 func main() {
-	rc := mp.NewRestClient("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
+	mp.SetAccessToken("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
 
-	pc := payment.NewClient(rc)
+	pc := payment.NewClient()
 
 	request := payment.Request{
 		TransactionAmount: 1.5,
 		PaymentMethodID:   "pix",
-		Description:       "meu pagamento",
+		Description:       "my payment",
 		Payer: &payment.PayerRequest{
-			Email: "fhashfadsuhfdafasdfasfashfda@testuser.com",
+			Email: "gabs@testuser.com",
 		},
 	}
 
 	ch := http.Header{}
-	ch.Add("X-Idempotency-Key", "123")
+	ch.Add("X-Idempotency-Key", "123999")
 	ch.Add("Some-Key", "some_value")
-	opts := []rest.Option{
-		rest.WithCustomHeaders(ch), // rest client will use these custom headers
+	opts := []httpclient.RequestOption{
+		httpclient.WithCustomHeaders(ch), // http client will use these custom headers
 	}
 
 	res, err := pc.Create(request, opts...)
