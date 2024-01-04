@@ -42,16 +42,16 @@ func main() {
 		httpclient.WithRetryPolicy(checkRetry),
 	}
 
-	customRetryableRequester := httpclient.NewRetryable(retryMax, options...)
+	retryableRequester := httpclient.NewRetryable(retryMax, options...)
 
 	opts := []httpclient.RequestOption{
-		httpclient.WithRequestRequester(customRetryableRequester), // http client will use these custom headers
+		httpclient.WithRequestRequester(retryableRequester), // sdk will use that requester
 	}
 
 	res, err := pc.Create(request, opts...)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+	} else {
+		fmt.Println(res.ID)
 	}
-
-	fmt.Println(res.ID)
 }
