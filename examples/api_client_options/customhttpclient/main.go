@@ -16,12 +16,11 @@ func main() {
 	proxyURL, _ := url.Parse("http://someurl")
 	customClient := &http.Client{Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)}}
 
-	opts := httpclient.WithAPIRequester(customClient)
-
-	pmc := paymentmethod.NewClient(opts)
+	pmc := paymentmethod.NewClient(httpclient.WithAPIRequester(customClient))
 	res, err := pmc.List()
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		return
 	}
 
 	for _, v := range res {

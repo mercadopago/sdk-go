@@ -23,20 +23,16 @@ func main() {
 		},
 	}
 
-	options := []httpclient.Option{
-		httpclient.WithTimeout(time.Nanosecond * 1),
-	}
+	nonRetryableRequester := httpclient.New(httpclient.WithTimeout(time.Second * 5))
 
-	nonRetryableRequester := httpclient.New(options...)
-
-	opts := []httpclient.RequestOption{
+	res, err := pc.Create(
+		request,
 		httpclient.WithRequestRequester(nonRetryableRequester), // sdk will use that requester
-	}
-
-	res, err := pc.Create(request, opts...)
+	)
 	if err != nil {
 		fmt.Println(err)
-	} else {
-		fmt.Println(res.ID)
+		return
 	}
+
+	fmt.Println(res.ID)
 }

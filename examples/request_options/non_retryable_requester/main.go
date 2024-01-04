@@ -24,14 +24,14 @@ func main() {
 
 	requester := httpclient.New()
 
-	opts := []httpclient.RequestOption{
+	res, err := pc.Create(
+		request,
 		httpclient.WithRequestRequester(requester), // sdk will use that requester
-	}
-
-	res, err := pc.Create(request, opts...)
+	)
 	if err != nil {
 		fmt.Println(err)
-	} else {
-		fmt.Println(res.ID)
+		return
 	}
+
+	fmt.Println(res.ID)
 }

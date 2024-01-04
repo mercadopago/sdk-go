@@ -36,13 +36,12 @@ func main() {
 		return false, nil
 	}
 
-	options := []httpclient.OptionRetryable{
-		httpclient.WithTimeout(time.Nanosecond * 1),
+	retryableRequester := httpclient.NewRetryable(
+		retryMax,
+		httpclient.WithTimeout(time.Nanosecond*1),
 		httpclient.WithBackoffStrategy(backoffStrategy),
 		httpclient.WithRetryPolicy(checkRetry),
-	}
-
-	retryableRequester := httpclient.NewRetryable(retryMax, options...)
+	)
 
 	opts := []httpclient.RequestOption{
 		httpclient.WithRequestRequester(retryableRequester), // sdk will use that requester
@@ -51,7 +50,8 @@ func main() {
 	res, err := pc.Create(request, opts...)
 	if err != nil {
 		fmt.Println(err)
-	} else {
-		fmt.Println(res.ID)
+		return
 	}
+
+	fmt.Println(res.ID)
 }

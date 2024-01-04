@@ -26,14 +26,14 @@ func main() {
 	ch := http.Header{}
 	ch.Add("X-Idempotency-Key", "123999")
 	ch.Add("Some-Key", "some_value")
-	opts := []httpclient.RequestOption{
+	res, err := pc.Create(
+		request,
 		httpclient.WithCustomHeaders(ch), // http client will use these custom headers
-	}
-
-	res, err := pc.Create(request, opts...)
+	)
 	if err != nil {
 		fmt.Println(err)
-	} else {
-		fmt.Println(res.ID)
+		return
 	}
+
+	fmt.Println(res.ID)
 }
