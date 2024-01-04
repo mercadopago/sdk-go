@@ -1,57 +1,46 @@
 package main
 
-import (
-	"context"
-	"fmt"
-	"net/http"
-	"time"
+// func main() {
+// 	mp.SetAccessToken("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
 
-	"github.com/mercadopago/sdk-go/pkg/httpclient"
-	"github.com/mercadopago/sdk-go/pkg/mp"
-	"github.com/mercadopago/sdk-go/pkg/payment"
-)
+// 	pc := payment.NewClient()
 
-func main() {
-	mp.SetAccessToken("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
+// 	request := payment.Request{
+// 		TransactionAmount: 1.5,
+// 		PaymentMethodID:   "pix",
+// 		Description:       "my payment",
+// 		Payer: &payment.PayerRequest{
+// 			Email: "gabs@testuser.com",
+// 		},
+// 	}
 
-	pc := payment.NewClient()
+// 	retryMax := 5
 
-	request := payment.Request{
-		TransactionAmount: 1.5,
-		PaymentMethodID:   "pix",
-		Description:       "my payment",
-		Payer: &payment.PayerRequest{
-			Email: "gabs@testuser.com",
-		},
-	}
+// 	backoffStrategy := func(attempt int) time.Duration {
+// 		// your retry implementation, for more information see: httpclient.BackoffFunc
+// 		return time.Duration(1)
+// 	}
+// 	checkRetry := func(ctx context.Context, resp *http.Response, err error) (bool, error) {
+// 		// your retry stop condition, for more information see: httpclient.CheckRetryFunc
+// 		return false, nil
+// 	}
 
-	retryMax := 5
+// 	retryableRequester := httpclient.NewRetryable(
+// 		retryMax,
+// 		httpclient.WithTimeout(time.Nanosecond*1),
+// 		httpclient.WithBackoffStrategy(backoffStrategy),
+// 		httpclient.WithRetryPolicy(checkRetry),
+// 	)
 
-	backoffStrategy := func(attempt int) time.Duration {
-		// your retry implementation, for more information see: httpclient.BackoffFunc
-		return time.Duration(1)
-	}
-	checkRetry := func(ctx context.Context, resp *http.Response, err error) (bool, error) {
-		// your retry stop condition, for more information see: httpclient.CheckRetryFunc
-		return false, nil
-	}
+// 	opts := []httpclient.RequestOption{
+// 		httpclient.WithRequestRequester(retryableRequester), // sdk will use that requester
+// 	}
 
-	retryableRequester := httpclient.NewRetryable(
-		retryMax,
-		httpclient.WithTimeout(time.Nanosecond*1),
-		httpclient.WithBackoffStrategy(backoffStrategy),
-		httpclient.WithRetryPolicy(checkRetry),
-	)
+// 	res, err := pc.Create(request, opts...)
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		return
+// 	}
 
-	opts := []httpclient.RequestOption{
-		httpclient.WithRequestRequester(retryableRequester), // sdk will use that requester
-	}
-
-	res, err := pc.Create(request, opts...)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(res.ID)
-}
+// 	fmt.Println(res.ID)
+// }
