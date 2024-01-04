@@ -13,7 +13,8 @@ func main() {
 	pmc := paymentmethod.NewClient()
 	res, err := pmc.List()
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		return
 	}
 
 	for _, v := range res {
