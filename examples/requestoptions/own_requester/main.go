@@ -9,6 +9,13 @@ import (
 	"github.com/mercadopago/sdk-go/pkg/payment"
 )
 
+type myRequester struct{}
+
+func (*myRequester) Do(req *http.Request) (*http.Response, error) {
+	// my own Do logic
+	return nil, nil
+}
+
 func main() {
 	mp.SetAccessToken("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
 
@@ -23,17 +30,19 @@ func main() {
 		},
 	}
 
-	ch := http.Header{}
-	ch.Add("X-Idempotency-Key", "123999")
-	ch.Add("Some-Key", "some_value")
+	// can be a http.Client from standard library:
+	// standardLibClient := &http.Client{}
+	// or can be a custom requester
+	myOwnRequester := &myRequester{}
+
 	opts := []httpclient.RequestOption{
-		httpclient.WithCustomHeaders(ch), // http client will use these custom headers
+		httpclient.WithRequestRequester(myOwnRequester), // sdk will use that requester
 	}
 
 	res, err := pc.Create(request, opts...)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+	} else {
+		fmt.Println(res.ID)
 	}
-
-	fmt.Println(res.ID)
 }
