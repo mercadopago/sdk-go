@@ -1,38 +1,29 @@
 package main
 
-import (
-	"fmt"
-	"time"
+// func main() {
+// 	mp.SetAccessToken("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
 
-	"github.com/mercadopago/sdk-go/pkg/httpclient"
-	"github.com/mercadopago/sdk-go/pkg/mp"
-	"github.com/mercadopago/sdk-go/pkg/payment"
-)
+// 	pc := payment.NewClient()
 
-func main() {
-	mp.SetAccessToken("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
+// 	request := payment.Request{
+// 		TransactionAmount: 1.5,
+// 		PaymentMethodID:   "pix",
+// 		Description:       "my payment",
+// 		Payer: &payment.PayerRequest{
+// 			Email: "gabs@testuser.com",
+// 		},
+// 	}
 
-	pc := payment.NewClient()
+// 	nonRetryableRequester := httpclient.New(httpclient.WithTimeout(time.Second * 5))
 
-	request := payment.Request{
-		TransactionAmount: 1.5,
-		PaymentMethodID:   "pix",
-		Description:       "my payment",
-		Payer: &payment.PayerRequest{
-			Email: "gabs@testuser.com",
-		},
-	}
+// 	res, err := pc.Create(
+// 		request,
+// 		httpclient.WithRequestRequester(nonRetryableRequester), // sdk will use that requester
+// 	)
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		return
+// 	}
 
-	nonRetryableRequester := httpclient.New(httpclient.WithTimeout(time.Second * 5))
-
-	res, err := pc.Create(
-		request,
-		httpclient.WithRequestRequester(nonRetryableRequester), // sdk will use that requester
-	)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(res.ID)
-}
+// 	fmt.Println(res.ID)
+// }
