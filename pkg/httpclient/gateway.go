@@ -1,6 +1,7 @@
 package httpclient
 
 import (
+	"errors"
 	"io"
 	"net/http"
 
@@ -26,15 +27,17 @@ func Send(requester Requester, req *http.Request, opts ...RequestOption) ([]byte
 
 	res, err := requester.Do(req)
 	if err != nil {
-		status := 0
-		if res != nil {
-			status = res.StatusCode
+		if res == nil {
+			return nil, err
 		}
 
 		return nil, &ErrorResponse{
-			StatusCode: status,
+			StatusCode: res.StatusCode,
 			Message:    "error sending request: " + err.Error(),
 		}
+	}
+	if res == nil {
+		return nil, errors.New("error getting response")
 	}
 
 	defer res.Body.Close()
