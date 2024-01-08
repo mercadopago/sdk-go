@@ -12,7 +12,7 @@ var (
 	idempotencyHeader   = http.CanonicalHeaderKey("x-idempotency-key")
 )
 
-func SetDefaultHeaders(req *http.Request) {
+func setDefaultHeaders(req *http.Request) {
 	req.Header.Add(authorizationHeader, "Bearer "+_accessToken)
 	req.Header.Add(productIDHeader, _productID)
 

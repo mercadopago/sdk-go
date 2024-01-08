@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/mercadopago/sdk-go/pkg/api"
 	"github.com/mercadopago/sdk-go/pkg/httpclient"
 )
 
@@ -14,7 +15,7 @@ type Client interface {
 	// List lists all payment methods.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payment_methods
 	// Reference: https://www.mercadopago.com.br/developers/pt/reference/payment_methods/_payment_methods/get/
-	List(opts ...httpclient.RequestOption) ([]Response, error)
+	List(opts ...api.RequestOption) ([]Response, error)
 }
 
 // client is the implementation of Client.
@@ -23,21 +24,21 @@ type client struct {
 }
 
 // NewClient returns a new Payment Methods API Client.
-func NewClient(opts ...httpclient.APIOption) Client {
-	options := httpclient.ApiOptions{
-		APIRequester: httpclient.NewRetryable(),
+func NewClient(opts ...api.Option) Client {
+	options := api.Options{
+		Requester: httpclient.NewRetryable(),
 	}
 
 	for _, opt := range opts {
-		opt(&options)
+		opt.ApplyOption(&options)
 	}
 
 	return &client{
-		requester: options.APIRequester,
+		requester: options.Requester,
 	}
 }
 
-func (c *client) List(opts ...httpclient.RequestOption) ([]Response, error) {
+func (c *client) List(opts ...api.RequestOption) ([]Response, error) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return nil, &httpclient.ErrorResponse{
@@ -46,7 +47,7 @@ func (c *client) List(opts ...httpclient.RequestOption) ([]Response, error) {
 		}
 	}
 
-	res, err := httpclient.Send(c.requester, req, opts...)
+	res, err := api.Send(c.requester, req, opts...)
 	if err != nil {
 		return nil, err
 	}
