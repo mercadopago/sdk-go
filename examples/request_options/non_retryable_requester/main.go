@@ -1,29 +1,29 @@
 package main
 
-// func main() {
-// 	mp.SetAccessToken("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
+import (
+	"fmt"
 
-// 	pc := payment.NewClient()
+	"github.com/mercadopago/sdk-go/pkg/httpclient"
+	"github.com/mercadopago/sdk-go/pkg/mp"
+	"github.com/mercadopago/sdk-go/pkg/paymentmethod"
+)
 
-// 	request := payment.Request{
-// 		TransactionAmount: 1.5,
-// 		PaymentMethodID:   "pix",
-// 		Description:       "my payment",
-// 		Payer: &payment.PayerRequest{
-// 			Email: "gabs@testuser.com",
-// 		},
-// 	}
+func main() {
+	mp.SetAccessToken("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
 
-// 	requester := httpclient.New()
+	pmc := paymentmethod.NewClient()
 
-// 	res, err := pc.Create(
-// 		request,
-// 		httpclient.WithRequestRequester(requester), // sdk will use that requester
-// 	)
-// 	if err != nil {
-// 		fmt.Println(err)
-// 		return
-// 	}
+	requester := httpclient.New()
 
-// 	fmt.Println(res.ID)
-// }
+	res, err := pmc.List(
+		httpclient.WithCallRequester(requester), // sdk will use that requester
+	)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	for _, v := range res {
+		fmt.Println(v)
+	}
+}
