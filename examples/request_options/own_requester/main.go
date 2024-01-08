@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/mercadopago/sdk-go/pkg/httpclient"
+	"github.com/mercadopago/sdk-go/pkg/api"
+	"github.com/mercadopago/sdk-go/pkg/api/paymentmethod"
 	"github.com/mercadopago/sdk-go/pkg/mp"
-	"github.com/mercadopago/sdk-go/pkg/paymentmethod"
 )
 
 type myRequester struct{}
@@ -27,7 +27,7 @@ func main() {
 	myOwnRequester := &myRequester{}
 
 	res, err := pmc.List(
-		httpclient.WithCallRequester(myOwnRequester), // sdk will use that requester
+		api.WithRequester(myOwnRequester), // sdk will use that requester
 	)
 	if err != nil {
 		fmt.Println(err)
