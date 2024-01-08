@@ -25,26 +25,26 @@ type CheckRetryFunc func(ctx context.Context, resp *http.Response, err error) (b
 // pass before trying again.
 type BackoffFunc func(attempt int) time.Duration
 
-// RetryableClient is a compatible http.Client that allows the caller to setup
+// retryableClient is a compatible http.Client that allows the caller to setup
 // a retry strategy for retrying failed requests transparently.
-type RetryableClient struct {
+type retryableClient struct {
 	// Compose a *http.Client, we'll override the Do method.
 	*http.Client
 
 	// CheckRetry specifies the policy for handling retries. It is called after
 	// each request. If CheckRetryFunc is nil then HTTPRetryPolicy will be used.
-	CheckRetry CheckRetryFunc
+	checkRetry CheckRetryFunc
 
 	// RetryMax is the maximum number of retries to do before returning an error.
-	RetryMax int
+	retryMax int
 
 	// BackoffStrategy tells the client how much time it must wait between retries.
-	BackoffStrategy BackoffFunc
+	backoffStrategy BackoffFunc
 }
 
 // Do sends an HTTP request and returns an HTTP response, following policy
 // (such as redirects, cookies, auth) as configured on the client.
-func (c *RetryableClient) Do(req *http.Request) (*http.Response, error) {
+func (c *retryableClient) Do(req *http.Request) (*http.Response, error) {
 	var resp *http.Response
 	var err error
 
@@ -61,7 +61,7 @@ func (c *RetryableClient) Do(req *http.Request) (*http.Response, error) {
 		// to allow the user to define what a successful request is. If this call
 		// return (false, nil) then we can assert that the request was successful
 		// and therefore, we can return the given response to the user.
-		shouldRetry, retryErr := c.checkRetry(req.Context(), resp, err)
+		shouldRetry, retryErr := c.shouldRetry(req.Context(), resp, err)
 
 		// Now decide if we should continue based on checkRetries answer.
 		if !shouldRetry {
@@ -73,7 +73,7 @@ func (c *RetryableClient) Do(req *http.Request) (*http.Response, error) {
 
 		// If we have no retries left then we return the last response and error
 		// from the last request executed by the client.
-		remainingRetries := c.RetryMax - i
+		remainingRetries := c.retryMax - i
 		if remainingRetries <= 0 {
 			return resp, err
 		}
@@ -137,9 +137,9 @@ func withRetries(ctx context.Context, retryAttempt int) context.Context {
 	return context.WithValue(ctx, retryAttemptContextKey{}, retryAttempt)
 }
 
-func (c *RetryableClient) checkRetry(ctx context.Context, res *http.Response, err error) (bool, error) {
-	if c.CheckRetry != nil {
-		return c.CheckRetry(ctx, res, err)
+func (c *retryableClient) shouldRetry(ctx context.Context, res *http.Response, err error) (bool, error) {
+	if c.checkRetry != nil {
+		return c.checkRetry(ctx, res, err)
 	}
 	return ServerErrorsRetryPolicy()(ctx, res, err)
 }
@@ -170,7 +170,7 @@ func ServerErrorsRetryPolicy() CheckRetryFunc {
 }
 
 // Try to read the response body so we can reuse this connection.
-func (c *RetryableClient) drainBody(body io.ReadCloser) {
+func (c *retryableClient) drainBody(body io.ReadCloser) {
 	// We need to consume response bodies to maintain http connections, but
 	// limit the size we consume to respReadLimit.
 	const respReadLimit = int64(4096)
@@ -179,7 +179,7 @@ func (c *RetryableClient) drainBody(body io.ReadCloser) {
 	_, _ = io.Copy(io.Discard, io.LimitReader(body, respReadLimit))
 }
 
-func (c *RetryableClient) backoffDuration(attemptNum int, resp *http.Response) time.Duration {
+func (c *retryableClient) backoffDuration(attemptNum int, resp *http.Response) time.Duration {
 	if resp != nil {
 		if resp.StatusCode == http.StatusTooManyRequests || resp.StatusCode == http.StatusServiceUnavailable {
 			if s, ok := resp.Header["Retry-After"]; ok {
@@ -190,8 +190,8 @@ func (c *RetryableClient) backoffDuration(attemptNum int, resp *http.Response) t
 		}
 	}
 
-	if c.BackoffStrategy != nil {
-		return c.BackoffStrategy(attemptNum)
+	if c.backoffStrategy != nil {
+		return c.backoffStrategy(attemptNum)
 	}
 
 	return 0

@@ -24,10 +24,16 @@ type client struct {
 
 // NewClient returns a new Payment Methods API Client.
 func NewClient(opts ...httpclient.APIOption) Client {
-	built := httpclient.BuildAPIClientOptions(opts...)
+	options := httpclient.ApiOptions{
+		APIRequester: httpclient.NewRetryable(),
+	}
+
+	for _, opt := range opts {
+		opt(&options)
+	}
 
 	return &client{
-		requester: built.APIRequester,
+		requester: options.APIRequester,
 	}
 }
 

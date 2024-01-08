@@ -12,13 +12,15 @@ type Requester interface {
 }
 
 type clientOptions struct {
-	Timeout time.Duration
+	timeout time.Duration
 }
 
 type retryOptions struct {
+	retryMax int
+
 	clientOptions
-	BackoffStrategy BackoffFunc
-	CheckRetry      CheckRetryFunc
+	backoffStrategy BackoffFunc
+	checkRetry      CheckRetryFunc
 }
 
 // Option signature for client configurable parameters.
@@ -50,26 +52,40 @@ func WithTimeout(t time.Duration) Option {
 	return optFunc(func(options *clientOptions) {
 		// Negative durations do not make sense in the context of an Requester.
 		if t >= 0 {
-			options.Timeout = t
+			options.timeout = t
 		}
+	})
+}
+
+// WithRetryMax tells the client the maximum number of retries to execute. Eg.: A
+// value of 3, means to execute the original request, and up-to 3 retries (4
+// requests in total). A value of 0 means no retries, essentially the same as
+// building a *http.Client with New.
+func WithRetryMax(max int) OptionRetryable {
+	return retryableOptFunc(func(options *retryOptions) {
+		options.retryMax = max
 	})
 }
 
 // WithBackoffStrategy controls the wait time between requests when retrying.
 func WithBackoffStrategy(strategy BackoffFunc) OptionRetryable {
 	return retryableOptFunc(func(options *retryOptions) {
-		options.BackoffStrategy = strategy
+		options.backoffStrategy = strategy
 	})
 }
 
 // WithRetryPolicy controls the retry policy of the given HTTP client.
 func WithRetryPolicy(checkRetry CheckRetryFunc) OptionRetryable {
 	return retryableOptFunc(func(options *retryOptions) {
-		options.CheckRetry = checkRetry
+		options.checkRetry = checkRetry
 	})
 }
 
 var (
+	// DefaultRetryMax is the maximum number of retries used by default when
+	// building a Client.
+	DefaultRetryMax = 3
+
 	// DefaultTimeout is the timeout used by default when building a Client.
 	DefaultTimeout = 10 * time.Second
 
@@ -87,7 +103,7 @@ var (
 // Returned client can be customized by passing options to New.
 func New(opts ...Option) *http.Client {
 	config := clientOptions{
-		Timeout: DefaultTimeout,
+		timeout: DefaultTimeout,
 	}
 
 	for _, opt := range opts {
@@ -95,7 +111,7 @@ func New(opts ...Option) *http.Client {
 	}
 
 	return &http.Client{
-		Timeout: config.Timeout,
+		Timeout: config.timeout,
 	}
 }
 
@@ -104,17 +120,13 @@ func New(opts ...Option) *http.Client {
 //
 // RetryableClient can be customized by passing options to it. Note that Option
 // is of type OptionRetryable, so those functional options can be used as well.
-//
-// RetryMax tells the client the maximum number of retries to execute. Eg.: A
-// value of 3, means to execute the original request, and up-to 3 retries (4
-// requests in total). A value of 0 means no retries, essentially the same as
-// building a *http.Client with New.
-func NewRetryable(retryMax int, opts ...OptionRetryable) *RetryableClient {
+func NewRetryable(opts ...OptionRetryable) Requester {
 	config := retryOptions{
-		BackoffStrategy: DefaultBackoffStrategy,
-		CheckRetry:      DefaultRetryPolicy,
+		retryMax:        DefaultRetryMax,
+		backoffStrategy: DefaultBackoffStrategy,
+		checkRetry:      DefaultRetryPolicy,
 		clientOptions: clientOptions{
-			Timeout: DefaultTimeout,
+			timeout: DefaultTimeout,
 		},
 	}
 
@@ -122,12 +134,12 @@ func NewRetryable(retryMax int, opts ...OptionRetryable) *RetryableClient {
 		opt.applyRetryable(&config)
 	}
 
-	return &RetryableClient{
-		RetryMax:        retryMax,
-		BackoffStrategy: config.BackoffStrategy,
-		CheckRetry:      config.CheckRetry,
+	return &retryableClient{
+		retryMax:        config.retryMax,
+		backoffStrategy: config.backoffStrategy,
+		checkRetry:      config.checkRetry,
 		Client: &http.Client{
-			Timeout: config.Timeout,
+			Timeout: config.timeout,
 		},
 	}
 }
