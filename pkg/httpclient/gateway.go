@@ -14,11 +14,11 @@ func Send(requester Requester, req *http.Request, opts ...RequestOption) ([]byte
 		opt.applyRequest(&options)
 	}
 
-	if options.RequestRequester != nil {
-		requester = options.RequestRequester
+	if options.callRequester != nil {
+		requester = options.callRequester
 	}
-	if options.CustomHeaders != nil {
-		for k, v := range options.CustomHeaders {
+	if options.customHeaders != nil {
+		for k, v := range options.customHeaders {
 			canonicalKey := http.CanonicalHeaderKey(k)
 			req.Header[canonicalKey] = v
 		}
