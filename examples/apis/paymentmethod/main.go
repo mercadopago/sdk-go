@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
+	"github.com/mercadopago/sdk-go/pkg/api/paymentmethod"
 	"github.com/mercadopago/sdk-go/pkg/mp"
-	"github.com/mercadopago/sdk-go/pkg/paymentmethod"
 )
 
 func main() {

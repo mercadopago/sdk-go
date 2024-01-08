@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/mercadopago/sdk-go/pkg/httpclient"
+	"github.com/mercadopago/sdk-go/pkg/api"
+	"github.com/mercadopago/sdk-go/pkg/api/paymentmethod"
 	"github.com/mercadopago/sdk-go/pkg/mp"
-	"github.com/mercadopago/sdk-go/pkg/paymentmethod"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 	proxyURL, _ := url.Parse("http://someurl")
 	customClient := &http.Client{Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)}}
 
-	pmc := paymentmethod.NewClient(httpclient.WithAPIRequester(customClient))
+	pmc := paymentmethod.NewClient(api.WithRequester(customClient))
 	res, err := pmc.List()
 	if err != nil {
 		fmt.Println(err)
