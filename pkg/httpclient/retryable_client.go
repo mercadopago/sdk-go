@@ -63,7 +63,7 @@ func (c *retryableClient) Do(req *http.Request) (*http.Response, error) {
 		// and therefore, we can return the given response to the user.
 		shouldRetry, retryErr := c.shouldRetry(req.Context(), resp, err)
 
-		// Now decide if we should continue based on checkRetries answer.
+		// Now decide if we should continue based on shouldRetry answer.
 		if !shouldRetry {
 			if retryErr != nil {
 				err = retryErr
