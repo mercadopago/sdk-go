@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"errors"
 	"io"
 	"net/http"
 
@@ -11,24 +10,41 @@ import (
 func Send(requester httpclient.Requester, req *http.Request) ([]byte, error) {
 	setDefaultHeaders(req)
 
-	res, err := requester.Do(req)
+	res, err := do(requester, req)
 	if err != nil {
-		if res == nil {
-			return nil, err
-		}
-
-		return nil, &httpclient.ErrorResponse{
-			StatusCode: res.StatusCode,
-			Message:    "error sending request: " + err.Error(),
-		}
-	}
-	if res == nil {
-		return nil, errors.New("error getting response")
+		return nil, err
 	}
 
 	defer res.Body.Close()
 
 	return mountResponse(res)
+}
+
+func do(requester httpclient.Requester, req *http.Request) (*http.Response, error) {
+	res, err := requester.Do(req)
+	if err != nil {
+		if res == nil {
+			return nil, &httpclient.ErrorResponse{
+				StatusCode: http.StatusInternalServerError,
+				Message:    err.Error(),
+			}
+		}
+
+		return nil, &httpclient.ErrorResponse{
+			StatusCode: res.StatusCode,
+			Message:    "error sending request: " + err.Error(),
+			Headers:    res.Header,
+		}
+	}
+
+	if res == nil {
+		return nil, &httpclient.ErrorResponse{
+			StatusCode: http.StatusInternalServerError,
+			Message:    "error getting response",
+		}
+	}
+
+	return res, nil
 }
 
 func mountResponse(res *http.Response) ([]byte, error) {
