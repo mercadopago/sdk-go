@@ -18,6 +18,7 @@ func main() {
 	ch.Add("X-Idempotency-Key", "123999")
 	ch.Add("Some-Key", "some_value")
 	res, err := pmc.List(
+		api.WithRequester(&http.Client{}),
 		api.WithCustomHeaders(ch), // http client will use these custom headers
 	)
 	if err != nil {
