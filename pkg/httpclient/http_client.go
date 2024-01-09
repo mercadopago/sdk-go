@@ -82,20 +82,20 @@ func WithRetryPolicy(checkRetry CheckRetryFunc) OptionRetryable {
 }
 
 var (
-	// DefaultRetryMax is the maximum number of retries used by default when
+	// defaultRetryMax is the maximum number of retries used by default when
 	// building a Client.
-	DefaultRetryMax = 3
+	defaultRetryMax = 3
 
-	// DefaultTimeout is the timeout used by default when building a Client.
-	DefaultTimeout = 10 * time.Second
+	// defaultTimeout is the timeout used by default when building a Client.
+	defaultTimeout = 10 * time.Second
 
-	// DefaultBackoffStrategy is the retry strategy used by default when
+	// defaultBackoffStrategy is the retry strategy used by default when
 	// building a Client.
-	DefaultBackoffStrategy = ConstantBackoff(0)
+	defaultBackoffStrategy = ConstantBackoff(0)
 
-	// DefaultRetryPolicy is the function that tells on any given request if the
+	// defaultRetryPolicy is the function that tells on any given request if the
 	// client should retry it or not. By default, it retries on connection and 5xx errors only.
-	DefaultRetryPolicy = ServerErrorsRetryPolicy()
+	defaultRetryPolicy = ServerErrorsRetryPolicy()
 )
 
 // New builds a *http.Client which keeps TCP connections to destination servers.
@@ -103,7 +103,7 @@ var (
 // Returned client can be customized by passing options to New.
 func New(opts ...Option) *http.Client {
 	config := clientOptions{
-		timeout: DefaultTimeout,
+		timeout: defaultTimeout,
 	}
 
 	for _, opt := range opts {
@@ -122,11 +122,11 @@ func New(opts ...Option) *http.Client {
 // is of type OptionRetryable, so those functional options can be used as well.
 func NewRetryable(opts ...OptionRetryable) Requester {
 	config := retryOptions{
-		retryMax:        DefaultRetryMax,
-		backoffStrategy: DefaultBackoffStrategy,
-		checkRetry:      DefaultRetryPolicy,
+		retryMax:        defaultRetryMax,
+		backoffStrategy: defaultBackoffStrategy,
+		checkRetry:      defaultRetryPolicy,
 		clientOptions: clientOptions{
-			timeout: DefaultTimeout,
+			timeout: defaultTimeout,
 		},
 	}
 
