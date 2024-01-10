@@ -5,11 +5,17 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/mercadopago/sdk-go/pkg/httpclient"
 )
 
 func Send(requester httpclient.Requester, req *http.Request) ([]byte, error) {
-	setDefaultHeaders(req)
+	req.Header.Set(authorizationHeader, "Bearer "+_accessToken)
+	req.Header.Set(productIDHeader, _productID)
+	if _, ok := req.Header[idempotencyHeader]; !ok {
+		req.Header.Set(idempotencyHeader, uuid.New().String())
+	}
+
 	return send(requester, req)
 }
 
