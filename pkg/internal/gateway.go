@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 
@@ -23,18 +24,7 @@ func Send(requester httpclient.Requester, req *http.Request) ([]byte, error) {
 func do(requester httpclient.Requester, req *http.Request) (*http.Response, error) {
 	res, err := requester.Do(req)
 	if err != nil {
-		if res == nil {
-			return nil, &httpclient.ErrorResponse{
-				StatusCode: http.StatusInternalServerError,
-				Message:    err.Error(),
-			}
-		}
-
-		return nil, &httpclient.ErrorResponse{
-			StatusCode: res.StatusCode,
-			Message:    "error sending request: " + err.Error(),
-			Headers:    res.Header,
-		}
+		return nil, fmt.Errorf("transport level error: %s", err.Error())
 	}
 
 	if res == nil {
