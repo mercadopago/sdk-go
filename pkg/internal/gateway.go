@@ -9,6 +9,12 @@ import (
 	"github.com/mercadopago/sdk-go/pkg/httpclient"
 )
 
+const (
+	authorizationHeader = "Authorization"
+	productIDHeader     = "X-Product-Id"
+	idempotencyHeader   = "X-Idempotency-Key"
+)
+
 func Send(requester httpclient.Requester, req *http.Request) ([]byte, error) {
 	req.Header.Set(authorizationHeader, "Bearer "+_accessToken)
 	req.Header.Set(productIDHeader, _productID)
