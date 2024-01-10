@@ -13,10 +13,10 @@ var (
 )
 
 func setDefaultHeaders(req *http.Request) {
-	req.Header.Add(authorizationHeader, "Bearer "+_accessToken)
-	req.Header.Add(productIDHeader, _productID)
+	req.Header.Set(authorizationHeader, "Bearer "+_accessToken)
+	req.Header.Set(productIDHeader, _productID)
 
 	if _, ok := req.Header[idempotencyHeader]; !ok {
-		req.Header.Add(idempotencyHeader, uuid.New().String())
+		req.Header.Set(idempotencyHeader, uuid.New().String())
 	}
 }
