@@ -10,34 +10,15 @@ import (
 
 func Send(requester httpclient.Requester, req *http.Request) ([]byte, error) {
 	setDefaultHeaders(req)
-
-	res, err := do(requester, req)
-	if err != nil {
-		return nil, err
-	}
-
-	defer res.Body.Close()
-
-	return mountResponse(res)
+	return send(requester, req)
 }
 
-func do(requester httpclient.Requester, req *http.Request) (*http.Response, error) {
+func send(requester httpclient.Requester, req *http.Request) ([]byte, error) {
 	res, err := requester.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("transport level error: %s", err.Error())
 	}
 
-	if res == nil {
-		return nil, &httpclient.ErrorResponse{
-			StatusCode: http.StatusInternalServerError,
-			Message:    "error getting response",
-		}
-	}
-
-	return res, nil
-}
-
-func mountResponse(res *http.Response) ([]byte, error) {
 	response, err := io.ReadAll(res.Body)
 	if err != nil {
 		return nil, &httpclient.ErrorResponse{
