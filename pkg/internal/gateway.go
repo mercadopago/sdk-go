@@ -40,7 +40,7 @@ func send(requester httpclient.Requester, req *http.Request) ([]byte, error) {
 		}
 	}
 
-	if res.StatusCode < 200 || res.StatusCode > 299 {
+	if res.StatusCode > 399 {
 		return nil, &httpclient.ErrorResponse{
 			StatusCode: res.StatusCode,
 			Message:    string(response),
