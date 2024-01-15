@@ -11,33 +11,18 @@ type Requester interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type clientOptions struct {
-	timeout time.Duration
-}
-
 type retryOptions struct {
 	retryMax int
 
-	clientOptions
+	timeout         time.Duration
 	backoffStrategy BackoffFunc
 	checkRetry      CheckRetryFunc
-}
-
-// Option signature for client configurable parameters.
-type Option interface {
-	OptionRetryable
-	applyClient(opts *clientOptions)
 }
 
 // OptionRetryable signature for retryable client configurable parameters.
 type OptionRetryable interface {
 	applyRetryable(opts *retryOptions)
 }
-
-type optFunc func(opts *clientOptions)
-
-func (f optFunc) applyClient(o *clientOptions)   { f(o) }
-func (f optFunc) applyRetryable(o *retryOptions) { f(&o.clientOptions) }
 
 type retryableOptFunc func(opts *retryOptions)
 
@@ -48,8 +33,8 @@ func (f retryableOptFunc) applyRetryable(o *retryOptions) { f(o) }
 // timeout.
 //
 // A timeout of 0 disables request timeouts.
-func WithTimeout(t time.Duration) Option {
-	return optFunc(func(options *clientOptions) {
+func WithTimeout(t time.Duration) OptionRetryable {
+	return retryableOptFunc(func(options *retryOptions) {
 		// Negative durations do not make sense in the context of an Requester.
 		if t >= 0 {
 			options.timeout = t
@@ -98,23 +83,6 @@ var (
 	defaultRetryPolicy = ServerErrorsRetryPolicy()
 )
 
-// New builds a *http.Client which keeps TCP connections to destination servers.
-//
-// Returned client can be customized by passing options to New.
-func New(opts ...Option) *http.Client {
-	config := clientOptions{
-		timeout: defaultTimeout,
-	}
-
-	for _, opt := range opts {
-		opt.applyClient(&config)
-	}
-
-	return &http.Client{
-		Timeout: config.timeout,
-	}
-}
-
 // NewRetryable builds a *RetryableClient which keeps TCP connections to
 // destination servers, can retry requests on error.
 //
@@ -125,9 +93,7 @@ func NewRetryable(opts ...OptionRetryable) Requester {
 		retryMax:        defaultRetryMax,
 		backoffStrategy: defaultBackoffStrategy,
 		checkRetry:      defaultRetryPolicy,
-		clientOptions: clientOptions{
-			timeout: defaultTimeout,
-		},
+		timeout:         defaultTimeout,
 	}
 
 	for _, opt := range opts {
