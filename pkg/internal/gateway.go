@@ -6,18 +6,21 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
+	"github.com/mercadopago/sdk-go/pkg/credential"
 	"github.com/mercadopago/sdk-go/pkg/httpclient"
 )
 
 const (
+	productID string = "abc"
+
 	authorizationHeader = "Authorization"
 	productIDHeader     = "X-Product-Id"
 	idempotencyHeader   = "X-Idempotency-Key"
 )
 
-func Send(requester httpclient.Requester, req *http.Request) ([]byte, error) {
-	req.Header.Set(authorizationHeader, "Bearer "+_accessToken)
-	req.Header.Set(productIDHeader, _productID)
+func Send(cdt credential.Credential, requester httpclient.Requester, req *http.Request) ([]byte, error) {
+	req.Header.Set(authorizationHeader, "Bearer "+string(cdt))
+	req.Header.Set(productIDHeader, productID)
 	if _, ok := req.Header[idempotencyHeader]; !ok {
 		req.Header.Set(idempotencyHeader, uuid.New().String())
 	}

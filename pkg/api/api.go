@@ -3,11 +3,12 @@ package api
 import (
 	"net/http"
 
+	"github.com/mercadopago/sdk-go/pkg/credential"
 	"github.com/mercadopago/sdk-go/pkg/httpclient"
 	"github.com/mercadopago/sdk-go/pkg/internal"
 )
 
-func Send(requester httpclient.Requester, req *http.Request, opts ...RequestOption) ([]byte, error) {
+func Send(cdt credential.Credential, requester httpclient.Requester, req *http.Request, opts ...RequestOption) ([]byte, error) {
 	options := requestOptions{}
 	for _, opt := range opts {
 		opt.applyRequestOption(&options)
@@ -23,5 +24,5 @@ func Send(requester httpclient.Requester, req *http.Request, opts ...RequestOpti
 		}
 	}
 
-	return internal.Send(requester, req)
+	return internal.Send(cdt, requester, req)
 }

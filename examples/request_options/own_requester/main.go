@@ -6,7 +6,7 @@ import (
 
 	"github.com/mercadopago/sdk-go/pkg/api"
 	"github.com/mercadopago/sdk-go/pkg/api/paymentmethod"
-	"github.com/mercadopago/sdk-go/pkg/mp"
+	"github.com/mercadopago/sdk-go/pkg/credential"
 )
 
 type myRequester struct{}
@@ -17,7 +17,11 @@ func (*myRequester) Do(req *http.Request) (*http.Response, error) {
 }
 
 func main() {
-	mp.SetAccessToken("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
+	cdt, err := credential.New("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	pmc := paymentmethod.NewClient()
 
@@ -27,6 +31,7 @@ func main() {
 	myOwnRequester := &myRequester{}
 
 	res, err := pmc.List(
+		cdt,
 		api.WithRequester(myOwnRequester), // sdk will use that requester
 	)
 	if err != nil {

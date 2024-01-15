@@ -8,12 +8,16 @@ import (
 
 	"github.com/mercadopago/sdk-go/pkg/api"
 	"github.com/mercadopago/sdk-go/pkg/api/paymentmethod"
+	"github.com/mercadopago/sdk-go/pkg/credential"
 	"github.com/mercadopago/sdk-go/pkg/httpclient"
-	"github.com/mercadopago/sdk-go/pkg/mp"
 )
 
 func main() {
-	mp.SetAccessToken("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
+	cdt, err := credential.New("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	pmc := paymentmethod.NewClient()
 
@@ -35,6 +39,7 @@ func main() {
 	)
 
 	res, err := pmc.List(
+		cdt,
 		api.WithRequester(retryableRequester), // sdk will use that requester
 	)
 	if err != nil {
