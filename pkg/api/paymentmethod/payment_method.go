@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/mercadopago/sdk-go/pkg/api"
+	"github.com/mercadopago/sdk-go/pkg/credential"
 	"github.com/mercadopago/sdk-go/pkg/httpclient"
 )
 
@@ -15,7 +16,7 @@ type Client interface {
 	// List lists all payment methods.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payment_methods
 	// Reference: https://www.mercadopago.com.br/developers/pt/reference/payment_methods/_payment_methods/get/
-	List(opts ...api.RequestOption) ([]Response, error)
+	List(credential credential.Credential, opts ...api.RequestOption) ([]Response, error)
 }
 
 // client is the implementation of Client.
@@ -38,7 +39,7 @@ func NewClient(opts ...api.Option) Client {
 	}
 }
 
-func (c *client) List(opts ...api.RequestOption) ([]Response, error) {
+func (c *client) List(cdt credential.Credential, opts ...api.RequestOption) ([]Response, error) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return nil, &httpclient.ErrorResponse{
@@ -47,7 +48,7 @@ func (c *client) List(opts ...api.RequestOption) ([]Response, error) {
 		}
 	}
 
-	res, err := api.Send(c.requester, req, opts...)
+	res, err := api.Send(cdt, c.requester, req, opts...)
 	if err != nil {
 		return nil, err
 	}
