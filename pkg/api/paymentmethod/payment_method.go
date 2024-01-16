@@ -21,22 +21,27 @@ type Client interface {
 
 // client is the implementation of Client.
 type client struct {
-	requester httpclient.Requester
+	config httpclient.Options
 }
 
 // NewClient returns a new Payment Methods API Client.
-func NewClient(opts ...api.Option) Client {
-	options := api.Options{
-		Requester: httpclient.NewRetryable(),
-	}
+func NewClient(opts ...httpclient.Option) Client {
+	options := httpclient.DefaultOptions()
 
 	for _, opt := range opts {
-		opt.ApplyOption(&options)
+		opt.Apply(&options)
 	}
 
-	return &client{
-		requester: options.Requester,
+	c := httpclient.Options{
+		RetryMax:        options.RetryMax,
+		HTTPClient:      options.HTTPClient,
+		Timeout:         options.Timeout,
+		BackoffStrategy: options.BackoffStrategy,
+		CheckRetry:      options.CheckRetry,
 	}
+	c.HTTPClient.Timeout = c.Timeout
+
+	return &client{config: c}
 }
 
 func (c *client) List(cdt credential.Credential, opts ...api.RequestOption) ([]Response, error) {
@@ -48,7 +53,7 @@ func (c *client) List(cdt credential.Credential, opts ...api.RequestOption) ([]R
 		}
 	}
 
-	res, err := api.Send(cdt, c.requester, req, opts...)
+	res, err := api.Send(cdt, c.config, req, opts...)
 	if err != nil {
 		return nil, err
 	}

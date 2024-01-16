@@ -8,14 +8,15 @@ import (
 	"github.com/mercadopago/sdk-go/pkg/internal"
 )
 
-func Send(cdt credential.Credential, requester httpclient.Requester, req *http.Request, opts ...RequestOption) ([]byte, error) {
+// Send applies request options before call api.
+func Send(cdt credential.Credential, config httpclient.Options, req *http.Request, opts ...RequestOption) ([]byte, error) {
 	options := requestOptions{}
 	for _, opt := range opts {
 		opt.applyRequestOption(&options)
 	}
 
-	if options.Requester != nil {
-		requester = options.Requester
+	if options.httpClient != nil {
+		config.HTTPClient = options.httpClient
 	}
 	if options.customHeaders != nil {
 		for k, v := range options.customHeaders {
@@ -24,5 +25,5 @@ func Send(cdt credential.Credential, requester httpclient.Requester, req *http.R
 		}
 	}
 
-	return internal.Send(cdt, requester, req)
+	return internal.Send(cdt, req, config)
 }
