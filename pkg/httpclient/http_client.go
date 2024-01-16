@@ -1,111 +1,207 @@
 package httpclient
 
 import (
+	"context"
+	"io"
 	"net/http"
+	"strconv"
 	"time"
 )
 
-// Requester exposes the http.Client.Do method, which is the minimum
-// required method for executing HTTP requests.
-type Requester interface {
-	Do(*http.Request) (*http.Response, error)
-}
+type retryAttemptContextKey struct{}
 
-type retryOptions struct {
-	retryMax int
+// CheckRetryFunc specifies a policy for handling retries. It is called
+// following each request with the response and error values returned by
+// the http.Client. If CheckRetryFunc returns false, the http client stops retrying
+// and returns the response to the caller. If CheckRetryFunc returns an error,
+// that error value is returned in lieu of the error from the request. The
+// Client will close any response body when retrying, but if the retry is
+// aborted it is up to the CheckResponse callback to properly close any
+// response body before returning.
+type CheckRetryFunc func(ctx context.Context, resp *http.Response, err error) (bool, error)
 
-	timeout         time.Duration
-	backoffStrategy BackoffFunc
-	checkRetry      CheckRetryFunc
-}
+// BackoffFunc specifies a policy for how long to wait between retries. It is
+// called after a failing request to determine the amount of time that should
+// pass before trying again.
+type BackoffFunc func(attempt int) time.Duration
 
-// OptionRetryable signature for retryable client configurable parameters.
-type OptionRetryable interface {
-	applyRetryable(opts *retryOptions)
-}
+// Do sends an HTTP request and returns an HTTP response, following policy
+// (such as redirects, cookies, auth) as configured on the http client.
+func Do(req *http.Request, c Options) (*http.Response, error) {
+	var resp *http.Response
+	var err error
 
-type retryableOptFunc func(opts *retryOptions)
-
-func (f retryableOptFunc) applyRetryable(o *retryOptions) { f(o) }
-
-// WithTimeout controls the timeout for each request. When retrying requests,
-// each retried request will start counting from the beginning towards this
-// timeout.
-//
-// A timeout of 0 disables request timeouts.
-func WithTimeout(t time.Duration) OptionRetryable {
-	return retryableOptFunc(func(options *retryOptions) {
-		// Negative durations do not make sense in the context of an Requester.
-		if t >= 0 {
-			options.timeout = t
+	for i := 0; ; i++ {
+		req, err = requestFromInternal(req, i)
+		if err != nil {
+			return nil, err
 		}
-	})
+
+		// Attempt the request using the underlying http client.
+		resp, err = c.HTTPClient.Do(req)
+
+		// Check if we should continue with retries. We always check after a request
+		// to allow the user to define what a successful request is. If this call
+		// return (false, nil) then we can assert that the request was successful
+		// and therefore, we can return the given response to the user.
+		shouldRetry, retryErr := shouldRetry(req.Context(), c.CheckRetry, resp, err)
+
+		// Now decide if we should continue based on shouldRetry answer.
+		if !shouldRetry {
+			if retryErr != nil {
+				err = retryErr
+			}
+			return resp, err
+		}
+
+		// If we have no retries left then we return the last response and error
+		// from the last request executed by the client.
+		remainingRetries := c.RetryMax - i
+		if remainingRetries <= 0 {
+			return resp, err
+		}
+
+		// We're going to retry, consume any response so TCP connection can be reused.
+		if err == nil && resp != nil {
+			drainBody(resp.Body)
+		}
+
+		// Call Backoff to see how much time we must wait until next retry.
+		backoffWait := backoffDuration(i, c.BackoffStrategy, resp)
+
+		// If the request context has a deadline, check whether that deadline
+		// happens before the wait period of the backoff strategy. In case
+		// it does we return the last error without waiting.
+		if deadline, ok := req.Context().Deadline(); ok {
+			ctxDeadline := time.Until(deadline)
+			if ctxDeadline <= backoffWait {
+				return resp, err
+			}
+		}
+
+		// Wait for either the backoff period or the cancellation of the request context.
+		select {
+		case <-req.Context().Done():
+			return nil, req.Context().Err()
+		case <-time.After(backoffWait):
+		}
+	}
 }
 
-// WithRetryMax tells the client the maximum number of retries to execute. Eg.: A
-// value of 3, means to execute the original request, and up-to 3 retries (4
-// requests in total). A value of 0 means no retries, essentially the same as
-// building a *http.Client with New.
-func WithRetryMax(max int) OptionRetryable {
-	return retryableOptFunc(func(options *retryOptions) {
-		options.retryMax = max
-	})
-}
-
-// WithBackoffStrategy controls the wait time between requests when retrying.
-func WithBackoffStrategy(strategy BackoffFunc) OptionRetryable {
-	return retryableOptFunc(func(options *retryOptions) {
-		options.backoffStrategy = strategy
-	})
-}
-
-// WithRetryPolicy controls the retry policy of the given HTTP client.
-func WithRetryPolicy(checkRetry CheckRetryFunc) OptionRetryable {
-	return retryableOptFunc(func(options *retryOptions) {
-		options.checkRetry = checkRetry
-	})
-}
-
-var (
-	// defaultRetryMax is the maximum number of retries used by default when
-	// building a Client.
-	defaultRetryMax = 3
-
-	// defaultTimeout is the timeout used by default when building a Client.
-	defaultTimeout = 10 * time.Second
-
-	// defaultBackoffStrategy is the retry strategy used by default when
-	// building a Client.
-	defaultBackoffStrategy = ConstantBackoff(0)
-
-	// defaultRetryPolicy is the function that tells on any given request if the
-	// client should retry it or not. By default, it retries on connection and 5xx errors only.
-	defaultRetryPolicy = ServerErrorsRetryPolicy()
-)
-
-// NewRetryable builds a *RetryableClient which keeps TCP connections to
-// destination servers, can retry requests on error.
-//
-// RetryableClient can be customized by passing options to it. Note that Option
-// is of type OptionRetryable, so those functional options can be used as well.
-func NewRetryable(opts ...OptionRetryable) Requester {
-	config := retryOptions{
-		retryMax:        defaultRetryMax,
-		backoffStrategy: defaultBackoffStrategy,
-		checkRetry:      defaultRetryPolicy,
-		timeout:         defaultTimeout,
+// requestFromInternal builds an *http.Request from our internal request.
+func requestFromInternal(req *http.Request, retryAttempt int) (*http.Request, error) {
+	// If this is a retry attempt then set a value in context indicating so.
+	// This is handy for clients willing to insert custom headers.
+	ctx := req.Context()
+	if retryAttempt > 0 {
+		ctx = withRetries(ctx, retryAttempt)
 	}
 
-	for _, opt := range opts {
-		opt.applyRetryable(&config)
+	// Use the context from the internal request. When cloning requests
+	// we want to have the same context in all of them. The request
+	// might pass through a number of hooks which are allowed
+	// to change its context.
+	r2 := req.WithContext(ctx)
+
+	// Always rewind the request body when non-nil.
+	if req.GetBody != nil {
+		body, err := req.GetBody()
+		if err != nil {
+			return nil, err
+		}
+		r2.Body = body
 	}
 
-	return &retryableClient{
-		retryMax:        config.retryMax,
-		backoffStrategy: config.backoffStrategy,
-		checkRetry:      config.checkRetry,
-		Client: &http.Client{
-			Timeout: config.timeout,
-		},
+	return r2, nil
+}
+
+// withRetries returns a new context decorated with a retry count.
+func withRetries(ctx context.Context, retryAttempt int) context.Context {
+	return context.WithValue(ctx, retryAttemptContextKey{}, retryAttempt)
+}
+
+func shouldRetry(ctx context.Context, checkRetry CheckRetryFunc, res *http.Response, err error) (bool, error) {
+	if checkRetry != nil {
+		return checkRetry(ctx, res, err)
+	}
+	return ServerErrorsRetryPolicy()(ctx, res, err)
+}
+
+// ServerErrorsRetryPolicy provides a sane default implementation of a
+// CheckRetryFunc, it will retry on server (5xx) errors.
+func ServerErrorsRetryPolicy() CheckRetryFunc {
+	return func(ctx context.Context, resp *http.Response, err error) (bool, error) {
+		// do not retry on context.Canceled or context.DeadlineExceeded
+		if ctx.Err() != nil {
+			return false, ctx.Err()
+		}
+
+		if err != nil {
+			return true, err
+		}
+
+		// Check the response code. We retry on 500-range responses to allow
+		// the server time to recover, as 500's are typically not permanent
+		// errors and may relate to outages on the server side. This will catch
+		// invalid response codes as well, like 0 and 999.
+		if resp.StatusCode == 0 || (resp.StatusCode >= 500 && resp.StatusCode != http.StatusNotImplemented) {
+			return true, nil
+		}
+
+		return false, nil
+	}
+}
+
+// Try to read the response body so we can reuse this connection.
+func drainBody(body io.ReadCloser) {
+	// We need to consume response bodies to maintain http connections, but
+	// limit the size we consume to respReadLimit.
+	const respReadLimit = int64(4096)
+
+	defer body.Close()
+	_, _ = io.Copy(io.Discard, io.LimitReader(body, respReadLimit))
+}
+
+func backoffDuration(attemptNum int, backoffStrategy BackoffFunc, resp *http.Response) time.Duration {
+	if resp != nil {
+		if resp.StatusCode == http.StatusTooManyRequests || resp.StatusCode == http.StatusServiceUnavailable {
+			if s, ok := resp.Header["Retry-After"]; ok {
+				if sleep, err := retryAfterDuration(s[0]); err == nil {
+					return sleep
+				}
+			}
+		}
+	}
+
+	if backoffStrategy != nil {
+		return backoffStrategy(attemptNum)
+	}
+
+	return 0
+}
+
+// retryAfterDuration returns the duration for the Retry-After header.
+func retryAfterDuration(t string) (time.Duration, error) {
+	when, err := time.Parse(http.TimeFormat, t)
+	if err == nil {
+		// when is always in UTC, so make the math from UTC+0.
+		t := time.Now().UTC()
+		return when.Sub(t), nil
+	}
+
+	// The duration can be in seconds.
+	d, err := strconv.Atoi(t)
+	if err != nil {
+		return 0, err
+	}
+
+	return time.Duration(d) * time.Second, nil
+}
+
+// ConstantBackoff provides a callback for backoffStrategy which will perform
+// linear backoff based on the provided minimum duration.
+func ConstantBackoff(wait time.Duration) BackoffFunc {
+	return func(_ int) time.Duration {
+		return wait
 	}
 }

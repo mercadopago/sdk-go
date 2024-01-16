@@ -9,13 +9,6 @@ import (
 	"github.com/mercadopago/sdk-go/pkg/credential"
 )
 
-type myRequester struct{}
-
-func (*myRequester) Do(req *http.Request) (*http.Response, error) {
-	// my own Do logic
-	return nil, nil
-}
-
 func main() {
 	cdt, err := credential.New("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
 	if err != nil {
@@ -25,14 +18,11 @@ func main() {
 
 	pmc := paymentmethod.NewClient()
 
-	// can be a http.Client from standard library:
-	// standardLibClient := &http.Client{}
-	// or can be a custom requester
-	myOwnRequester := &myRequester{}
+	customClient := &http.Client{}
 
 	res, err := pmc.List(
 		cdt,
-		api.WithRequester(myOwnRequester), // sdk will use that requester
+		api.WithHTTPClient(customClient), // sdk will use that http client
 	)
 	if err != nil {
 		fmt.Println(err)

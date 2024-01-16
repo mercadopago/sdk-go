@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+	"time"
 
-	"github.com/mercadopago/sdk-go/pkg/api"
 	"github.com/mercadopago/sdk-go/pkg/api/paymentmethod"
 	"github.com/mercadopago/sdk-go/pkg/credential"
+	"github.com/mercadopago/sdk-go/pkg/httpclient"
 )
 
 func main() {
@@ -16,15 +16,8 @@ func main() {
 		return
 	}
 
-	pmc := paymentmethod.NewClient()
-
-	ch := http.Header{}
-	ch.Add("X-Idempotency-Key", "123999")
-	ch.Add("Some-Key", "some_value")
-	res, err := pmc.List(
-		cdt,
-		api.WithCustomHeaders(ch), // http client will use these custom headers
-	)
+	pmc := paymentmethod.NewClient(httpclient.WithTimeout(time.Second * 3))
+	res, err := pmc.List(cdt)
 	if err != nil {
 		fmt.Println(err)
 		return

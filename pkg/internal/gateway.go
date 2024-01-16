@@ -18,18 +18,18 @@ const (
 	idempotencyHeader   = "X-Idempotency-Key"
 )
 
-func Send(cdt credential.Credential, requester httpclient.Requester, req *http.Request) ([]byte, error) {
+func Send(cdt credential.Credential, req *http.Request, c httpclient.Options) ([]byte, error) {
 	req.Header.Set(authorizationHeader, "Bearer "+string(cdt))
 	req.Header.Set(productIDHeader, productID)
 	if _, ok := req.Header[idempotencyHeader]; !ok {
 		req.Header.Set(idempotencyHeader, uuid.New().String())
 	}
 
-	return send(requester, req)
+	return send(req, c)
 }
 
-func send(requester httpclient.Requester, req *http.Request) ([]byte, error) {
-	res, err := requester.Do(req)
+func send(req *http.Request, c httpclient.Options) ([]byte, error) {
+	res, err := httpclient.Do(req, c)
 	if err != nil {
 		return nil, fmt.Errorf("transport level error: %s", err.Error())
 	}
