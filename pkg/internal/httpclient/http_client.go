@@ -6,28 +6,15 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/mercadopago/sdk-go/pkg/option"
 )
 
 type retryAttemptContextKey struct{}
 
-// CheckRetryFunc specifies a policy for handling retries. It is called
-// following each request with the response and error values returned by
-// the http.Client. If CheckRetryFunc returns false, the http client stops retrying
-// and returns the response to the caller. If CheckRetryFunc returns an error,
-// that error value is returned in lieu of the error from the request. The
-// Client will close any response body when retrying, but if the retry is
-// aborted it is up to the CheckResponse callback to properly close any
-// response body before returning.
-type CheckRetryFunc func(ctx context.Context, resp *http.Response, err error) (bool, error)
-
-// BackoffFunc specifies a policy for how long to wait between retries. It is
-// called after a failing request to determine the amount of time that should
-// pass before trying again.
-type BackoffFunc func(attempt int) time.Duration
-
-// Do sends an HTTP request and returns an HTTP response, following policy
+// do sends an HTTP request and returns an HTTP response, following policy
 // (such as redirects, cookies, auth) as configured on the http client.
-func Do(req *http.Request, c Options) (*http.Response, error) {
+func do(ctx context.Context, req *http.Request, c option.HTTPOptions) (*http.Response, error) {
 	var resp *http.Response
 	var err error
 
@@ -44,7 +31,7 @@ func Do(req *http.Request, c Options) (*http.Response, error) {
 		// to allow the user to define what a successful request is. If this call
 		// return (false, nil) then we can assert that the request was successful
 		// and therefore, we can return the given response to the user.
-		shouldRetry, retryErr := shouldRetry(req.Context(), c.CheckRetry, resp, err)
+		shouldRetry, retryErr := shouldRetry(ctx, c.CheckRetry, resp, err)
 
 		// Now decide if we should continue based on shouldRetry answer.
 		if !shouldRetry {
@@ -120,7 +107,7 @@ func withRetries(ctx context.Context, retryAttempt int) context.Context {
 	return context.WithValue(ctx, retryAttemptContextKey{}, retryAttempt)
 }
 
-func shouldRetry(ctx context.Context, checkRetry CheckRetryFunc, res *http.Response, err error) (bool, error) {
+func shouldRetry(ctx context.Context, checkRetry option.CheckRetryFunc, res *http.Response, err error) (bool, error) {
 	if checkRetry != nil {
 		return checkRetry(ctx, res, err)
 	}
@@ -129,7 +116,7 @@ func shouldRetry(ctx context.Context, checkRetry CheckRetryFunc, res *http.Respo
 
 // ServerErrorsRetryPolicy provides a sane default implementation of a
 // CheckRetryFunc, it will retry on server (5xx) errors.
-func ServerErrorsRetryPolicy() CheckRetryFunc {
+func ServerErrorsRetryPolicy() option.CheckRetryFunc {
 	return func(ctx context.Context, resp *http.Response, err error) (bool, error) {
 		// do not retry on context.Canceled or context.DeadlineExceeded
 		if ctx.Err() != nil {
@@ -162,7 +149,7 @@ func drainBody(body io.ReadCloser) {
 	_, _ = io.Copy(io.Discard, io.LimitReader(body, respReadLimit))
 }
 
-func backoffDuration(attemptNum int, backoffStrategy BackoffFunc, resp *http.Response) time.Duration {
+func backoffDuration(attemptNum int, backoffStrategy option.BackoffFunc, resp *http.Response) time.Duration {
 	if resp != nil {
 		if resp.StatusCode == http.StatusTooManyRequests || resp.StatusCode == http.StatusServiceUnavailable {
 			if s, ok := resp.Header["Retry-After"]; ok {
@@ -200,7 +187,7 @@ func retryAfterDuration(t string) (time.Duration, error) {
 
 // ConstantBackoff provides a callback for backoffStrategy which will perform
 // linear backoff based on the provided minimum duration.
-func ConstantBackoff(wait time.Duration) BackoffFunc {
+func ConstantBackoff(wait time.Duration) option.BackoffFunc {
 	return func(_ int) time.Duration {
 		return wait
 	}
