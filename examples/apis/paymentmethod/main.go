@@ -1,10 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/mercadopago/sdk-go/pkg/api/paymentmethod"
 	"github.com/mercadopago/sdk-go/pkg/credential"
+	"github.com/mercadopago/sdk-go/pkg/paymentmethod"
 )
 
 func main() {
@@ -15,7 +16,7 @@ func main() {
 	}
 
 	pmc := paymentmethod.NewClient()
-	res, err := pmc.List(cdt)
+	res, err := pmc.List(context.Background(), cdt)
 	if err != nil {
 		fmt.Println(err)
 		return

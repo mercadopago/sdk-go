@@ -6,18 +6,18 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/mercadopago/sdk-go/pkg/api/paymentmethod"
 	"github.com/mercadopago/sdk-go/pkg/credential"
-	"github.com/mercadopago/sdk-go/pkg/httpclient"
+	"github.com/mercadopago/sdk-go/pkg/option"
+	"github.com/mercadopago/sdk-go/pkg/paymentmethod"
 )
 
 var (
-	customBackoffStrategy httpclient.BackoffFunc = func(attempt int) time.Duration {
+	customBackoffStrategy option.BackoffFunc = func(attempt int) time.Duration {
 		// your backoff strategy
 		return time.Duration(1)
 	}
 
-	customCheckRetry httpclient.CheckRetryFunc = func(ctx context.Context, resp *http.Response, err error) (bool, error) {
+	customCheckRetry option.CheckRetryFunc = func(ctx context.Context, resp *http.Response, err error) (bool, error) {
 		// your logic to define continue or stop retry condition
 		return false, nil
 	}
@@ -31,12 +31,12 @@ func main() {
 	}
 
 	pmc := paymentmethod.NewClient(
-		httpclient.WithRetryMax(5),
-		httpclient.WithBackoffStrategy(customBackoffStrategy),
-		httpclient.WithRetryPolicy(customCheckRetry),
-		httpclient.WithTimeout(time.Millisecond*1000),
+		option.WithRetryMax(5),
+		option.WithBackoffStrategy(customBackoffStrategy),
+		option.WithRetryPolicy(customCheckRetry),
+		option.WithTimeout(time.Millisecond*1000),
 	)
-	res, err := pmc.List(cdt)
+	res, err := pmc.List(context.Background(), cdt)
 	if err != nil {
 		fmt.Println(err)
 		return
