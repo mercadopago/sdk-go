@@ -8,8 +8,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/mercadopago/sdk-go/pkg/credential"
+	"github.com/mercadopago/sdk-go/pkg/header"
 	"github.com/mercadopago/sdk-go/pkg/option"
-	"github.com/mercadopago/sdk-go/pkg/request"
 )
 
 const (
@@ -21,14 +21,9 @@ const (
 )
 
 func Send(ctx context.Context, cdt credential.Credential, req *http.Request, c option.HTTPOptions) ([]byte, error) {
-	if request.CustomClient(ctx) != nil {
-		c.HTTPClient = request.CustomClient(ctx)
-	}
-	if request.CustomHeaders(ctx) != nil {
-		for k, v := range request.CustomHeaders(ctx) {
-			canonicalKey := http.CanonicalHeaderKey(k)
-			req.Header[canonicalKey] = v
-		}
+	for k, v := range header.Headers(ctx) {
+		canonicalKey := http.CanonicalHeaderKey(k)
+		req.Header[canonicalKey] = v
 	}
 
 	req.Header.Set(authorizationHeader, "Bearer "+string(cdt))
@@ -43,7 +38,7 @@ func Send(ctx context.Context, cdt credential.Credential, req *http.Request, c o
 func send(ctx context.Context, req *http.Request, c option.HTTPOptions) ([]byte, error) {
 	res, err := do(ctx, req, c)
 	if err != nil {
-		return nil, fmt.Errorf("transport level error: %s", err.Error())
+		return nil, fmt.Errorf("transport level error: %w", err)
 	}
 
 	response, err := io.ReadAll(res.Body)

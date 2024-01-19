@@ -45,7 +45,7 @@ func NewClient(opts ...option.HTTPOption) Client {
 }
 
 func (c *client) List(ctx context.Context, cdt credential.Credential) ([]Response, error) {
-	req, err := http.NewRequest(http.MethodGet, url, nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		return nil, &httpclient.ErrorResponse{
 			StatusCode: http.StatusInternalServerError,
