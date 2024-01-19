@@ -3,6 +3,7 @@ package paymentmethod
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/mercadopago/sdk-go/pkg/credential"
@@ -47,10 +48,7 @@ func NewClient(opts ...option.HTTPOption) Client {
 func (c *client) List(ctx context.Context, cdt credential.Credential) ([]Response, error) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return nil, &httpclient.ErrorResponse{
-			StatusCode: http.StatusInternalServerError,
-			Message:    "error creating request: " + err.Error(),
-		}
+		return nil, fmt.Errorf("error creating request: %s" + err.Error())
 	}
 
 	res, err := httpclient.Send(ctx, cdt, req, c.config)
