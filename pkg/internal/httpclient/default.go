@@ -27,7 +27,7 @@ var (
 
 	// defaultRetryPolicy is the function that tells on any given request if the
 	// http client should retry it or not. By default, it retries on connection and 5xx errors only.
-	defaultRetryPolicy = ServerErrorsRetryPolicy()
+	defaultRetryPolicy = serverErrorsRetryPolicy()
 )
 
 // DefaultOptions returns the default options.

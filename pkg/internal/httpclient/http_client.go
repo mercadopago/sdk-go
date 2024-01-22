@@ -99,12 +99,12 @@ func shouldRetry(ctx context.Context, checkRetry option.CheckRetryFunc, res *htt
 	if checkRetry != nil {
 		return checkRetry(ctx, res, err)
 	}
-	return ServerErrorsRetryPolicy()(ctx, res, err)
+	return serverErrorsRetryPolicy()(ctx, res, err)
 }
 
-// ServerErrorsRetryPolicy provides a sane default implementation of a
+// serverErrorsRetryPolicy provides a sane default implementation of a
 // CheckRetryFunc, it will retry on server (5xx) errors.
-func ServerErrorsRetryPolicy() option.CheckRetryFunc {
+func serverErrorsRetryPolicy() option.CheckRetryFunc {
 	return func(ctx context.Context, resp *http.Response, err error) (bool, error) {
 		// do not retry on context.Canceled or context.DeadlineExceeded
 		if ctx.Err() != nil {
