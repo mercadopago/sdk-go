@@ -29,7 +29,7 @@ func do(ctx context.Context, req *http.Request, c option.HTTPOptions) (*http.Res
 		// to allow the user to define what a successful request is. If this call
 		// return (false, nil) then we can assert that the request was successful
 		// and therefore, we can return the given response to the user.
-		shouldRetry, retryErr := shouldRetry(ctx, c.CheckRetry, resp, err)
+		shouldRetry, retryErr := shouldRetry(ctx, resp, err)
 
 		// Now decide if we should continue based on shouldRetry answer.
 		if !shouldRetry {
@@ -95,36 +95,31 @@ func requestFromInternal(req *http.Request, retryAttempt int) (*http.Request, er
 	return r2, nil
 }
 
-func shouldRetry(ctx context.Context, checkRetry option.CheckRetryFunc, res *http.Response, err error) (bool, error) {
-	if checkRetry != nil {
-		return checkRetry(ctx, res, err)
-	}
-	return serverErrorsRetryPolicy()(ctx, res, err)
+func shouldRetry(ctx context.Context, res *http.Response, err error) (bool, error) {
+	return serverErrorsRetryPolicy(ctx, res, err)
 }
 
 // serverErrorsRetryPolicy provides a sane default implementation of a
-// CheckRetryFunc, it will retry on server (5xx) errors.
-func serverErrorsRetryPolicy() option.CheckRetryFunc {
-	return func(ctx context.Context, resp *http.Response, err error) (bool, error) {
-		// do not retry on context.Canceled or context.DeadlineExceeded
-		if ctx.Err() != nil {
-			return false, ctx.Err()
-		}
-
-		if err != nil {
-			return true, err
-		}
-
-		// Check the response code. We retry on 500-range responses to allow
-		// the server time to recover, as 500's are typically not permanent
-		// errors and may relate to outages on the server side. This will catch
-		// invalid response codes as well, like 0 and 999.
-		if resp.StatusCode == 0 || (resp.StatusCode >= 500 && resp.StatusCode != http.StatusNotImplemented) {
-			return true, nil
-		}
-
-		return false, nil
+// retry policy, it will retry on server (5xx) errors.
+func serverErrorsRetryPolicy(ctx context.Context, resp *http.Response, err error) (bool, error) {
+	// do not retry on context.Canceled or context.DeadlineExceeded
+	if ctx.Err() != nil {
+		return false, ctx.Err()
 	}
+
+	if err != nil {
+		return true, err
+	}
+
+	// Check the response code. We retry on 500-range responses to allow
+	// the server time to recover, as 500's are typically not permanent
+	// errors and may relate to outages on the server side. This will catch
+	// invalid response codes as well, like 0 and 999.
+	if resp.StatusCode == 0 || (resp.StatusCode >= 500 && resp.StatusCode != http.StatusNotImplemented) {
+		return true, nil
+	}
+
+	return false, nil
 }
 
 // Try to read the response body so we can reuse this connection.

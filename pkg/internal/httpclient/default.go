@@ -24,10 +24,6 @@ var (
 	// defaultBackoffStrategy is the retry strategy used by default by
 	// the http client.
 	defaultBackoffStrategy = ConstantBackoff(time.Second * 2)
-
-	// defaultRetryPolicy is the function that tells on any given request if the
-	// http client should retry it or not. By default, it retries on connection and 5xx errors only.
-	defaultRetryPolicy = serverErrorsRetryPolicy()
 )
 
 // DefaultOptions returns the default options.
@@ -37,6 +33,5 @@ func DefaultOptions() option.HTTPOptions {
 		HTTPClient:      defaultHTTPClient,
 		Timeout:         defaultTimeout,
 		BackoffStrategy: defaultBackoffStrategy,
-		CheckRetry:      defaultRetryPolicy,
 	}
 }

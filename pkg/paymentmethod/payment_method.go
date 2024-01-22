@@ -37,7 +37,6 @@ func NewClient(opts ...option.HTTPOption) Client {
 		HTTPClient:      options.HTTPClient,
 		Timeout:         options.Timeout,
 		BackoffStrategy: options.BackoffStrategy,
-		CheckRetry:      options.CheckRetry,
 	}
 	c.HTTPClient.Timeout = c.Timeout
 
