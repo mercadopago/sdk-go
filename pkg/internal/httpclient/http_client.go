@@ -10,8 +10,6 @@ import (
 	"github.com/mercadopago/sdk-go/pkg/option"
 )
 
-type retryAttemptContextKey struct{}
-
 // do sends an HTTP request and returns an HTTP response, following policy
 // (such as redirects, cookies, auth) as configured on the http client.
 func do(ctx context.Context, req *http.Request, c option.HTTPOptions) (*http.Response, error) {
@@ -77,12 +75,7 @@ func do(ctx context.Context, req *http.Request, c option.HTTPOptions) (*http.Res
 
 // requestFromInternal builds an *http.Request from our internal request.
 func requestFromInternal(req *http.Request, retryAttempt int) (*http.Request, error) {
-	// If this is a retry attempt then set a value in context indicating so.
-	// This is handy for clients willing to insert custom headers.
 	ctx := req.Context()
-	if retryAttempt > 0 {
-		ctx = withRetries(ctx, retryAttempt)
-	}
 
 	// Use the context from the internal request. When cloning requests
 	// we want to have the same context in all of them. The request
@@ -100,11 +93,6 @@ func requestFromInternal(req *http.Request, retryAttempt int) (*http.Request, er
 	}
 
 	return r2, nil
-}
-
-// withRetries returns a new context decorated with a retry count.
-func withRetries(ctx context.Context, retryAttempt int) context.Context {
-	return context.WithValue(ctx, retryAttemptContextKey{}, retryAttempt)
 }
 
 func shouldRetry(ctx context.Context, checkRetry option.CheckRetryFunc, res *http.Response, err error) (bool, error) {
