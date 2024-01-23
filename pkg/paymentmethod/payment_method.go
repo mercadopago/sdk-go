@@ -18,16 +18,17 @@ type Client interface {
 	// List lists all payment methods.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payment_methods
 	// Reference: https://www.mercadopago.com.br/developers/pt/reference/payment_methods/_payment_methods/get/
-	List(ctx context.Context, credential credential.Credential) ([]Response, error)
+	List(ctx context.Context) ([]Response, error)
 }
 
 // client is the implementation of Client.
 type client struct {
-	config option.HTTPOptions
+	credential *credential.Credential
+	config     option.HTTPOptions
 }
 
 // NewClient returns a new Payment Methods API Client.
-func NewClient(opts ...option.HTTPOption) Client {
+func NewClient(cdt *credential.Credential, opts ...option.HTTPOption) Client {
 	options := httpclient.DefaultOptions()
 	for _, opt := range opts {
 		opt.ApplyHTTP(&options)
@@ -41,16 +42,19 @@ func NewClient(opts ...option.HTTPOption) Client {
 	}
 	c.HTTPClient.Timeout = c.Timeout
 
-	return &client{config: c}
+	return &client{
+		credential: cdt,
+		config:     c,
+	}
 }
 
-func (c *client) List(ctx context.Context, cdt credential.Credential) ([]Response, error) {
+func (c *client) List(ctx context.Context) ([]Response, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 
-	res, err := httpclient.Send(ctx, cdt, req, c.config)
+	res, err := httpclient.Send(ctx, c.credential, req, c.config)
 	if err != nil {
 		return nil, err
 	}
