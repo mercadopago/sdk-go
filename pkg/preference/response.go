@@ -128,14 +128,14 @@ type PreferenceTax struct {
 // PreferenceTrack representa um rastreamento a ser executado durante a interação do usuário no fluxo de Checkout.
 type PreferenceTrack struct {
 	Type   string                         `json:"type"`
-	Values PreferenceTrackValuesRequest   `json:"values"`
+	Values PreferenceTrackValuesResponse   `json:"values"`
 }
 
 // PreferenceTrackValuesRequest contém os valores dos rastreamentos a serem executados durante a interação do usuário no fluxo de Checkout.
-type PreferenceTrackValuesRequest struct {
-	ConversionID    string `json:"conversion_id,omitempty"`
-	ConversionLabel string `json:"conversion_label,omitempty"`
-	PixelID         string `json:"pixel_id,omitempty"`
+type PreferenceTrackValuesResponse struct {
+	ConversionID    string `json:"conversion_id"`
+	ConversionLabel string `json:"conversion_label"`
+	PixelID         string `json:"pixel_id"`
 }
 
 // Phone representa um número de telefone.
