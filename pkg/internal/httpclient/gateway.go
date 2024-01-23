@@ -20,13 +20,13 @@ const (
 	idempotencyHeader   = "X-Idempotency-Key"
 )
 
-func Send(ctx context.Context, cdt credential.Credential, req *http.Request, c option.HTTPOptions) ([]byte, error) {
+func Send(ctx context.Context, cdt *credential.Credential, req *http.Request, c option.HTTPOptions) ([]byte, error) {
 	for k, v := range header.Headers(ctx) {
 		canonicalKey := http.CanonicalHeaderKey(k)
 		req.Header[canonicalKey] = v
 	}
 
-	req.Header.Set(authorizationHeader, "Bearer "+string(cdt))
+	req.Header.Set(authorizationHeader, "Bearer "+string(*cdt))
 	req.Header.Set(productIDHeader, productID)
 	if _, ok := req.Header[idempotencyHeader]; !ok {
 		req.Header.Set(idempotencyHeader, uuid.New().String())

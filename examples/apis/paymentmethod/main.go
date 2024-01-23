@@ -15,8 +15,8 @@ func main() {
 		return
 	}
 
-	pmc := paymentmethod.NewClient()
-	res, err := pmc.List(context.Background(), cdt)
+	pmc := paymentmethod.NewClient(cdt)
+	res, err := pmc.List(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return

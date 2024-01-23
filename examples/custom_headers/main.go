@@ -17,7 +17,7 @@ func main() {
 		return
 	}
 
-	pmc := paymentmethod.NewClient()
+	pmc := paymentmethod.NewClient(cdt)
 
 	ch := http.Header{}
 	ch.Add("X-Idempotency-Key", "123999")
@@ -29,7 +29,6 @@ func main() {
 	ctx = header.Context(ctx, ch)
 	res, err := pmc.List(
 		ctx,
-		cdt,
 	)
 	if err != nil {
 		fmt.Println(err)

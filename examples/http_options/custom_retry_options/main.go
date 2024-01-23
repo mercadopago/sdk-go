@@ -25,11 +25,12 @@ func main() {
 	}
 
 	pmc := paymentmethod.NewClient(
+		cdt,
 		option.WithRetryMax(5),
 		option.WithBackoffStrategy(customBackoffStrategy),
 		option.WithTimeout(time.Millisecond*1000),
 	)
-	res, err := pmc.List(context.Background(), cdt)
+	res, err := pmc.List(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return

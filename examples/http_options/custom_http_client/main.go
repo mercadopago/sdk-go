@@ -21,8 +21,8 @@ func main() {
 	proxyURL, _ := url.Parse("http://someurl")
 	customClient := &http.Client{Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)}}
 
-	pmc := paymentmethod.NewClient(option.WithCustomClient(customClient))
-	res, err := pmc.List(context.Background(), cdt)
+	pmc := paymentmethod.NewClient(cdt, option.WithCustomClient(customClient))
+	res, err := pmc.List(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return

@@ -17,8 +17,8 @@ func main() {
 		return
 	}
 
-	pmc := paymentmethod.NewClient(option.WithTimeout(time.Second * 3))
-	res, err := pmc.List(context.Background(), cdt)
+	pmc := paymentmethod.NewClient(cdt, option.WithTimeout(time.Second*3))
+	res, err := pmc.List(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return
