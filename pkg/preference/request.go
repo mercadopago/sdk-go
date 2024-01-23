@@ -61,10 +61,10 @@ type PreferencePayerRequest struct {
 	Name           string                    `json:"name,omitempty"`
 	Surname        string                    `json:"surname,omitempty"`
 	Email          string                    `json:"email,omitempty"`
-	Phone          PhoneRequest       `json:"phone,omitempty"`
-	Identification IdentificationRequest `json:"identification,omitempty"`
-	Address        AddressRequest      `json:"address,omitempty"`
-	DateCreated    time.Time                 `json:"date_created,omitempty"`
+	Phone          *PhoneRequest       `json:"phone,omitempty"`
+	Identification *IdentificationRequest `json:"identification,omitempty"`
+	Address        *AddressRequest      `json:"address,omitempty"`
+	DateCreated    *time.Time                 `json:"date_created,omitempty"`
 }
 
 // Phone representa um número de telefone.
@@ -114,7 +114,7 @@ type PreferenceShipmentsRequest struct {
 	FreeMethods         []PreferenceFreeMethodRequest    `json:"free_methods,omitempty"`
 	Cost                float64                       `json:"cost,omitempty"`
 	FreeShipping        bool                             `json:"free_shipping,omitempty"`
-	ReceiverAddress     PreferenceReceiverAddressRequest `json:"receiver_address,omitempty"`
+	ReceiverAddress     *PreferenceReceiverAddressRequest `json:"receiver_address,omitempty"`
 	ExpressShipment     bool                             `json:"express_shipment,omitempty"`
 }
 
@@ -144,5 +144,12 @@ type PreferenceTaxRequest struct {
 // PreferenceTrackRequest contém informações sobre o rastreamento a ser executado durante a interação do usuário no fluxo de Checkout.
 type PreferenceTrackRequest struct {
 	Type   string                         `json:"type,omitempty"`
-	Values PreferenceTrackValuesRequest   `json:"values,omitempty"`
+	Values *PreferenceTrackValuesRequest   `json:"values,omitempty"`
+}
+
+// PreferenceTrackValuesRequest contém os valores dos rastreamentos a serem executados durante a interação do usuário no fluxo de Checkout.
+type PreferenceTrackValuesRequest struct {
+	ConversionID    string `json:"conversion_id,omitempty"`
+	ConversionLabel string `json:"conversion_label,omitempty"`
+	PixelID         string `json:"pixel_id,omitempty"`
 }
