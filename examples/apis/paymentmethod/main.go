@@ -9,20 +9,20 @@ import (
 )
 
 func main() {
-	cdt, err := credential.New("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
+	credential, err := credential.New("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	pmc := paymentmethod.NewClient(cdt)
-	res, err := pmc.List(context.Background())
+	client := paymentmethod.NewClient(credential)
+	result, err := client.List(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, v := range res {
+	for _, v := range result {
 		fmt.Println(v)
 	}
 }
