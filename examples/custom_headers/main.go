@@ -24,7 +24,7 @@ func main() {
 	ch.Add("Some-Key", "some_value")
 
 	ctx := context.Background()
-	// this will return a child context decorated with your custom headers.
+	// This will return a child context decorated with your custom headers.
 	// They will be forwarded wherever this context is used in any of the APIs.
 	ctx = header.Context(ctx, ch)
 	res, err := pmc.List(
