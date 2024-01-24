@@ -17,12 +17,14 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	getPreference(cdt)
-	createPreference(cdt)
+	get(cdt)
+	create(cdt)
+	update(cdt)
+	search(cdt)
 	
 }
 
-func getPreference(cdt credential.Credential) {
+func get(cdt credential.Credential) {
 	pmc := preference.NewClient(
 		option.WithRetryMax(1),
 		option.WithTimeout(1*time.Second),
@@ -42,7 +44,7 @@ func getPreference(cdt credential.Credential) {
 	fmt.Println(string(resJSON))
 }
 
-func createPreference(cdt credential.Credential) {
+func create(cdt credential.Credential) {
 	pmc := preference.NewClient()
 
 	dto := preference.Request{
@@ -64,4 +66,55 @@ func createPreference(cdt credential.Credential) {
 	}
 
 	fmt.Println(res.ID)
+}
+
+func update(cdt credential.Credential) {
+	pmc := preference.NewClient()
+
+	dto := preference.Request{
+		Items: []preference.PreferenceItemRequest{
+			{
+				ID:          "123",
+				Title:       "updating Title",
+				UnitPrice: 	10,
+				Quantity:    3,
+				Description: "updating Description",
+			},
+		},
+	}
+
+	res, err := pmc.Update(context.Background(), cdt, "1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4", dto)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	resJSON, err := json.MarshalIndent(res, "", "  ")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(string(resJSON))
+}
+
+func search(cdt credential.Credential) {
+	pmc := preference.NewClient()
+
+	filters := preference.SearchRequest{
+		Limit: 10,
+		Offset: 10,
+	}
+
+	res, err := pmc.Search(context.Background(), cdt, filters)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	resJSON, err := json.MarshalIndent(res, "", "  ")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(string(resJSON))
 }
