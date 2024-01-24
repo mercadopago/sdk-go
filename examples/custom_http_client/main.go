@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"net/url"
+	"time"
 
 	"github.com/mercadopago/sdk-go/pkg/credential"
 	"github.com/mercadopago/sdk-go/pkg/option"
@@ -18,8 +18,7 @@ func main() {
 		return
 	}
 
-	proxyURL, _ := url.Parse("http://someurl")
-	customClient := &http.Client{Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)}}
+	customClient := &http.Client{Timeout: time.Second * 5}
 
 	pmc := paymentmethod.NewClient(cdt, option.WithCustomClient(customClient))
 	res, err := pmc.List(context.Background())
