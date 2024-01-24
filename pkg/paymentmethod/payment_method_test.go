@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"reflect"
 	"strings"
 	"testing"
@@ -15,72 +16,10 @@ import (
 )
 
 var (
-	cdt, _       = credential.New("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
-	responseMock = `
-		[
-			{
-				"id": "debmaster",
-				"name": "Mastercard Débito",
-				"payment_type_id": "debit_card",
-				"status": "testing",
-				"secure_thumbnail": "https://www.mercadopago.com/org-img/MP3/API/logos/debmaster.gif",
-				"thumbnail": "https://www.mercadopago.com/org-img/MP3/API/logos/debmaster.gif",
-				"deferred_capture": "unsupported",
-				"settings": [
-					{
-						"card_number": {
-							"validation": "standard",
-							"length": 16
-						},
-						"bin": {
-							"pattern": "^(502121|536106)",
-							"installments_pattern": "",
-							"exclusion_pattern": null
-						},
-						"security_code": {
-							"length": 3,
-							"card_location": "back",
-							"mode": "mandatory"
-						}
-					}
-				],
-				"additional_info_needed": [
-					"cardholder_name",
-					"cardholder_identification_type",
-					"cardholder_identification_number"
-				],
-				"min_allowed_amount": 0.5,
-				"max_allowed_amount": 60000,
-				"accreditation_time": 1440,
-				"financial_institutions": [],
-				"processing_modes": [
-					"aggregator"
-				]
-			},
-			{
-				"id": "cabal",
-				"name": "Cabal",
-				"payment_type_id": "credit_card",
-				"status": "testing",
-				"secure_thumbnail": "https://www.mercadopago.com/org-img/MP3/API/logos/cabal.gif",
-				"thumbnail": "https://www.mercadopago.com/org-img/MP3/API/logos/cabal.gif",
-				"deferred_capture": "supported",
-				"settings": [],
-				"additional_info_needed": [
-					"cardholder_name",
-					"cardholder_identification_type",
-					"cardholder_identification_number"
-				],
-				"min_allowed_amount": 0.5,
-				"max_allowed_amount": 60000,
-				"accreditation_time": 2880,
-				"financial_institutions": [],
-				"processing_modes": [
-					"aggregator"
-				]
-			}
-		]
-	`
+	cdt, _ = credential.New("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
+
+	listResponseJSON, _ = os.Open("../../resources/mocks/payment_method_list.json")
+	listResponse, _     = io.ReadAll(listResponseJSON)
 )
 
 func TestList(t *testing.T) {
@@ -162,7 +101,7 @@ func TestList(t *testing.T) {
 					option.WithCustomClient(
 						&httpclient.Mock{
 							DoMock: func(req *http.Request) (*http.Response, error) {
-								stringReader := strings.NewReader(responseMock)
+								stringReader := strings.NewReader(string(listResponse))
 								stringReadCloser := io.NopCloser(stringReader)
 								return &http.Response{
 									Body: stringReadCloser,
