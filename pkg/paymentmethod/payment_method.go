@@ -24,21 +24,12 @@ type Client interface {
 // client is the implementation of Client.
 type client struct {
 	credential *credential.Credential
-	config     option.ClientOptions
+	config     *option.ClientOptions
 }
 
 // NewClient returns a new Payment Methods API Client.
 func NewClient(cdt *credential.Credential, opts ...option.ClientOption) Client {
-	options := option.ClientOptions{
-		Requester: httpclient.DefaultRequester(),
-	}
-	for _, opt := range opts {
-		opt.Apply(&options)
-	}
-
-	c := option.ClientOptions{
-		Requester: options.Requester,
-	}
+	c := option.ApplyClientOptions(opts...)
 
 	return &client{
 		credential: cdt,
