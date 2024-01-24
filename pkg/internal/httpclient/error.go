@@ -2,8 +2,8 @@ package httpclient
 
 import "net/http"
 
-// ErrorResponse represents an error response from the API.
-type ErrorResponse struct {
+// ResponseError represents an error response from the API.
+type ResponseError struct {
 	Message    string `json:"message"`
 	StatusCode int    `json:"status_code"`
 
@@ -11,6 +11,6 @@ type ErrorResponse struct {
 }
 
 // Error implements error.
-func (e *ErrorResponse) Error() string {
+func (e *ResponseError) Error() string {
 	return e.Message
 }
