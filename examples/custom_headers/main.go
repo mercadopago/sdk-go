@@ -30,6 +30,7 @@ func main() {
 	res, err := pmc.List(
 		ctx,
 	)
+
 	if err != nil {
 		fmt.Println(err)
 		return
