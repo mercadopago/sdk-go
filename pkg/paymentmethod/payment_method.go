@@ -24,23 +24,21 @@ type Client interface {
 // client is the implementation of Client.
 type client struct {
 	credential *credential.Credential
-	config     option.HTTPOptions
+	config     option.ClientOptions
 }
 
 // NewClient returns a new Payment Methods API Client.
-func NewClient(cdt *credential.Credential, opts ...option.HTTPOption) Client {
-	options := httpclient.DefaultOptions()
+func NewClient(cdt *credential.Credential, opts ...option.ClientOption) Client {
+	options := option.ClientOptions{
+		Requester: httpclient.DefaultRequester(),
+	}
 	for _, opt := range opts {
-		opt.ApplyHTTP(&options)
+		opt.Apply(&options)
 	}
 
-	c := option.HTTPOptions{
-		RetryMax:        options.RetryMax,
-		HTTPClient:      options.HTTPClient,
-		Timeout:         options.Timeout,
-		BackoffStrategy: options.BackoffStrategy,
+	c := option.ClientOptions{
+		Requester: options.Requester,
 	}
-	c.HTTPClient.Timeout = c.Timeout
 
 	return &client{
 		credential: cdt,
@@ -54,7 +52,7 @@ func (c *client) List(ctx context.Context) ([]Response, error) {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 
-	res, err := httpclient.Send(ctx, c.credential, req, c.config)
+	res, err := httpclient.Send(ctx, c.credential, c.config.Requester, req)
 	if err != nil {
 		return nil, err
 	}

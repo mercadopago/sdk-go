@@ -20,7 +20,7 @@ const (
 	idempotencyHeader   = "X-Idempotency-Key"
 )
 
-func Send(ctx context.Context, cdt *credential.Credential, req *http.Request, c option.HTTPOptions) ([]byte, error) {
+func Send(ctx context.Context, cdt *credential.Credential, requester option.Requester, req *http.Request) ([]byte, error) {
 	for k, v := range header.Headers(ctx) {
 		canonicalKey := http.CanonicalHeaderKey(k)
 		req.Header[canonicalKey] = v
@@ -32,11 +32,11 @@ func Send(ctx context.Context, cdt *credential.Credential, req *http.Request, c 
 		req.Header.Set(idempotencyHeader, uuid.New().String())
 	}
 
-	return send(ctx, req, c)
+	return send(ctx, requester, req)
 }
 
-func send(ctx context.Context, req *http.Request, c option.HTTPOptions) ([]byte, error) {
-	res, err := do(ctx, req, c)
+func send(ctx context.Context, requester option.Requester, req *http.Request) ([]byte, error) {
+	res, err := requester.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("transport level error: %w", err)
 	}
