@@ -8,8 +8,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/mercadopago/sdk-go/pkg/credential"
-	"github.com/mercadopago/sdk-go/pkg/option"
-	"github.com/mercadopago/sdk-go/pkg/request"
+	"github.com/mercadopago/sdk-go/pkg/header"
 )
 
 const (
@@ -20,30 +19,25 @@ const (
 	idempotencyHeader   = "X-Idempotency-Key"
 )
 
-func Send(ctx context.Context, cdt credential.Credential, req *http.Request, c option.HTTPOptions) ([]byte, error) {
-	if request.CustomClient(ctx) != nil {
-		c.HTTPClient = request.CustomClient(ctx)
-	}
-	if request.CustomHeaders(ctx) != nil {
-		for k, v := range request.CustomHeaders(ctx) {
-			canonicalKey := http.CanonicalHeaderKey(k)
-			req.Header[canonicalKey] = v
-		}
+func Send(ctx context.Context, cdt *credential.Credential, requester Requester, req *http.Request) ([]byte, error) {
+	for k, v := range header.Headers(ctx) {
+		canonicalKey := http.CanonicalHeaderKey(k)
+		req.Header[canonicalKey] = v
 	}
 
-	req.Header.Set(authorizationHeader, "Bearer "+string(cdt))
+	req.Header.Set(authorizationHeader, "Bearer "+string(*cdt))
 	req.Header.Set(productIDHeader, productID)
 	if _, ok := req.Header[idempotencyHeader]; !ok {
 		req.Header.Set(idempotencyHeader, uuid.New().String())
 	}
 
-	return send(ctx, req, c)
+	return send(ctx, requester, req)
 }
 
-func send(ctx context.Context, req *http.Request, c option.HTTPOptions) ([]byte, error) {
-	res, err := do(ctx, req, c)
+func send(ctx context.Context, requester Requester, req *http.Request) ([]byte, error) {
+	res, err := requester.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("transport level error: %s", err.Error())
+		return nil, fmt.Errorf("transport level error: %w", err)
 	}
 
 	response, err := io.ReadAll(res.Body)
