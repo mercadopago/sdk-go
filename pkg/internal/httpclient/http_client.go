@@ -6,15 +6,42 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-
-	"github.com/mercadopago/sdk-go/pkg/option"
 )
 
-type retryAttemptContextKey struct{}
+type Requester interface {
+	Do(req *http.Request) (*http.Response, error)
+}
 
-// do sends an HTTP request and returns an HTTP response, following policy
-// (such as redirects, cookies, auth) as configured on the http client.
-func do(ctx context.Context, req *http.Request, c option.HTTPOptions) (*http.Response, error) {
+var (
+	// defaultRetryMax is the maximum number of retries used by default requester.
+	defaultRetryMax = 3
+
+	// defaultHTTPClient is the http client used by default requester.
+	defaultHTTPClient = &http.Client{Timeout: defaultTimeout}
+
+	// defaultTimeout is the timeout used by default requester.
+	defaultTimeout = 10 * time.Second
+
+	// defaultBackoffStrategy is the retry strategy used by default requester.
+	defaultBackoffStrategy = constantBackoff(time.Second * 2)
+)
+
+// defaultRequester provides an immutable implementation of option.Requester.
+type defaultRequester struct{}
+
+// backoffFunc specifies a policy for how long to wait between retries. It is
+// called after a failing request to determine the amount of time that should
+// pass before trying again.
+type backoffFunc func(attempt int) time.Duration
+
+// DefaultRequester return the default implementation of Requester interface.
+func DefaultRequester() Requester {
+	return &defaultRequester{}
+}
+
+// Do sends an HTTP request and returns an HTTP response. It is the default
+// implementation of Requester interface.
+func (d *defaultRequester) Do(req *http.Request) (*http.Response, error) {
 	var resp *http.Response
 	var err error
 
@@ -24,14 +51,14 @@ func do(ctx context.Context, req *http.Request, c option.HTTPOptions) (*http.Res
 			return nil, err
 		}
 
-		// Attempt the request using the underlying http client.
-		resp, err = c.HTTPClient.Do(req)
+		// Attempt the request using the default http client.
+		resp, err = defaultHTTPClient.Do(req)
 
 		// Check if we should continue with retries. We always check after a request
 		// to allow the user to define what a successful request is. If this call
 		// return (false, nil) then we can assert that the request was successful
 		// and therefore, we can return the given response to the user.
-		shouldRetry, retryErr := shouldRetry(ctx, c.CheckRetry, resp, err)
+		shouldRetry, retryErr := shouldRetry(req.Context(), resp, err)
 
 		// Now decide if we should continue based on shouldRetry answer.
 		if !shouldRetry {
@@ -43,7 +70,7 @@ func do(ctx context.Context, req *http.Request, c option.HTTPOptions) (*http.Res
 
 		// If we have no retries left then we return the last response and error
 		// from the last request executed by the client.
-		remainingRetries := c.RetryMax - i
+		remainingRetries := defaultRetryMax - i
 		if remainingRetries <= 0 {
 			return resp, err
 		}
@@ -53,8 +80,8 @@ func do(ctx context.Context, req *http.Request, c option.HTTPOptions) (*http.Res
 			drainBody(resp.Body)
 		}
 
-		// Call Backoff to see how much time we must wait until next retry.
-		backoffWait := backoffDuration(i, c.BackoffStrategy, resp)
+		// Call backoff to see how much time we must wait until next retry.
+		backoffWait := backoffDuration(i, resp)
 
 		// If the request context has a deadline, check whether that deadline
 		// happens before the wait period of the backoff strategy. In case
@@ -77,12 +104,7 @@ func do(ctx context.Context, req *http.Request, c option.HTTPOptions) (*http.Res
 
 // requestFromInternal builds an *http.Request from our internal request.
 func requestFromInternal(req *http.Request, retryAttempt int) (*http.Request, error) {
-	// If this is a retry attempt then set a value in context indicating so.
-	// This is handy for clients willing to insert custom headers.
 	ctx := req.Context()
-	if retryAttempt > 0 {
-		ctx = withRetries(ctx, retryAttempt)
-	}
 
 	// Use the context from the internal request. When cloning requests
 	// we want to have the same context in all of them. The request
@@ -102,41 +124,27 @@ func requestFromInternal(req *http.Request, retryAttempt int) (*http.Request, er
 	return r2, nil
 }
 
-// withRetries returns a new context decorated with a retry count.
-func withRetries(ctx context.Context, retryAttempt int) context.Context {
-	return context.WithValue(ctx, retryAttemptContextKey{}, retryAttempt)
-}
-
-func shouldRetry(ctx context.Context, checkRetry option.CheckRetryFunc, res *http.Response, err error) (bool, error) {
-	if checkRetry != nil {
-		return checkRetry(ctx, res, err)
+// shouldRetry provides a sane default implementation of a
+// retry policy, it will retry on server (5xx) errors.
+func shouldRetry(ctx context.Context, resp *http.Response, err error) (bool, error) {
+	// do not retry on context.Canceled or context.DeadlineExceeded
+	if ctx.Err() != nil {
+		return false, ctx.Err()
 	}
-	return ServerErrorsRetryPolicy()(ctx, res, err)
-}
 
-// ServerErrorsRetryPolicy provides a sane default implementation of a
-// CheckRetryFunc, it will retry on server (5xx) errors.
-func ServerErrorsRetryPolicy() option.CheckRetryFunc {
-	return func(ctx context.Context, resp *http.Response, err error) (bool, error) {
-		// do not retry on context.Canceled or context.DeadlineExceeded
-		if ctx.Err() != nil {
-			return false, ctx.Err()
-		}
-
-		if err != nil {
-			return true, err
-		}
-
-		// Check the response code. We retry on 500-range responses to allow
-		// the server time to recover, as 500's are typically not permanent
-		// errors and may relate to outages on the server side. This will catch
-		// invalid response codes as well, like 0 and 999.
-		if resp.StatusCode == 0 || (resp.StatusCode >= 500 && resp.StatusCode != http.StatusNotImplemented) {
-			return true, nil
-		}
-
-		return false, nil
+	if err != nil {
+		return true, err
 	}
+
+	// Check the response code. We retry on 500-range responses to allow
+	// the server time to recover, as 500's are typically not permanent
+	// errors and may relate to outages on the server side. This will catch
+	// invalid response codes as well, like 0 and 999.
+	if resp.StatusCode == 0 || (resp.StatusCode >= 500 && resp.StatusCode != http.StatusNotImplemented) {
+		return true, nil
+	}
+
+	return false, nil
 }
 
 // Try to read the response body so we can reuse this connection.
@@ -149,7 +157,7 @@ func drainBody(body io.ReadCloser) {
 	_, _ = io.Copy(io.Discard, io.LimitReader(body, respReadLimit))
 }
 
-func backoffDuration(attemptNum int, backoffStrategy option.BackoffFunc, resp *http.Response) time.Duration {
+func backoffDuration(attemptNum int, resp *http.Response) time.Duration {
 	if resp != nil {
 		if resp.StatusCode == http.StatusTooManyRequests || resp.StatusCode == http.StatusServiceUnavailable {
 			if s, ok := resp.Header["Retry-After"]; ok {
@@ -160,11 +168,7 @@ func backoffDuration(attemptNum int, backoffStrategy option.BackoffFunc, resp *h
 		}
 	}
 
-	if backoffStrategy != nil {
-		return backoffStrategy(attemptNum)
-	}
-
-	return 0
+	return defaultBackoffStrategy(attemptNum)
 }
 
 // retryAfterDuration returns the duration for the Retry-After header.
@@ -185,9 +189,9 @@ func retryAfterDuration(t string) (time.Duration, error) {
 	return time.Duration(d) * time.Second, nil
 }
 
-// ConstantBackoff provides a callback for backoffStrategy which will perform
+// constantBackoff provides a callback for backoffStrategy which will perform
 // linear backoff based on the provided minimum duration.
-func ConstantBackoff(wait time.Duration) option.BackoffFunc {
+func constantBackoff(wait time.Duration) backoffFunc {
 	return func(_ int) time.Duration {
 		return wait
 	}
