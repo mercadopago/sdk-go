@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"github.com/mercadopago/sdk-go/pkg/credential"
+	"github.com/mercadopago/sdk-go/pkg/header"
 	"github.com/mercadopago/sdk-go/pkg/paymentmethod"
-	"github.com/mercadopago/sdk-go/pkg/request"
 )
 
 func main() {
@@ -17,15 +17,18 @@ func main() {
 		return
 	}
 
-	pmc := paymentmethod.NewClient()
+	pmc := paymentmethod.NewClient(cdt)
 
-	customClient := &http.Client{}
+	ch := http.Header{}
+	ch.Add("X-Idempotency-Key", "123999")
+	ch.Add("Some-Key", "some_value")
 
 	ctx := context.Background()
-	ctx = request.WithCustomClient(ctx, customClient) // sdk will use that http client
+	// this will return a child context decorated with your custom headers.
+	// They will be forwarded wherever this context is used in any of the APIs.
+	ctx = header.Context(ctx, ch)
 	res, err := pmc.List(
 		ctx,
-		cdt,
 	)
 	if err != nil {
 		fmt.Println(err)

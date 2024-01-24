@@ -5,6 +5,7 @@ package credential
 type Credential string
 
 // New returns a new Credential.
-func New(at string) (Credential, error) {
-	return Credential(at), nil
+func New(at string) (*Credential, error) {
+	cdt := Credential(at)
+	return &cdt, nil
 }
