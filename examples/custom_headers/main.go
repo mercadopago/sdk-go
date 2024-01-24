@@ -19,14 +19,14 @@ func main() {
 
 	pmc := paymentmethod.NewClient(cdt)
 
-	ch := http.Header{}
-	ch.Add("X-Idempotency-Key", "123999")
-	ch.Add("Some-Key", "some_value")
+	headers := http.Header{}
+	headers.Add("X-Idempotency-Key", "123999")
+	headers.Add("Some-Key", "some_value")
 
 	ctx := context.Background()
 	// This will return a child context decorated with your custom headers.
 	// They will be forwarded wherever this context is used in any of the APIs.
-	ctx = header.Context(ctx, ch)
+	ctx = header.Context(ctx, headers)
 	res, err := pmc.List(
 		ctx,
 	)
