@@ -2,6 +2,7 @@ package integration
 
 import (
 	"context"
+	"os"
 	"testing"
 
 	"github.com/mercadopago/sdk-go/pkg/credential"
@@ -9,8 +10,8 @@ import (
 )
 
 func TestList(t *testing.T) {
-	t.Run("should_list_brazil_payment_methods", func(t *testing.T) {
-		cdt, err := credential.New("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
+	t.Run("should_list_payment_methods", func(t *testing.T) {
+		cdt, err := credential.New(os.Getenv("at"))
 		if err != nil {
 			t.Fatal(err)
 		}

@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	cdt, _ = credential.New("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
+	cdt, _ = credential.New("any")
 
 	listResponseJSON, _ = os.Open("../../resources/mocks/payment_method_list.json")
 	listResponse, _     = io.ReadAll(listResponseJSON)
