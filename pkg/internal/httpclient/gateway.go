@@ -43,7 +43,7 @@ func send(ctx context.Context, requester Requester, req *http.Request) ([]byte, 
 	response, err := io.ReadAll(res.Body)
 	defer res.Body.Close()
 	if err != nil {
-		return nil, &ErrorResponse{
+		return nil, &ResponseError{
 			StatusCode: res.StatusCode,
 			Message:    "error reading response body: " + err.Error(),
 			Headers:    res.Header,
@@ -51,7 +51,7 @@ func send(ctx context.Context, requester Requester, req *http.Request) ([]byte, 
 	}
 
 	if res.StatusCode > 399 {
-		return nil, &ErrorResponse{
+		return nil, &ResponseError{
 			StatusCode: res.StatusCode,
 			Message:    string(response),
 			Headers:    res.Header,
