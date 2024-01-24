@@ -153,3 +153,9 @@ type PreferenceTrackValuesRequest struct {
 	ConversionLabel string `json:"conversion_label,omitempty"`
 	PixelID         string `json:"pixel_id,omitempty"`
 }
+
+type SearchRequest struct {
+	Limit   int
+	Offset  int
+	Filters map[string]interface{}
+}

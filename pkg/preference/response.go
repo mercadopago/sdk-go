@@ -156,3 +156,36 @@ type Address struct {
 	StreetName   string `json:"street_name"`
 	StreetNumber string `json:"street_number"`
 }
+
+// PreferenceSearch contém informações sobre uma preferência para pesquisa.
+type SearchResponse struct {
+	ID                  string        `json:"id,omitempty"`
+	ClientID            string        `json:"client_id,omitempty"`
+	CollectorID         int64         `json:"collector_id,omitempty"`
+	DateCreated         time.Time     `json:"date_created,omitempty"`
+	ExpirationDateFrom  time.Time     `json:"expiration_date_from,omitempty"`
+	ExpirationDateTo    time.Time     `json:"expiration_date_to,omitempty"`
+	Expires             bool          `json:"expires,omitempty"`
+	ExternalReference   string        `json:"external_reference,omitempty"`
+	Items               []string      `json:"items,omitempty"`
+	LastUpdated         time.Time     `json:"last_updated,omitempty"`
+	LiveMode            bool          `json:"live_mode,omitempty"`
+	Marketplace         string        `json:"marketplace,omitempty"`
+	OperationType       string        `json:"operation_type,omitempty"`
+	PayerEmail          string        `json:"payer_email,omitempty"`
+	PayerID             string        `json:"payer_id,omitempty"`
+	PlatformID          string        `json:"platform_id,omitempty"`
+	ProcessingModes     []string      `json:"processing_modes,omitempty"`
+	ProductID           string        `json:"product_id,omitempty"`
+	Purpose             string        `json:"purpose,omitempty"`
+	SiteID              string        `json:"site_id,omitempty"`
+	SponsorID           int64         `json:"sponsor_id,omitempty"`
+	ShippingMode        string        `json:"shipping_mode,omitempty"`
+}
+
+// MPElementsResourcesPage é uma página de pesquisa que contém elementos.
+type SearchResponsePage struct {
+	Total      int         `json:"total,omitempty"`
+	NextOffset int         `json:"next_offset,omitempty"`
+	Elements   []SearchResponse `json:"elements,omitempty"`
+}
