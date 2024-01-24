@@ -6,9 +6,11 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-
-	"github.com/mercadopago/sdk-go/pkg/option"
 )
+
+type Requester interface {
+	Do(req *http.Request) (*http.Response, error)
+}
 
 var (
 	// defaultRetryMax is the maximum number of retries used by default requester.
@@ -33,7 +35,7 @@ type defaultRequester struct{}
 type backoffFunc func(attempt int) time.Duration
 
 // DefaultRequester return the default implementation of Requester interface.
-func DefaultRequester() option.Requester {
+func DefaultRequester() Requester {
 	return &defaultRequester{}
 }
 
