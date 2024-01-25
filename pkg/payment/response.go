@@ -156,6 +156,7 @@ type TransactionDetailsResponse struct {
 	ExternalResourceURL      string  `json:"external_resource_url,omitempty"`
 	PaymentMethodReferenceID string  `json:"payment_method_reference_id,omitempty"`
 	AcquirerReference        string  `json:"acquirer_reference,omitempty"`
+	TransactionID            string  `json:"transaction_id,omitempty"`
 	NetReceivedAmount        float64 `json:"net_received_amount,omitempty"`
 	TotalPaidAmount          float64 `json:"total_paid_amount,omitempty"`
 	InstallmentAmount        float64 `json:"installment_amount,omitempty"`
@@ -204,10 +205,16 @@ type TransactionDataResponse struct {
 	QRCodeBase64         string `json:"qr_code_base64,omitempty"`
 	TransactionID        string `json:"transaction_id,omitempty"`
 	TicketURL            string `json:"ticket_url,omitempty"`
+	SubscriptionID       string `json:"subscription_id,omitempty"`
+	BillingDate          string `json:"billing_date,omitempty"`
 	BankTransferID       int64  `json:"bank_transfer_id,omitempty"`
 	FinancialInstitution int64  `json:"financial_institution,omitempty"`
+	FirstTimeUse         bool   `json:"first_time_use,omitempty"`
 
-	BankInfo *BankInfoResponse `json:"bank_info,omitempty"`
+	BankInfo             *BankInfoResponse             `json:"bank_info,omitempty"`
+	SubscriptionSequence *SubscriptionSequenceResponse `json:"subscription_sequence,omitempty"`
+	InvoicePeriod        *InvoicePeriodResponse        `json:"invoice_period,omitempty"`
+	PaymentReference     *PaymentReferenceResponse     `json:"payment_reference,omitempty"`
 }
 
 // BankInfoResponse represents bank information.
@@ -216,6 +223,23 @@ type BankInfoResponse struct {
 
 	Payer     *BankInfoPayerResponse     `json:"payer,omitempty"`
 	Collector *BankInfoCollectorResponse `json:"collector,omitempty"`
+}
+
+// SubscriptionSequenceResponse represents subscription sequence.
+type SubscriptionSequenceResponse struct {
+	Number int64 `json:"number,omitempty"`
+	Total  int64 `json:"total,omitempty"`
+}
+
+// InvoicePeriodResponse represents invoice period.
+type InvoicePeriodResponse struct {
+	Type   string `json:"type,omitempty"`
+	Period int64  `json:"period,omitempty"`
+}
+
+// PaymentReferenceResponse represents payment reference.
+type PaymentReferenceResponse struct {
+	ID string `json:"id,omitempty"`
 }
 
 // BankInfoPayerResponse represents payer information within BankInfoResponse.
