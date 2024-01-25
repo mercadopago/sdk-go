@@ -60,20 +60,20 @@ type AdditionalInfoPayerRequest struct {
 	IsPrimeUser           bool   `json:"is_prime_user,omitempty"`
 	IsFirstPurchaseOnline bool   `json:"is_first_purchase_online,omitempty"`
 
-	RegistrationDate *time.Time      `json:"registration_date,omitempty"`
-	LastPurchase     *time.Time      `json:"last_purchase,omitempty"`
-	Phone            *PhoneRequest   `json:"phone,omitempty"`
-	Address          *AddressRequest `json:"address,omitempty"`
+	RegistrationDate *time.Time                         `json:"registration_date,omitempty"`
+	LastPurchase     *time.Time                         `json:"last_purchase,omitempty"`
+	Phone            *AdditionalInfoPayerPhoneRequest   `json:"phone,omitempty"`
+	Address          *AdditionalInfoPayerAddressRequest `json:"address,omitempty"`
 }
 
-// PhoneRequest represents phone request within AdditionalInfoPayerRequest.
-type PhoneRequest struct {
+// AdditionalInfoPayerPhoneRequest represents phone request within AdditionalInfoPayerRequest.
+type AdditionalInfoPayerPhoneRequest struct {
 	AreaCode string `json:"area_code,omitempty"`
 	Number   string `json:"number,omitempty"`
 }
 
-// AddressRequest represents address request within AdditionalInfoPayerRequest.
-type AddressRequest struct {
+// AdditionalInfoPayerAddressRequest represents address request within AdditionalInfoPayerRequest.
+type AdditionalInfoPayerAddressRequest struct {
 	ZipCode      string `json:"zip_code,omitempty"`
 	StreetName   string `json:"street_name,omitempty"`
 	StreetNumber string `json:"street_number,omitempty"`
@@ -113,7 +113,7 @@ type ItemRequest struct {
 	Description string  `json:"description,omitempty"`
 	PictureURL  string  `json:"picture_url,omitempty"`
 	CategoryID  string  `json:"category_id,omitempty"`
-	Quantity    int     `json:"quantity,omitempty"`
+	Quantity    int64   `json:"quantity,omitempty"`
 	UnitPrice   float64 `json:"unit_price,omitempty"`
 	Warranty    bool    `json:"warranty,omitempty"`
 
@@ -174,6 +174,7 @@ type PayerRequest struct {
 
 	Identification *IdentificationRequest `json:"identification,omitempty"`
 	Address        *PayerAddressRequest   `json:"address,omitempty"`
+	Phone          *PayerPhoneRequest     `json:"phone,omitempty"`
 }
 
 // PayerAddressRequest represents payer address request within PayerRequest.
@@ -186,6 +187,12 @@ type PayerAddressRequest struct {
 	StreetNumber string `json:"street_number,omitempty"`
 }
 
+// PayerPhoneRequest represents payer phone request within PayerRequest.
+type PayerPhoneRequest struct {
+	AreaCode string `json:"area_code,omitempty"`
+	Number   string `json:"number,omitempty"`
+}
+
 // TransactionDetailsRequest represents transaction details request within Request.
 type TransactionDetailsRequest struct {
 	FinancialInstitution string `json:"financial_institution,omitempty"`
@@ -195,6 +202,32 @@ type TransactionDetailsRequest struct {
 type PointOfInteractionRequest struct {
 	LinkedTo string `json:"linked_to,omitempty"`
 	Type     string `json:"type,omitempty"`
+
+	TransactionData *TransactionDataRequest `json:"transaction_data,omitempty"`
+}
+
+type TransactionDataRequest struct {
+	SubscriptionID string `json:"subscription_id,omitempty"`
+	BillingDate    string `json:"billing_date,omitempty"`
+	FirstTimeUse   bool   `json:"first_time_use,omitempty"`
+
+	SubscriptionSequence *SubscriptionSequenceRequest `json:"subscription_sequence,omitempty"`
+	InvoicePeriod        *InvoicePeriodRequest        `json:"invoice_period,omitempty"`
+	PaymentReference     *PaymentReferenceRequest     `json:"payment_reference,omitempty"`
+}
+
+type SubscriptionSequenceRequest struct {
+	Number int64 `json:"number,omitempty"`
+	Total  int64 `json:"total,omitempty"`
+}
+
+type InvoicePeriodRequest struct {
+	Type   string `json:"type,omitempty"`
+	Period int64  `json:"period,omitempty"`
+}
+
+type PaymentReferenceRequest struct {
+	ID string `json:"id,omitempty"`
 }
 
 // PaymentMethodRequest represents payment method request within Request.
