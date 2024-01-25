@@ -50,7 +50,7 @@ func (c *client) List(ctx context.Context) ([]Response, error) {
 
 	var formatted []Response
 	if err := json.Unmarshal(res, &formatted); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error unmarshaling response: %w", err)
 	}
 
 	return formatted, nil
