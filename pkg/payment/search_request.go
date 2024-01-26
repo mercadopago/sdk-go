@@ -33,10 +33,18 @@ func (s SearchRequest) Parameters() string {
 	}
 
 	if !limitKey {
-		params.Add("limit", s.Limit)
+		limit := "30"
+		if s.Limit != "" {
+			limit = s.Limit
+		}
+		params.Add("limit", limit)
 	}
 	if !offsetKey {
-		params.Add("offset", s.Offset)
+		offset := "0"
+		if s.Limit != "" {
+			offset = s.Limit
+		}
+		params.Add("offset", offset)
 	}
 
 	return params.Encode()
