@@ -5,35 +5,37 @@ import (
 )
 
 type Response struct {
-	ID                 string                    `json:"id"`
-	Items              []PreferenceItem          `json:"items"`
-	Payer              PreferencePayer           `json:"payer"`
-	ClientID           string                    `json:"client_id"`
-	PaymentMethods     PreferencePaymentMethods   `json:"payment_methods"`
-	BackUrls           PreferenceBackUrls         `json:"back_urls"`
-	Shipments          PreferenceShipments        `json:"shipments"`
-	NotificationURL    string                    `json:"notification_url"`
-	StatementDescriptor string                    `json:"statement_descriptor"`
-	ExternalReference  string                    `json:"external_reference"`
-	Expires            bool                      `json:"expires"`
-	DateOfExpiration   time.Time                 `json:"date_of_expiration"`
-	ExpirationDateFrom time.Time                 `json:"expiration_date_from"`
-	ExpirationDateTo   time.Time                 `json:"expiration_date_to"`
-	CollectorID        int64                     `json:"collector_id"`
-	Marketplace        string                    `json:"marketplace"`
-	MarketplaceFee     float64                   `json:"marketplace_fee"`
-	AdditionalInfo     string                    `json:"additional_info"`
-	AutoReturn         string                    `json:"auto_return"`
-	OperationType      string                    `json:"operation_type"`
-	DifferentialPricing PreferenceDifferentialPricing `json:"differential_pricing"`
-	ProcessingModes    []string                  `json:"processing_modes"`
-	BinaryMode         bool                      `json:"binary_mode"`
-	Taxes              []PreferenceTax           `json:"taxes"`
-	Tracks             []PreferenceTrack         `json:"tracks"`
-	Metadata           map[string]interface{}    `json:"metadata"`
-	InitPoint          string                    `json:"init_point"`
-	SandboxInitPoint   string                    `json:"sandbox_init_point"`
-	DateCreated        time.Time                 `json:"date_created"`
+	ID                 string                    `json:"id,omitempty"`
+	Items              []PreferenceItem          `json:"items,omitempty"`
+	Payer              PreferencePayer           `json:"payer,omitempty"`
+	ClientID           string                    `json:"client_id,omitempty"`
+	PaymentMethods     PreferencePaymentMethods   `json:"payment_methods,omitempty"`
+	BackUrls           PreferenceBackUrls         `json:"back_urls,omitempty"`
+	Shipments          PreferenceShipments        `json:"shipments,omitempty"`
+	NotificationURL    string                    `json:"notification_url,omitempty"`
+	StatementDescriptor string                    `json:"statement_descriptor,omitempty"`
+	ExternalReference  string                    `json:"external_reference,omitempty"`
+	Expires            bool                      `json:"expires,omitempty"`
+	DateOfExpiration   time.Time                 `json:"date_of_expiration,omitempty"`
+	ExpirationDateFrom time.Time                 `json:"expiration_date_from,omitempty"`
+	ExpirationDateTo   time.Time                 `json:"expiration_date_to,omitempty"`
+	CollectorID        int64                     `json:"collector_id,omitempty"`
+	Marketplace        string                    `json:"marketplace,omitempty"`
+	MarketplaceFee     float64                   `json:"marketplace_fee,omitempty"`
+	AdditionalInfo     string                    `json:"additional_info,omitempty"`
+	AutoReturn         string                    `json:"auto_return,omitempty"`
+	OperationType      string                    `json:"operation_type,omitempty"`
+	DifferentialPricing PreferenceDifferentialPricing `json:"differential_pricing,omitempty"`
+	ProcessingModes    []string                  `json:"processing_modes,omitempty"`
+	BinaryMode         bool                      `json:"binary_mode,omitempty"`
+	Taxes              []PreferenceTax           `json:"taxes,omitempty"`
+	Tracks             []PreferenceTrack         `json:"tracks,omitempty"`
+	Metadata           map[string]interface{}    `json:"metadata,omitempty"`
+	InitPoint          string                    `json:"init_point,omitempty"`
+	SandboxInitPoint   string                    `json:"sandbox_init_point,omitempty"`
+	DateCreated        time.Time                 `json:"date_created,omitempty"`
+	SiteID	string `json:"site_id,omitempty"`
+	LastUpdated         time.Time     `json:"last_updated,omitempty"`
 }
 
 // PreferenceItem representa um item comprado.
