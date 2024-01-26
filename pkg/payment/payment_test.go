@@ -11,22 +11,18 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mercadopago/sdk-go/pkg/credential"
+	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
-	"github.com/mercadopago/sdk-go/pkg/option"
 )
 
 var (
-	cred, _ = credential.New("")
-
 	createResponseJSON, _ = os.Open("../../resources/mocks/payment/create_response.json")
 	createResponse, _     = io.ReadAll(createResponseJSON)
 )
 
 func TestCreate(t *testing.T) {
 	type fields struct {
-		credential *credential.Credential
-		config     *option.ClientOptions
+		config *config.Config
 	}
 	type args struct {
 		ctx context.Context
@@ -42,8 +38,7 @@ func TestCreate(t *testing.T) {
 		{
 			name: "should_fail_to_marshal_dto",
 			fields: fields{
-				credential: cred,
-				config:     nil,
+				config: nil,
 			},
 			args: args{
 				ctx: nil,
@@ -59,8 +54,7 @@ func TestCreate(t *testing.T) {
 		{
 			name: "should_fail_to_create_request",
 			fields: fields{
-				credential: cred,
-				config:     nil,
+				config: nil,
 			},
 			args: args{
 				ctx: nil,
@@ -71,16 +65,13 @@ func TestCreate(t *testing.T) {
 		{
 			name: "should_fail_to_send_request",
 			fields: fields{
-				credential: cred,
-				config: option.ApplyClientOptions(
-					option.WithCustomClient(
-						&httpclient.Mock{
-							DoMock: func(req *http.Request) (*http.Response, error) {
-								return nil, fmt.Errorf("some error")
-							},
+				config: &config.Config{
+					HTTPClient: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("some error")
 						},
-					),
-				),
+					},
+				},
 			},
 			args: args{
 				ctx: context.Background(),
@@ -91,20 +82,17 @@ func TestCreate(t *testing.T) {
 		{
 			name: "should_fail_to_unmarshaling_response",
 			fields: fields{
-				credential: cred,
-				config: option.ApplyClientOptions(
-					option.WithCustomClient(
-						&httpclient.Mock{
-							DoMock: func(req *http.Request) (*http.Response, error) {
-								stringReader := strings.NewReader("invalid json")
-								stringReadCloser := io.NopCloser(stringReader)
-								return &http.Response{
-									Body: stringReadCloser,
-								}, nil
-							},
+				config: &config.Config{
+					HTTPClient: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							stringReader := strings.NewReader("invalid json")
+							stringReadCloser := io.NopCloser(stringReader)
+							return &http.Response{
+								Body: stringReadCloser,
+							}, nil
 						},
-					),
-				),
+					},
+				},
 			},
 			args: args{
 				ctx: context.Background(),
@@ -115,20 +103,17 @@ func TestCreate(t *testing.T) {
 		{
 			name: "should_return_formatted_response",
 			fields: fields{
-				credential: cred,
-				config: option.ApplyClientOptions(
-					option.WithCustomClient(
-						&httpclient.Mock{
-							DoMock: func(req *http.Request) (*http.Response, error) {
-								stringReader := strings.NewReader(string(createResponse))
-								stringReadCloser := io.NopCloser(stringReader)
-								return &http.Response{
-									Body: stringReadCloser,
-								}, nil
-							},
+				config: &config.Config{
+					HTTPClient: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							stringReader := strings.NewReader(string(createResponse))
+							stringReadCloser := io.NopCloser(stringReader)
+							return &http.Response{
+								Body: stringReadCloser,
+							}, nil
 						},
-					),
-				),
+					},
+				},
 			},
 			args: args{
 				ctx: context.Background(),
@@ -174,8 +159,7 @@ func TestCreate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
-				credential: tt.fields.credential,
-				config:     tt.fields.config,
+				config: tt.fields.config,
 			}
 			got, err := c.Create(tt.args.ctx, tt.args.dto)
 			gotErr := ""
