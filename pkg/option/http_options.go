@@ -10,6 +10,10 @@ type Requester interface {
 }
 
 type ConfigOptions struct {
+	CorporationID string
+	IntegratorID  string
+	PlatformID    string
+
 	HTTPClient Requester
 }
 
@@ -28,5 +32,26 @@ func WithCustomClient(r Requester) ConfigOption {
 		if r != nil {
 			options.HTTPClient = r
 		}
+	})
+}
+
+// WithCorporationID send corporation id to api by headers.
+func WithCorporationID(c string) ConfigOption {
+	return optFunc(func(options *ConfigOptions) {
+		options.CorporationID = c
+	})
+}
+
+// WithIntegratorID send corporation id to api by headers.
+func WithIntegratorID(i string) ConfigOption {
+	return optFunc(func(options *ConfigOptions) {
+		options.IntegratorID = i
+	})
+}
+
+// WithPlatformID send corporation id to api by headers.
+func WithPlatformID(p string) ConfigOption {
+	return optFunc(func(options *ConfigOptions) {
+		options.PlatformID = p
 	})
 }

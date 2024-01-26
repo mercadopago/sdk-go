@@ -6,7 +6,10 @@ import (
 )
 
 type Config struct {
-	AccessToken string
+	AccessToken   string
+	CorporationID string
+	IntegratorID  string
+	PlatformID    string
 
 	HTTPClient option.Requester
 }
@@ -21,7 +24,10 @@ func New(at string, opts ...option.ConfigOption) (*Config, error) {
 	}
 
 	return &Config{
-		AccessToken: at,
-		HTTPClient:  options.HTTPClient,
+		AccessToken:   at,
+		CorporationID: options.CorporationID,
+		IntegratorID:  options.IntegratorID,
+		PlatformID:    options.PlatformID,
+		HTTPClient:    options.HTTPClient,
 	}, nil
 }
