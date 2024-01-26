@@ -4,10 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 
 	"github.com/mercadopago/sdk-go/pkg/credential"
-	"github.com/mercadopago/sdk-go/pkg/option"
 	"github.com/mercadopago/sdk-go/pkg/preference"
 )
 
@@ -17,19 +15,16 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	get(cdt)
-	create(cdt)
-	update(cdt)
-	search(cdt)
+	get(*cdt)
+	create(*cdt)
+	update(*cdt)
+	search(*cdt)
 	
 }
 
 func get(cdt credential.Credential) {
-	pmc := preference.NewClient(
-		option.WithRetryMax(1),
-		option.WithTimeout(1*time.Second),
-	)
-	res, err := pmc.Get(context.Background(), cdt, "1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4")
+	pmc := preference.NewClient(&cdt)
+	res, err := pmc.Get(context.Background(), "1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -45,7 +40,7 @@ func get(cdt credential.Credential) {
 }
 
 func create(cdt credential.Credential) {
-	pmc := preference.NewClient()
+	pmc := preference.NewClient(&cdt)
 
 	dto := preference.Request{
 		Items: []preference.PreferenceItemRequest{
@@ -59,7 +54,7 @@ func create(cdt credential.Credential) {
 		},
 	}
 
-	res, err := pmc.Create(context.Background(), cdt, dto)
+	res, err := pmc.Create(context.Background(), dto)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -69,7 +64,7 @@ func create(cdt credential.Credential) {
 }
 
 func update(cdt credential.Credential) {
-	pmc := preference.NewClient()
+	pmc := preference.NewClient(&cdt)
 
 	dto := preference.Request{
 		Items: []preference.PreferenceItemRequest{
@@ -83,7 +78,7 @@ func update(cdt credential.Credential) {
 		},
 	}
 
-	res, err := pmc.Update(context.Background(), cdt, "1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4", dto)
+	res, err := pmc.Update(context.Background(), "1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4", dto)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -98,14 +93,14 @@ func update(cdt credential.Credential) {
 }
 
 func search(cdt credential.Credential) {
-	pmc := preference.NewClient()
+	pmc := preference.NewClient(&cdt)
 
 	filters := preference.SearchRequest{
 		Limit: 10,
 		Offset: 10,
 	}
 
-	res, err := pmc.Search(context.Background(), cdt, filters)
+	res, err := pmc.Search(context.Background(), filters)
 	if err != nil {
 		fmt.Println(err)
 		return
