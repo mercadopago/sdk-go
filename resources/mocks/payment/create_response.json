@@ -1,0 +1,143 @@
+{
+    "id": 1316782634,
+    "date_created": "2024-01-26T10:01:04.655-04:00",
+    "date_approved": null,
+    "date_last_updated": "2024-01-26T10:01:04.655-04:00",
+    "date_of_expiration": null,
+    "money_release_date": null,
+    "money_release_status": "released",
+    "operation_type": "regular_payment",
+    "issuer_id": "162",
+    "payment_method_id": "master",
+    "payment_type_id": "credit_card",
+    "payment_method": {
+        "id": "master",
+        "type": "credit_card",
+        "issuer_id": "162"
+    },
+    "status": "pending",
+    "status_detail": "pending_challenge",
+    "currency_id": "MXN",
+    "description": null,
+    "live_mode": false,
+    "sponsor_id": null,
+    "authorization_code": null,
+    "money_release_schema": null,
+    "taxes_amount": 0,
+    "counter_currency": null,
+    "brand_id": null,
+    "shipping_amount": 0,
+    "build_version": "54.20.12-hotfix-9",
+    "pos_id": null,
+    "store_id": null,
+    "integrator_id": null,
+    "platform_id": null,
+    "corporation_id": null,
+    "payer": {
+        "identification": {
+            "number": "32659430",
+            "type": "DNI"
+        },
+        "entity_type": null,
+        "phone": {
+            "number": null,
+            "extension": null,
+            "area_code": null
+        },
+        "last_name": null,
+        "id": "1655897964",
+        "type": null,
+        "first_name": null,
+        "email": "test_user_80507629@testuser.com"
+    },
+    "collector_id": 1227208776,
+    "marketplace_owner": null,
+    "metadata": {},
+    "additional_info": {
+        "available_balance": null,
+        "nsu_processadora": null,
+        "authentication_code": null
+    },
+    "order": {},
+    "external_reference": null,
+    "transaction_amount": 500,
+    "transaction_amount_refunded": 0,
+    "coupon_amount": 0,
+    "differential_pricing_id": null,
+    "financing_group": null,
+    "deduction_schema": null,
+    "installments": 1,
+    "transaction_details": {
+        "payment_method_reference_id": null,
+        "acquirer_reference": null,
+        "net_received_amount": 0,
+        "total_paid_amount": 500,
+        "overpaid_amount": 0,
+        "external_resource_url": null,
+        "installment_amount": 500,
+        "financial_institution": null,
+        "payable_deferral_period": null
+    },
+    "fee_details": [],
+    "charges_details": [
+        {
+            "id": "1316782634-001",
+            "name": "mercadopago_fee",
+            "type": "fee",
+            "accounts": {
+                "from": "collector",
+                "to": "mp"
+            },
+            "client_id": 0,
+            "date_created": "2024-01-26T10:01:04.658-04:00",
+            "last_updated": "2024-01-26T10:01:04.658-04:00",
+            "amounts": {
+                "original": 24.89,
+                "refunded": 0
+            },
+            "metadata": {},
+            "reserve_id": null,
+            "refund_charges": []
+        }
+    ],
+    "captured": true,
+    "binary_mode": false,
+    "call_for_authorize_id": null,
+    "statement_descriptor": null,
+    "card": {
+        "id": null,
+        "first_six_digits": "548392",
+        "last_four_digits": "4623",
+        "expiration_month": 11,
+        "expiration_year": 2025,
+        "date_created": "2024-01-26T10:01:04.000-04:00",
+        "date_last_updated": "2024-01-26T10:01:04.000-04:00",
+        "cardholder": {
+            "name": "GABS",
+            "identification": {
+                "number": null,
+                "type": null
+            }
+        }
+    },
+    "notification_url": null,
+    "refunds": [],
+    "processing_mode": "aggregator",
+    "merchant_account_id": null,
+    "merchant_number": null,
+    "acquirer_reconciliation": [],
+    "point_of_interaction": {
+        "type": "UNSPECIFIED",
+        "business_info": {
+            "unit": "online_payments",
+            "sub_unit": "default",
+            "branch": null
+        }
+    },
+    "accounts_info": null,
+    "three_ds_info": {
+        "external_resource_url": "https://api.mercadopago.com/cardholder_authenticator/v2/prod/browser-challenges",
+        "creq": ""
+    },
+    "tags": null
+}
