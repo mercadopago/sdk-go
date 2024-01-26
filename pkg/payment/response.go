@@ -34,6 +34,7 @@ type Response struct {
 	CounterCurrency           string         `json:"counter_currency,omitempty"`
 	CallForAuthorizeID        string         `json:"call_for_authorize_id,omitempty"`
 	StatementDescriptor       string         `json:"statement_descriptor,omitempty"`
+	MoneyReleaseStatus        string         `json:"money_release_status,omitempty"`
 	Installments              int            `json:"installments,omitempty"`
 	ID                        int64          `json:"id,omitempty"`
 	SponsorID                 int64          `json:"sponsor_id,omitempty"`
@@ -257,6 +258,10 @@ type BankInfoCollectorResponse struct {
 
 // PaymentMethodResponse represents payment method information.
 type PaymentMethodResponse struct {
+	ID       string `json:"id,omitempty"`
+	Type     string `json:"type,omitempty"`
+	IssuerID string `json:"issuer_id,omitempty"`
+
 	Data *DataResponse `json:"data,omitempty"`
 }
 
