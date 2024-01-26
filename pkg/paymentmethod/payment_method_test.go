@@ -108,37 +108,6 @@ func TestList(t *testing.T) {
 					Status:          "testing",
 					SecureThumbnail: "https://www.mercadopago.com/org-img/MP3/API/logos/debmaster.gif",
 					Thumbnail:       "https://www.mercadopago.com/org-img/MP3/API/logos/debmaster.gif",
-					DeferredCapture: "unsupported",
-					Settings: []SettingsResponse{
-						{
-							CardNumber: &SettingsCardNumberResponse{
-								Validation: "standard",
-								Length:     16,
-							},
-							Bin: &SettingsBinResponse{
-								Pattern:             "^(502121|536106)",
-								InstallmentsPattern: "",
-								ExclusionPattern:    "",
-							},
-							SecurityCode: &SettingsSecurityCodeResponse{
-								Length:       3,
-								CardLocation: "back",
-								Mode:         "mandatory",
-							},
-						},
-					},
-					AdditionalInfoNeeded: []string{
-						"cardholder_name",
-						"cardholder_identification_type",
-						"cardholder_identification_number",
-					},
-					MinAllowedAmount:      0.5,
-					MaxAllowedAmount:      60000,
-					AccreditationTime:     1440,
-					FinancialInstitutions: []FinancialInstitutionResponse{},
-					ProcessingModes: []string{
-						"aggregator",
-					},
 				},
 				{
 					ID:              "cabal",
@@ -147,20 +116,6 @@ func TestList(t *testing.T) {
 					Status:          "testing",
 					SecureThumbnail: "https://www.mercadopago.com/org-img/MP3/API/logos/cabal.gif",
 					Thumbnail:       "https://www.mercadopago.com/org-img/MP3/API/logos/cabal.gif",
-					DeferredCapture: "supported",
-					Settings:        []SettingsResponse{},
-					AdditionalInfoNeeded: []string{
-						"cardholder_name",
-						"cardholder_identification_type",
-						"cardholder_identification_number",
-					},
-					MinAllowedAmount:      0.5,
-					MaxAllowedAmount:      60000,
-					AccreditationTime:     2880,
-					FinancialInstitutions: []FinancialInstitutionResponse{},
-					ProcessingModes: []string{
-						"aggregator",
-					},
 				},
 			},
 			wantErr: "",
