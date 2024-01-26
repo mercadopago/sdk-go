@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/paymentmethod"
@@ -17,7 +18,10 @@ func main() {
 	}
 
 	client := paymentmethod.NewClient(c)
-	result, err := client.List(context.Background())
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+	defer cancel()
+	result, err := client.List(ctx)
 	if err != nil {
 		fmt.Println(err)
 		return

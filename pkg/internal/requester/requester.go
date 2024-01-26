@@ -1,4 +1,4 @@
-package httpclient
+package requester
 
 import (
 	"context"
@@ -6,11 +6,9 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-)
 
-type Requester interface {
-	Do(req *http.Request) (*http.Response, error)
-}
+	"github.com/mercadopago/sdk-go/pkg/option"
+)
 
 var (
 	// defaultRetryMax is the maximum number of retries used by default requester.
@@ -34,8 +32,8 @@ type defaultRequester struct{}
 // pass before trying again.
 type backoffFunc func(attempt int) time.Duration
 
-// DefaultRequester return the default implementation of Requester interface.
-func DefaultRequester() Requester {
+// Default return the default implementation of Requester interface.
+func Default() option.Requester {
 	return &defaultRequester{}
 }
 
