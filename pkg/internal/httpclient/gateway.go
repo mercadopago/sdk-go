@@ -64,8 +64,8 @@ func send(ctx context.Context, requester option.Requester, req *http.Request) ([
 		return nil, fmt.Errorf("transport level error: %w", err)
 	}
 
-	response, err := io.ReadAll(res.Body)
 	defer res.Body.Close()
+	response, err := io.ReadAll(res.Body)
 	if err != nil {
 		return nil, &ResponseError{
 			StatusCode: res.StatusCode,
