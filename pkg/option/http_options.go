@@ -1,38 +1,32 @@
 package option
 
-import "github.com/mercadopago/sdk-go/pkg/internal/httpclient"
+import (
+	"net/http"
+)
 
-type ClientOptions struct {
-	Requester httpclient.Requester
+// Requester has the minimum required method to send http requests.
+type Requester interface {
+	Do(req *http.Request) (*http.Response, error)
 }
 
-// ClientOption signature for client configurable parameters.
-type ClientOption interface {
-	Apply(opts *ClientOptions)
+type ConfigOptions struct {
+	HTTPClient Requester
 }
 
-type optFunc func(opts *ClientOptions)
+// ConfigOption signature for client configurable parameters.
+type ConfigOption interface {
+	Apply(opts *ConfigOptions)
+}
 
-func (f optFunc) Apply(o *ClientOptions) { f(o) }
+type optFunc func(opts *ConfigOptions)
 
-// WithCustomClient allow do requests using received requester.
-func WithCustomClient(r httpclient.Requester) ClientOption {
-	return optFunc(func(options *ClientOptions) {
+func (f optFunc) Apply(o *ConfigOptions) { f(o) }
+
+// WithCustomClient allow do requests using received http client.
+func WithCustomClient(r Requester) ConfigOption {
+	return optFunc(func(options *ConfigOptions) {
 		if r != nil {
-			options.Requester = r
+			options.HTTPClient = r
 		}
 	})
-}
-
-func ApplyClientOptions(opts ...ClientOption) *ClientOptions {
-	options := ClientOptions{
-		Requester: httpclient.DefaultRequester(),
-	}
-	for _, opt := range opts {
-		opt.Apply(&options)
-	}
-
-	return &ClientOptions{
-		Requester: options.Requester,
-	}
 }
