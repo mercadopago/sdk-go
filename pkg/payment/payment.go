@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"net/url"
 	"strconv"
 	"strings"
 
@@ -31,7 +30,7 @@ type Client interface {
 	// Search searches for payments.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/search
 	// Reference: https://www.mercadopago.com.br/developers/pt/reference/payments/_payments_search/get/
-	Search(ctx context.Context, f Filters) (*SearchResponse, error)
+	Search(ctx context.Context, dto SearchRequest) (*SearchResponse, error)
 
 	// Get gets a payment by its ID.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
@@ -91,16 +90,9 @@ func (c *client) Create(ctx context.Context, dto Request) (*Response, error) {
 	return formatted, nil
 }
 
-func (c *client) Search(ctx context.Context, f Filters) (*SearchResponse, error) {
-	params := url.Values{}
-	params.Add("sort", f.Sort)
-	params.Add("criteria", f.Criteria)
-	params.Add("external_reference", f.ExternalReference)
-	params.Add("range", f.Range)
-	params.Add("begin_date", f.BeginDate)
-	params.Add("end_date", f.EndDate)
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, searchURL+"?"+params.Encode(), nil)
+func (c *client) Search(ctx context.Context, dto SearchRequest) (*SearchResponse, error) {
+	params := dto.Parameters()
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, searchURL+"?"+params, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
