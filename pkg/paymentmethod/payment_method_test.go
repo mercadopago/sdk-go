@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	listResponseJSON, _ = os.Open("../../resources/mocks/payment_method/list.json")
+	listResponseJSON, _ = os.Open("../../resources/mocks/payment_method/list_response.json")
 	listResponse, _     = io.ReadAll(listResponseJSON)
 )
 
