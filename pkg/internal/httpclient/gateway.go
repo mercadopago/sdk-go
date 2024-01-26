@@ -36,6 +36,7 @@ var (
 	trackingID string = fmt.Sprintf("platform:%s,type:SDK%s,so;", runtime.Version(), currentSDKVersion)
 )
 
+// Send wraps needed options before send api call.
 func Send(ctx context.Context, c *config.Config, req *http.Request) ([]byte, error) {
 	req.Header.Set(productIDHeader, productID)
 	req.Header.Set(acceptHeader, accept)
