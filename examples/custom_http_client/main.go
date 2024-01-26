@@ -6,21 +6,21 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/mercadopago/sdk-go/pkg/credential"
+	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/option"
 	"github.com/mercadopago/sdk-go/pkg/paymentmethod"
 )
 
 func main() {
-	cdt, err := credential.New("TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800")
+	at := "TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800"
+	customClient := &http.Client{Timeout: time.Second * 5}
+	c, err := config.New(at, option.WithCustomClient(customClient))
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	customClient := &http.Client{Timeout: time.Second * 5}
-
-	pmc := paymentmethod.NewClient(cdt, option.WithCustomClient(customClient))
+	pmc := paymentmethod.NewClient(c)
 	res, err := pmc.List(context.Background())
 	if err != nil {
 		fmt.Println(err)
