@@ -80,7 +80,7 @@ func TestList(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want:    nil,
-			wantErr: "invalid character 'i' looking for beginning of value",
+			wantErr: "error unmarshaling response: invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_formatted_response",
