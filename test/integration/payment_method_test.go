@@ -9,7 +9,7 @@ import (
 	"github.com/mercadopago/sdk-go/pkg/paymentmethod"
 )
 
-func TestList(t *testing.T) {
+func TestPaymentMethod(t *testing.T) {
 	t.Run("should_list_payment_methods", func(t *testing.T) {
 		c, err := config.New(os.Getenv("at"))
 		if err != nil {
