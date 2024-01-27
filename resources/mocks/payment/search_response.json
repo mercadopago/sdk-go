@@ -1,0 +1,19 @@
+{
+    "paging": {
+        "total": 2,
+        "limit": 30,
+        "offset": 0
+    },
+    "results": [
+        {
+            "id": 123,
+            "status": "approved",
+            "status_detail": "accredited"
+        },
+        {
+            "id": 456,
+            "status": "pending",
+            "status_detail": "pending_waiting_transfer"
+        }
+    ]
+}
