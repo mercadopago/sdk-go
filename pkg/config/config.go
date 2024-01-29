@@ -4,6 +4,7 @@ import (
 	"github.com/mercadopago/sdk-go/pkg/internal/requester"
 )
 
+// Config allows you to send custom settings and API authentication
 type Config struct {
 	accessToken   string
 	corporationID string
