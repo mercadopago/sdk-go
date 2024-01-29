@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/option"
 	"github.com/mercadopago/sdk-go/pkg/paymentmethod"
 )
 
@@ -14,9 +13,9 @@ func main() {
 
 	cfg, err := config.New(
 		accessToken,
-		option.WithCorporationID("1yuy811998tt11199"),
-		option.WithIntegratorID("6888999999000001"),
-		option.WithPlatformID("prd_02647ea11edb6888682a831752a"),
+		config.WithCorporationID("1yuy811998tt11199"),
+		config.WithIntegratorID("6888999999000001"),
+		config.WithPlatformID("prd_02647ea11edb6888682a831752a"),
 	)
 	if err != nil {
 		fmt.Println(err)

@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/option"
 	"github.com/mercadopago/sdk-go/pkg/paymentmethod"
 )
 
@@ -15,7 +14,7 @@ func main() {
 	accessToken := "{{ACCESS_TOKEN}}"
 	httpClient := &http.Client{Timeout: time.Second * 5}
 
-	cfg, err := config.New(accessToken, option.WithHTTTPClient(httpClient))
+	cfg, err := config.New(accessToken, config.WithHTTTPClient(httpClient))
 	if err != nil {
 		fmt.Println(err)
 		return

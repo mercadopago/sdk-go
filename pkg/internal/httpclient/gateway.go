@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/option"
+	"github.com/mercadopago/sdk-go/pkg/internal/requester"
 )
 
 const (
@@ -37,35 +37,35 @@ var (
 )
 
 // Send wraps needed options before send api call.
-func Send(ctx context.Context, c *config.Config, req *http.Request) ([]byte, error) {
+func Send(ctx context.Context, cfg *config.Config, req *http.Request) ([]byte, error) {
 	req.Header.Set(productIDHeader, productID)
 	req.Header.Set(acceptHeader, accept)
 	req.Header.Set(contentTypeHeader, contentType)
 	req.Header.Set(userAgentHeader, userAgent)
 	req.Header.Set(trackingIDHeader, trackingID)
-	req.Header.Set(authorizationHeader, "Bearer "+c.AccessToken)
+	req.Header.Set(authorizationHeader, "Bearer "+cfg.GetAccessToken())
 	req.Header.Set(idempotencyHeader, uuid.New().String())
 
-	if c.CorporationID != "" {
-		req.Header.Set(corporationIDHeader, c.CorporationID)
+	if cfg.GetCorporationID() != "" {
+		req.Header.Set(corporationIDHeader, cfg.GetCorporationID())
 	}
-	if c.IntegratorID != "" {
-		req.Header.Set(integratorIDHeader, c.IntegratorID)
+	if cfg.GetIntegratorID() != "" {
+		req.Header.Set(integratorIDHeader, cfg.GetIntegratorID())
 	}
-	if c.PlatformID != "" {
-		req.Header.Set(platformIDHeader, c.PlatformID)
+	if cfg.GetPlatformID() != "" {
+		req.Header.Set(platformIDHeader, cfg.GetPlatformID())
 	}
 
-	return send(ctx, c.HTTPClient, req)
+	return send(ctx, cfg.GetHTTPClient(), req)
 }
 
-func send(_ context.Context, requester option.Requester, req *http.Request) ([]byte, error) {
+func send(_ context.Context, requester requester.Requester, req *http.Request) ([]byte, error) {
 	res, err := requester.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("transport level error: %w", err)
 	}
 
-	defer res.Body.Close()
+	defer func() { _ = res.Body.Close() }()
 
 	response, err := io.ReadAll(res.Body)
 	if err != nil {
