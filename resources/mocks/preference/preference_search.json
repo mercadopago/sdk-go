@@ -1,0 +1,37 @@
+{
+    "elements": [
+        {
+            "id": "1273205088-cf5a445f-9b6e-46a6-9ff9-71e60334979e",
+            "client_id": "4679935697572392",
+            "collector_id": 1273205088,
+            "concept_id": null,
+            "corporation_id": "",
+            "date_created": "2023-10-31T10:01:03.555-04:00",
+            "expiration_date_from": "2023-10-31T11:01:03.046-03:00",
+            "expiration_date_to": "2023-11-30T11:01:03.046-03:00",
+            "expires": true,
+            "external_reference": "c99c3002-00d4-4c0b-ab92-2470607c788c",
+            "integrator_id": "",
+            "items": [
+                "Title"
+            ],
+            "last_updated": null,
+            "live_mode": false,
+            "marketplace": "NONE",
+            "operation_type": "regular_payment",
+            "payer_email": "teste_user_39873928@testuser.com",
+            "payer_id": null,
+            "platform_id": "",
+            "processing_modes": [
+                "aggregator"
+            ],
+            "product_id": "",
+            "purpose": "",
+            "site_id": "MLB",
+            "sponsor_id": 0,
+            "shipping_mode": "custom"
+        }
+    ],
+    "next_offset": 22,
+    "total": 1229
+}
