@@ -16,10 +16,10 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	// get(c)
+	get(c)
 	create(c)
-	// update(c)
-	// search(c)
+	update(c)
+	search(c)
 }
 
 func get(c *config.Config) {
