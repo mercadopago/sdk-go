@@ -32,8 +32,8 @@ const (
 )
 
 var (
-	userAgent  string = fmt.Sprintf("MercadoPago Go SDK/%s", currentSDKVersion)
-	trackingID string = fmt.Sprintf("platform:%s,type:SDK%s,so;", runtime.Version(), currentSDKVersion)
+	userAgent  = fmt.Sprintf("MercadoPago Go SDK/%s", currentSDKVersion)
+	trackingID = fmt.Sprintf("platform:%s,type:SDK%s,so;", runtime.Version(), currentSDKVersion)
 )
 
 // Send wraps needed options before send api call.
@@ -59,13 +59,14 @@ func Send(ctx context.Context, c *config.Config, req *http.Request) ([]byte, err
 	return send(ctx, c.HTTPClient, req)
 }
 
-func send(ctx context.Context, requester option.Requester, req *http.Request) ([]byte, error) {
+func send(_ context.Context, requester option.Requester, req *http.Request) ([]byte, error) {
 	res, err := requester.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("transport level error: %w", err)
 	}
 
 	defer res.Body.Close()
+
 	response, err := io.ReadAll(res.Body)
 	if err != nil {
 		return nil, &ResponseError{

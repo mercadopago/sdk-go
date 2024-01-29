@@ -10,27 +10,27 @@ import (
 )
 
 func main() {
-	at := "TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800"
+	accessToken := "{{ACCESS_TOKEN}}"
 
-	c, err := config.New(
-		at,
-		option.WithCorporationID("abc"),
-		option.WithIntegratorID("def"),
-		option.WithPlatformID("ghi"),
+	cfg, err := config.New(
+		accessToken,
+		option.WithCorporationID("1yuy811998tt11199"),
+		option.WithIntegratorID("6888999999000001"),
+		option.WithPlatformID("prd_02647ea11edb6888682a831752a"),
 	)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	pmc := paymentmethod.NewClient(c)
-	res, err := pmc.List(context.Background())
+	client := paymentmethod.NewClient(cfg)
+	paymentMethods, err := client.List(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, v := range res {
+	for _, v := range paymentMethods {
 		fmt.Println(v)
 	}
 }
