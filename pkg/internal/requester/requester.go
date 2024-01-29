@@ -6,8 +6,6 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-
-	"github.com/mercadopago/sdk-go/pkg/option"
 )
 
 var (
@@ -24,6 +22,11 @@ var (
 	defaultBackoffStrategy = constantBackoff(time.Second * 2)
 )
 
+// Requester has the minimum required method to send http requests.
+type Requester interface {
+	Do(req *http.Request) (*http.Response, error)
+}
+
 // defaultRequester provides an immutable implementation of option.Requester.
 type defaultRequester struct{}
 
@@ -33,11 +36,11 @@ type defaultRequester struct{}
 type backoffFunc func(attempt int) time.Duration
 
 // Default return the default implementation of Requester interface.
-func Default() option.Requester {
+func Default() Requester {
 	return &defaultRequester{}
 }
 
-// Do sends an HTTP request and returns an HTTP response. It is the default
+// Do send an HTTP request and returns an HTTP response. It is the default
 // implementation of Requester interface.
 func (d *defaultRequester) Do(req *http.Request) (*http.Response, error) {
 	var resp *http.Response
@@ -83,7 +86,7 @@ func (d *defaultRequester) Do(req *http.Request) (*http.Response, error) {
 
 		// If the request context has a deadline, check whether that deadline
 		// happens before the wait period of the backoff strategy. In case
-		// it does we return the last error without waiting.
+		// it do we return the last error without waiting.
 		if deadline, ok := req.Context().Deadline(); ok {
 			ctxDeadline := time.Until(deadline)
 			if ctxDeadline <= backoffWait {
