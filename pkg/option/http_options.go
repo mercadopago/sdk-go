@@ -26,8 +26,8 @@ type optFunc func(opts *ConfigOptions)
 
 func (f optFunc) Apply(o *ConfigOptions) { f(o) }
 
-// WithCustomClient allow do requests using received http client.
-func WithCustomClient(r Requester) ConfigOption {
+// WithHTTTPClient allow do requests using received http client.
+func WithHTTTPClient(r Requester) ConfigOption {
 	return optFunc(func(options *ConfigOptions) {
 		if r != nil {
 			options.HTTPClient = r
@@ -42,14 +42,14 @@ func WithCorporationID(c string) ConfigOption {
 	})
 }
 
-// WithIntegratorID send corporation id to api by headers.
+// WithIntegratorID send integrator id to api by headers.
 func WithIntegratorID(i string) ConfigOption {
 	return optFunc(func(options *ConfigOptions) {
 		options.IntegratorID = i
 	})
 }
 
-// WithPlatformID send corporation id to api by headers.
+// WithPlatformID send platform id to api by headers.
 func WithPlatformID(p string) ConfigOption {
 	return optFunc(func(options *ConfigOptions) {
 		options.PlatformID = p

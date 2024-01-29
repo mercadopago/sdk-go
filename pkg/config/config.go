@@ -15,7 +15,7 @@ type Config struct {
 }
 
 // New returns a new Config.
-func New(at string, opts ...option.ConfigOption) (*Config, error) {
+func New(accessToken string, opts ...option.ConfigOption) (*Config, error) {
 	options := option.ConfigOptions{
 		HTTPClient: requester.Default(),
 	}
@@ -24,7 +24,7 @@ func New(at string, opts ...option.ConfigOption) (*Config, error) {
 	}
 
 	return &Config{
-		AccessToken:   at,
+		AccessToken:   accessToken,
 		CorporationID: options.CorporationID,
 		IntegratorID:  options.IntegratorID,
 		PlatformID:    options.PlatformID,
