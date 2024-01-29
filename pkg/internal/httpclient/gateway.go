@@ -5,44 +5,70 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"runtime"
 
 	"github.com/google/uuid"
-	"github.com/mercadopago/sdk-go/pkg/credential"
-	"github.com/mercadopago/sdk-go/pkg/header"
+	"github.com/mercadopago/sdk-go/pkg/config"
+	"github.com/mercadopago/sdk-go/pkg/option"
 )
 
 const (
-	productID string = "abc"
+	currentSDKVersion string = "x.x.x"
+	productID         string = "abc"
+	accept            string = "application/json"
+	contentType       string = "application/json; charset=UTF-8"
 
-	authorizationHeader = "Authorization"
 	productIDHeader     = "X-Product-Id"
+	acceptHeader        = "Accept"
+	contentTypeHeader   = "Content-Type"
+	userAgentHeader     = "User-Agent"
+	trackingIDHeader    = "X-Tracking-Id"
+	authorizationHeader = "Authorization"
 	idempotencyHeader   = "X-Idempotency-Key"
+
+	corporationIDHeader = "X-Corporation-Id"
+	integratorIDHeader  = "X-Integrator-Id"
+	platformIDHeader    = "X-Platform-Id"
 )
 
-func Send(ctx context.Context, cdt *credential.Credential, requester Requester, req *http.Request) ([]byte, error) {
-	for k, v := range header.Headers(ctx) {
-		canonicalKey := http.CanonicalHeaderKey(k)
-		req.Header[canonicalKey] = v
-	}
+var (
+	userAgent  string = fmt.Sprintf("MercadoPago Go SDK/%s", currentSDKVersion)
+	trackingID string = fmt.Sprintf("platform:%s,type:SDK%s,so;", runtime.Version(), currentSDKVersion)
+)
 
-	req.Header.Set(authorizationHeader, "Bearer "+string(*cdt))
+// Send wraps needed options before send api call.
+func Send(ctx context.Context, c *config.Config, req *http.Request) ([]byte, error) {
 	req.Header.Set(productIDHeader, productID)
-	if _, ok := req.Header[idempotencyHeader]; !ok {
-		req.Header.Set(idempotencyHeader, uuid.New().String())
+	req.Header.Set(acceptHeader, accept)
+	req.Header.Set(contentTypeHeader, contentType)
+	req.Header.Set(userAgentHeader, userAgent)
+	req.Header.Set(trackingIDHeader, trackingID)
+	req.Header.Set(authorizationHeader, "Bearer "+c.AccessToken)
+	req.Header.Set(idempotencyHeader, uuid.New().String())
+
+	if c.CorporationID != "" {
+		req.Header.Set(corporationIDHeader, c.CorporationID)
+	}
+	if c.IntegratorID != "" {
+		req.Header.Set(integratorIDHeader, c.IntegratorID)
+	}
+	if c.PlatformID != "" {
+		req.Header.Set(platformIDHeader, c.PlatformID)
 	}
 
-	return send(ctx, requester, req)
+	return send(ctx, c.HTTPClient, req)
 }
 
-func send(ctx context.Context, requester Requester, req *http.Request) ([]byte, error) {
+func send(ctx context.Context, requester option.Requester, req *http.Request) ([]byte, error) {
 	res, err := requester.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("transport level error: %w", err)
 	}
 
+	defer res.Body.Close()
 	response, err := io.ReadAll(res.Body)
 	if err != nil {
-		return nil, &ErrorResponse{
+		return nil, &ResponseError{
 			StatusCode: res.StatusCode,
 			Message:    "error reading response body: " + err.Error(),
 			Headers:    res.Header,
@@ -50,7 +76,7 @@ func send(ctx context.Context, requester Requester, req *http.Request) ([]byte, 
 	}
 
 	if res.StatusCode > 399 {
-		return nil, &ErrorResponse{
+		return nil, &ResponseError{
 			StatusCode: res.StatusCode,
 			Message:    string(response),
 			Headers:    res.Header,

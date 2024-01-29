@@ -3,8 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"net/http"
-	"time"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/option"
@@ -13,8 +11,13 @@ import (
 
 func main() {
 	at := "TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800"
-	customClient := &http.Client{Timeout: time.Second * 5}
-	c, err := config.New(at, option.WithCustomClient(customClient))
+
+	c, err := config.New(
+		at,
+		option.WithCorporationID("abc"),
+		option.WithIntegratorID("def"),
+		option.WithPlatformID("ghi"),
+	)
 	if err != nil {
 		fmt.Println(err)
 		return

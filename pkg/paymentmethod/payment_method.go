@@ -6,9 +6,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/mercadopago/sdk-go/pkg/credential"
+	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
-	"github.com/mercadopago/sdk-go/pkg/option"
 )
 
 const url = "https://api.mercadopago.com/v1/payment_methods"
@@ -23,17 +22,13 @@ type Client interface {
 
 // client is the implementation of Client.
 type client struct {
-	credential *credential.Credential
-	config     *option.ClientOptions
+	config *config.Config
 }
 
 // NewClient returns a new Payment Methods API Client.
-func NewClient(cdt *credential.Credential, opts ...option.ClientOption) Client {
-	c := option.ApplyClientOptions(opts...)
-
+func NewClient(c *config.Config) Client {
 	return &client{
-		credential: cdt,
-		config:     c,
+		config: c,
 	}
 }
 
@@ -43,7 +38,7 @@ func (c *client) List(ctx context.Context) ([]Response, error) {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 
-	res, err := httpclient.Send(ctx, c.credential, c.config.Requester, req)
+	res, err := httpclient.Send(ctx, c.config, req)
 	if err != nil {
 		return nil, err
 	}
