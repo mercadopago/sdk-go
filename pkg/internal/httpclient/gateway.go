@@ -43,20 +43,20 @@ func Send(ctx context.Context, cfg *config.Config, req *http.Request) ([]byte, e
 	req.Header.Set(contentTypeHeader, contentType)
 	req.Header.Set(userAgentHeader, userAgent)
 	req.Header.Set(trackingIDHeader, trackingID)
-	req.Header.Set(authorizationHeader, "Bearer "+cfg.GetAccessToken())
+	req.Header.Set(authorizationHeader, "Bearer "+cfg.AccessToken)
 	req.Header.Set(idempotencyHeader, uuid.New().String())
 
-	if cfg.GetCorporationID() != "" {
-		req.Header.Set(corporationIDHeader, cfg.GetCorporationID())
+	if cfg.CorporationID != "" {
+		req.Header.Set(corporationIDHeader, cfg.CorporationID)
 	}
-	if cfg.GetIntegratorID() != "" {
-		req.Header.Set(integratorIDHeader, cfg.GetIntegratorID())
+	if cfg.IntegratorID != "" {
+		req.Header.Set(integratorIDHeader, cfg.IntegratorID)
 	}
-	if cfg.GetPlatformID() != "" {
-		req.Header.Set(platformIDHeader, cfg.GetPlatformID())
+	if cfg.PlatformID != "" {
+		req.Header.Set(platformIDHeader, cfg.PlatformID)
 	}
 
-	return send(ctx, cfg.GetHTTPClient(), req)
+	return send(ctx, cfg.Requester, req)
 }
 
 func send(_ context.Context, requester requester.Requester, req *http.Request) ([]byte, error) {

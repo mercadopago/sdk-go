@@ -10,7 +10,7 @@ type Option func(*Config)
 func WithHTTTPClient(r requester.Requester) Option {
 	return func(c *Config) {
 		if r != nil {
-			c.requester = r
+			c.Requester = r
 		}
 	}
 }
@@ -18,20 +18,20 @@ func WithHTTTPClient(r requester.Requester) Option {
 // WithCorporationID send corporation id to api by headers.
 func WithCorporationID(value string) Option {
 	return func(c *Config) {
-		c.corporationID = value
+		c.CorporationID = value
 	}
 }
 
 // WithIntegratorID send integrator id to api by headers.
 func WithIntegratorID(i string) Option {
 	return func(c *Config) {
-		c.integratorID = i
+		c.IntegratorID = i
 	}
 }
 
 // WithPlatformID send platform id to api by headers.
 func WithPlatformID(p string) Option {
 	return func(c *Config) {
-		c.platformID = p
+		c.PlatformID = p
 	}
 }

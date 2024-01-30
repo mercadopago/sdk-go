@@ -6,18 +6,18 @@ import (
 
 // Config allows you to send custom settings and API authentication
 type Config struct {
-	accessToken   string
-	corporationID string
-	integratorID  string
-	platformID    string
-	requester     requester.Requester
+	AccessToken   string
+	CorporationID string
+	IntegratorID  string
+	PlatformID    string
+	Requester     requester.Requester
 }
 
 // New returns a new Config.
 func New(accessToken string, opts ...Option) (*Config, error) {
 	cfg := &Config{
-		accessToken: accessToken,
-		requester:   requester.Default(),
+		AccessToken: accessToken,
+		Requester:   requester.Default(),
 	}
 
 	// Apply all the functional options to configure the client.
@@ -26,24 +26,4 @@ func New(accessToken string, opts ...Option) (*Config, error) {
 	}
 
 	return cfg, nil
-}
-
-func (c *Config) GetAccessToken() string {
-	return c.accessToken
-}
-
-func (c *Config) GetCorporationID() string {
-	return c.corporationID
-}
-
-func (c *Config) GetIntegratorID() string {
-	return c.integratorID
-}
-
-func (c *Config) GetPlatformID() string {
-	return c.platformID
-}
-
-func (c *Config) GetHTTPClient() requester.Requester {
-	return c.requester
 }
