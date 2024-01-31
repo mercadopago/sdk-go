@@ -16,7 +16,7 @@ const url = "https://api.mercadopago.com/v1/payment_methods"
 type Client interface {
 	// List lists all payment methods.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payment_methods
-	// Reference: https://www.mercadopago.com.br/developers/pt/reference/payment_methods/_payment_methods/get/
+	// Reference: https://www.mercadopago.com/developers/en/reference/payment_methods/_payment_methods/get/
 	List(ctx context.Context) ([]Response, error)
 }
 
