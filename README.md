@@ -1,2 +1,2 @@
 # sdk-go
-Mercado Pago's Official Go Lang
+Mercado Pago's official Go SDK.
