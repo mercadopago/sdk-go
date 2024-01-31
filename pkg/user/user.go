@@ -42,10 +42,10 @@ func (c *client) Get(ctx context.Context) (*Response, error) {
 		return nil, err
 	}
 
-	var formatted Response
+	var formatted *Response
 	if err := json.Unmarshal(res, &formatted); err != nil {
 		return nil, err
 	}
 
-	return &formatted, nil
+	return formatted, nil
 }
