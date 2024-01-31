@@ -47,7 +47,7 @@ func TestCreate(t *testing.T) {
 		}
 
 		pmc := preference.NewClient(c)
-		res, err := pmc.Get(context.Background(), "1273205088-5b386915-144d-4db9-ac96-f683867289d2")
+		res, err := pmc.Get(context.Background(), "1273205088-ebebbed7-1e15-415b-b1a3-2e76cc45ac16")
 
 		if res == nil {
 			t.Error("res can't be nil")
