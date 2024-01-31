@@ -9,21 +9,22 @@ import (
 )
 
 func main() {
-	at := "TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800"
-	c, err := config.New(at)
+	accessToken := "{{ACCESS_TOKEN}}"
+
+	cfg, err := config.New(accessToken)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	client := paymentmethod.NewClient(c)
-	result, err := client.List(context.Background())
+	client := paymentmethod.NewClient(cfg)
+	paymentMethods, err := client.List(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, v := range result {
+	for _, v := range paymentMethods {
 		fmt.Println(v)
 	}
 }
