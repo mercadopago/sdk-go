@@ -48,7 +48,7 @@ func TestList(t *testing.T) {
 			name: "should_return_error_when_send_request",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							return nil, fmt.Errorf("some error")
 						},
@@ -65,7 +65,7 @@ func TestList(t *testing.T) {
 			name: "should_return_error_unmarshal_response",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							stringReader := strings.NewReader("invalid json")
 							stringReadCloser := io.NopCloser(stringReader)
@@ -86,7 +86,7 @@ func TestList(t *testing.T) {
 			name: "should_return_formatted_response",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							stringReader := strings.NewReader(string(listResponse))
 							stringReadCloser := io.NopCloser(stringReader)
