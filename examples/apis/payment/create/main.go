@@ -10,8 +10,9 @@ import (
 )
 
 func main() {
-	at := "TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800"
-	c, err := config.New(at)
+	accessToken := "{{ACCESS_TOKEN}}"
+
+	c, err := config.New(accessToken)
 	if err != nil {
 		fmt.Println(err)
 		return
