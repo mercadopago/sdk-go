@@ -7,27 +7,27 @@ import (
 	"time"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/option"
 	"github.com/mercadopago/sdk-go/pkg/paymentmethod"
 )
 
 func main() {
-	at := "TEST-640110472259637-071923-a761f639c4eb1f0835ff7611f3248628-793910800"
-	customClient := &http.Client{Timeout: time.Second * 5}
-	c, err := config.New(at, option.WithCustomClient(customClient))
+	accessToken := "{{ACCESS_TOKEN}}"
+	httpClient := &http.Client{Timeout: time.Second * 5}
+
+	cfg, err := config.New(accessToken, config.WithHTTTPClient(httpClient))
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	pmc := paymentmethod.NewClient(c)
-	res, err := pmc.List(context.Background())
+	client := paymentmethod.NewClient(cfg)
+	paymentMethods, err := client.List(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, v := range res {
+	for _, v := range paymentMethods {
 		fmt.Println(v)
 	}
 }
