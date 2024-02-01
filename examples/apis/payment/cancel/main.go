@@ -11,13 +11,13 @@ import (
 func main() {
 	accessToken := "{{ACCESS_TOKEN}}"
 
-	c, err := config.New(accessToken)
+	cfg, err := config.New(accessToken)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	client := payment.NewClient(c)
+	client := payment.NewClient(cfg)
 	result, err := client.Cancel(context.Background(), 123)
 	if err != nil {
 		fmt.Println(err)
