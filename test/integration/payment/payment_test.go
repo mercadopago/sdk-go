@@ -133,52 +133,51 @@ func TestPayment(t *testing.T) {
 	})
 
 	// We should validate how to test capture and capture amount.
+	t.Run("should_capture_payment", func(t *testing.T) {
+		c, err := config.New(os.Getenv("at"))
+		if err != nil {
+			t.Fatal(err)
+		}
 
-	// t.Run("should_capture_payment", func(t *testing.T) {
-	// 	c, err := config.New(os.Getenv("at"))
-	// 	if err != nil {
-	// 		t.Fatal(err)
-	// 	}
+		client := payment.NewClient(c)
+		dto := payment.Request{
+			TransactionAmount: 105.1,
+			PaymentMethodID:   "pix",
+			Payer: &payment.PayerRequest{
+				Email: fmt.Sprintf("gabs_%s@testuser.com", uuid.New()),
+			},
+		}
 
-	// 	client := payment.NewClient(c)
-	// 	dto := payment.Request{
-	// 		TransactionAmount: 105.1,
-	// 		PaymentMethodID:   "pix",
-	// 		Payer: &payment.PayerRequest{
-	// 			Email: fmt.Sprintf("gabs_%s@testuser.com", uuid.New()),
-	// 		},
-	// 	}
+		result, err := client.Create(context.Background(), dto)
+		if result == nil {
+			t.Error("result can't be nil")
+		}
+		if err != nil {
+			t.Errorf(err.Error())
+		}
 
-	// 	result, err := client.Create(context.Background(), dto)
-	// 	if result == nil {
-	// 		t.Error("result can't be nil")
-	// 	}
-	// 	if err != nil {
-	// 		t.Errorf(err.Error())
-	// 	}
+		result, err = client.Capture(context.Background(), result.ID)
+		if result == nil {
+			t.Error("result can't be nil")
+		}
+		if err != nil {
+			t.Errorf(err.Error())
+		}
+	})
 
-	// 	result, err = client.Capture(context.Background(), result.ID)
-	// 	if result == nil {
-	// 		t.Error("result can't be nil")
-	// 	}
-	// 	if err != nil {
-	// 		t.Errorf(err.Error())
-	// 	}
-	// })
+	t.Run("should_capture_amount_payment", func(t *testing.T) {
+		c, err := config.New(os.Getenv("at"))
+		if err != nil {
+			t.Fatal(err)
+		}
 
-	// t.Run("should_capture_amount_payment", func(t *testing.T) {
-	// 	c, err := config.New(os.Getenv("at"))
-	// 	if err != nil {
-	// 		t.Fatal(err)
-	// 	}
-
-	// 	client := payment.NewClient(c)
-	// 	result, err := client.CaptureAmount(context.Background(), 123, 100.1)
-	// 	if result == nil {
-	// 		t.Error("result can't be nil")
-	// 	}
-	// 	if err != nil {
-	// 		t.Errorf(err.Error())
-	// 	}
-	// })
+		client := payment.NewClient(c)
+		result, err := client.CaptureAmount(context.Background(), 123, 100.1)
+		if result == nil {
+			t.Error("result can't be nil")
+		}
+		if err != nil {
+			t.Errorf(err.Error())
+		}
+	})
 }
