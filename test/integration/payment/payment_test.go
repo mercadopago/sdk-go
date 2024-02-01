@@ -13,7 +13,7 @@ import (
 
 func TestPayment(t *testing.T) {
 	t.Run("should_create_payment", func(t *testing.T) {
-		c, err := config.New(os.Getenv("at"))
+		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -41,7 +41,7 @@ func TestPayment(t *testing.T) {
 	})
 
 	t.Run("should_search_payment", func(t *testing.T) {
-		c, err := config.New(os.Getenv("at"))
+		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -63,7 +63,7 @@ func TestPayment(t *testing.T) {
 	})
 
 	t.Run("should_get_payment", func(t *testing.T) {
-		c, err := config.New(os.Getenv("at"))
+		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -98,7 +98,7 @@ func TestPayment(t *testing.T) {
 	})
 
 	t.Run("should_cancel_payment", func(t *testing.T) {
-		c, err := config.New(os.Getenv("at"))
+		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -134,7 +134,7 @@ func TestPayment(t *testing.T) {
 
 	// We should validate how to test capture and capture amount.
 	t.Run("should_capture_payment", func(t *testing.T) {
-		c, err := config.New(os.Getenv("at"))
+		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -172,7 +172,7 @@ func TestPayment(t *testing.T) {
 	})
 
 	t.Run("should_capture_amount_payment", func(t *testing.T) {
-		c, err := config.New(os.Getenv("at"))
+		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
