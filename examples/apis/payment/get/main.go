@@ -11,14 +11,28 @@ import (
 func main() {
 	accessToken := "{{ACCESS_TOKEN}}"
 
-	c, err := config.New(accessToken)
+	cfg, err := config.New(accessToken)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	dto := payment.Request{
+		TransactionAmount: 105.1,
+		PaymentMethodID:   "pix",
+		Payer: &payment.PayerRequest{
+			Email: "{{EMAIL}}",
+		},
+	}
+
+	client := payment.NewClient(cfg)
+
+	result, err := client.Create(context.Background(), dto)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	client := payment.NewClient(c)
-	result, err := client.Get(context.Background(), 123)
+	result, err = client.Get(context.Background(), result.ID)
 	if err != nil {
 		fmt.Println(err)
 		return
