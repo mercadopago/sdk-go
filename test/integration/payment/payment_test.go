@@ -140,12 +140,18 @@ func TestPayment(t *testing.T) {
 		}
 
 		client := payment.NewClient(c)
+
+		// Create payment.
 		dto := payment.Request{
 			TransactionAmount: 105.1,
-			PaymentMethodID:   "pix",
+			PaymentMethodID:   "visa",
 			Payer: &payment.PayerRequest{
 				Email: fmt.Sprintf("gabs_%s@testuser.com", uuid.New()),
 			},
+			// Need to get a token from a card.
+			Token:        "",
+			Installments: 1,
+			Capture:      false,
 		}
 
 		result, err := client.Create(context.Background(), dto)
