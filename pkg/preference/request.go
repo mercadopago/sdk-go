@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// PreferenceRequest contém parâmetros para criar/atualizar uma preferência.
+// PreferenceRequest contains parameters to create/update a preference.
 type Request struct {
 	AdditionalInfo       string                               `json:"additional_info,omitempty"`
 	AutoReturn           string                               `json:"auto_return,omitempty"`
@@ -32,19 +32,19 @@ type Request struct {
 	Tracks               []PreferenceTrackRequest              `json:"tracks,omitempty"`
 }
 
-// PreferenceBackUrlsRequest contém URLs de retorno.
+// PreferenceBackUrlsRequest contains callback URLs.
 type PreferenceBackUrlsRequest struct {
 	Success string `json:"success,omitempty"`
 	Pending string `json:"pending,omitempty"`
 	Failure string `json:"failure,omitempty"`
 }
 
-// PreferenceDifferentialPricingRequest contém informações sobre a configuração de precificação diferencial.
+// PreferenceDifferentialPricingRequest contains information about differential pricing configuration.
 type PreferenceDifferentialPricingRequest struct {
 	ID int64 `json:"id,omitempty"`
 }
 
-// PreferenceItemRequest representa um item comprado.
+// PreferenceItemRequest represents a purchased item.
 type PreferenceItemRequest struct {
 	ID          string      `json:"id,omitempty"`
 	Title       string      `json:"title,omitempty"`
@@ -56,7 +56,7 @@ type PreferenceItemRequest struct {
 	CurrencyID  string      `json:"currency_id,omitempty"`
 }
 
-// PreferencePayerRequest contém informações do pagador na preferência.
+// PreferencePayerRequest contains payer information in the preference.
 type PreferencePayerRequest struct {
 	Name           string                    `json:"name,omitempty"`
 	Surname        string                    `json:"surname,omitempty"`
@@ -67,26 +67,26 @@ type PreferencePayerRequest struct {
 	DateCreated    *time.Time                 `json:"date_created,omitempty"`
 }
 
-// Phone representa um número de telefone.
+// Phone represents a telephone number.
 type PhoneRequest struct {
 	AreaCode string `json:"area_code,omitempty"`
 	Number   string `json:"number,omitempty"`
 }
 
-// Identification é um tipo base que representa identificações, como identificação do cliente.
+// Identification is a base type that represents identifications, such as customer identification.
 type IdentificationRequest struct {
 	Type   string `json:"type,omitempty"`
 	Number string `json:"number,omitempty"`
 }
 
-// Address representa um endereço.
+// Address represents an address.
 type AddressRequest struct {
 	ZipCode      string `json:"zip_code,omitempty"`
 	StreetName   string `json:"street_name,omitempty"`
 	StreetNumber string `json:"street_number,omitempty"`
 }
 
-// PreferencePaymentMethodsRequest contém informações sobre métodos de pagamento na preferência.
+// PreferencePaymentMethodsRequest contains information about payment methods in the preference.
 type PreferencePaymentMethodsRequest struct {
 	ExcludedPaymentMethods   []PreferencePaymentMethodRequest `json:"excluded_payment_methods,omitempty"`
 	ExcludedPaymentTypes     []PreferencePaymentTypeRequest   `json:"excluded_payment_types,omitempty"`
@@ -95,17 +95,17 @@ type PreferencePaymentMethodsRequest struct {
 	DefaultInstallments      int                               `json:"default_installments,omitempty"`
 }
 
-// PreferencePaymentMethodRequest contém informações sobre o método de pagamento na preferência.
+// PreferencePaymentMethodRequest contains information about the payment method in the preference.
 type PreferencePaymentMethodRequest struct {
 	ID string `json:"id,omitempty"`
 }
 
-// PreferencePaymentTypeRequest contém informações sobre o tipo de pagamento na preferência.
+// PreferencePaymentTypeRequest contains information about the payment type in the preference.
 type PreferencePaymentTypeRequest struct {
 	ID string `json:"id,omitempty"`
 }
 
-// PreferenceShipmentsRequest contém informações sobre remessas na preferência.
+// PreferenceShipmentsRequest contains information about shipments in the preference.
 type PreferenceShipmentsRequest struct {
 	Mode                string                           `json:"mode,omitempty"`
 	LocalPickup         bool                             `json:"local_pickup,omitempty"`
@@ -118,12 +118,12 @@ type PreferenceShipmentsRequest struct {
 	ExpressShipment     bool                             `json:"express_shipment,omitempty"`
 }
 
-// PreferenceFreeMethodRequest contém informações sobre métodos de envio gratuitos na preferência.
+// PreferenceFreeMethodRequest contains information about free shipping methods in the preference.
 type PreferenceFreeMethodRequest struct {
 	ID int64 `json:"id,omitempty"`
 }
 
-// PreferenceReceiverAddressRequest contém informações sobre o endereço de envio na preferência.
+// PreferenceReceiverAddressRequest contains information about the send address in the preference.
 type PreferenceReceiverAddressRequest struct {
 	ZipCode     string `json:"zip_code,omitempty"`
 	StreetName  string `json:"street_name,omitempty"`
@@ -135,27 +135,21 @@ type PreferenceReceiverAddressRequest struct {
 	CityName    string `json:"city_name,omitempty"`
 }
 
-// PreferenceTaxRequest contém informações sobre impostos na preferência.
+// PreferenceTaxRequest contains information about taxes in the preference.
 type PreferenceTaxRequest struct {
 	Type  string     `json:"type,omitempty"`
 	Value float64 `json:"value,omitempty"`
 }
 
-// PreferenceTrackRequest contém informações sobre o rastreamento a ser executado durante a interação do usuário no fluxo de Checkout.
+// PreferenceTrackRequest contains information about the tracking to be performed during user interaction in the Checkout flow.
 type PreferenceTrackRequest struct {
 	Type   string                         `json:"type,omitempty"`
 	Values *PreferenceTrackValuesRequest   `json:"values,omitempty"`
 }
 
-// PreferenceTrackValuesRequest contém os valores dos rastreamentos a serem executados durante a interação do usuário no fluxo de Checkout.
+// PreferenceTrackValuesRequest contains the values ​​of the tracks to be executed during user interaction in the Checkout flow.
 type PreferenceTrackValuesRequest struct {
 	ConversionID    string `json:"conversion_id,omitempty"`
 	ConversionLabel string `json:"conversion_label,omitempty"`
 	PixelID         string `json:"pixel_id,omitempty"`
-}
-
-type SearchRequest struct {
-	Limit   int
-	Offset  int
-	Filters map[string]interface{}
 }

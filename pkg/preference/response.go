@@ -5,40 +5,40 @@ import (
 )
 
 type Response struct {
-	ID                 string                    `json:"id,omitempty"`
-	Items              []PreferenceItem          `json:"items,omitempty"`
-	Payer              PreferencePayer           `json:"payer,omitempty"`
-	ClientID           string                    `json:"client_id,omitempty"`
-	PaymentMethods     PreferencePaymentMethods   `json:"payment_methods,omitempty"`
-	BackUrls           PreferenceBackUrls         `json:"back_urls,omitempty"`
-	Shipments          PreferenceShipments        `json:"shipments,omitempty"`
-	NotificationURL    string                    `json:"notification_url,omitempty"`
-	StatementDescriptor string                    `json:"statement_descriptor,omitempty"`
-	ExternalReference  string                    `json:"external_reference,omitempty"`
-	Expires            bool                      `json:"expires,omitempty"`
-	DateOfExpiration   time.Time                 `json:"date_of_expiration,omitempty"`
-	ExpirationDateFrom time.Time                 `json:"expiration_date_from,omitempty"`
-	ExpirationDateTo   time.Time                 `json:"expiration_date_to,omitempty"`
-	CollectorID        int64                     `json:"collector_id,omitempty"`
-	Marketplace        string                    `json:"marketplace,omitempty"`
-	MarketplaceFee     float64                   `json:"marketplace_fee,omitempty"`
-	AdditionalInfo     string                    `json:"additional_info,omitempty"`
-	AutoReturn         string                    `json:"auto_return,omitempty"`
-	OperationType      string                    `json:"operation_type,omitempty"`
-	DifferentialPricing PreferenceDifferentialPricing `json:"differential_pricing,omitempty"`
-	ProcessingModes    []string                  `json:"processing_modes,omitempty"`
-	BinaryMode         bool                      `json:"binary_mode,omitempty"`
-	Taxes              []PreferenceTax           `json:"taxes,omitempty"`
-	Tracks             []PreferenceTrack         `json:"tracks,omitempty"`
-	Metadata           map[string]interface{}    `json:"metadata,omitempty"`
-	InitPoint          string                    `json:"init_point,omitempty"`
-	SandboxInitPoint   string                    `json:"sandbox_init_point,omitempty"`
-	DateCreated        time.Time                 `json:"date_created,omitempty"`
-	SiteID	string `json:"site_id,omitempty"`
-	LastUpdated         time.Time     `json:"last_updated,omitempty"`
+	ID                 string                    `json:"id"`
+	Items              []PreferenceItem          `json:"items"`
+	Payer              PreferencePayer           `json:"payer"`
+	ClientID           string                    `json:"client_id"`
+	PaymentMethods     PreferencePaymentMethods   `json:"payment_methods"`
+	BackUrls           PreferenceBackUrls         `json:"back_urls"`
+	Shipments          PreferenceShipments        `json:"shipments"`
+	NotificationURL    string                    `json:"notification_url"`
+	StatementDescriptor string                    `json:"statement_descriptor"`
+	ExternalReference  string                    `json:"external_reference"`
+	Expires            bool                      `json:"expires"`
+	DateOfExpiration   time.Time                 `json:"date_of_expiration"`
+	ExpirationDateFrom time.Time                 `json:"expiration_date_from"`
+	ExpirationDateTo   time.Time                 `json:"expiration_date_to"`
+	CollectorID        int64                     `json:"collector_id"`
+	Marketplace        string                    `json:"marketplace"`
+	MarketplaceFee     float64                   `json:"marketplace_fee"`
+	AdditionalInfo     string                    `json:"additional_info"`
+	AutoReturn         string                    `json:"auto_return"`
+	OperationType      string                    `json:"operation_type"`
+	DifferentialPricing PreferenceDifferentialPricing `json:"differential_pricing"`
+	ProcessingModes    []string                  `json:"processing_modes"`
+	BinaryMode         bool                      `json:"binary_mode"`
+	Taxes              []PreferenceTax           `json:"taxes"`
+	Tracks             []PreferenceTrack         `json:"tracks"`
+	Metadata           map[string]interface{}    `json:"metadata"`
+	InitPoint          string                    `json:"init_point"`
+	SandboxInitPoint   string                    `json:"sandbox_init_point"`
+	DateCreated        time.Time                 `json:"date_created"`
+	SiteID	string `json:"site_id"`
+	LastUpdated         time.Time     `json:"last_updated"`
 }
 
-// PreferenceItem representa um item comprado.
+// PreferenceItem represents an item.
 type PreferenceItem struct {
 	ID          string      `json:"id"`
 	Title       string      `json:"title"`
@@ -50,7 +50,7 @@ type PreferenceItem struct {
 	CurrencyID  string      `json:"currency_id"`
 }
 
-// PreferencePayer contém informações do pagador na preferência.
+// PreferencePayer contains payer information in the preference.
 type PreferencePayer struct {
 	Name          string          `json:"name"`
 	Surname       string          `json:"surname"`
@@ -62,7 +62,7 @@ type PreferencePayer struct {
 	LastPurchase  time.Time       `json:"last_purchase"`
 }
 
-// PreferencePaymentMethods contém informações sobre métodos de pagamento na preferência.
+// PreferencePaymentMethods contains information about payment methods in the preference.
 type PreferencePaymentMethods struct {
 	ExcludedPaymentMethods   []PreferencePaymentMethod `json:"excluded_payment_methods"`
 	ExcludedPaymentTypes     []PreferencePaymentType   `json:"excluded_payment_types"`
@@ -71,24 +71,24 @@ type PreferencePaymentMethods struct {
 	DefaultInstallments      int                       `json:"default_installments"`
 }
 
-// PreferencePaymentMethod contém informações sobre o método de pagamento na preferência.
+// PreferencePaymentMethod contains information about the payment method in the preference.
 type PreferencePaymentMethod struct {
 	ID string `json:"id"`
 }
 
-// PreferencePaymentType contém informações sobre o tipo de pagamento na preferência.
+// PreferencePaymentType contains information about the type of payment in the preference.
 type PreferencePaymentType struct {
 	ID string `json:"id"`
 }
 
-// PreferenceBackUrls contém URLs de retorno da preferência.
+// PreferenceBackUrls contains preference back URLs.
 type PreferenceBackUrls struct {
 	Success string `json:"success"`
 	Pending string `json:"pending"`
 	Failure string `json:"failure"`
 }
 
-// PreferenceShipments contém informações de envio da preferência.
+// PreferenceShipments contains preference shipping information.
 type PreferenceShipments struct {
 	Mode                  string                     `json:"mode"`
 	LocalPickup           bool                       `json:"local_pickup"`
@@ -101,12 +101,12 @@ type PreferenceShipments struct {
 	ExpressShipment       bool                       `json:"express_shipment"`
 }
 
-// PreferenceFreeMethod contém informações sobre métodos de envio gratuitos.
+// PreferenceFreeMethod contains information about free shipping methods.
 type PreferenceFreeMethod struct {
 	ID int64 `json:"id"`
 }
 
-// PreferenceReceiverAddress representa um endereço de envio.
+// PreferenceReceiverAddress represents a sending address.
 type PreferenceReceiverAddress struct {
 	Address
 	CountryName string `json:"country_name"`
@@ -116,78 +116,45 @@ type PreferenceReceiverAddress struct {
 	CityName    string `json:"city_name"`
 }
 
-// PreferenceDifferentialPricing contém informações sobre a configuração de precificação diferencial na preferência.
+// PreferenceDifferentialPricing contains information about the differential pricing configuration in the preference.
 type PreferenceDifferentialPricing struct {
 	ID int64 `json:"id"`
 }
 
-// PreferenceTax contém informações sobre impostos na preferência.
+// PreferenceTax contains information about taxes in the preference.
 type PreferenceTax struct {
 	Type  string     `json:"type"`
 	Value float64 `json:"value"`
 }
 
-// PreferenceTrack representa um rastreamento a ser executado durante a interação do usuário no fluxo de Checkout.
+// PreferenceTrack represents a trace to be executed during user interaction in the Checkout flow.
 type PreferenceTrack struct {
 	Type   string                         `json:"type"`
 	Values PreferenceTrackValuesResponse   `json:"values"`
 }
 
-// PreferenceTrackValuesRequest contém os valores dos rastreamentos a serem executados durante a interação do usuário no fluxo de Checkout.
+// PreferenceTrackValuesRequest contains the values ​​of the tracks to be executed during user interaction in the Checkout flow.
 type PreferenceTrackValuesResponse struct {
 	ConversionID    string `json:"conversion_id"`
 	ConversionLabel string `json:"conversion_label"`
 	PixelID         string `json:"pixel_id"`
 }
 
-// Phone representa um número de telefone.
+// Phone represents a telephone number.
 type Phone struct {
 	AreaCode string `json:"area_code"`
 	Number   string `json:"number"`
 }
 
-// Identification é um tipo base que representa identificações, como identificação do cliente.
+// Identification is a base type that represents identifications, such as customer identification.
 type Identification struct {
 	Type   string `json:"type"`
 	Number string `json:"number"`
 }
 
-// Address representa um endereço.
+// Address represents an address.
 type Address struct {
 	ZipCode      string `json:"zip_code"`
 	StreetName   string `json:"street_name"`
 	StreetNumber string `json:"street_number"`
-}
-
-// PreferenceSearch contém informações sobre uma preferência para pesquisa.
-type SearchResponse struct {
-	ID                  string        `json:"id,omitempty"`
-	ClientID            string        `json:"client_id,omitempty"`
-	CollectorID         int64         `json:"collector_id,omitempty"`
-	DateCreated         time.Time     `json:"date_created,omitempty"`
-	ExpirationDateFrom  time.Time     `json:"expiration_date_from,omitempty"`
-	ExpirationDateTo    time.Time     `json:"expiration_date_to,omitempty"`
-	Expires             bool          `json:"expires,omitempty"`
-	ExternalReference   string        `json:"external_reference,omitempty"`
-	Items               []string      `json:"items,omitempty"`
-	LastUpdated         time.Time     `json:"last_updated,omitempty"`
-	LiveMode            bool          `json:"live_mode,omitempty"`
-	Marketplace         string        `json:"marketplace,omitempty"`
-	OperationType       string        `json:"operation_type,omitempty"`
-	PayerEmail          string        `json:"payer_email,omitempty"`
-	PayerID             string        `json:"payer_id,omitempty"`
-	PlatformID          string        `json:"platform_id,omitempty"`
-	ProcessingModes     []string      `json:"processing_modes,omitempty"`
-	ProductID           string        `json:"product_id,omitempty"`
-	Purpose             string        `json:"purpose,omitempty"`
-	SiteID              string        `json:"site_id,omitempty"`
-	SponsorID           int64         `json:"sponsor_id,omitempty"`
-	ShippingMode        string        `json:"shipping_mode,omitempty"`
-}
-
-// MPElementsResourcesPage é uma página de pesquisa que contém elementos.
-type SearchResponsePage struct {
-	Total      int         `json:"total,omitempty"`
-	NextOffset int         `json:"next_offset,omitempty"`
-	Elements   []SearchResponse `json:"elements,omitempty"`
 }

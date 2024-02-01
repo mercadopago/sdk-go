@@ -58,7 +58,7 @@ func TestCreate(t *testing.T) {
 			name: "should_return_error_when_send_request",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							return nil, fmt.Errorf("some error")
 						},
@@ -75,7 +75,7 @@ func TestCreate(t *testing.T) {
 			name: "should_return_error_unmarshal_response",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							stringReader := strings.NewReader("invalid json")
 							stringReadCloser := io.NopCloser(stringReader)
@@ -96,7 +96,7 @@ func TestCreate(t *testing.T) {
 			name: "should_return_formatted_response",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							stringReader := strings.NewReader(string(createResponse))
 							stringReadCloser := io.NopCloser(stringReader)
@@ -207,7 +207,7 @@ func TestGet(t *testing.T) {
 			name: "should_return_error_when_send_request",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							return nil, fmt.Errorf("some error")
 						},
@@ -224,7 +224,7 @@ func TestGet(t *testing.T) {
 			name: "should_return_error_unmarshal_response",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							stringReader := strings.NewReader("invalid json")
 							stringReadCloser := io.NopCloser(stringReader)
@@ -245,7 +245,7 @@ func TestGet(t *testing.T) {
 			name: "should_return_formatted_response",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							stringReader := strings.NewReader(string(getResponse))
 							stringReadCloser := io.NopCloser(stringReader)
@@ -346,7 +346,7 @@ func TestUpdate(t *testing.T) {
 			name: "should_return_error_when_send_request",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							return nil, fmt.Errorf("some error")
 						},
@@ -363,7 +363,7 @@ func TestUpdate(t *testing.T) {
 			name: "should_return_error_unmarshal_response",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							stringReader := strings.NewReader("invalid json")
 							stringReadCloser := io.NopCloser(stringReader)
@@ -384,7 +384,7 @@ func TestUpdate(t *testing.T) {
 			name: "should_return_formatted_response",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							stringReader := strings.NewReader(string(updateResponse))
 							stringReadCloser := io.NopCloser(stringReader)
@@ -497,7 +497,7 @@ func TestSearch(t *testing.T) {
 			name: "should_return_error_when_send_request",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							return nil, fmt.Errorf("some error")
 						},
@@ -514,7 +514,7 @@ func TestSearch(t *testing.T) {
 			name: "should_return_error_unmarshal_response",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							stringReader := strings.NewReader("invalid json")
 							stringReadCloser := io.NopCloser(stringReader)
@@ -535,7 +535,7 @@ func TestSearch(t *testing.T) {
 			name: "should_return_formatted_response",
 			fields: fields{
 				config: &config.Config{
-					HTTPClient: &httpclient.Mock{
+					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							stringReader := strings.NewReader(string(searchResponse))
 							stringReadCloser := io.NopCloser(stringReader)
@@ -607,9 +607,6 @@ func TestSearch(t *testing.T) {
 }
 
 func parseTime(s string) time.Time {
-    t, err := time.Parse(time.RFC3339, s)
-    if err != nil {
-        panic(err)
-    }
+    t, _ := time.Parse(time.RFC3339, s)
     return t
 }
