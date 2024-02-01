@@ -24,12 +24,12 @@ type Client interface {
 	// Create creates a new payment.
 	// It is a post request to the endpoint: https://api.mercadopago.com/v1/payments
 	// Reference: https://www.mercadopago.com.br/developers/pt/reference/payments/_payments/post/
-	Create(ctx context.Context, dto Request) (*Response, error)
+	Create(ctx context.Context, request Request) (*Response, error)
 
 	// Search searches for payments.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/search
 	// Reference: https://www.mercadopago.com.br/developers/pt/reference/payments/_payments_search/get/
-	Search(ctx context.Context, dto SearchRequest) (*SearchResponse, error)
+	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 
 	// Get gets a payment by its ID.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
@@ -61,8 +61,8 @@ func NewClient(c *config.Config) Client {
 	}
 }
 
-func (c *client) Create(ctx context.Context, dto Request) (*Response, error) {
-	body, err := json.Marshal(&dto)
+func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
+	body, err := json.Marshal(&request)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling request body: %w", err)
 	}
