@@ -2,7 +2,6 @@ package payment
 
 import (
 	"net/url"
-	"strings"
 )
 
 // SearchRequest is the request to search services.
@@ -19,30 +18,22 @@ type SearchRequest struct {
 func (s SearchRequest) Parameters() string {
 	params := url.Values{}
 
-	var limitKey, offsetKey bool
 	for k, v := range s.Filters {
 		params.Add(k, v)
-
-		if strings.EqualFold(k, "limit") {
-			limitKey = true
-			continue
-		}
-		if strings.EqualFold(k, "offset") {
-			offsetKey = true
-		}
 	}
 
-	if !limitKey {
+	if _, ok := s.Filters["limit"]; !ok {
 		limit := "30"
 		if s.Limit != "" {
 			limit = s.Limit
 		}
 		params.Add("limit", limit)
 	}
-	if !offsetKey {
+
+	if _, ok := s.Filters["offset"]; !ok {
 		offset := "0"
-		if s.Limit != "" {
-			offset = s.Limit
+		if s.Offset != "" {
+			offset = s.Offset
 		}
 		params.Add("offset", offset)
 	}

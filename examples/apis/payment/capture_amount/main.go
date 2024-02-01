@@ -30,14 +30,14 @@ func main() {
 	}
 
 	client := payment.NewClient(cfg)
-	result, err := client.Create(context.Background(), paymentRequest)
+	pay, err := client.Create(context.Background(), paymentRequest)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	// Capture amount.
-	result, err = client.CaptureAmount(context.Background(), result.ID, 100.1)
+	result, err := client.CaptureAmount(context.Background(), pay.ID, 100.1)
 	if err != nil {
 		fmt.Println(err)
 		return
