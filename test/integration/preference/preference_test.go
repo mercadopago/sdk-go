@@ -1,6 +1,5 @@
 package integration
 
-
 import (
 	"context"
 	"os"
@@ -22,7 +21,7 @@ func TestCreate(t *testing.T) {
 				{
 					ID:          "123",
 					Title:       "Title",
-					UnitPrice: 	100,
+					UnitPrice:   100,
 					Quantity:    1,
 					Description: "Description",
 				},
@@ -68,7 +67,7 @@ func TestCreate(t *testing.T) {
 				{
 					ID:          "123",
 					Title:       "Title",
-					UnitPrice: 	100,
+					UnitPrice:   100,
 					Quantity:    1,
 					Description: "Description",
 				},
@@ -88,7 +87,7 @@ func TestCreate(t *testing.T) {
 				{
 					ID:          "123",
 					Title:       "Title",
-					UnitPrice: 	100,
+					UnitPrice:   100,
 					Quantity:    1,
 					Description: "Description",
 				},
@@ -114,7 +113,7 @@ func TestCreate(t *testing.T) {
 		}
 
 		filters := preference.SearchRequest{
-			Limit: 10,
+			Limit:  10,
 			Offset: 10,
 		}
 

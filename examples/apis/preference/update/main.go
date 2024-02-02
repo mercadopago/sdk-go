@@ -22,7 +22,7 @@ func main() {
 			{
 				ID:          "123",
 				Title:       "updating Title",
-				UnitPrice: 	10,
+				UnitPrice:   10,
 				Quantity:    3,
 				Description: "updating Description",
 			},
