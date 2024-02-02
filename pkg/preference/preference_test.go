@@ -31,7 +31,7 @@ var (
 
 func TestCreate(t *testing.T) {
 	type fields struct {
-		config     *config.Config
+		config *config.Config
 	}
 	type args struct {
 		ctx context.Context
@@ -111,36 +111,36 @@ func TestCreate(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want: &Response{
-					ID:        "1273205088-6da17b39-3bf4-4307-9124-4381c56372e0",
-					ClientID: "4679935697572392",
-					CollectorID: 1273205088,
-					OperationType: "regular_payment",
-					DateCreated: parseTime("2024-01-26T08:18:23.229-04:00"),
-					Marketplace: "NONE",
-					SandboxInitPoint: "https://sandbox.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-6da17b39-3bf4-4307-9124-4381c56372e0",
-					SiteID: "MLB",
-					BinaryMode: false,
-					Expires: false,
-					InitPoint: "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-6da17b39-3bf4-4307-9124-4381c56372e0",
-					Items: []PreferenceItem{
-						{
-							ID:          "123",
-							CurrencyID:  "BRL",
-							Description: "Description",
-							Title:       "Title",
-							Quantity:    1,
-							UnitPrice:   100,
-						},
+				ID:               "1273205088-6da17b39-3bf4-4307-9124-4381c56372e0",
+				ClientID:         "4679935697572392",
+				CollectorID:      1273205088,
+				OperationType:    "regular_payment",
+				DateCreated:      parseTime("2024-01-26T08:18:23.229-04:00"),
+				Marketplace:      "NONE",
+				SandboxInitPoint: "https://sandbox.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-6da17b39-3bf4-4307-9124-4381c56372e0",
+				SiteID:           "MLB",
+				BinaryMode:       false,
+				Expires:          false,
+				InitPoint:        "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-6da17b39-3bf4-4307-9124-4381c56372e0",
+				Items: []PreferenceItem{
+					{
+						ID:          "123",
+						CurrencyID:  "BRL",
+						Description: "Description",
+						Title:       "Title",
+						Quantity:    1,
+						UnitPrice:   100,
 					},
-					PaymentMethods: PreferencePaymentMethods{
-						ExcludedPaymentMethods: []PreferencePaymentMethod{
-							{},
-						},
-						ExcludedPaymentTypes: []PreferencePaymentType{
-							{},
-						},
+				},
+				PaymentMethods: PreferencePaymentMethods{
+					ExcludedPaymentMethods: []PreferencePaymentMethod{
+						{},
 					},
-					Metadata: map[string]interface{}{},
+					ExcludedPaymentTypes: []PreferencePaymentType{
+						{},
+					},
+				},
+				Metadata: map[string]interface{}{},
 			},
 			wantErr: "",
 		},
@@ -260,38 +260,38 @@ func TestGet(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want: &Response{
-					ClientID: "4679935697572392",
-					CollectorID: 1273205088,
-					OperationType: "regular_payment",
-					DateCreated: parseTime("2024-01-23T13:25:20.360-04:00"),
-					LastUpdated: parseTime("2024-01-24T17:39:54.750-04:00"),
-					Marketplace: "NONE",
-					SandboxInitPoint: "https://sandbox.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4",
-					SiteID: "MLB",
-					BinaryMode: false,
-					Expires: false,
-					PaymentMethods: PreferencePaymentMethods{
-						ExcludedPaymentMethods: []PreferencePaymentMethod{
-							{},
-						},
-						ExcludedPaymentTypes: []PreferencePaymentType{
-							{},
-						},
+				ClientID:         "4679935697572392",
+				CollectorID:      1273205088,
+				OperationType:    "regular_payment",
+				DateCreated:      parseTime("2024-01-23T13:25:20.360-04:00"),
+				LastUpdated:      parseTime("2024-01-24T17:39:54.750-04:00"),
+				Marketplace:      "NONE",
+				SandboxInitPoint: "https://sandbox.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4",
+				SiteID:           "MLB",
+				BinaryMode:       false,
+				Expires:          false,
+				PaymentMethods: PreferencePaymentMethods{
+					ExcludedPaymentMethods: []PreferencePaymentMethod{
+						{},
 					},
-					Metadata: map[string]interface{}{},
-					ID:        "1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4",
-    				InitPoint: "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4",
-					Items: []PreferenceItem{
-						{
-							ID:          "123",
-							CategoryID:  "",
-							CurrencyID:  "BRL",
-							Description: "updating Description",
-							Title:       "updating Title",
-							Quantity:    3,
-							UnitPrice:   10,
-						},
+					ExcludedPaymentTypes: []PreferencePaymentType{
+						{},
 					},
+				},
+				Metadata:  map[string]interface{}{},
+				ID:        "1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4",
+				InitPoint: "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4",
+				Items: []PreferenceItem{
+					{
+						ID:          "123",
+						CategoryID:  "",
+						CurrencyID:  "BRL",
+						Description: "updating Description",
+						Title:       "updating Title",
+						Quantity:    3,
+						UnitPrice:   10,
+					},
+				},
 			},
 			wantErr: "",
 		},
@@ -550,32 +550,32 @@ func TestSearch(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want: &SearchResponsePage{
-					Total: 1229,
-					NextOffset: 22,
-					Elements: []SearchResponse {
-						{
-							ID:        "1273205088-cf5a445f-9b6e-46a6-9ff9-71e60334979e",
-							ClientID: "4679935697572392",
-							CollectorID: 1273205088,
-							OperationType: "regular_payment",
-							DateCreated: parseTime("2023-10-31T10:01:03.555-04:00"),
-							ExpirationDateFrom: parseTime("2023-10-31T11:01:03.046-03:00"),
-							ExpirationDateTo: parseTime("2023-11-30T11:01:03.046-03:00"),
-							Expires: true,
-							Marketplace: "NONE",
-							SiteID: "MLB",
-							Items: []string{
-								"Title",
-							},
-							ExternalReference: "c99c3002-00d4-4c0b-ab92-2470607c788c",
-							LiveMode: false,
-							PayerEmail: "teste_user_39873928@testuser.com",
-							ProcessingModes: []string{
-								"aggregator",
-							},
-							ShippingMode: "custom",
+				Total:      1229,
+				NextOffset: 22,
+				Elements: []SearchResponse{
+					{
+						ID:                 "1273205088-cf5a445f-9b6e-46a6-9ff9-71e60334979e",
+						ClientID:           "4679935697572392",
+						CollectorID:        1273205088,
+						OperationType:      "regular_payment",
+						DateCreated:        parseTime("2023-10-31T10:01:03.555-04:00"),
+						ExpirationDateFrom: parseTime("2023-10-31T11:01:03.046-03:00"),
+						ExpirationDateTo:   parseTime("2023-11-30T11:01:03.046-03:00"),
+						Expires:            true,
+						Marketplace:        "NONE",
+						SiteID:             "MLB",
+						Items: []string{
+							"Title",
 						},
+						ExternalReference: "c99c3002-00d4-4c0b-ab92-2470607c788c",
+						LiveMode:          false,
+						PayerEmail:        "teste_user_39873928@testuser.com",
+						ProcessingModes: []string{
+							"aggregator",
+						},
+						ShippingMode: "custom",
 					},
+				},
 			},
 			wantErr: "",
 		},
@@ -587,7 +587,7 @@ func TestSearch(t *testing.T) {
 			}
 
 			dto := SearchRequest{
-				Limit: 22,
+				Limit:  22,
 				Offset: 100,
 			}
 			got, err := c.Search(tt.args.ctx, dto)
@@ -607,6 +607,6 @@ func TestSearch(t *testing.T) {
 }
 
 func parseTime(s string) time.Time {
-    t, _ := time.Parse(time.RFC3339, s)
-    return t
+	t, _ := time.Parse(time.RFC3339, s)
+	return t
 }

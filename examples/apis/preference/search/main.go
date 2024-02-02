@@ -19,7 +19,7 @@ func main() {
 	client := preference.NewClient(c)
 
 	filters := preference.SearchRequest{
-		Limit: 10,
+		Limit:  10,
 		Offset: 10,
 	}
 
