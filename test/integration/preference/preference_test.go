@@ -9,7 +9,7 @@ import (
 	"github.com/mercadopago/sdk-go/pkg/preference"
 )
 
-func TestCreate(t *testing.T) {
+func TestPreference(t *testing.T) {
 	t.Run("should_create_preference", func(t *testing.T) {
 		c, err := config.New(os.Getenv("at"))
 		if err != nil {
@@ -40,13 +40,27 @@ func TestCreate(t *testing.T) {
 	})
 
 	t.Run("should_get_preference", func(t *testing.T) {
-		c, err := config.New(os.Getenv("at"))
+		c, err := config.New("TEST-4679935697572392-071411-a9722b82869609999cd91f0db60598f0-1273205088")
 		if err != nil {
 			t.Fatal(err)
 		}
 
+		dto := preference.Request{
+			Items: []preference.PreferenceItemRequest{
+				{
+					ID:          "123",
+					Title:       "Title",
+					UnitPrice:   100,
+					Quantity:    1,
+					Description: "Description",
+				},
+			},
+		}
+
 		pmc := preference.NewClient(c)
-		res, err := pmc.Get(context.Background(), "1273205088-ebebbed7-1e15-415b-b1a3-2e76cc45ac16")
+		res, _ := pmc.Create(context.Background(), dto)
+
+		res, err = pmc.Get(context.Background(), res.ID)
 
 		if res == nil {
 			t.Error("res can't be nil")
