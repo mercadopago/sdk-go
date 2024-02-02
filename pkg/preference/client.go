@@ -14,9 +14,11 @@ import (
 )
 
 const (
-	urlBase   = "https://api.mercadopago.com/checkout/preferences"
-	urlWithID = "https://api.mercadopago.com/checkout/preferences/{id}"
-	urlSearch = "https://api.mercadopago.com/checkout/preferences/search"
+	baseURL = "https://api.mercadopago.com/checkout"
+	postURL   = baseURL + "/preferences"
+	searchURL = baseURL + "/preferences/search"
+	getURL    = baseURL + "/preferences/{id}"
+	putURL    = baseURL + "/preferences/{id}"
 )
 
 // Client contains the methods to interact with the Preference API.
@@ -60,7 +62,7 @@ func (c *client) Create(ctx context.Context, dto Request) (*Response, error) {
 		return nil, fmt.Errorf("error marshaling request body: %w", err)
 	}
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, urlBase, strings.NewReader(string(body)))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, postURL, strings.NewReader(string(body)))
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -79,7 +81,7 @@ func (c *client) Create(ctx context.Context, dto Request) (*Response, error) {
 }
 
 func (c *client) Get(ctx context.Context, id string) (*Response, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, strings.Replace(urlWithID, "{id}", id, 1), nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, strings.Replace(getURL, "{id}", id, 1), nil)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -103,7 +105,7 @@ func (c *client) Update(ctx context.Context, id string, dto Request) (*Response,
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodPut, strings.Replace(urlWithID, "{id}", id, 1), strings.NewReader(string(body)))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPut, strings.Replace(putURL, "{id}", id, 1), strings.NewReader(string(body)))
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -127,7 +129,7 @@ func (c *client) Search(ctx context.Context, f SearchRequest) (*SearchResponsePa
 	params.Add("offset", strconv.Itoa(f.Offset))
 	params.Add("filters", fmt.Sprintf("%v", f.Filters))
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, urlSearch+"?"+params.Encode(), nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, searchURL+"?"+params.Encode(), nil)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
