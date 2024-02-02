@@ -37,11 +37,11 @@ func main() {
 	}
 
 	// Capture amount.
-	result, err := client.CaptureAmount(context.Background(), pay.ID, 100.1)
+	pay, err = client.CaptureAmount(context.Background(), pay.ID, 100.1)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(result)
+	fmt.Println(pay)
 }

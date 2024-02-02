@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 
@@ -13,27 +14,28 @@ import (
 )
 
 const (
-	postURL   = "https://api.mercadopago.com/v1/payments"
-	searchURL = "https://api.mercadopago.com/v1/payments/search"
-	getURL    = "https://api.mercadopago.com/v1/payments/{id}"
-	putURL    = "https://api.mercadopago.com/v1/payments/{id}"
+	baseURL   = "https://api.mercadopago.com/v1/"
+	postURL   = baseURL + "payments"
+	searchURL = baseURL + "payments/search"
+	getURL    = baseURL + "payments/{id}"
+	putURL    = baseURL + "payments/{id}"
 )
 
 // Client contains the methods to interact with the Payments API.
 type Client interface {
 	// Create creates a new payment.
 	// It is a post request to the endpoint: https://api.mercadopago.com/v1/payments
-	// Reference: https://www.mercadopago.com.br/developers/pt/reference/payments/_payments/post/
+	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments/post/
 	Create(ctx context.Context, request Request) (*Response, error)
 
 	// Search searches for payments.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/search
-	// Reference: https://www.mercadopago.com.br/developers/pt/reference/payments/_payments_search/get/
+	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_search/get/
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 
 	// Get gets a payment by its ID.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
-	// Reference: https://www.mercadopago.com.br/developers/pt/reference/payments/_payments_id/get/
+	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_id/get/
 	Get(ctx context.Context, id int64) (*Response, error)
 
 	// Cancel cancels a payment by its ID.
@@ -77,17 +79,25 @@ func (c *client) Create(ctx context.Context, request Request) (*Response, error)
 		return nil, err
 	}
 
-	formatted := &Response{}
-	if err := json.Unmarshal(res, &formatted); err != nil {
+	var payment *Response
+	if err := json.Unmarshal(res, &payment); err != nil {
 		return nil, fmt.Errorf("error unmarshaling response: %w", err)
 	}
 
-	return formatted, nil
+	return payment, nil
 }
 
 func (c *client) Search(ctx context.Context, dto SearchRequest) (*SearchResponse, error) {
 	params := dto.Parameters()
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, searchURL+"?"+params, nil)
+
+	url, err := url.Parse(searchURL)
+	if err != nil {
+		return nil, fmt.Errorf("error parsing url: %w", err)
+	}
+	url.RawQuery = params
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url.String(), nil)
+
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -97,12 +107,12 @@ func (c *client) Search(ctx context.Context, dto SearchRequest) (*SearchResponse
 		return nil, err
 	}
 
-	var formatted *SearchResponse
-	if err := json.Unmarshal(res, &formatted); err != nil {
+	var payment *SearchResponse
+	if err := json.Unmarshal(res, &payment); err != nil {
 		return nil, fmt.Errorf("error unmarshaling response: %w", err)
 	}
 
-	return formatted, nil
+	return payment, nil
 }
 
 func (c *client) Get(ctx context.Context, id int64) (*Response, error) {
@@ -118,12 +128,12 @@ func (c *client) Get(ctx context.Context, id int64) (*Response, error) {
 		return nil, err
 	}
 
-	formatted := &Response{}
-	if err := json.Unmarshal(res, &formatted); err != nil {
+	var payment *Response
+	if err := json.Unmarshal(res, &payment); err != nil {
 		return nil, fmt.Errorf("error unmarshaling response: %w", err)
 	}
 
-	return formatted, nil
+	return payment, nil
 }
 
 func (c *client) Cancel(ctx context.Context, id int64) (*Response, error) {
@@ -144,12 +154,12 @@ func (c *client) Cancel(ctx context.Context, id int64) (*Response, error) {
 		return nil, err
 	}
 
-	formatted := &Response{}
-	if err := json.Unmarshal(res, &formatted); err != nil {
+	var payment *Response
+	if err := json.Unmarshal(res, &payment); err != nil {
 		return nil, fmt.Errorf("error unmarshaling response: %w", err)
 	}
 
-	return formatted, nil
+	return payment, nil
 }
 
 func (c *client) Capture(ctx context.Context, id int64) (*Response, error) {
@@ -170,12 +180,12 @@ func (c *client) Capture(ctx context.Context, id int64) (*Response, error) {
 		return nil, err
 	}
 
-	formatted := &Response{}
-	if err := json.Unmarshal(res, &formatted); err != nil {
+	var payment *Response
+	if err := json.Unmarshal(res, &payment); err != nil {
 		return nil, fmt.Errorf("error unmarshaling response: %w", err)
 	}
 
-	return formatted, nil
+	return payment, nil
 }
 
 func (c *client) CaptureAmount(ctx context.Context, id int64, amount float64) (*Response, error) {
@@ -196,10 +206,26 @@ func (c *client) CaptureAmount(ctx context.Context, id int64, amount float64) (*
 		return nil, err
 	}
 
-	formatted := &Response{}
-	if err := json.Unmarshal(res, &formatted); err != nil {
+	var payment *Response
+	if err := json.Unmarshal(res, &payment); err != nil {
 		return nil, fmt.Errorf("error unmarshaling response: %w", err)
 	}
 
-	return formatted, nil
+	return payment, nil
+}
+
+func buildUrl(params url.Values) (string, error) {
+	url, err := url.Parse(searchURL)
+	if err != nil {
+		return "", fmt.Errorf("error parsing url: %w", err)
+	}
+
+	for key, value := range params {
+		for _, v := range value {
+			q := url.Query()
+			q.Add(key, v)
+			url.RawQuery = q.Encode()
+		}
+	}
+	return url.String(), nil
 }

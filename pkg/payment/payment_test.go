@@ -251,12 +251,12 @@ func TestSearch(t *testing.T) {
 				},
 				Results: []Response{
 					{
-						ID:           123,
+						ID:           57592046572,
 						Status:       "approved",
 						StatusDetail: "accredited",
 					},
 					{
-						ID:           456,
+						ID:           57592038796,
 						Status:       "pending",
 						StatusDetail: "pending_waiting_transfer",
 					},
