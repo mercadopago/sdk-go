@@ -1,4 +1,4 @@
-package paymentmethod
+package customercard
 
 type Response struct {
 	ID                   string   `json:"id"`
