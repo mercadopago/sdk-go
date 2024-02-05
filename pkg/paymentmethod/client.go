@@ -28,7 +28,7 @@ func NewClient(cfg *config.Config) Client {
 }
 
 func (c *client) List(ctx context.Context) ([]Response, error) {
-	res, err := httpclient.DoGet[[]Response](ctx, c.cfg, path)
+	res, err := httpclient.Get[[]Response](ctx, c.cfg, path)
 	if err != nil {
 		return nil, err
 	}
