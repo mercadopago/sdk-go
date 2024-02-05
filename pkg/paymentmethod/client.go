@@ -2,15 +2,12 @@ package paymentmethod
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
-	"net/http"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
-const url = "https://api.mercadopago.com/v1/payment_methods"
+const path = "/v1/payment_methods"
 
 // Client contains the methods to interact with the Payment Methods API.
 type Client interface {
@@ -22,31 +19,19 @@ type Client interface {
 
 // client is the implementation of Client.
 type client struct {
-	config *config.Config
+	cfg *config.Config
 }
 
 // NewClient returns a new Payment Methods API Client.
-func NewClient(c *config.Config) Client {
-	return &client{
-		config: c,
-	}
+func NewClient(cfg *config.Config) Client {
+	return &client{cfg}
 }
 
 func (c *client) List(ctx context.Context) ([]Response, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
-	}
-
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.DoGet[[]Response](ctx, c.cfg, path)
 	if err != nil {
 		return nil, err
 	}
 
-	var formatted []Response
-	if err := json.Unmarshal(res, &formatted); err != nil {
-		return nil, err
-	}
-
-	return formatted, nil
+	return *res, nil
 }
