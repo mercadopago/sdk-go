@@ -39,9 +39,9 @@ var (
 	trackingID = fmt.Sprintf("platform:%s,type:SDK%s,so;", runtime.Version(), currentSDKVersion)
 )
 
-// DoGet makes requests with the GET method
+// Get makes requests with the GET method
 // Will return the struct specified in Generics
-func DoGet[T any](ctx context.Context, cfg *config.Config, path string) (*T, error) {
+func Get[T any](ctx context.Context, cfg *config.Config, path string) (*T, error) {
 	req, err := makeRequest(ctx, cfg, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
@@ -50,9 +50,9 @@ func DoGet[T any](ctx context.Context, cfg *config.Config, path string) (*T, err
 	return send[T](cfg.Requester, req)
 }
 
-// DoPost makes requests with the POST method
+// Post makes requests with the POST method
 // Will return the struct specified in Generics
-func DoPost[T any](ctx context.Context, cfg *config.Config, path string, body interface{}) (*T, error) {
+func Post[T any](ctx context.Context, cfg *config.Config, path string, body interface{}) (*T, error) {
 	req, err := makeRequest(ctx, cfg, http.MethodPost, path, body)
 	if err != nil {
 		return nil, err
@@ -61,9 +61,9 @@ func DoPost[T any](ctx context.Context, cfg *config.Config, path string, body in
 	return send[T](cfg.Requester, req)
 }
 
-// DoPut makes requests with the PUT method
+// Put makes requests with the PUT method
 // Will return the struct specified in Generics
-func DoPut[T any](ctx context.Context, cfg *config.Config, path string, body interface{}) (*T, error) {
+func Put[T any](ctx context.Context, cfg *config.Config, path string, body interface{}) (*T, error) {
 	req, err := makeRequest(ctx, cfg, http.MethodPut, path, body)
 	if err != nil {
 		return nil, err
@@ -72,9 +72,9 @@ func DoPut[T any](ctx context.Context, cfg *config.Config, path string, body int
 	return send[T](cfg.Requester, req)
 }
 
-// DoDelete makes requests with the DELETE method
+// Delete makes requests with the DELETE method
 // Will return the struct specified in Generics
-func DoDelete[T any](ctx context.Context, cfg *config.Config, path string, body interface{}) (*T, error) {
+func Delete[T any](ctx context.Context, cfg *config.Config, path string, body interface{}) (*T, error) {
 	req, err := makeRequest(ctx, cfg, http.MethodDelete, path, body)
 	if err != nil {
 		return nil, err
