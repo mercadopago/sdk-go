@@ -14,8 +14,6 @@ import (
 )
 
 const (
-	domainMP = "https://api.mercadopago.com"
-
 	currentSDKVersion string = "x.x.x"
 	productID         string = "abc"
 	accept            string = "application/json"
@@ -116,13 +114,11 @@ func makeHeaders(req *http.Request, cfg *config.Config) {
 	}
 }
 
-func buildHTTPRequest(ctx context.Context, method, path string, body any) (*http.Request, error) {
+func buildHTTPRequest(ctx context.Context, method, url string, body any) (*http.Request, error) {
 	b, err := buildBody(body)
 	if err != nil {
 		return nil, err
 	}
-
-	var url = domainMP + path
 
 	return http.NewRequestWithContext(ctx, method, url, b)
 }
