@@ -26,6 +26,7 @@ const (
 	contentTypeHeader   = "Content-Type"
 	userAgentHeader     = "User-Agent"
 	trackingIDHeader    = "X-Tracking-Id"
+	requestIDHeader     = "X-Request-Id"
 	authorizationHeader = "Authorization"
 	idempotencyHeader   = "X-Idempotency-Key"
 
@@ -52,7 +53,7 @@ func Get[T any](ctx context.Context, cfg *config.Config, path string) (*T, error
 
 // Post makes requests with the POST method
 // Will return the struct specified in Generics
-func Post[T any](ctx context.Context, cfg *config.Config, path string, body interface{}) (*T, error) {
+func Post[T any](ctx context.Context, cfg *config.Config, path string, body any) (*T, error) {
 	req, err := makeRequest(ctx, cfg, http.MethodPost, path, body)
 	if err != nil {
 		return nil, err
@@ -63,7 +64,7 @@ func Post[T any](ctx context.Context, cfg *config.Config, path string, body inte
 
 // Put makes requests with the PUT method
 // Will return the struct specified in Generics
-func Put[T any](ctx context.Context, cfg *config.Config, path string, body interface{}) (*T, error) {
+func Put[T any](ctx context.Context, cfg *config.Config, path string, body any) (*T, error) {
 	req, err := makeRequest(ctx, cfg, http.MethodPut, path, body)
 	if err != nil {
 		return nil, err
@@ -74,7 +75,7 @@ func Put[T any](ctx context.Context, cfg *config.Config, path string, body inter
 
 // Delete makes requests with the DELETE method
 // Will return the struct specified in Generics
-func Delete[T any](ctx context.Context, cfg *config.Config, path string, body interface{}) (*T, error) {
+func Delete[T any](ctx context.Context, cfg *config.Config, path string, body any) (*T, error) {
 	req, err := makeRequest(ctx, cfg, http.MethodDelete, path, body)
 	if err != nil {
 		return nil, err
@@ -83,7 +84,7 @@ func Delete[T any](ctx context.Context, cfg *config.Config, path string, body in
 	return send[T](cfg.Requester, req)
 }
 
-func makeRequest(ctx context.Context, cfg *config.Config, method, path string, body interface{}) (*http.Request, error) {
+func makeRequest(ctx context.Context, cfg *config.Config, method, path string, body any) (*http.Request, error) {
 	req, err := buildHTTPRequest(ctx, method, path, body)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
@@ -102,6 +103,7 @@ func makeHeaders(req *http.Request, cfg *config.Config) {
 	req.Header.Set(trackingIDHeader, trackingID)
 	req.Header.Set(authorizationHeader, "Bearer "+cfg.AccessToken)
 	req.Header.Set(idempotencyHeader, uuid.New().String())
+	req.Header.Set(requestIDHeader, uuid.New().String())
 
 	if cfg.CorporationID != "" {
 		req.Header.Set(corporationIDHeader, cfg.CorporationID)
@@ -114,7 +116,7 @@ func makeHeaders(req *http.Request, cfg *config.Config) {
 	}
 }
 
-func buildHTTPRequest(ctx context.Context, method, path string, body interface{}) (*http.Request, error) {
+func buildHTTPRequest(ctx context.Context, method, path string, body any) (*http.Request, error) {
 	b, err := buildBody(body)
 	if err != nil {
 		return nil, err
@@ -125,7 +127,7 @@ func buildHTTPRequest(ctx context.Context, method, path string, body interface{}
 	return http.NewRequestWithContext(ctx, method, url, b)
 }
 
-func buildBody(body interface{}) (io.Reader, error) {
+func buildBody(body any) (io.Reader, error) {
 	if body == nil {
 		return nil, nil
 	}
