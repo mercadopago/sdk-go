@@ -21,18 +21,18 @@ const (
 	accept            string = "application/json"
 	contentType       string = "application/json; charset=UTF-8"
 
-	productIDHeader     = "X-Product-Id"
-	acceptHeader        = "Accept"
-	contentTypeHeader   = "Content-Type"
-	userAgentHeader     = "User-Agent"
-	trackingIDHeader    = "X-Tracking-Id"
-	requestIDHeader     = "X-Request-Id"
-	authorizationHeader = "Authorization"
-	idempotencyHeader   = "X-Idempotency-Key"
+	headerProductID     = "X-Product-Id"
+	headerAccept        = "Accept"
+	headerContentType   = "Content-Type"
+	headerUserAgent     = "User-Agent"
+	headerTrackingID    = "X-Tracking-Id"
+	headerRequestID     = "X-Request-Id"
+	headerAuthorization = "Authorization"
+	headerIdempotency   = "X-Idempotency-Key"
 
-	corporationIDHeader = "X-Corporation-Id"
-	integratorIDHeader  = "X-Integrator-Id"
-	platformIDHeader    = "X-Platform-Id"
+	headerCorporationID = "X-Corporation-Id"
+	headerIntegratorID  = "X-Integrator-Id"
+	headerPlatformID    = "X-Platform-Id"
 )
 
 var (
@@ -96,23 +96,23 @@ func makeRequest(ctx context.Context, cfg *config.Config, method, path string, b
 }
 
 func makeHeaders(req *http.Request, cfg *config.Config) {
-	req.Header.Set(productIDHeader, productID)
-	req.Header.Set(acceptHeader, accept)
-	req.Header.Set(contentTypeHeader, contentType)
-	req.Header.Set(userAgentHeader, userAgent)
-	req.Header.Set(trackingIDHeader, trackingID)
-	req.Header.Set(authorizationHeader, "Bearer "+cfg.AccessToken)
-	req.Header.Set(idempotencyHeader, uuid.New().String())
-	req.Header.Set(requestIDHeader, uuid.New().String())
+	req.Header.Set(headerProductID, productID)
+	req.Header.Set(headerAccept, accept)
+	req.Header.Set(headerContentType, contentType)
+	req.Header.Set(headerUserAgent, userAgent)
+	req.Header.Set(headerTrackingID, trackingID)
+	req.Header.Set(headerAuthorization, "Bearer "+cfg.AccessToken)
+	req.Header.Set(headerIdempotency, uuid.New().String())
+	req.Header.Set(headerRequestID, uuid.New().String())
 
 	if cfg.CorporationID != "" {
-		req.Header.Set(corporationIDHeader, cfg.CorporationID)
+		req.Header.Set(headerCorporationID, cfg.CorporationID)
 	}
 	if cfg.IntegratorID != "" {
-		req.Header.Set(integratorIDHeader, cfg.IntegratorID)
+		req.Header.Set(headerIntegratorID, cfg.IntegratorID)
 	}
 	if cfg.PlatformID != "" {
-		req.Header.Set(platformIDHeader, cfg.PlatformID)
+		req.Header.Set(headerPlatformID, cfg.PlatformID)
 	}
 }
 
