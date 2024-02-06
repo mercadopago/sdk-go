@@ -7,7 +7,7 @@ import (
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
-const path = "/v1/payment_methods"
+const url = "https://api.mercadopago.com/v1/payment_methods"
 
 // Client contains the methods to interact with the Payment Methods API.
 type Client interface {
@@ -28,7 +28,7 @@ func NewClient(cfg *config.Config) Client {
 }
 
 func (c *client) List(ctx context.Context) ([]Response, error) {
-	res, err := httpclient.Get[[]Response](ctx, c.cfg, path)
+	res, err := httpclient.Get[[]Response](ctx, c.cfg, url)
 	if err != nil {
 		return nil, err
 	}
