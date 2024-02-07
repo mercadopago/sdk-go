@@ -38,6 +38,7 @@ func TestRefund(t *testing.T) {
 		payment, err := client.Create(context.Background(), dto)
 		if payment == nil {
 			t.Error("result can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -83,6 +84,7 @@ func TestRefund(t *testing.T) {
 		payment, err := client.Create(context.Background(), dto)
 		if payment == nil {
 			t.Error("result can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -132,6 +134,7 @@ func TestRefund(t *testing.T) {
 		payment, err := client.Create(context.Background(), dto)
 		if payment == nil {
 			t.Error("result can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())

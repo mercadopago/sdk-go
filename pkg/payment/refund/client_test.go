@@ -85,7 +85,7 @@ func TestCreate(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want:    nil,
-			wantErr: "error unmarshaling response: invalid character 'i' looking for beginning of value",
+			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_formatted_response",
@@ -112,7 +112,7 @@ func TestCreate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
-				config: tt.fields.config,
+				cfg: tt.fields.config,
 			}
 			got, err := c.Create(tt.args.ctx, tt.args.dto, 1622029222)
 			gotErr := ""
@@ -191,7 +191,7 @@ func TestGet(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want:    nil,
-			wantErr: "error unmarshaling response: invalid character 'i' looking for beginning of value",
+			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_formatted_response",
@@ -218,7 +218,7 @@ func TestGet(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
-				config: tt.fields.config,
+				cfg: tt.fields.config,
 			}
 			got, err := c.Get(tt.args.ctx, 1622029222, 12355555)
 			gotErr := ""
@@ -297,7 +297,7 @@ func TestList(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want:    nil,
-			wantErr: "error unmarshaling response: invalid character 'i' looking for beginning of value",
+			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_formatted_response",
@@ -324,7 +324,7 @@ func TestList(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
-				config: tt.fields.config,
+				cfg: tt.fields.config,
 			}
 			got, err := c.List(tt.args.ctx, 1622029222)
 			gotErr := ""
