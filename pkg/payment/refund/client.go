@@ -2,9 +2,6 @@ package refund
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
-	"net/http"
 	"strconv"
 	"strings"
 
@@ -39,40 +36,25 @@ type Client interface {
 
 // client is the implementation of Client.
 type client struct {
-	config *config.Config
+	cfg *config.Config
 }
 
 // NewClient returns a new Payment's refund API Client.
 func NewClient(c *config.Config) Client {
 	return &client{
-		config: c,
+		cfg: c,
 	}
 }
 
 func (c *client) Create(ctx context.Context, request Request, paymentID int64) (*Response, error) {
 	conv := strconv.Itoa(int(paymentID))
 
-	body, err := json.Marshal(&request)
-	if err != nil {
-		return nil, fmt.Errorf("error marshaling request body: %w", err)
-	}
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, strings.Replace(postURL, "{id}", conv, 1), strings.NewReader(string(body)))
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
-	}
-
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.Post[Response](ctx, c.cfg, strings.Replace(postURL, "{id}", conv, 1), request)
 	if err != nil {
 		return nil, err
 	}
 
-	var refund *Response
-	if err := json.Unmarshal(res, &refund); err != nil {
-		return nil, fmt.Errorf("error unmarshaling response: %w", err)
-	}
-
-	return refund, nil
+	return res, nil
 }
 
 func (c *client) Get(ctx context.Context, paymentID, refundID int64) (*Response, error) {
@@ -81,41 +63,21 @@ func (c *client) Get(ctx context.Context, paymentID, refundID int64) (*Response,
 
 	url := strings.NewReplacer("{id}", conv, "{refund_id}", refundConv).Replace(getURL)
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
-	}
-
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.Get[Response](ctx, c.cfg, url)
 	if err != nil {
 		return nil, err
 	}
 
-	var refund *Response
-	if err := json.Unmarshal(res, &refund); err != nil {
-		return nil, fmt.Errorf("error unmarshaling response: %w", err)
-	}
-
-	return refund, nil
+	return res, nil
 }
 
 func (c *client) List(ctx context.Context, paymentID int64) ([]Response, error) {
 	conv := strconv.Itoa(int(paymentID))
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, strings.Replace(listURL, "{id}", conv, 1), nil)
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
-	}
-
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.Get[[]Response](ctx, c.cfg, strings.Replace(listURL, "{id}", conv, 1))
 	if err != nil {
 		return nil, err
 	}
 
-	var refunds []Response
-	if err := json.Unmarshal(res, &refunds); err != nil {
-		return nil, fmt.Errorf("error unmarshaling response: %w", err)
-	}
-
-	return refunds, nil
+	return *res, nil
 }
