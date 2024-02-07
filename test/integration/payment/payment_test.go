@@ -32,7 +32,7 @@ func TestPayment(t *testing.T) {
 		if result == nil {
 			t.Error("result can't be nil")
 		}
-		if result.ID == 0 {
+		if result != nil && result.ID == 0 {
 			t.Error("id can't be nil")
 		}
 		if err != nil {
@@ -89,7 +89,7 @@ func TestPayment(t *testing.T) {
 		if result == nil {
 			t.Error("result can't be nil")
 		}
-		if result.ID == 0 {
+		if result != nil && result.ID == 0 {
 			t.Error("id can't be nil")
 		}
 		if err != nil {
@@ -124,7 +124,7 @@ func TestPayment(t *testing.T) {
 		if result == nil {
 			t.Error("result can't be nil")
 		}
-		if result.ID == 0 {
+		if result != nil && result.ID == 0 {
 			t.Error("id can't be nil")
 		}
 		if err != nil {
