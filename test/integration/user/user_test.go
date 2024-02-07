@@ -11,7 +11,7 @@ import (
 
 func TestUser(t *testing.T) {
 	t.Run("should_get_user_information", func(t *testing.T) {
-		c, err := config.New(os.Getenv("at"))
+		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
