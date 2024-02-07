@@ -31,8 +31,9 @@ func TestPayment(t *testing.T) {
 		result, err := client.Create(context.Background(), dto)
 		if result == nil {
 			t.Error("result can't be nil")
+			return
 		}
-		if result != nil && result.ID == 0 {
+		if result.ID == 0 {
 			t.Error("id can't be nil")
 		}
 		if err != nil {
@@ -80,6 +81,7 @@ func TestPayment(t *testing.T) {
 		result, err := client.Create(context.Background(), dto)
 		if result == nil {
 			t.Error("result can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -88,8 +90,9 @@ func TestPayment(t *testing.T) {
 		result, err = client.Get(context.Background(), result.ID)
 		if result == nil {
 			t.Error("result can't be nil")
+			return
 		}
-		if result != nil && result.ID == 0 {
+		if result.ID == 0 {
 			t.Error("id can't be nil")
 		}
 		if err != nil {
@@ -115,6 +118,7 @@ func TestPayment(t *testing.T) {
 		result, err := client.Create(context.Background(), dto)
 		if result == nil {
 			t.Error("result can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -123,8 +127,9 @@ func TestPayment(t *testing.T) {
 		result, err = client.Cancel(context.Background(), result.ID)
 		if result == nil {
 			t.Error("result can't be nil")
+			return
 		}
-		if result != nil && result.ID == 0 {
+		if result.ID == 0 {
 			t.Error("id can't be nil")
 		}
 		if err != nil {
@@ -157,6 +162,7 @@ func TestPayment(t *testing.T) {
 		result, err := client.Create(context.Background(), dto)
 		if result == nil {
 			t.Error("result can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
