@@ -2,9 +2,7 @@ package payment
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"net/http"
 	"net/url"
 	"strconv"
 	"strings"
@@ -53,38 +51,23 @@ type Client interface {
 
 // client is the implementation of Client.
 type client struct {
-	config *config.Config
+	cfg *config.Config
 }
 
 // NewClient returns a new Payments API Client.
 func NewClient(c *config.Config) Client {
 	return &client{
-		config: c,
+		cfg: c,
 	}
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	body, err := json.Marshal(&request)
-	if err != nil {
-		return nil, fmt.Errorf("error marshaling request body: %w", err)
-	}
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, postURL, strings.NewReader(string(body)))
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
-	}
-
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.Post[Response](ctx, c.cfg, postURL, request)
 	if err != nil {
 		return nil, err
 	}
 
-	var payment *Response
-	if err := json.Unmarshal(res, &payment); err != nil {
-		return nil, fmt.Errorf("error unmarshaling response: %w", err)
-	}
-
-	return payment, nil
+	return res, nil
 }
 
 func (c *client) Search(ctx context.Context, dto SearchRequest) (*SearchResponse, error) {
@@ -96,136 +79,57 @@ func (c *client) Search(ctx context.Context, dto SearchRequest) (*SearchResponse
 	}
 	url.RawQuery = params
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url.String(), nil)
-
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
-	}
-
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.Get[SearchResponse](ctx, c.cfg, url.String())
 	if err != nil {
 		return nil, err
 	}
 
-	var payment *SearchResponse
-	if err := json.Unmarshal(res, &payment); err != nil {
-		return nil, fmt.Errorf("error unmarshaling response: %w", err)
-	}
-
-	return payment, nil
+	return res, nil
 }
 
 func (c *client) Get(ctx context.Context, id int64) (*Response, error) {
 	conv := strconv.Itoa(int(id))
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, strings.Replace(getURL, "{id}", conv, 1), nil)
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
-	}
-
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.Get[Response](ctx, c.cfg, strings.Replace(getURL, "{id}", conv, 1))
 	if err != nil {
 		return nil, err
 	}
 
-	var payment *Response
-	if err := json.Unmarshal(res, &payment); err != nil {
-		return nil, fmt.Errorf("error unmarshaling response: %w", err)
-	}
-
-	return payment, nil
+	return res, nil
 }
 
 func (c *client) Cancel(ctx context.Context, id int64) (*Response, error) {
 	dto := &CancelRequest{Status: "cancelled"}
-	body, err := json.Marshal(dto)
-	if err != nil {
-		return nil, fmt.Errorf("error marshaling request body: %w", err)
-	}
-
 	conv := strconv.Itoa(int(id))
-	req, err := http.NewRequestWithContext(ctx, http.MethodPut, strings.Replace(putURL, "{id}", conv, 1), strings.NewReader(string(body)))
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
-	}
 
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.Put[Response](ctx, c.cfg, strings.Replace(putURL, "{id}", conv, 1), dto)
 	if err != nil {
 		return nil, err
 	}
 
-	var payment *Response
-	if err := json.Unmarshal(res, &payment); err != nil {
-		return nil, fmt.Errorf("error unmarshaling response: %w", err)
-	}
-
-	return payment, nil
+	return res, nil
 }
 
 func (c *client) Capture(ctx context.Context, id int64) (*Response, error) {
 	dto := &CaptureRequest{Capture: true}
-	body, err := json.Marshal(dto)
-	if err != nil {
-		return nil, fmt.Errorf("error marshaling request body: %w", err)
-	}
-
 	conv := strconv.Itoa(int(id))
-	req, err := http.NewRequestWithContext(ctx, http.MethodPut, strings.Replace(putURL, "{id}", conv, 1), strings.NewReader(string(body)))
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
-	}
 
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.Put[Response](ctx, c.cfg, strings.Replace(putURL, "{id}", conv, 1), dto)
 	if err != nil {
 		return nil, err
 	}
 
-	var payment *Response
-	if err := json.Unmarshal(res, &payment); err != nil {
-		return nil, fmt.Errorf("error unmarshaling response: %w", err)
-	}
-
-	return payment, nil
+	return res, nil
 }
 
 func (c *client) CaptureAmount(ctx context.Context, id int64, amount float64) (*Response, error) {
 	dto := &CaptureRequest{TransactionAmount: amount, Capture: true}
-	body, err := json.Marshal(dto)
-	if err != nil {
-		return nil, fmt.Errorf("error marshaling request body: %w", err)
-	}
-
 	conv := strconv.Itoa(int(id))
-	req, err := http.NewRequestWithContext(ctx, http.MethodPut, strings.Replace(putURL, "{id}", conv, 1), strings.NewReader(string(body)))
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
-	}
 
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.Put[Response](ctx, c.cfg, strings.Replace(putURL, "{id}", conv, 1), dto)
 	if err != nil {
 		return nil, err
 	}
 
-	var payment *Response
-	if err := json.Unmarshal(res, &payment); err != nil {
-		return nil, fmt.Errorf("error unmarshaling response: %w", err)
-	}
-
-	return payment, nil
-}
-
-func buildUrl(params url.Values) (string, error) {
-	url, err := url.Parse(searchURL)
-	if err != nil {
-		return "", fmt.Errorf("error parsing url: %w", err)
-	}
-
-	for key, value := range params {
-		for _, v := range value {
-			q := url.Query()
-			q.Add(key, v)
-			url.RawQuery = q.Encode()
-		}
-	}
-	return url.String(), nil
+	return res, nil
 }
