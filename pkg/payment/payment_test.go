@@ -223,7 +223,7 @@ func TestSearch(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want:    nil,
-			wantErr: "error unmarshaling response: invalid character 'i' looking for beginning of value",
+			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_formatted_response",
@@ -242,6 +242,9 @@ func TestSearch(t *testing.T) {
 			},
 			args: args{
 				ctx: context.Background(),
+				dto: SearchRequest{
+					Limit: "30",
+				},
 			},
 			want: &SearchResponse{
 				Paging: PagingResponse{
@@ -348,7 +351,7 @@ func TestGet(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want:    nil,
-			wantErr: "error unmarshaling response: invalid character 'i' looking for beginning of value",
+			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_formatted_response",
@@ -459,7 +462,7 @@ func TestCancel(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want:    nil,
-			wantErr: "error unmarshaling response: invalid character 'i' looking for beginning of value",
+			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_formatted_response",
@@ -570,7 +573,7 @@ func TestCapture(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want:    nil,
-			wantErr: "error unmarshaling response: invalid character 'i' looking for beginning of value",
+			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_formatted_response",
@@ -682,7 +685,7 @@ func TestCaptureAmount(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want:    nil,
-			wantErr: "error unmarshaling response: invalid character 'i' looking for beginning of value",
+			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_formatted_response",
