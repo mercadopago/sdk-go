@@ -8,7 +8,7 @@ import (
 type Request struct {
 	AdditionalInfo      string                                `json:"additional_info,omitempty"`
 	AutoReturn          string                                `json:"auto_return,omitempty"`
-	BackUrls            PreferenceBackUrlsRequest             `json:"back_urls,omitempty"`
+	BackUrls            *PreferenceBackUrlsRequest            `json:"back_urls,omitempty"`
 	BinaryMode          *bool                                 `json:"binary_mode,omitempty"`
 	DateOfExpiration    *time.Time                            `json:"date_of_expiration,omitempty"`
 	DifferentialPricing *PreferenceDifferentialPricingRequest `json:"differential_pricing,omitempty"`
@@ -22,11 +22,11 @@ type Request struct {
 	Metadata            map[string]interface{}                `json:"metadata,omitempty"`
 	NotificationUrl     string                                `json:"notification_url,omitempty"`
 	OperationType       string                                `json:"operation_type,omitempty"`
-	Payer               PreferencePayerRequest                `json:"payer,omitempty"`
-	PaymentMethods      PreferencePaymentMethodsRequest       `json:"payment_methods,omitempty"`
+	Payer               *PreferencePayerRequest               `json:"payer,omitempty"`
+	PaymentMethods      *PreferencePaymentMethodsRequest      `json:"payment_methods,omitempty"`
 	ProcessingModes     []string                              `json:"processing_modes,omitempty"`
 	Purpose             string                                `json:"purpose,omitempty"`
-	Shipments           PreferenceShipmentsRequest            `json:"shipments,omitempty"`
+	Shipments           *PreferenceShipmentsRequest           `json:"shipments,omitempty"`
 	StatementDescriptor string                                `json:"statement_descriptor,omitempty"`
 	Taxes               []PreferenceTaxRequest                `json:"taxes,omitempty"`
 	Tracks              []PreferenceTrackRequest              `json:"tracks,omitempty"`

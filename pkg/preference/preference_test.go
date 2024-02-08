@@ -148,7 +148,7 @@ func TestCreate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
-				config: tt.fields.config,
+				cfg: tt.fields.config,
 			}
 
 			dto := Request{
@@ -299,7 +299,7 @@ func TestGet(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
-				config: tt.fields.config,
+				cfg: tt.fields.config,
 			}
 			got, err := c.Get(tt.args.ctx, "1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4")
 			gotErr := ""
@@ -438,7 +438,7 @@ func TestUpdate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
-				config: tt.fields.config,
+				cfg: tt.fields.config,
 			}
 
 			dto := Request{
@@ -452,7 +452,7 @@ func TestUpdate(t *testing.T) {
 					},
 				},
 			}
-			got, err := c.Update(tt.args.ctx, "1273205088-6a2d2fa5-edb8-4d06-90c7-74b756a75f38", dto)
+			got, err := c.Update(tt.args.ctx, dto, "1273205088-6a2d2fa5-edb8-4d06-90c7-74b756a75f38")
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
@@ -583,12 +583,12 @@ func TestSearch(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
-				config: tt.fields.config,
+				cfg: tt.fields.config,
 			}
 
 			dto := SearchRequest{
-				Limit:  22,
-				Offset: 100,
+				Limit:  "22",
+				Offset: "100",
 			}
 			got, err := c.Search(tt.args.ctx, dto)
 			gotErr := ""
