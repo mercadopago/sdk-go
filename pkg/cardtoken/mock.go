@@ -11,8 +11,8 @@ func mockCardToken() *Response {
 		ExpirationMonth: 11,
 		ExpirationYear:  2025,
 		LastFourDigits:  "6351",
-		Cardholder: Cardholder{
-			Identification: Identification{
+		Cardholder: &Cardholder{
+			Identification: &Identification{
 				Number: "70383868084",
 				Type:   "CPF",
 			},
@@ -36,8 +36,8 @@ func MockCardTokenRequest() Request {
 		ExpirationMonth: "11",
 		ExpirationYear:  "2025",
 		SecurityCode:    "123",
-		Cardholder: Cardholder{
-			Identification: Identification{
+		Cardholder: &Cardholder{
+			Identification: &Identification{
 				Type:   "CPF",
 				Number: "70383868084",
 			},
