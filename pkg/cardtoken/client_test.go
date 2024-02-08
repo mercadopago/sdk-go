@@ -70,7 +70,7 @@ func TestCreate(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want:    nil,
-			wantErr: "error create card token: transport level error: some error",
+			wantErr: "transport level error: some error",
 		},
 	}
 	for _, tt := range tests {
