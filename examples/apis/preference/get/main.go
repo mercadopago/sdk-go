@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
@@ -10,25 +9,18 @@ import (
 )
 
 func main() {
-	at := "{{ACCESS_TOKEN}}"
-	c, err := config.New(at)
+	c, err := config.New("{{ACCESS_TOKEN}}")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	client := preference.NewClient(c)
-	res, err := client.Get(context.Background(), "id")
+	res, err := client.Get(context.Background(), "{{ID_PREFERENCE}}")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	resJSON, err := json.MarshalIndent(res, "", "  ")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(string(resJSON))
+	fmt.Println(res)
 }

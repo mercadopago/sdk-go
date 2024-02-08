@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
@@ -10,17 +9,19 @@ import (
 )
 
 func main() {
-	at := "{{ACCESS_TOKEN}}"
-	c, err := config.New(at)
+	c, err := config.New("{{ACCESS_TOKEN}}")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	client := preference.NewClient(c)
 
+	filter := make(map[string]string)
+	filter["external_reference"] = "wee3rffee23"
 	filters := preference.SearchRequest{
-		Limit:  10,
-		Offset: 10,
+		Limit:   "10",
+		Offset:  "10",
+		Filters: filter,
 	}
 
 	res, err := client.Search(context.Background(), filters)
@@ -28,11 +29,5 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	resJSON, err := json.MarshalIndent(res, "", "  ")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(string(resJSON))
+	fmt.Println(res)
 }

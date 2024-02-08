@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
@@ -10,8 +9,7 @@ import (
 )
 
 func main() {
-	at := "{{ACCESS_TOKEN}}"
-	c, err := config.New(at)
+	c, err := config.New("{{ACCESS_TOKEN}}")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -21,25 +19,39 @@ func main() {
 		Items: []preference.PreferenceItemRequest{
 			{
 				ID:          "123",
-				Title:       "updating Title",
-				UnitPrice:   10,
-				Quantity:    3,
-				Description: "updating Description",
+				Title:       "Title",
+				UnitPrice:   100,
+				Quantity:    1,
+				Description: "Description",
 			},
 		},
 	}
 
 	client := preference.NewClient(c)
-	res, err := client.Update(context.Background(), "id", request)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	resJSON, err := json.MarshalIndent(res, "", "  ")
+	res, err := client.Create(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(string(resJSON))
+	request = preference.Request{
+		Items: []preference.PreferenceItemRequest{
+			{
+				ID:          "123",
+				Title:       "updating Title",
+				UnitPrice:   100,
+				Quantity:    4,
+				Description: "updating Description",
+			},
+		},
+	}
+
+	client = preference.NewClient(c)
+	res, err = client.Update(context.Background(), request, res.ID)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(res)
 }
