@@ -11,7 +11,10 @@ const (
 	url = "https://api.mercadopago.com/v1/card_tokens"
 )
 
+// Client contains the method to interact with the card token API.
 type Client interface {
+	// Create create a card token.
+	// It is a post request to the endpoint: https://api.mercadopago.com/v1/card_tokens
 	Create(ctx context.Context, request Request) (*Response, error)
 }
 
