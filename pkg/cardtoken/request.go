@@ -1,7 +1,7 @@
 package cardtoken
 
 type Request struct {
-	SiteId          string     `json:"site_id"`
+	SiteID          string     `json:"site_id"`
 	CardNumber      string     `json:"card_number"`
 	ExpirationYear  string     `json:"expiration_year"`
 	ExpirationMonth string     `json:"expiration_month"`
