@@ -14,8 +14,8 @@ type Response struct {
 	ExpirationYear     int        `json:"expiration_year"`
 	CardNumberLength   int        `json:"card_number_length"`
 	SecurityCodeLength int        `json:"security_code_length"`
-	DateCreated        time.Time  `json:"date_created"`
-	DateLastUpdated    time.Time  `json:"date_last_updated"`
-	DateDue            time.Time  `json:"date_due"`
+	DateCreated        *time.Time `json:"date_created"`
+	DateLastUpdated    *time.Time `json:"date_last_updated"`
+	DateDue            *time.Time `json:"date_due"`
 	Cardholder         Cardholder `json:"cardholder"`
 }
