@@ -16,8 +16,8 @@ func TestUser(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		pmc := user.NewClient(c)
-		res, err := pmc.Get(context.Background())
+		client := user.NewClient(c)
+		res, err := client.Get(context.Background())
 
 		if res == nil {
 			t.Error("res can't be nil")
