@@ -1,4 +1,4 @@
-package integration
+package cardtoken
 
 import (
 	"context"
