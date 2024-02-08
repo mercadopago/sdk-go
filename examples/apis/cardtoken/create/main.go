@@ -19,7 +19,22 @@ func main() {
 
 	client := cardtoken.NewClient(cfg)
 
-	result, err := client.Create(context.Background(), cardtoken.Request{})
+	var req = cardtoken.Request{
+		SiteID:          "{{SiteID}}",
+		CardNumber:      "{{CardNumber}}",
+		ExpirationMonth: "11",
+		ExpirationYear:  "2025",
+		SecurityCode:    "123",
+		Cardholder: &cardtoken.Cardholder{
+			Identification: &cardtoken.Identification{
+				Type:   "CPF",
+				Number: "{{CPFNumber}}",
+			},
+			Name: "{{PaymentMethod}}",
+		},
+	}
+
+	result, err := client.Create(context.Background(), req)
 	if err != nil {
 		return
 	}
