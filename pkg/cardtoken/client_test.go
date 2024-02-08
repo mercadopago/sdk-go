@@ -9,9 +9,11 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
+	"github.com/stretchr/testify/assert"
 )
 
 var (
@@ -92,4 +94,8 @@ func TestCreate(t *testing.T) {
 			}
 		})
 	}
+}
+
+func Test_parseDate(t *testing.T) {
+	assert.IsType(t, &time.Time{}, parseDate("2024-02-08T09:05:42.725-04:00"))
 }
