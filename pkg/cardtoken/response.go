@@ -3,7 +3,7 @@ package cardtoken
 import "time"
 
 type Response struct {
-	Id                 string     `json:"id"`
+	ID                 string     `json:"id"`
 	FirstSixDigits     string     `json:"first_six_digits"`
 	LastFourDigits     string     `json:"last_four_digits"`
 	Status             string     `json:"status"`

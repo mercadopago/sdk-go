@@ -1,15 +1,15 @@
 {
     "id": "3d40b34eb41a6d0923e5bc545927c2e9",
-    "first_six_digits": "123456",
+    "first_six_digits": "503143",
     "expiration_month": 11,
-    "expiration_year": 2030,
-    "last_four_digits": "1234",
+    "expiration_year": 2025,
+    "last_four_digits": "6351",
     "cardholder": {
         "identification": {
-            "number": "12345678901",
+            "number": "70383868084",
             "type": "CPF"
         },
-        "name": "APRO"
+        "name": "MASTER TEST"
     },
     "status": "active",
     "date_created": "2024-02-08T09:05:42.725-04:00",
