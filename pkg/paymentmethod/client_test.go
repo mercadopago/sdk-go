@@ -129,7 +129,7 @@ func TestList(t *testing.T) {
 			if err != nil {
 				gotErr = err.Error()
 			}
-			
+
 			if gotErr != tt.wantErr {
 				t.Errorf("client.List() error = %v, wantErr %v", err, tt.wantErr)
 			}
