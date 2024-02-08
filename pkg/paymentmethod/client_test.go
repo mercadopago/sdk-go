@@ -123,9 +123,7 @@ func TestList(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := &client{
-				config: tt.fields.config,
-			}
+			c := &client{tt.fields.config}
 			got, err := c.List(tt.args.ctx)
 			gotErr := ""
 			if err != nil {
