@@ -20,17 +20,17 @@ func main() {
 	client := cardtoken.NewClient(cfg)
 
 	var req = cardtoken.Request{
-		SiteID:          "{{SiteID}}",
-		CardNumber:      "{{CardNumber}}",
+		SiteID:          "{{SITE_ID}}",
+		CardNumber:      "{{CARD_NUMBER}}",
 		ExpirationMonth: "11",
 		ExpirationYear:  "2025",
 		SecurityCode:    "123",
 		Cardholder: &cardtoken.Cardholder{
 			Identification: &cardtoken.Identification{
 				Type:   "CPF",
-				Number: "{{CPFNumber}}",
+				Number: "{{CPF_NUMBER}}",
 			},
-			Name: "{{PaymentMethod}}",
+			Name: "{{PAYMENT_METHOD}}",
 		},
 	}
 
