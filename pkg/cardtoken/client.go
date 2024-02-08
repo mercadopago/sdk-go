@@ -2,7 +2,6 @@ package cardtoken
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
@@ -27,7 +26,7 @@ func NewClient(c *config.Config) Client {
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
 	res, err := httpclient.Post[Response](ctx, c.cfg, url, request)
 	if err != nil {
-		return nil, fmt.Errorf("error create card token: %w", err)
+		return nil, err
 	}
 	return res, nil
 }
