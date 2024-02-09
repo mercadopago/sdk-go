@@ -2,20 +2,15 @@ package customercard
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
-	"net/http"
-	"strconv"
-	"strings"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const (
-	baseURL      = "https://api.mercadopago.com/v1/customers/{customer_id}"
-	cardsURL     = baseURL + "/cards"
-	cardsByIDURL = baseURL + cardsURL + "/{card_id}"
+	urlBase        = "https://api.mercadopago.com/v1/customers/{customer_id}"
+	urlCards       = urlBase + "/cards"
+	urlCardsWithID = urlCards + "/{card_id}"
 )
 
 // Client contains the methods to interact with the Payment Methods API.
@@ -33,7 +28,7 @@ type Client interface {
 	// Update a customer card by ID.
 	// It is a put request to the endpoint: https://api.mercadopago.com/v1/customer/{customer_id}/cards/{card_id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/cards/_customers_customer_id_cards_id/put
-	Update(ctx context.Context, customerID, cardID string) (*Response, error)
+	Update(ctx context.Context, customerID, cardID string, request Request) (*Response, error)
 
 	// Delete deletes a customer card by ID.
 	// It is a delete request to the endpoint: https://api.mercadopago.com/v1/customer/{customer_id}/cards/{card_id}
@@ -59,108 +54,69 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, customerID string, request Request) (*Response, error) {
-	body, err := json.Marshal(&request)
-	if err != nil {
-		return nil, fmt.Errorf("error marshaling request body: %w", err)
+	params := map[string]string{
+		"customer_id": customerID,
 	}
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, cardsURL, strings.NewReader(string(body)))
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
-	}
-
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.Post[Response](ctx, c.config, urlCards, request, httpclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	formatted := &Response{}
-	if err := json.Unmarshal(res, &formatted); err != nil {
-		return nil, fmt.Errorf("error unmarshaling response: %w", err)
-	}
-
-	return formatted, nil
+	return res, nil
 }
 
 func (c *client) Get(ctx context.Context, customerID, cardID string) (*Response, error) {
-	url := strings.Replace(cardsByIDURL, "{customer_id}", customerID, 1)
-	url = strings.Replace(cardsByIDURL, "{card_id}", cardID, 1)
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
+	params := map[string]string{
+		"customer_id": customerID,
+		"card_id":     cardID,
 	}
 
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.Get[Response](ctx, c.config, urlCardsWithID, httpclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	formatted := &Response{}
-	if err := json.Unmarshal(res, &formatted); err != nil {
-		return nil, fmt.Errorf("error unmarshaling response: %w", err)
-	}
-
-	return formatted, nil
+	return res, nil
 }
 
-func (c *client) Update(ctx context.Context, customerID, cardID string) (*Response, error) {
-	conv := strconv.Itoa(int(id))
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, strings.Replace(getURL, "{id}", conv, 1), nil)
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
+func (c *client) Update(ctx context.Context, customerID, cardID string, request Request) (*Response, error) {
+	params := map[string]string{
+		"customer_id": customerID,
+		"card_id":     cardID,
 	}
 
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.Put[Response](ctx, c.config, urlCardsWithID, request, httpclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	formatted := &Response{}
-	if err := json.Unmarshal(res, &formatted); err != nil {
-		return nil, fmt.Errorf("error unmarshaling response: %w", err)
-	}
-
-	return formatted, nil
+	return res, nil
 }
 
 func (c *client) Delete(ctx context.Context, customerID, cardID string) (*Response, error) {
-	conv := strconv.Itoa(int(id))
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, strings.Replace(getURL, "{id}", conv, 1), nil)
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
+	params := map[string]string{
+		"customer_id": customerID,
+		"card_id":     cardID,
 	}
 
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.Delete[Response](ctx, c.config, urlCardsWithID, nil, httpclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	formatted := &Response{}
-	if err := json.Unmarshal(res, &formatted); err != nil {
-		return nil, fmt.Errorf("error unmarshaling response: %w", err)
-	}
-
-	return formatted, nil
+	return res, nil
 }
 
 func (c *client) List(ctx context.Context, customerID string) ([]Response, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
+	params := map[string]string{
+		"customer_id": customerID,
 	}
 
-	res, err := httpclient.Send(ctx, c.config, req)
+	res, err := httpclient.Get[[]Response](ctx, c.config, urlCards, httpclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	var formatted []Response
-	if err := json.Unmarshal(res, &formatted); err != nil {
-		return nil, err
-	}
-
-	return formatted, nil
+	return *res, nil
 }
