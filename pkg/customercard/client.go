@@ -11,6 +11,9 @@ const (
 	urlBase        = "https://api.mercadopago.com/v1/customers/{customer_id}"
 	urlCards       = urlBase + "/cards"
 	urlCardsWithID = urlCards + "/{card_id}"
+
+	paramCustomerID = "customer_id"
+	paramCardID     = "card_id"
 )
 
 // Client contains the methods to interact with the Payment Methods API.
@@ -55,7 +58,7 @@ func NewClient(c *config.Config) Client {
 
 func (c *client) Create(ctx context.Context, customerID string, request Request) (*Response, error) {
 	params := map[string]string{
-		"customer_id": customerID,
+		paramCustomerID: customerID,
 	}
 
 	res, err := httpclient.Post[Response](ctx, c.config, urlCards, request, httpclient.WithPathParams(params))
@@ -68,8 +71,8 @@ func (c *client) Create(ctx context.Context, customerID string, request Request)
 
 func (c *client) Get(ctx context.Context, customerID, cardID string) (*Response, error) {
 	params := map[string]string{
-		"customer_id": customerID,
-		"card_id":     cardID,
+		paramCustomerID: customerID,
+		paramCardID:     cardID,
 	}
 
 	res, err := httpclient.Get[Response](ctx, c.config, urlCardsWithID, httpclient.WithPathParams(params))
@@ -82,8 +85,8 @@ func (c *client) Get(ctx context.Context, customerID, cardID string) (*Response,
 
 func (c *client) Update(ctx context.Context, customerID, cardID string, request Request) (*Response, error) {
 	params := map[string]string{
-		"customer_id": customerID,
-		"card_id":     cardID,
+		paramCustomerID: customerID,
+		paramCardID:     cardID,
 	}
 
 	res, err := httpclient.Put[Response](ctx, c.config, urlCardsWithID, request, httpclient.WithPathParams(params))
@@ -96,8 +99,8 @@ func (c *client) Update(ctx context.Context, customerID, cardID string, request 
 
 func (c *client) Delete(ctx context.Context, customerID, cardID string) (*Response, error) {
 	params := map[string]string{
-		"customer_id": customerID,
-		"card_id":     cardID,
+		paramCustomerID: customerID,
+		paramCardID:     cardID,
 	}
 
 	res, err := httpclient.Delete[Response](ctx, c.config, urlCardsWithID, nil, httpclient.WithPathParams(params))
@@ -110,7 +113,7 @@ func (c *client) Delete(ctx context.Context, customerID, cardID string) (*Respon
 
 func (c *client) List(ctx context.Context, customerID string) ([]Response, error) {
 	params := map[string]string{
-		"customer_id": customerID,
+		paramCustomerID: customerID,
 	}
 
 	res, err := httpclient.Get[[]Response](ctx, c.config, urlCards, httpclient.WithPathParams(params))
