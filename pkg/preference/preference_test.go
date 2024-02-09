@@ -115,7 +115,7 @@ func TestCreate(t *testing.T) {
 				ClientID:         "4679935697572392",
 				CollectorID:      1273205088,
 				OperationType:    "regular_payment",
-				DateCreated:      parseTime("2024-01-26T08:18:23.229-04:00"),
+				DateCreated:      parseDate("2024-01-26T08:18:23.229-04:00"),
 				Marketplace:      "NONE",
 				SandboxInitPoint: "https://sandbox.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-6da17b39-3bf4-4307-9124-4381c56372e0",
 				SiteID:           "MLB",
@@ -263,8 +263,8 @@ func TestGet(t *testing.T) {
 				ClientID:         "4679935697572392",
 				CollectorID:      1273205088,
 				OperationType:    "regular_payment",
-				DateCreated:      parseTime("2024-01-23T13:25:20.360-04:00"),
-				LastUpdated:      parseTime("2024-01-24T17:39:54.750-04:00"),
+				DateCreated:      parseDate("2024-01-23T13:25:20.360-04:00"),
+				LastUpdated:      parseDate("2024-01-24T17:39:54.750-04:00"),
 				Marketplace:      "NONE",
 				SandboxInitPoint: "https://sandbox.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4",
 				SiteID:           "MLB",
@@ -402,8 +402,8 @@ func TestUpdate(t *testing.T) {
 				ClientID:         "4679935697572392",
 				CollectorID:      1273205088,
 				OperationType:    "regular_payment",
-				DateCreated:      parseTime("2024-01-26T09:50:48.888-04:00"),
-				LastUpdated:      parseTime("2024-01-26T10:45:08.102-04:00"),
+				DateCreated:      parseDate("2024-01-26T09:50:48.888-04:00"),
+				LastUpdated:      parseDate("2024-01-26T10:45:08.102-04:00"),
 				Marketplace:      "NONE",
 				SandboxInitPoint: "https://sandbox.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-6a2d2fa5-edb8-4d06-90c7-74b756a75f38",
 				SiteID:           "MLB",
@@ -558,9 +558,9 @@ func TestSearch(t *testing.T) {
 						ClientID:           "4679935697572392",
 						CollectorID:        1273205088,
 						OperationType:      "regular_payment",
-						DateCreated:        parseTime("2023-10-31T10:01:03.555-04:00"),
-						ExpirationDateFrom: parseTime("2023-10-31T11:01:03.046-03:00"),
-						ExpirationDateTo:   parseTime("2023-11-30T11:01:03.046-03:00"),
+						DateCreated:        parseDate("2023-10-31T10:01:03.555-04:00"),
+						ExpirationDateFrom: parseDate("2023-10-31T11:01:03.046-03:00"),
+						ExpirationDateTo:   parseDate("2023-11-30T11:01:03.046-03:00"),
 						Expires:            true,
 						Marketplace:        "NONE",
 						SiteID:             "MLB",
@@ -606,7 +606,7 @@ func TestSearch(t *testing.T) {
 	}
 }
 
-func parseTime(s string) time.Time {
-	t, _ := time.Parse(time.RFC3339, s)
-	return t
+func parseDate(s string) *time.Time {
+	d, _ := time.Parse(time.RFC3339, s)
+	return &d
 }

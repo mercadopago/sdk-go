@@ -16,9 +16,9 @@ type Response struct {
 	StatementDescriptor string                        `json:"statement_descriptor"`
 	ExternalReference   string                        `json:"external_reference"`
 	Expires             bool                          `json:"expires"`
-	DateOfExpiration    time.Time                     `json:"date_of_expiration"`
-	ExpirationDateFrom  time.Time                     `json:"expiration_date_from"`
-	ExpirationDateTo    time.Time                     `json:"expiration_date_to"`
+	DateOfExpiration    *time.Time                    `json:"date_of_expiration"`
+	ExpirationDateFrom  *time.Time                    `json:"expiration_date_from"`
+	ExpirationDateTo    *time.Time                    `json:"expiration_date_to"`
 	CollectorID         int64                         `json:"collector_id"`
 	Marketplace         string                        `json:"marketplace"`
 	MarketplaceFee      float64                       `json:"marketplace_fee"`
@@ -33,9 +33,9 @@ type Response struct {
 	Metadata            map[string]interface{}        `json:"metadata"`
 	InitPoint           string                        `json:"init_point"`
 	SandboxInitPoint    string                        `json:"sandbox_init_point"`
-	DateCreated         time.Time                     `json:"date_created"`
+	DateCreated         *time.Time                    `json:"date_created"`
 	SiteID              string                        `json:"site_id"`
-	LastUpdated         time.Time                     `json:"last_updated"`
+	LastUpdated         *time.Time                    `json:"last_updated"`
 }
 
 // PreferenceItem represents an item.
@@ -58,8 +58,8 @@ type PreferencePayer struct {
 	Phone          Phone          `json:"phone"`
 	Identification Identification `json:"identification"`
 	Address        Address        `json:"address"`
-	DateCreated    time.Time      `json:"date_created"`
-	LastPurchase   time.Time      `json:"last_purchase"`
+	DateCreated    *time.Time     `json:"date_created"`
+	LastPurchase   *time.Time     `json:"last_purchase"`
 }
 
 // PreferencePaymentMethods contains information about payment methods in the preference.
