@@ -38,7 +38,7 @@ func main() {
 	}
 
 	client := refund.NewClient(cfg)
-	refund, err := client.Refund(context.Background(), pay.ID)
+	refund, err := client.Create(context.Background(), pay.ID)
 	if err != nil {
 		fmt.Println(err)
 		return
