@@ -4,22 +4,23 @@ import "time"
 
 // Response represents a customer card.
 type Response struct {
-	ID              string                 `json:"id"`
-	CustomerID      string                 `json:"customer_id"`
-	UserID          string                 `json:"user_id"`
-	CardNumberID    string                 `json:"card_number_id"`
-	FirstSixDigits  string                 `json:"first_six_digits"`
-	LastFourDigits  string                 `json:"last_four_digits"`
-	ExpirationMonth int                    `json:"expiration_month"`
-	ExpirationYear  int                    `json:"expiration_year"`
-	LiveMode        bool                   `json:"live_mode"`
-	DateCreated     *time.Time             `json:"date_created"`
-	DateLastUpdated *time.Time             `json:"date_last_updated"`
-	Issuer          IssuerResponse         `json:"issuer"`
-	Cardholder      CardholderResponse     `json:"cardholder"`
-	AdditionalInfo  AdditionalInfoResponse `json:"additional_info"`
-	PaymentMethod   PaymentMethodResponse  `json:"payment_method"`
-	SecurityCode    SecurityCode           `json:"security_code"`
+	ID              string     `json:"id"`
+	CustomerID      string     `json:"customer_id"`
+	UserID          string     `json:"user_id"`
+	CardNumberID    string     `json:"card_number_id"`
+	FirstSixDigits  string     `json:"first_six_digits"`
+	LastFourDigits  string     `json:"last_four_digits"`
+	ExpirationMonth int        `json:"expiration_month"`
+	ExpirationYear  int        `json:"expiration_year"`
+	LiveMode        bool       `json:"live_mode"`
+	DateCreated     *time.Time `json:"date_created"`
+	DateLastUpdated *time.Time `json:"date_last_updated"`
+
+	Issuer         IssuerResponse         `json:"issuer"`
+	Cardholder     CardholderResponse     `json:"cardholder"`
+	AdditionalInfo AdditionalInfoResponse `json:"additional_info"`
+	PaymentMethod  PaymentMethodResponse  `json:"payment_method"`
+	SecurityCode   SecurityCode           `json:"security_code"`
 }
 
 // AdditionalInfoResponse represents additional customer card information.
@@ -31,7 +32,8 @@ type AdditionalInfoResponse struct {
 
 // CardholderResponse represents information about the cardholder.
 type CardholderResponse struct {
-	Name           string                 `json:"name"`
+	Name string `json:"name"`
+
 	Identification IdentificationResponse `json:"identification"`
 }
 
@@ -41,13 +43,13 @@ type IdentificationResponse struct {
 	Type   string `json:"type"`
 }
 
-// IssuerResponse represents the card issuer code
+// IssuerResponse represents the card issuer code.
 type IssuerResponse struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
 }
 
-// PaymentMethodResponse represents the card's payment method
+// PaymentMethodResponse represents the card's payment method.
 type PaymentMethodResponse struct {
 	ID              string `json:"id"`
 	Name            string `json:"name"`
@@ -56,7 +58,7 @@ type PaymentMethodResponse struct {
 	SecureThumbnail string `json:"secure_thumbnail"`
 }
 
-// SecurityCode represents the card's security code
+// SecurityCode represents the card's security code.
 type SecurityCode struct {
 	Length       int    `json:"length"`
 	CardLocation string `json:"card_location"`
