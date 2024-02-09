@@ -11,11 +11,10 @@ import (
 )
 
 const (
-	urlBase             = "https://api.mercadopago.com/checkout"
-	urlPreference       = urlBase + "/preferences"
-	urlPreferenceSearch = urlBase + "/preferences/search"
-	getURL              = urlBase + "/preferences/{id}"
-	putURL              = urlBase + "/preferences/{id}"
+	urlBase                = "https://api.mercadopago.com/checkout"
+	urlPreference          = urlBase + "/preferences"
+	urlPreferenceSearch    = urlBase + "/preferences/search"
+	urlPreferenceWithParam = urlBase + "/preferences/{id}"
 )
 
 // Client contains the methods to interact with the Preference API.
@@ -63,7 +62,7 @@ func (c *client) Create(ctx context.Context, request Request) (*Response, error)
 }
 
 func (c *client) Get(ctx context.Context, id string) (*Response, error) {
-	res, err := httpclient.Get[Response](ctx, c.cfg, strings.Replace(getURL, "{id}", id, 1))
+	res, err := httpclient.Get[Response](ctx, c.cfg, strings.Replace(urlPreferenceWithParam, "{id}", id, 1))
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +71,7 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 }
 
 func (c *client) Update(ctx context.Context, request Request, id string) (*Response, error) {
-	res, err := httpclient.Put[Response](ctx, c.cfg, strings.Replace(putURL, "{id}", id, 1), request)
+	res, err := httpclient.Put[Response](ctx, c.cfg, strings.Replace(urlPreferenceWithParam, "{id}", id, 1), request)
 	if err != nil {
 		return nil, err
 	}
