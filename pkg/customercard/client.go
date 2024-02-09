@@ -23,17 +23,17 @@ type Client interface {
 	// Reference: https://www.mercadopago.com/developers/en/reference/cards/_customers_customer_id_cards/post
 	Create(ctx context.Context, customerID string, request Request) (*Response, error)
 
-	// Get  a customer card by ID.
+	// Get a customer card by id.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/customer/{customer_id}/cards/{card_id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/cards/_customers_customer_id_cards_id/get
 	Get(ctx context.Context, customerID, cardID string) (*Response, error)
 
-	// Update a customer card by ID.
+	// Update a customer card by id.
 	// It is a put request to the endpoint: https://api.mercadopago.com/v1/customer/{customer_id}/cards/{card_id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/cards/_customers_customer_id_cards_id/put
 	Update(ctx context.Context, customerID, cardID string, request Request) (*Response, error)
 
-	// Delete deletes a customer card by ID.
+	// Delete deletes a customer card by id.
 	// It is a delete request to the endpoint: https://api.mercadopago.com/v1/customer/{customer_id}/cards/{card_id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/cards/_customers_customer_id_cards_id/delete
 	Delete(ctx context.Context, customerID, cardID string) (*Response, error)

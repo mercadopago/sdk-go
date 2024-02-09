@@ -31,8 +31,8 @@ type AdditionalInfoResponse struct {
 
 // CardholderResponse represents information about the cardholder.
 type CardholderResponse struct {
-	Name                   string `json:"name"`
-	IdentificationResponse `json:"identification"`
+	Name           string                 `json:"name"`
+	Identification IdentificationResponse `json:"identification"`
 }
 
 // IdentificationResponse represents the cardholder's document.
