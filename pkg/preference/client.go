@@ -11,17 +11,17 @@ import (
 )
 
 const (
-	baseURL   = "https://api.mercadopago.com/checkout"
-	postURL   = baseURL + "/preferences"
-	searchURL = baseURL + "/preferences/search"
-	getURL    = baseURL + "/preferences/{id}"
-	putURL    = baseURL + "/preferences/{id}"
+	urlBase             = "https://api.mercadopago.com/checkout"
+	urlPreference       = urlBase + "/preferences"
+	urlPreferenceSearch = urlBase + "/preferences/search"
+	getURL              = urlBase + "/preferences/{id}"
+	putURL              = urlBase + "/preferences/{id}"
 )
 
 // Client contains the methods to interact with the Preference API.
 type Client interface {
 	// Create creates a preference with information about a product or service and obtain the URL needed to start the payment flow.
-	// It is a get request to the endpoint: https://api.mercadopago.com/checkout/preferences
+	// It is a post request to the endpoint: https://api.mercadopago.com/checkout/preferences
 	// Reference: https://www.mercadopago.com.br/developers/pt/reference/preferences/_checkout_preferences/post
 	Create(ctx context.Context, request Request) (*Response, error)
 
@@ -31,7 +31,7 @@ type Client interface {
 	Get(ctx context.Context, id string) (*Response, error)
 
 	// Update updates details for a payment preference.
-	// It is a get request to the endpoint: https://api.mercadopago.com/checkout/preferences/{id}
+	// It is a put request to the endpoint: https://api.mercadopago.com/checkout/preferences/{id}
 	// Reference: https://www.mercadopago.com.br/developers/pt/reference/preferences/_checkout_preferences_id/put
 	Update(ctx context.Context, request Request, id string) (*Response, error)
 
@@ -54,7 +54,7 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	res, err := httpclient.Post[Response](ctx, c.cfg, postURL, request)
+	res, err := httpclient.Post[Response](ctx, c.cfg, urlPreference, request)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func (c *client) Update(ctx context.Context, request Request, id string) (*Respo
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponsePage, error) {
 	params := request.Parameters()
 
-	url, err := url.Parse(searchURL)
+	url, err := url.Parse(urlPreferenceSearch)
 	if err != nil {
 		return nil, fmt.Errorf("error parsing url: %w", err)
 	}
