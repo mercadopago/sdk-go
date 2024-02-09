@@ -51,7 +51,7 @@ type IssuerResponse struct {
 type PaymentMethodResponse struct {
 	ID              string `json:"id"`
 	Name            string `json:"name"`
-	PaymentTypeId   string `json:"payment_type_id"`
+	PaymentTypeID   string `json:"payment_type_id"`
 	Thumbnail       string `json:"thumbnail"`
 	SecureThumbnail string `json:"secure_thumbnail"`
 }
