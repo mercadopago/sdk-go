@@ -27,10 +27,15 @@ type Client interface {
 	// Reference: https://www.mercadopago.com.br/developers/en/reference/chargebacks/_payments_id_refunds/get
 	List(ctx context.Context, paymentID int64) ([]Response, error)
 
-	// Create create a refund by payment id.
+	// Refund create a refund by payment id.
 	// It is a post request to the endpoint: https://api.mercadopago.com/v1/payments/{id}/refunds
 	// Reference: https://www.mercadopago.com.br/developers/en/reference/chargebacks/_payments_id_refunds/post
-	Create(ctx context.Context, request Request, paymentID int64) (*Response, error)
+	Refund(ctx context.Context, paymentID int64) (*Response, error)
+
+	// PartialRefund create a partial refund by payment id.
+	// It is a post request to the endpoint: https://api.mercadopago.com/v1/payments/{id}/refunds
+	// Reference: https://www.mercadopago.com.br/developers/en/reference/chargebacks/_payments_id_refunds/post
+	PartialRefund(ctx context.Context, amount float64, paymentID int64) (*Response, error)
 }
 
 // client is the implementation of Client.
@@ -45,7 +50,20 @@ func NewClient(c *config.Config) Client {
 	}
 }
 
-func (c *client) Create(ctx context.Context, request Request, paymentID int64) (*Response, error) {
+func (c *client) Refund(ctx context.Context, paymentID int64) (*Response, error) {
+	conv := strconv.Itoa(int(paymentID))
+
+	res, err := httpclient.Post[Response](ctx, c.cfg, strings.Replace(urlRefund, "{id}", conv, 1), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (c *client) PartialRefund(ctx context.Context, amount float64, paymentID int64) (*Response, error) {
+	request := &Request{Amount: amount}
+
 	conv := strconv.Itoa(int(paymentID))
 
 	res, err := httpclient.Post[Response](ctx, c.cfg, strings.Replace(urlRefund, "{id}", conv, 1), request)

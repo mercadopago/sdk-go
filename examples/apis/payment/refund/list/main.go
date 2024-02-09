@@ -19,9 +19,9 @@ func main() {
 
 	client := refund.NewClient(cfg)
 
-	paymentID := 12233344
+	var paymentID int64 = 12233344
 
-	refund, err := client.List(context.Background(), int64(paymentID))
+	refund, err := client.List(context.Background(), paymentID)
 	if err != nil {
 		fmt.Println(err)
 		return

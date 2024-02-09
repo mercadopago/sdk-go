@@ -37,13 +37,10 @@ func main() {
 		return
 	}
 
-	// Create refund.
-	refundRequest := refund.Request{
-		Amount: pay.TransactionAmount,
-	}
+	partialAmount := pay.TransactionAmount - 10.0
 
 	client := refund.NewClient(cfg)
-	refund, err := client.Create(context.Background(), refundRequest, pay.ID)
+	refund, err := client.PartialRefund(context.Background(), partialAmount, pay.ID)
 	if err != nil {
 		fmt.Println(err)
 		return
