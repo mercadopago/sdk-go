@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestMakeParams(t *testing.T) {
+func TestMakePathParams(t *testing.T) {
 	type args struct {
 		url    string
 		params map[string]string
@@ -27,17 +27,6 @@ func TestMakeParams(t *testing.T) {
 			wantURL: "http://localhost/payments/1234567890",
 		},
 		{
-			name: "should_replace_one_path_param_and_add_query_param",
-			args: args{
-				url: "http://localhost/payments/:payment_id/search",
-				params: map[string]string{
-					"payment_id":        "1234567890",
-					"external_resource": "abcd12345",
-				},
-			},
-			wantURL: "http://localhost/payments/1234567890/search?external_resource=abcd12345",
-		},
-		{
 			name: "should_return_path_param_not_informed",
 			args: args{
 				url: "http://localhost/customers/:customer_id",
@@ -57,6 +46,16 @@ func TestMakeParams(t *testing.T) {
 			},
 			wantMsgErr: "path parameters not informed: test_id,unit_id",
 		},
+		{
+			name: "should_return_the_same_path_url",
+			args: args{
+				url: "http://localhost/tests/",
+				params: map[string]string{
+					"integrate_id": "1234567890",
+				},
+			},
+			wantURL: "http://localhost/tests/",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -75,62 +74,54 @@ func TestMakeParams(t *testing.T) {
 	}
 }
 
-//
-//func TestMakeParams(t *testing.T) {
-//	type args struct {
-//		url    string
-//		params map[string]string
-//	}
-//	tests := []struct {
-//		name    string
-//		args    args
-//		wantURL string
-//		wantErr error
-//	}{
-//		{
-//			name: "test_replace_one_path_param",
-//			args: args{
-//				url: "http://localhost/payments/:payment_id",
-//				params: map[string]string{
-//					"payment_id": "1234567890",
-//				},
-//			},
-//			wantURL: "http://localhost/payments/1234567890",
-//		},
-//		{
-//			name: "should_return_path_param_not_informed",
-//			args: args{
-//				url: "http://localhost/customers/:customer_id",
-//				params: map[string]string{
-//					"payment_id": "1234567890",
-//				},
-//			},
-//			wantErr: errors.New("path parameters not informed: customer_id"),
-//		},
-//		{
-//			name: "should_return_two_path_params_not_informed",
-//			args: args{
-//				url: "http://localhost/tests/:test_id/units/:unit_id",
-//				params: map[string]string{
-//					"integrate_id": "1234567890",
-//				},
-//			},
-//			wantErr: errors.New("path parameters not informed: test_id,unit_id"),
-//		},
-//	}
-//
-//	for _, tt := range tests {
-//		t.Run(tt.name, func(t *testing.T) {
-//			req, _ := http.NewRequest(http.MethodPost, tt.args.url, nil)
-//			gotErr := makeParams(req, tt.args.params)
-//
-//			if tt.wantErr != nil && gotErr != tt.wantErr.Error() {
-//				t.Errorf("makeParams() wantErr = %v, gotErr = %v", tt.wantErr, gotErr)
-//			}
-//
-//			if tt.wantErr == nil && tt.wantURL != req.URL.String() {
-//				t.Errorf("makeParams() wantURL = %v, gotURL %v", tt.wantURL, req.URL.String())
-//			}
-//		})
-//	}
-//}
+func TestMakeQueryParams(t *testing.T) {
+	type args struct {
+		url    string
+		params map[string]string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantURL string
+	}{
+		{
+			name: "should_add_one_query_param",
+			args: args{
+				url: "http://localhost/payments/1234567890/search",
+				params: map[string]string{
+					"external_resource": "as2f12345",
+				},
+			},
+			wantURL: "http://localhost/payments/1234567890/search?external_resource=as2f12345",
+		},
+		{
+			name: "should_add_two_query_params",
+			args: args{
+				url: "http://localhost/payments/1234567890/search",
+				params: map[string]string{
+					"external_resource": "as2f12345",
+					"offset":            "2",
+				},
+			},
+			wantURL: "http://localhost/payments/1234567890/search?external_resource=as2f12345&offset=2",
+		},
+		{
+			name: "should_return_the_same_path_url",
+			args: args{
+				url:    "http://localhost/tests/",
+				params: map[string]string{},
+			},
+			wantURL: "http://localhost/tests/",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			req, _ := http.NewRequest(http.MethodGet, tt.args.url, nil)
+
+			makeQueryParams(req, tt.args.params)
+			if tt.wantURL != req.URL.String() {
+				t.Errorf("makeQueryParams() wantURL = %v, gotURL %v", tt.wantURL, req.URL.String())
+			}
+		})
+	}
+}
