@@ -40,6 +40,25 @@ func TestCreate(t *testing.T) {
 		wantErr string
 	}{
 		{
+			name: "should_return_error_when_send_request",
+			fields: fields{
+				config: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("some error")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:        context.Background(),
+				customerID: "any",
+				req:        Request{},
+			},
+			want:    nil,
+			wantErr: "transport level error: some error",
+		},
+		{
 			name: "should_return_card_response",
 			fields: fields{
 				config: &config.Config{
@@ -76,7 +95,7 @@ func TestCreate(t *testing.T) {
 				},
 				Cardholder: CardholderResponse{
 					Name: "APRO",
-					IdentificationResponse: IdentificationResponse{
+					Identification: IdentificationResponse{
 						Number: "19119119100",
 						Type:   "CPF",
 					},
@@ -99,25 +118,6 @@ func TestCreate(t *testing.T) {
 				},
 			},
 			wantErr: "",
-		},
-		{
-			name: "should_return_error_when_send_request",
-			fields: fields{
-				config: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							return nil, fmt.Errorf("some error")
-						},
-					},
-				},
-			},
-			args: args{
-				ctx:        context.Background(),
-				customerID: "any",
-				req:        Request{},
-			},
-			want:    nil,
-			wantErr: "transport level error: some error",
 		},
 	}
 	for _, tt := range tests {
@@ -157,6 +157,25 @@ func TestUpdate(t *testing.T) {
 		wantErr string
 	}{
 		{
+			name: "should_return_error_when_send_request",
+			fields: fields{
+				config: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("some error")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:        context.Background(),
+				customerID: "any",
+				req:        Request{},
+			},
+			want:    nil,
+			wantErr: "transport level error: some error",
+		},
+		{
 			name: "should_return_card_response",
 			fields: fields{
 				config: &config.Config{
@@ -194,7 +213,7 @@ func TestUpdate(t *testing.T) {
 				},
 				Cardholder: CardholderResponse{
 					Name: "APRO",
-					IdentificationResponse: IdentificationResponse{
+					Identification: IdentificationResponse{
 						Number: "19119119100",
 						Type:   "CPF",
 					},
@@ -217,25 +236,6 @@ func TestUpdate(t *testing.T) {
 				},
 			},
 			wantErr: "",
-		},
-		{
-			name: "should_return_error_when_send_request",
-			fields: fields{
-				config: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							return nil, fmt.Errorf("some error")
-						},
-					},
-				},
-			},
-			args: args{
-				ctx:        context.Background(),
-				customerID: "any",
-				req:        Request{},
-			},
-			want:    nil,
-			wantErr: "transport level error: some error",
 		},
 	}
 	for _, tt := range tests {
@@ -274,6 +274,24 @@ func TestGet(t *testing.T) {
 		wantErr string
 	}{
 		{
+			name: "should_return_error_when_send_request",
+			fields: fields{
+				config: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("some error")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:        context.Background(),
+				customerID: "any",
+			},
+			want:    nil,
+			wantErr: "transport level error: some error",
+		},
+		{
 			name: "should_return_card_response",
 			fields: fields{
 				config: &config.Config{
@@ -310,7 +328,7 @@ func TestGet(t *testing.T) {
 				},
 				Cardholder: CardholderResponse{
 					Name: "APRO",
-					IdentificationResponse: IdentificationResponse{
+					Identification: IdentificationResponse{
 						Number: "19119119100",
 						Type:   "CPF",
 					},
@@ -333,24 +351,6 @@ func TestGet(t *testing.T) {
 				},
 			},
 			wantErr: "",
-		},
-		{
-			name: "should_return_error_when_send_request",
-			fields: fields{
-				config: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							return nil, fmt.Errorf("some error")
-						},
-					},
-				},
-			},
-			args: args{
-				ctx:        context.Background(),
-				customerID: "any",
-			},
-			want:    nil,
-			wantErr: "transport level error: some error",
 		},
 	}
 	for _, tt := range tests {
@@ -389,6 +389,24 @@ func TestDelete(t *testing.T) {
 		wantErr string
 	}{
 		{
+			name: "should_return_error_when_send_request",
+			fields: fields{
+				config: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("some error")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:        context.Background(),
+				customerID: "any",
+			},
+			want:    nil,
+			wantErr: "transport level error: some error",
+		},
+		{
 			name: "should_return_card_response",
 			fields: fields{
 				config: &config.Config{
@@ -425,7 +443,7 @@ func TestDelete(t *testing.T) {
 				},
 				Cardholder: CardholderResponse{
 					Name: "APRO",
-					IdentificationResponse: IdentificationResponse{
+					Identification: IdentificationResponse{
 						Number: "19119119100",
 						Type:   "CPF",
 					},
@@ -448,24 +466,6 @@ func TestDelete(t *testing.T) {
 				},
 			},
 			wantErr: "",
-		},
-		{
-			name: "should_return_error_when_send_request",
-			fields: fields{
-				config: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							return nil, fmt.Errorf("some error")
-						},
-					},
-				},
-			},
-			args: args{
-				ctx:        context.Background(),
-				customerID: "any",
-			},
-			want:    nil,
-			wantErr: "transport level error: some error",
 		},
 	}
 	for _, tt := range tests {
@@ -503,6 +503,24 @@ func TestList(t *testing.T) {
 		wantErr string
 	}{
 		{
+			name: "should_return_error_when_send_request",
+			fields: fields{
+				config: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("some error")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:        context.Background(),
+				customerID: "any",
+			},
+			want:    nil,
+			wantErr: "transport level error: some error",
+		},
+		{
 			name: "should_return_card_response",
 			fields: fields{
 				config: &config.Config{
@@ -539,7 +557,7 @@ func TestList(t *testing.T) {
 					},
 					Cardholder: CardholderResponse{
 						Name: "APRO",
-						IdentificationResponse: IdentificationResponse{
+						Identification: IdentificationResponse{
 							Number: "19119119100",
 							Type:   "CPF",
 						},
@@ -563,24 +581,6 @@ func TestList(t *testing.T) {
 				},
 			},
 			wantErr: "",
-		},
-		{
-			name: "should_return_error_when_send_request",
-			fields: fields{
-				config: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							return nil, fmt.Errorf("some error")
-						},
-					},
-				},
-			},
-			args: args{
-				ctx:        context.Background(),
-				customerID: "any",
-			},
-			want:    nil,
-			wantErr: "transport level error: some error",
 		},
 	}
 	for _, tt := range tests {
