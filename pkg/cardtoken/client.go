@@ -7,9 +7,7 @@ import (
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
-const (
-	url = "https://api.mercadopago.com/v1/card_tokens"
-)
+const url = "https://api.mercadopago.com/v1/card_tokens"
 
 // Client contains the method to interact with the card token API.
 type Client interface {
