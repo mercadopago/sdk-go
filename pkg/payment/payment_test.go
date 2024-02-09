@@ -63,7 +63,7 @@ func TestCreate(t *testing.T) {
 				},
 			},
 			want:    nil,
-			wantErr: "error marshaling request body: json: unsupported type: chan int",
+			wantErr: "error creating request: error marshaling request body: json: unsupported type: chan int",
 		},
 		{
 			name: "should_fail_to_create_request",
@@ -112,7 +112,7 @@ func TestCreate(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want:    nil,
-			wantErr: "error unmarshaling response: invalid character 'i' looking for beginning of value",
+			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_formatted_response",
@@ -143,7 +143,7 @@ func TestCreate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
-				config: tt.fields.config,
+				cfg: tt.fields.config,
 			}
 			got, err := c.Create(tt.args.ctx, tt.args.dto)
 			gotErr := ""
@@ -271,7 +271,7 @@ func TestSearch(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
-				config: tt.fields.config,
+				cfg: tt.fields.config,
 			}
 			got, err := c.Search(tt.args.ctx, tt.args.dto)
 			gotErr := ""
@@ -382,7 +382,7 @@ func TestGet(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
-				config: tt.fields.config,
+				cfg: tt.fields.config,
 			}
 			got, err := c.Get(tt.args.ctx, tt.args.id)
 			gotErr := ""
@@ -493,7 +493,7 @@ func TestCancel(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
-				config: tt.fields.config,
+				cfg: tt.fields.config,
 			}
 			got, err := c.Cancel(tt.args.ctx, tt.args.id)
 			gotErr := ""
@@ -604,7 +604,7 @@ func TestCapture(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
-				config: tt.fields.config,
+				cfg: tt.fields.config,
 			}
 			got, err := c.Capture(tt.args.ctx, tt.args.id)
 			gotErr := ""
@@ -716,7 +716,7 @@ func TestCaptureAmount(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
-				config: tt.fields.config,
+				cfg: tt.fields.config,
 			}
 			got, err := c.CaptureAmount(tt.args.ctx, tt.args.id, tt.args.amount)
 			gotErr := ""
