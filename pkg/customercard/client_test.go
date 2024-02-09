@@ -89,7 +89,7 @@ func TestCreate(t *testing.T) {
 				PaymentMethod: PaymentMethodResponse{
 					ID:              "master",
 					Name:            "Mastercard",
-					PaymentTypeId:   "credit_card",
+					PaymentTypeID:   "credit_card",
 					Thumbnail:       "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 					SecureThumbnail: "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 				},
@@ -207,7 +207,7 @@ func TestUpdate(t *testing.T) {
 				PaymentMethod: PaymentMethodResponse{
 					ID:              "master",
 					Name:            "Mastercard",
-					PaymentTypeId:   "credit_card",
+					PaymentTypeID:   "credit_card",
 					Thumbnail:       "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 					SecureThumbnail: "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 				},
@@ -323,7 +323,7 @@ func TestGet(t *testing.T) {
 				PaymentMethod: PaymentMethodResponse{
 					ID:              "master",
 					Name:            "Mastercard",
-					PaymentTypeId:   "credit_card",
+					PaymentTypeID:   "credit_card",
 					Thumbnail:       "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 					SecureThumbnail: "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 				},
@@ -438,7 +438,7 @@ func TestDelete(t *testing.T) {
 				PaymentMethod: PaymentMethodResponse{
 					ID:              "master",
 					Name:            "Mastercard",
-					PaymentTypeId:   "credit_card",
+					PaymentTypeID:   "credit_card",
 					Thumbnail:       "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 					SecureThumbnail: "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 				},
@@ -552,7 +552,7 @@ func TestList(t *testing.T) {
 					PaymentMethod: PaymentMethodResponse{
 						ID:              "master",
 						Name:            "Mastercard",
-						PaymentTypeId:   "credit_card",
+						PaymentTypeID:   "credit_card",
 						Thumbnail:       "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 						SecureThumbnail: "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 					},

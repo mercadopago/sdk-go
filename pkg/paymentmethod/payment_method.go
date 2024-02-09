@@ -33,14 +33,5 @@ func (c *client) List(ctx context.Context) ([]Response, error) {
 		return nil, err
 	}
 
-<<<<<<< HEAD
 	return *res, nil
-=======
-	var formatted []Response
-	if err := json.Unmarshal(res, &formatted); err != nil {
-		return nil, fmt.Errorf("error unmarshaling response: %w", err)
-	}
-
-	return formatted, nil
->>>>>>> 8b22954 (Update client)
 }

@@ -32,7 +32,7 @@ type SettingsBinResponse struct {
 	InstallmentsPattern string `json:"installments_pattern"`
 }
 
-// SettingsCardNumberResponse represents customer number settings.
+// SettingsCardNumberResponse represents card number settings.
 type SettingsCardNumberResponse struct {
 	Length     int    `json:"length"`
 	Validation string `json:"validation"`
