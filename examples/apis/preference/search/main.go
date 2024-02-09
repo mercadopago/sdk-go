@@ -24,10 +24,10 @@ func main() {
 		Filters: filter,
 	}
 
-	res, err := client.Search(context.Background(), filters)
+	pref, err := client.Search(context.Background(), filters)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(res)
+	fmt.Println(pref)
 }

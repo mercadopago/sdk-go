@@ -28,7 +28,7 @@ func main() {
 	}
 
 	client := preference.NewClient(c)
-	res, err := client.Create(context.Background(), request)
+	pref, err := client.Create(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -47,11 +47,11 @@ func main() {
 	}
 
 	client = preference.NewClient(c)
-	res, err = client.Update(context.Background(), request, res.ID)
+	pref, err = client.Update(context.Background(), request, pref.ID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(res)
+	fmt.Println(pref)
 }
