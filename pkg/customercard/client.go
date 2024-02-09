@@ -16,7 +16,7 @@ const (
 	paramCardID     = "card_id"
 )
 
-// Client contains the methods to interact with the Payment Methods API.
+// Client contains the methods to interact with the Customer Cards API.
 type Client interface {
 	// Create a new customer card.
 	// It is a post request to the endpoint: https://api.mercadopago.com/v1/customer/{customer_id}/cards
@@ -38,7 +38,7 @@ type Client interface {
 	// Reference: https://www.mercadopago.com/developers/en/reference/cards/_customers_customer_id_cards_id/delete
 	Delete(ctx context.Context, customerID, cardID string) (*Response, error)
 
-	// List all customers.
+	// List all customer cards.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/customer/{customer_id}/cards
 	// Reference: https://www.mercadopago.com/developers/en/reference/cards/_customers_customer_id_cards/get
 	List(ctx context.Context, customerID string) ([]Response, error)
@@ -49,7 +49,7 @@ type client struct {
 	config *config.Config
 }
 
-// NewClient returns a new Payment Methods API Client.
+// NewClient returns a new Customer Card Client.
 func NewClient(c *config.Config) Client {
 	return &client{
 		config: c,
