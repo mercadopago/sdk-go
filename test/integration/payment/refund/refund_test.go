@@ -99,6 +99,7 @@ func TestRefund(t *testing.T) {
 		refund, err := refundClient.Create(context.Background(), refundRequest, payment.ID)
 		if refund == nil {
 			t.Error("result can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
