@@ -153,9 +153,7 @@ func makePathParams(req *http.Request, params map[string]string) error {
 
 	for k, v := range params {
 		pathParam := ":" + k
-		if strings.Contains(pathURL, pathParam) {
-			pathURL = strings.Replace(pathURL, pathParam, v, 1)
-		}
+		pathURL = strings.Replace(pathURL, pathParam, v, 1)
 	}
 
 	if err := validatePathParams(pathURL); err != nil {
