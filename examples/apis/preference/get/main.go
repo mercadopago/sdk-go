@@ -16,11 +16,11 @@ func main() {
 	}
 
 	client := preference.NewClient(c)
-	res, err := client.Get(context.Background(), "{{ID_PREFERENCE}}")
+	pref, err := client.Get(context.Background(), "{{ID_PREFERENCE}}")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(res)
+	fmt.Println(pref)
 }
