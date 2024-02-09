@@ -354,7 +354,7 @@ func buildResponseMock() *Response {
 			ID:   "7186040733",
 			Type: "collector",
 		},
-		DateCreated:      d,
+		DateCreated:      &d,
 		RefundMode:       "standard",
 		AdjustmentAmount: 0,
 	}

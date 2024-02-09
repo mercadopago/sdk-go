@@ -10,10 +10,9 @@ import (
 )
 
 const (
-	baseURL = "https://api.mercadopago.com/v1/payments/{id}/"
-	getURL  = baseURL + "refunds/{refund_id}"
-	listURL = baseURL + "refunds"
-	postURL = baseURL + "refunds"
+	urlBase            = "https://api.mercadopago.com/v1/payments/{id}/"
+	urlRefundWithParam = urlBase + "refunds/{refund_id}"
+	urlRefund          = urlBase + "refunds"
 )
 
 // Client contains the methods to interact with the Payment's refund API.
@@ -49,7 +48,7 @@ func NewClient(c *config.Config) Client {
 func (c *client) Create(ctx context.Context, request Request, paymentID int64) (*Response, error) {
 	conv := strconv.Itoa(int(paymentID))
 
-	res, err := httpclient.Post[Response](ctx, c.cfg, strings.Replace(postURL, "{id}", conv, 1), request)
+	res, err := httpclient.Post[Response](ctx, c.cfg, strings.Replace(urlRefund, "{id}", conv, 1), request)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +60,7 @@ func (c *client) Get(ctx context.Context, paymentID, refundID int64) (*Response,
 	conv := strconv.Itoa(int(paymentID))
 	refundConv := strconv.Itoa(int(refundID))
 
-	url := strings.NewReplacer("{id}", conv, "{refund_id}", refundConv).Replace(getURL)
+	url := strings.NewReplacer("{id}", conv, "{refund_id}", refundConv).Replace(urlRefundWithParam)
 
 	res, err := httpclient.Get[Response](ctx, c.cfg, url)
 	if err != nil {
@@ -74,7 +73,7 @@ func (c *client) Get(ctx context.Context, paymentID, refundID int64) (*Response,
 func (c *client) List(ctx context.Context, paymentID int64) ([]Response, error) {
 	conv := strconv.Itoa(int(paymentID))
 
-	res, err := httpclient.Get[[]Response](ctx, c.cfg, strings.Replace(listURL, "{id}", conv, 1))
+	res, err := httpclient.Get[[]Response](ctx, c.cfg, strings.Replace(urlRefund, "{id}", conv, 1))
 	if err != nil {
 		return nil, err
 	}
