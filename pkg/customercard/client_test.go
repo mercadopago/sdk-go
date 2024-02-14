@@ -248,10 +248,10 @@ func TestUpdate(t *testing.T) {
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("client.Create() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.Update() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.Create() = %v, want %v", got, tt.want)
+				t.Errorf("client.Update() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -363,10 +363,10 @@ func TestGet(t *testing.T) {
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("client.Create() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.Get() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.Create() = %v, want %v", got, tt.want)
+				t.Errorf("client.Get() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -478,10 +478,10 @@ func TestDelete(t *testing.T) {
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("client.Create() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.Delete() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.Create() = %v, want %v", got, tt.want)
+				t.Errorf("client.Delete() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -593,10 +593,10 @@ func TestList(t *testing.T) {
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("client.Create() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.List() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.Create() = %v, want %v", got, tt.want)
+				t.Errorf("client.List() = %v, want %v", got, tt.want)
 			}
 		})
 	}
