@@ -1,0 +1,16 @@
+{
+    "id": 1622029222,
+    "payment_id": 7186040733,
+    "amount": 1.5,
+    "source": {
+        "name": "Test Test",
+        "id": "7186040733",
+        "type": "collector"
+    },
+    "date_created": "2024-02-05T15:35:49.000-04:00",
+    "unique_sequence_number": null,
+    "refund_mode": "standard",
+    "adjustment_amount": 0,
+    "status": "approved",
+    "reason": null
+}
