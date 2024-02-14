@@ -11,7 +11,7 @@ import (
 
 func TestPaymentMethod(t *testing.T) {
 	t.Run("should_list_payment_methods", func(t *testing.T) {
-		cfg, err := config.New(os.Getenv("at"))
+		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}

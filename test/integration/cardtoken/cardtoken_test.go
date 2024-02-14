@@ -16,11 +16,11 @@ func TestCardToken(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		client := cardtoken.NewClient(cfg)
-		res, err := client.Create(context.Background(), cardtoken.MockCardTokenRequest())
+		cardTokenClient := cardtoken.NewClient(cfg)
+		cardToken, err := cardTokenClient.Create(context.Background(), cardtoken.MockCardTokenRequest())
 
-		if res == nil {
-			t.Error("res can't be nil")
+		if cardToken == nil {
+			t.Error("cardToken can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())

@@ -115,7 +115,7 @@ func TestCreate(t *testing.T) {
 			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
-			name: "should_return_formatted_response",
+			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{
@@ -226,7 +226,7 @@ func TestSearch(t *testing.T) {
 			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
-			name: "should_return_formatted_response",
+			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{
@@ -354,7 +354,7 @@ func TestGet(t *testing.T) {
 			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
-			name: "should_return_formatted_response",
+			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{
@@ -465,7 +465,7 @@ func TestCancel(t *testing.T) {
 			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
-			name: "should_return_formatted_response",
+			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{
@@ -576,7 +576,7 @@ func TestCapture(t *testing.T) {
 			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
-			name: "should_return_formatted_response",
+			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{
@@ -688,7 +688,7 @@ func TestCaptureAmount(t *testing.T) {
 			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
-			name: "should_return_formatted_response",
+			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{
