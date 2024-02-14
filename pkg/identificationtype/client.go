@@ -1,4 +1,4 @@
-package identificationtypes
+package identificationtype
 
 import (
 	"context"

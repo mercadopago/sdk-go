@@ -1,4 +1,4 @@
-package identificationtypes
+package identificationtype
 
 type Response struct {
 	ID        string `json:"id"`
