@@ -51,11 +51,11 @@ type Response struct {
 	Metadata                  map[string]any `json:"metadata"`
 	InternalMetadata          map[string]any `json:"internal_metadata"`
 
-	DateCreated        time.Time                  `json:"date_created"`
-	DateApproved       time.Time                  `json:"date_approved"`
-	DateLastUpdated    time.Time                  `json:"date_last_updated"`
-	DateOfExpiration   time.Time                  `json:"date_of_expiration"`
-	MoneyReleaseDate   time.Time                  `json:"money_release_date"`
+	DateCreated        *time.Time                 `json:"date_created"`
+	DateApproved       *time.Time                 `json:"date_approved"`
+	DateLastUpdated    *time.Time                 `json:"date_last_updated"`
+	DateOfExpiration   *time.Time                 `json:"date_of_expiration"`
+	MoneyReleaseDate   *time.Time                 `json:"money_release_date"`
 	Payer              PayerResponse              `json:"payer"`
 	AdditionalInfo     AdditionalInfoResponse     `json:"additional_info"`
 	Order              OrderResponse              `json:"order"`
@@ -112,7 +112,7 @@ type AdditionalInfoPayerResponse struct {
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 
-	RegistrationDate time.Time       `json:"registration_date"`
+	RegistrationDate *time.Time      `json:"registration_date"`
 	Phone            PhoneResponse   `json:"phone"`
 	Address          AddressResponse `json:"address"`
 }
@@ -172,8 +172,8 @@ type CardResponse struct {
 	ExpirationYear  int    `json:"expiration_year"`
 	ExpirationMonth int    `json:"expiration_month"`
 
-	DateCreated     time.Time          `json:"date_created"`
-	DateLastUpdated time.Time          `json:"date_last_updated"`
+	DateCreated     *time.Time         `json:"date_created"`
+	DateLastUpdated *time.Time         `json:"date_last_updated"`
 	Cardholder      CardholderResponse `json:"cardholder"`
 }
 
@@ -282,7 +282,7 @@ type DiscountResponse struct {
 	Type  string  `json:"type"`
 	Value float64 `json:"value"`
 
-	LimitDate time.Time `json:"limit_date"`
+	LimitDate *time.Time `json:"limit_date"`
 }
 
 // FeeResponse represents payment fee information.
@@ -321,7 +321,7 @@ type RefundResponse struct {
 	Amount               float64 `json:"amount"`
 	AdjustmentAmount     float64 `json:"adjustment_amount"`
 
-	DateCreated time.Time      `json:"date_created"`
+	DateCreated *time.Time     `json:"date_created"`
 	Source      SourceResponse `json:"source"`
 }
 
