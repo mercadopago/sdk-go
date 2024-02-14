@@ -1,4 +1,4 @@
-package identification_types
+package integration
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/identificationtypes"
+	"github.com/mercadopago/sdk-go/pkg/identificationtype"
 )
 
 func TestIdentificationTypes(t *testing.T) {
@@ -16,7 +16,7 @@ func TestIdentificationTypes(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		client := identificationtypes.NewClient(cfg)
+		client := identificationtype.NewClient(cfg)
 		res, err := client.List(context.Background())
 
 		if res == nil {

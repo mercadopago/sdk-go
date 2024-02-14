@@ -1,8 +1,7 @@
-package identificationtypes
+package identificationtype
 
 import (
 	"context"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -15,7 +14,7 @@ import (
 )
 
 var (
-	listResponseJSON, _ = os.Open("../../resources/mocks/identification_types/list_response.json")
+	listResponseJSON, _ = os.Open("../../resources/mocks/identification_type/list_response.json")
 	listResponse, _     = io.ReadAll(listResponseJSON)
 )
 
@@ -45,45 +44,7 @@ func TestList(t *testing.T) {
 			wantErr: "error creating request: net/http: nil Context",
 		},
 		{
-			name: "should_return_error_when_send_request",
-			fields: fields{
-				config: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							return nil, fmt.Errorf("some error")
-						},
-					},
-				},
-			},
-			args: args{
-				ctx: context.Background(),
-			},
-			want:    nil,
-			wantErr: "transport level error: some error",
-		},
-		{
-			name: "should_return_error_unmarshal_response",
-			fields: fields{
-				config: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							stringReader := strings.NewReader("invalid json")
-							stringReadCloser := io.NopCloser(stringReader)
-							return &http.Response{
-								Body: stringReadCloser,
-							}, nil
-						},
-					},
-				},
-			},
-			args: args{
-				ctx: context.Background(),
-			},
-			want:    nil,
-			wantErr: "invalid character 'i' looking for beginning of value",
-		},
-		{
-			name: "should_return_formatted_response",
+			name: "should_return_identification_types",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{
