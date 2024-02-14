@@ -134,9 +134,13 @@ func TestRefund(t *testing.T) {
 			t.Errorf(err.Error())
 		}
 
-		_, err = refundClient.Get(context.Background(), payment.ID, refund.ID)
+		refund, err = refundClient.Get(context.Background(), payment.ID, refund.ID)
 		if err != nil {
 			t.Errorf(err.Error())
+		}
+
+		if refund.ID == 0 {
+			t.Error("id can't be nil")
 		}
 	})
 
@@ -171,7 +175,10 @@ func TestRefund(t *testing.T) {
 		}
 
 		refundClient := refund.NewClient(c)
-		refund, err := refundClient.Create(context.Background(), payment.ID)
+		partialAmount := paymentRequest.TransactionAmount - 5.0
+
+		// Partial refund
+		refund, err := refundClient.CreatePartialRefund(context.Background(), partialAmount, payment.ID)
 		if refund == nil {
 			t.Error("refund can't be nil")
 		}
@@ -179,9 +186,22 @@ func TestRefund(t *testing.T) {
 			t.Errorf(err.Error())
 		}
 
-		_, err = refundClient.List(context.Background(), payment.ID)
+		// Total refund
+		refund, err = refundClient.Create(context.Background(), payment.ID)
+		if refund == nil {
+			t.Error("refund can't be nil")
+		}
 		if err != nil {
 			t.Errorf(err.Error())
+		}
+
+		refunds, err := refundClient.List(context.Background(), payment.ID)
+		if err != nil {
+			t.Errorf(err.Error())
+		}
+
+		if len(refunds) != 2 {
+			t.Error("size can't be different of 2")
 		}
 	})
 }

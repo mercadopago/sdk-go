@@ -10,9 +10,8 @@ import (
 )
 
 const (
-	urlBase            = "https://api.mercadopago.com/v1/payments/{id}/"
-	urlRefundWithParam = urlBase + "refunds/{refund_id}"
-	urlRefund          = urlBase + "refunds"
+	urlBase   = "https://api.mercadopago.com/v1/payments/{id}/refunds"
+	urlWithID = urlBase + "/{refund_id}"
 )
 
 // Client contains the methods to interact with the Payment's refund API.
@@ -54,7 +53,7 @@ func (c *client) Get(ctx context.Context, paymentID, refundID int64) (*Response,
 	convertedPaymentID := strconv.Itoa(int(paymentID))
 	convertedRefundID := strconv.Itoa(int(refundID))
 
-	url := strings.NewReplacer("{id}", convertedPaymentID, "{refund_id}", convertedRefundID).Replace(urlRefundWithParam)
+	url := strings.NewReplacer("{id}", convertedPaymentID, "{refund_id}", convertedRefundID).Replace(urlWithID)
 
 	res, err := httpclient.Get[Response](ctx, c.cfg, url)
 	if err != nil {
@@ -67,7 +66,7 @@ func (c *client) Get(ctx context.Context, paymentID, refundID int64) (*Response,
 func (c *client) List(ctx context.Context, paymentID int64) ([]Response, error) {
 	convertedRefundID := strconv.Itoa(int(paymentID))
 
-	res, err := httpclient.Get[[]Response](ctx, c.cfg, strings.Replace(urlRefund, "{id}", convertedRefundID, 1))
+	res, err := httpclient.Get[[]Response](ctx, c.cfg, strings.Replace(urlBase, "{id}", convertedRefundID, 1))
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +77,7 @@ func (c *client) List(ctx context.Context, paymentID int64) ([]Response, error) 
 func (c *client) Create(ctx context.Context, paymentID int64) (*Response, error) {
 	convertedPaymentID := strconv.Itoa(int(paymentID))
 
-	res, err := httpclient.Post[Response](ctx, c.cfg, strings.Replace(urlRefund, "{id}", convertedPaymentID, 1), nil)
+	res, err := httpclient.Post[Response](ctx, c.cfg, strings.Replace(urlBase, "{id}", convertedPaymentID, 1), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -91,7 +90,7 @@ func (c *client) CreatePartialRefund(ctx context.Context, amount float64, paymen
 
 	convertedPaymentID := strconv.Itoa(int(paymentID))
 
-	res, err := httpclient.Post[Response](ctx, c.cfg, strings.Replace(urlRefund, "{id}", convertedPaymentID, 1), request)
+	res, err := httpclient.Post[Response](ctx, c.cfg, strings.Replace(urlBase, "{id}", convertedPaymentID, 1), request)
 	if err != nil {
 		return nil, err
 	}
