@@ -17,8 +17,8 @@ func main() {
 		return
 	}
 
-	client := user.NewClient(cfg)
-	user, err := client.Get(context.Background())
+	userClient := user.NewClient(cfg)
+	user, err := userClient.Get(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return

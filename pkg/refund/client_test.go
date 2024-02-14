@@ -16,10 +16,10 @@ import (
 )
 
 var (
-	responseJSON, _ = os.Open("../../../resources/mocks/payment/refund/response.json")
+	responseJSON, _ = os.Open("../../resources/mocks/refund/response.json")
 	response, _     = io.ReadAll(responseJSON)
 
-	listResponseJSON, _ = os.Open("../../../resources/mocks/payment/refund/list_response.json")
+	listResponseJSON, _ = os.Open("../../resources/mocks/refund/list_response.json")
 	listResponse, _     = io.ReadAll(listResponseJSON)
 )
 
@@ -87,7 +87,7 @@ func TestCreate(t *testing.T) {
 			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
-			name: "should_return_formatted_response",
+			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{
@@ -194,7 +194,7 @@ func TestCreatePartialRefund(t *testing.T) {
 			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
-			name: "should_return_formatted_response",
+			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{
@@ -300,7 +300,7 @@ func TestGet(t *testing.T) {
 			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
-			name: "should_return_formatted_response",
+			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{
@@ -406,7 +406,7 @@ func TestList(t *testing.T) {
 			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
-			name: "should_return_formatted_response",
+			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{

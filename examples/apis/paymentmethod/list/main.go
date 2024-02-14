@@ -17,8 +17,8 @@ func main() {
 		return
 	}
 
-	client := paymentmethod.NewClient(cfg)
-	paymentMethods, err := client.List(context.Background())
+	paymentMethodClient := paymentmethod.NewClient(cfg)
+	paymentMethods, err := paymentMethodClient.List(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return

@@ -9,21 +9,20 @@ import (
 	"github.com/google/uuid"
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/payment"
-	"github.com/mercadopago/sdk-go/pkg/payment/refund"
+	"github.com/mercadopago/sdk-go/pkg/refund"
 )
 
 func TestRefund(t *testing.T) {
-	// We need card token client to create a payment and then refund payment.
 	t.Run("should_create_refund", func(t *testing.T) {
 		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		client := payment.NewClient(c)
+		paymentClient := payment.NewClient(c)
 
 		// Create payment.
-		dto := payment.Request{
+		paymentRequest := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "visa",
 			Payer: &payment.PayerRequest{
@@ -35,9 +34,9 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		payment, err := client.Create(context.Background(), dto)
+		payment, err := paymentClient.Create(context.Background(), paymentRequest)
 		if payment == nil {
-			t.Error("result can't be nil")
+			t.Error("payment can't be nil")
 			return
 		}
 		if err != nil {
@@ -47,23 +46,23 @@ func TestRefund(t *testing.T) {
 		refundClient := refund.NewClient(c)
 		refund, err := refundClient.Create(context.Background(), payment.ID)
 		if refund == nil {
-			t.Error("result can't be nil")
+			t.Error("refund can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 	})
-	// We need card token client to create a payment and then refund payment.
+
 	t.Run("should_create_partial_refund", func(t *testing.T) {
 		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		client := payment.NewClient(c)
+		paymentClient := payment.NewClient(c)
 
 		// Create payment.
-		dto := payment.Request{
+		paymentRequest := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "visa",
 			Payer: &payment.PayerRequest{
@@ -75,37 +74,36 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		payment, err := client.Create(context.Background(), dto)
+		payment, err := paymentClient.Create(context.Background(), paymentRequest)
 		if payment == nil {
-			t.Error("result can't be nil")
+			t.Error("payment can't be nil")
 			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
-		partialAmount := dto.TransactionAmount - 5.0
+		partialAmount := paymentRequest.TransactionAmount - 5.0
 
 		refundClient := refund.NewClient(c)
 		refund, err := refundClient.CreatePartialRefund(context.Background(), partialAmount, payment.ID)
 		if refund == nil {
-			t.Error("result can't be nil")
+			t.Error("refund can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 	})
 
-	// We need card token client to create a payment and then refund payment.
 	t.Run("should_get_refund", func(t *testing.T) {
 		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		client := payment.NewClient(c)
+		paymentClient := payment.NewClient(c)
 
 		// Create payment.
-		dto := payment.Request{
+		paymentRequest := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "visa",
 			Payer: &payment.PayerRequest{
@@ -117,9 +115,9 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		payment, err := client.Create(context.Background(), dto)
+		payment, err := paymentClient.Create(context.Background(), paymentRequest)
 		if payment == nil {
-			t.Error("result can't be nil")
+			t.Error("payment can't be nil")
 			return
 		}
 		if err != nil {
@@ -129,7 +127,7 @@ func TestRefund(t *testing.T) {
 		refundClient := refund.NewClient(c)
 		refund, err := refundClient.Create(context.Background(), payment.ID)
 		if refund == nil {
-			t.Error("result can't be nil")
+			t.Error("refund can't be nil")
 			return
 		}
 		if err != nil {
@@ -148,10 +146,10 @@ func TestRefund(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		client := payment.NewClient(c)
+		paymentClient := payment.NewClient(c)
 
 		// Create payment.
-		dto := payment.Request{
+		paymentRequest := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "visa",
 			Payer: &payment.PayerRequest{
@@ -163,9 +161,9 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		payment, err := client.Create(context.Background(), dto)
+		payment, err := paymentClient.Create(context.Background(), paymentRequest)
 		if payment == nil {
-			t.Error("result can't be nil")
+			t.Error("payment can't be nil")
 			return
 		}
 		if err != nil {
@@ -175,7 +173,7 @@ func TestRefund(t *testing.T) {
 		refundClient := refund.NewClient(c)
 		refund, err := refundClient.Create(context.Background(), payment.ID)
 		if refund == nil {
-			t.Error("result can't be nil")
+			t.Error("refund can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
