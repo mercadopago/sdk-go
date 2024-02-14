@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/payment/refund"
+	"github.com/mercadopago/sdk-go/pkg/refund"
 )
 
 func main() {
@@ -17,15 +17,16 @@ func main() {
 		return
 	}
 
-	client := refund.NewClient(cfg)
+	refundClient := refund.NewClient(cfg)
 
 	var paymentID int64 = 12233344
 
-	refund, err := client.List(context.Background(), paymentID)
+	refunds, err := refundClient.List(context.Background(), paymentID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-
-	fmt.Println(refund)
+	for _, v := range refunds {
+		fmt.Println(v)
+	}
 }

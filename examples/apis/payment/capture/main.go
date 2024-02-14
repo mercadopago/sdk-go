@@ -30,18 +30,18 @@ func main() {
 	}
 
 	client := payment.NewClient(cfg)
-	pay, err := client.Create(context.Background(), paymentRequest)
+	payment, err := client.Create(context.Background(), paymentRequest)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	// Capture.
-	pay, err = client.Capture(context.Background(), pay.ID)
+	payment, err = client.Capture(context.Background(), payment.ID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(pay)
+	fmt.Println(payment)
 }

@@ -18,9 +18,9 @@ func TestPayment(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		client := payment.NewClient(c)
+		paymentClient := payment.NewClient(c)
 
-		dto := payment.Request{
+		paymentRequest := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "pix",
 			Payer: &payment.PayerRequest{
@@ -28,12 +28,12 @@ func TestPayment(t *testing.T) {
 			},
 		}
 
-		result, err := client.Create(context.Background(), dto)
-		if result == nil {
-			t.Error("result can't be nil")
+		payment, err := paymentClient.Create(context.Background(), paymentRequest)
+		if payment == nil {
+			t.Error("payment can't be nil")
 			return
 		}
-		if result.ID == 0 {
+		if payment.ID == 0 {
 			t.Error("id can't be nil")
 		}
 		if err != nil {
@@ -47,16 +47,16 @@ func TestPayment(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		dto := payment.SearchRequest{
+		paymentRequest := payment.SearchRequest{
 			Filters: map[string]string{
 				"external_reference": "abc_def_ghi_123_456123",
 			},
 		}
 
-		client := payment.NewClient(c)
-		result, err := client.Search(context.Background(), dto)
-		if result == nil {
-			t.Error("result can't be nil")
+		paymentClient := payment.NewClient(c)
+		paymentSearch, err := paymentClient.Search(context.Background(), paymentRequest)
+		if paymentSearch == nil {
+			t.Error("paymentSearch can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -69,8 +69,8 @@ func TestPayment(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		client := payment.NewClient(c)
-		dto := payment.Request{
+		paymentClient := payment.NewClient(c)
+		paymentRequest := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "pix",
 			Payer: &payment.PayerRequest{
@@ -78,21 +78,21 @@ func TestPayment(t *testing.T) {
 			},
 		}
 
-		result, err := client.Create(context.Background(), dto)
-		if result == nil {
-			t.Error("result can't be nil")
+		payment, err := paymentClient.Create(context.Background(), paymentRequest)
+		if payment == nil {
+			t.Error("payment can't be nil")
 			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
-		result, err = client.Get(context.Background(), result.ID)
-		if result == nil {
-			t.Error("result can't be nil")
+		payment, err = paymentClient.Get(context.Background(), payment.ID)
+		if payment == nil {
+			t.Error("payment can't be nil")
 			return
 		}
-		if result.ID == 0 {
+		if payment.ID == 0 {
 			t.Error("id can't be nil")
 		}
 		if err != nil {
@@ -106,8 +106,8 @@ func TestPayment(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		client := payment.NewClient(c)
-		dto := payment.Request{
+		paymentClient := payment.NewClient(c)
+		paymentRequest := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "pix",
 			Payer: &payment.PayerRequest{
@@ -115,21 +115,21 @@ func TestPayment(t *testing.T) {
 			},
 		}
 
-		result, err := client.Create(context.Background(), dto)
-		if result == nil {
-			t.Error("result can't be nil")
+		payment, err := paymentClient.Create(context.Background(), paymentRequest)
+		if payment == nil {
+			t.Error("payment can't be nil")
 			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
-		result, err = client.Cancel(context.Background(), result.ID)
-		if result == nil {
-			t.Error("result can't be nil")
+		payment, err = paymentClient.Cancel(context.Background(), payment.ID)
+		if payment == nil {
+			t.Error("payment can't be nil")
 			return
 		}
-		if result.ID == 0 {
+		if payment.ID == 0 {
 			t.Error("id can't be nil")
 		}
 		if err != nil {
@@ -144,10 +144,10 @@ func TestPayment(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		client := payment.NewClient(c)
+		paymentClient := payment.NewClient(c)
 
 		// Create payment.
-		dto := payment.Request{
+		paymentRequest := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "visa",
 			Payer: &payment.PayerRequest{
@@ -159,18 +159,18 @@ func TestPayment(t *testing.T) {
 			Capture:      false,
 		}
 
-		result, err := client.Create(context.Background(), dto)
-		if result == nil {
-			t.Error("result can't be nil")
+		payment, err := paymentClient.Create(context.Background(), paymentRequest)
+		if payment == nil {
+			t.Error("payment can't be nil")
 			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
-		result, err = client.Capture(context.Background(), result.ID)
-		if result == nil {
-			t.Error("result can't be nil")
+		payment, err = paymentClient.Capture(context.Background(), payment.ID)
+		if payment == nil {
+			t.Error("payment can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -183,10 +183,10 @@ func TestPayment(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		client := payment.NewClient(c)
-		result, err := client.CaptureAmount(context.Background(), 123, 100.1)
-		if result == nil {
-			t.Error("result can't be nil")
+		paymentClient := payment.NewClient(c)
+		payment, err := paymentClient.CaptureAmount(context.Background(), 123, 100.1)
+		if payment == nil {
+			t.Error("payment can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
