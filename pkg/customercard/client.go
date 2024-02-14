@@ -8,9 +8,8 @@ import (
 )
 
 const (
-	urlBase        = "https://api.mercadopago.com/v1/customers/{customer_id}"
-	urlCards       = urlBase + "/cards"
-	urlCardsWithID = urlCards + "/{card_id}"
+	urlBase   = "https://api.mercadopago.com/v1/customers/{customer_id}/cards"
+	urlWithID = urlBase + "/{card_id}"
 )
 
 // Client contains the methods to interact with the Customer Cards API.
@@ -58,7 +57,7 @@ func (c *client) Create(ctx context.Context, customerID string, request Request)
 		"customer_id": customerID,
 	}
 
-	res, err := httpclient.Post[Response](ctx, c.config, urlCards, request, httpclient.WithPathParams(params))
+	res, err := httpclient.Post[Response](ctx, c.config, urlBase, request, httpclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +71,7 @@ func (c *client) Get(ctx context.Context, customerID, cardID string) (*Response,
 		"card_id":     cardID,
 	}
 
-	res, err := httpclient.Get[Response](ctx, c.config, urlCardsWithID, httpclient.WithPathParams(params))
+	res, err := httpclient.Get[Response](ctx, c.config, urlWithID, httpclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +85,7 @@ func (c *client) Update(ctx context.Context, customerID, cardID string, request 
 		"card_id":     cardID,
 	}
 
-	res, err := httpclient.Put[Response](ctx, c.config, urlCardsWithID, request, httpclient.WithPathParams(params))
+	res, err := httpclient.Put[Response](ctx, c.config, urlWithID, request, httpclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +99,7 @@ func (c *client) Delete(ctx context.Context, customerID, cardID string) (*Respon
 		"card_id":     cardID,
 	}
 
-	res, err := httpclient.Delete[Response](ctx, c.config, urlCardsWithID, nil, httpclient.WithPathParams(params))
+	res, err := httpclient.Delete[Response](ctx, c.config, urlWithID, nil, httpclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +112,7 @@ func (c *client) List(ctx context.Context, customerID string) ([]Response, error
 		"customer_id": customerID,
 	}
 
-	res, err := httpclient.Get[[]Response](ctx, c.config, urlCards, httpclient.WithPathParams(params))
+	res, err := httpclient.Get[[]Response](ctx, c.config, urlBase, httpclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
