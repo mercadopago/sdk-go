@@ -1,0 +1,40 @@
+{
+  "additional_info": {
+    "request_public": "true",
+    "api_client_application": "traffic-layer",
+    "api_client_scope": "mapi-pci-tl"
+  },
+  "card_number_id": null,
+  "cardholder": {
+    "name": "APRO",
+    "identification": {
+      "number": "19119119100",
+      "type": "CPF"
+    }
+  },
+  "customer_id": "1111111111-pDci63MBohR7c",
+  "date_created": "2024-02-07T16:28:38.000-04:00",
+  "date_last_updated": "2024-02-07T16:31:06.964-04:00",
+  "expiration_month": 12,
+  "expiration_year": 2025,
+  "first_six_digits": "123456",
+  "id": "9999999999",
+  "issuer": {
+    "id": 24,
+    "name": "Mastercard"
+  },
+  "last_four_digits": "1234",
+  "live_mode": true,
+  "payment_method": {
+    "id": "master",
+    "name": "Mastercard",
+    "payment_type_id": "credit_card",
+    "thumbnail": "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
+    "secure_thumbnail": "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png"
+  },
+  "security_code": {
+    "length": 3,
+    "card_location": "back"
+  },
+  "user_id": "0000000000"
+}

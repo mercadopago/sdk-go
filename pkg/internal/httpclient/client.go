@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"runtime"
 	"strings"
 
@@ -40,8 +41,8 @@ var (
 
 // Get makes requests with the GET method
 // Will return the struct specified in Generics
-func Get[T any](ctx context.Context, cfg *config.Config, path string) (*T, error) {
-	req, err := makeRequest(ctx, cfg, http.MethodGet, path, nil)
+func Get[T any](ctx context.Context, cfg *config.Config, url string, opts ...Option) (*T, error) {
+	req, err := makeRequest(ctx, cfg, http.MethodGet, url, nil, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,8 +52,8 @@ func Get[T any](ctx context.Context, cfg *config.Config, path string) (*T, error
 
 // Post makes requests with the POST method
 // Will return the struct specified in Generics
-func Post[T any](ctx context.Context, cfg *config.Config, path string, body any) (*T, error) {
-	req, err := makeRequest(ctx, cfg, http.MethodPost, path, body)
+func Post[T any](ctx context.Context, cfg *config.Config, url string, body any, opts ...Option) (*T, error) {
+	req, err := makeRequest(ctx, cfg, http.MethodPost, url, body, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -62,8 +63,8 @@ func Post[T any](ctx context.Context, cfg *config.Config, path string, body any)
 
 // Put makes requests with the PUT method
 // Will return the struct specified in Generics
-func Put[T any](ctx context.Context, cfg *config.Config, path string, body any) (*T, error) {
-	req, err := makeRequest(ctx, cfg, http.MethodPut, path, body)
+func Put[T any](ctx context.Context, cfg *config.Config, url string, body any, opts ...Option) (*T, error) {
+	req, err := makeRequest(ctx, cfg, http.MethodPut, url, body, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -73,8 +74,8 @@ func Put[T any](ctx context.Context, cfg *config.Config, path string, body any) 
 
 // Delete makes requests with the DELETE method
 // Will return the struct specified in Generics
-func Delete[T any](ctx context.Context, cfg *config.Config, path string, body any) (*T, error) {
-	req, err := makeRequest(ctx, cfg, http.MethodDelete, path, body)
+func Delete[T any](ctx context.Context, cfg *config.Config, url string, body any, opts ...Option) (*T, error) {
+	req, err := makeRequest(ctx, cfg, http.MethodDelete, url, body, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -82,13 +83,24 @@ func Delete[T any](ctx context.Context, cfg *config.Config, path string, body an
 	return send[T](cfg.Requester, req)
 }
 
-func makeRequest(ctx context.Context, cfg *config.Config, method, path string, body any) (*http.Request, error) {
-	req, err := buildHTTPRequest(ctx, method, path, body)
+func makeRequest(ctx context.Context, cfg *config.Config, method, url string, body any, opts ...Option) (*http.Request, error) {
+	req, err := buildHTTPRequest(ctx, method, url, body)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 
+	// Apply all the functional options to configure the client.
+	opt := clientOption{}
+	for _, o := range opts {
+		o(opt)
+	}
+
 	makeHeaders(req, cfg)
+	makeQueryParams(req, opt.queryParams)
+
+	if err = makePathParams(req, opt.pathParams); err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -134,4 +146,46 @@ func buildBody(body any) (io.Reader, error) {
 	}
 
 	return strings.NewReader(string(b)), nil
+}
+
+func makePathParams(req *http.Request, params map[string]string) error {
+	pathURL := req.URL.Path
+
+	for k, v := range params {
+		pathParam := ":" + k
+		pathURL = strings.Replace(pathURL, pathParam, v, 1)
+	}
+
+	if err := validatePathParams(pathURL); err != nil {
+		return err
+	}
+
+	req.URL.Path = pathURL
+
+	return nil
+}
+
+func makeQueryParams(req *http.Request, params map[string]string) {
+	queryParams := url.Values{}
+
+	for k, v := range params {
+		queryParams.Add(k, v)
+	}
+
+	req.URL.RawQuery = queryParams.Encode()
+}
+
+func validatePathParams(pathURL string) error {
+	if strings.Contains(pathURL, ":") {
+		words := strings.Split(pathURL, "/")
+		var paramsNotReplaced []string
+		for _, word := range words {
+			if strings.Contains(word, ":") {
+				paramsNotReplaced = append(paramsNotReplaced, strings.Replace(word, ":", "", 1))
+			}
+		}
+		return fmt.Errorf("path parameters not informed: %s", strings.Join(paramsNotReplaced, ","))
+	}
+
+	return nil
 }
