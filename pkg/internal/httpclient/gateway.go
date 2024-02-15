@@ -1,7 +1,6 @@
 package httpclient
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -9,7 +8,7 @@ import (
 	"github.com/mercadopago/sdk-go/pkg/internal/requester"
 )
 
-func send[T any](requester requester.Requester, req *http.Request) (*T, error) {
+func Send(requester requester.Requester, req *http.Request) ([]byte, error) {
 	res, err := requester.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("transport level error: %w", err)
@@ -32,15 +31,6 @@ func send[T any](requester requester.Requester, req *http.Request) (*T, error) {
 			Message:    string(response),
 			Headers:    res.Header,
 		}
-	}
-
-	return makeResponse[T](response)
-}
-
-func makeResponse[T any](b []byte) (*T, error) {
-	var response *T
-	if err := json.Unmarshal(b, &response); err != nil {
-		return nil, err
 	}
 
 	return response, nil
