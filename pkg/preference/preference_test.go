@@ -93,7 +93,7 @@ func TestCreate(t *testing.T) {
 			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
-			name: "should_return_formatted_response",
+			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{
@@ -122,7 +122,7 @@ func TestCreate(t *testing.T) {
 				BinaryMode:       false,
 				Expires:          false,
 				InitPoint:        "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-6da17b39-3bf4-4307-9124-4381c56372e0",
-				Items: []PreferenceItem{
+				Items: []PreferenceItemResponse{
 					{
 						ID:          "123",
 						CurrencyID:  "BRL",
@@ -132,11 +132,11 @@ func TestCreate(t *testing.T) {
 						UnitPrice:   100,
 					},
 				},
-				PaymentMethods: PreferencePaymentMethods{
-					ExcludedPaymentMethods: []PreferencePaymentMethod{
+				PaymentMethods: PreferencePaymentMethodsResponse{
+					ExcludedPaymentMethods: []PreferencePaymentMethodResponse{
 						{},
 					},
-					ExcludedPaymentTypes: []PreferencePaymentType{
+					ExcludedPaymentTypes: []PreferencePaymentTypeResponse{
 						{},
 					},
 				},
@@ -242,7 +242,7 @@ func TestGet(t *testing.T) {
 			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
-			name: "should_return_formatted_response",
+			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{
@@ -270,18 +270,18 @@ func TestGet(t *testing.T) {
 				SiteID:           "MLB",
 				BinaryMode:       false,
 				Expires:          false,
-				PaymentMethods: PreferencePaymentMethods{
-					ExcludedPaymentMethods: []PreferencePaymentMethod{
+				PaymentMethods: PreferencePaymentMethodsResponse{
+					ExcludedPaymentMethods: []PreferencePaymentMethodResponse{
 						{},
 					},
-					ExcludedPaymentTypes: []PreferencePaymentType{
+					ExcludedPaymentTypes: []PreferencePaymentTypeResponse{
 						{},
 					},
 				},
 				Metadata:  map[string]interface{}{},
 				ID:        "1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4",
 				InitPoint: "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4",
-				Items: []PreferenceItem{
+				Items: []PreferenceItemResponse{
 					{
 						ID:          "123",
 						CategoryID:  "",
@@ -381,7 +381,7 @@ func TestUpdate(t *testing.T) {
 			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
-			name: "should_return_formatted_response",
+			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{
@@ -409,18 +409,18 @@ func TestUpdate(t *testing.T) {
 				SiteID:           "MLB",
 				BinaryMode:       false,
 				Expires:          false,
-				PaymentMethods: PreferencePaymentMethods{
-					ExcludedPaymentMethods: []PreferencePaymentMethod{
+				PaymentMethods: PreferencePaymentMethodsResponse{
+					ExcludedPaymentMethods: []PreferencePaymentMethodResponse{
 						{},
 					},
-					ExcludedPaymentTypes: []PreferencePaymentType{
+					ExcludedPaymentTypes: []PreferencePaymentTypeResponse{
 						{},
 					},
 				},
 				Metadata:  map[string]interface{}{},
 				ID:        "1273205088-6a2d2fa5-edb8-4d06-90c7-74b756a75f38",
 				InitPoint: "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-6a2d2fa5-edb8-4d06-90c7-74b756a75f38",
-				Items: []PreferenceItem{
+				Items: []PreferenceItemResponse{
 					{
 						ID:          "321",
 						CategoryID:  "",
@@ -532,7 +532,7 @@ func TestSearch(t *testing.T) {
 			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
-			name: "should_return_formatted_response",
+			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
 					Requester: &httpclient.Mock{

@@ -9,13 +9,13 @@ import (
 )
 
 func main() {
-	c, err := config.New("{{ACCESS_TOKEN}}")
+	cfg, err := config.New("{{ACCESS_TOKEN}}")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	request := preference.Request{
+	preferenceRequest := preference.Request{
 		Items: []preference.PreferenceItemRequest{
 			{
 				ID:          "123",
@@ -27,31 +27,30 @@ func main() {
 		},
 	}
 
-	client := preference.NewClient(c)
-	pref, err := client.Create(context.Background(), request)
+	preferenceClient := preference.NewClient(cfg)
+	preferenceCreated, err := preferenceClient.Create(context.Background(), preferenceRequest)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	request = preference.Request{
+	preferenceRequest = preference.Request{
 		Items: []preference.PreferenceItemRequest{
 			{
 				ID:          "123",
-				Title:       "updating Title",
+				Title:       "Title",
 				UnitPrice:   100,
 				Quantity:    4,
-				Description: "updating Description",
+				Description: "Description",
 			},
 		},
 	}
 
-	client = preference.NewClient(c)
-	pref, err = client.Update(context.Background(), request, pref.ID)
+	preference, err := preferenceClient.Update(context.Background(), preferenceRequest, preferenceCreated.ID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(pref)
+	fmt.Println(preference)
 }

@@ -9,18 +9,18 @@ import (
 )
 
 func main() {
-	c, err := config.New("{{ACCESS_TOKEN}}")
+	cfg, err := config.New("{{ACCESS_TOKEN}}")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	client := preference.NewClient(c)
-	pref, err := client.Get(context.Background(), "{{ID_PREFERENCE}}")
+	preferenceClient := preference.NewClient(cfg)
+	preference, err := preferenceClient.Get(context.Background(), "{{ID_PREFERENCE}}")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(pref)
+	fmt.Println(preference)
 }
