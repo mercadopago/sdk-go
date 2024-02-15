@@ -7,7 +7,7 @@ type Request struct {
 	ExpirationMonth string `json:"expiration_month,omitempty"`
 	SecurityCode    string `json:"security_code,omitempty"`
 
-	Cardholder Cardholder `json:"cardholder,omitempty"`
+	Cardholder *Cardholder `json:"cardholder,omitempty"`
 }
 
 type Cardholder struct {
