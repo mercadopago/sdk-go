@@ -90,7 +90,7 @@ func makeRequest(ctx context.Context, cfg *config.Config, method, url string, bo
 	}
 
 	// Apply all the functional options to configure the client.
-	opt := clientOption{}
+	opt := &clientOption{}
 	for _, o := range opts {
 		o(opt)
 	}

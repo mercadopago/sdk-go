@@ -9,12 +9,12 @@ import (
 )
 
 func main() {
-	c, err := config.New("{{ACCESS_TOKEN}}")
+	cfg, err := config.New("{{ACCESS_TOKEN}}")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	client := preference.NewClient(c)
+	preferenceClient := preference.NewClient(cfg)
 
 	filter := make(map[string]string)
 	filter["external_reference"] = "wee3rffee23"
@@ -24,10 +24,11 @@ func main() {
 		Filters: filter,
 	}
 
-	pref, err := client.Search(context.Background(), filters)
+	pref, err := preferenceClient.Search(context.Background(), filters)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+
 	fmt.Println(pref)
 }
