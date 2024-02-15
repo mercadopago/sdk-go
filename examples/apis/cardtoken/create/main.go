@@ -25,7 +25,7 @@ func main() {
 		ExpirationMonth: "11",
 		ExpirationYear:  "2025",
 		SecurityCode:    "123",
-		Cardholder: cardtoken.Cardholder{
+		Cardholder: &cardtoken.Cardholder{
 			Identification: &cardtoken.Identification{
 				Type:   "CPF",
 				Number: "{{CPF_NUMBER}}",
