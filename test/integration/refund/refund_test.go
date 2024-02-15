@@ -32,8 +32,8 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		clientPayment := payment.NewClient(cfg)
-		pay, err := clientPayment.Create(context.Background(), req)
+		paymentClient := payment.NewClient(cfg)
+		pay, err := paymentClient.Create(context.Background(), req)
 		if pay == nil {
 			t.Error("payment can't be nil")
 			return
@@ -71,8 +71,8 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		clientPayment := payment.NewClient(cfg)
-		pay, err := clientPayment.Create(context.Background(), req)
+		paymentClient := payment.NewClient(cfg)
+		pay, err := paymentClient.Create(context.Background(), req)
 		if pay == nil {
 			t.Error("payment can't be nil")
 			return
@@ -112,8 +112,8 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		clientPayment := payment.NewClient(cfg)
-		pay, err := clientPayment.Create(context.Background(), req)
+		paymentClient := payment.NewClient(cfg)
+		pay, err := paymentClient.Create(context.Background(), req)
 		if pay == nil {
 			t.Error("payment can't be nil")
 			return
@@ -147,7 +147,7 @@ func TestRefund(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		
+
 		// Create payment.
 		req := payment.Request{
 			TransactionAmount: 105.1,
@@ -161,8 +161,8 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		clientPayment := payment.NewClient(cfg)
-		pay, err := clientPayment.Create(context.Background(), req)
+		paymentClient := payment.NewClient(cfg)
+		pay, err := paymentClient.Create(context.Background(), req)
 		if pay == nil {
 			t.Error("payment can't be nil")
 			return
