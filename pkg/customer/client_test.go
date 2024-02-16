@@ -92,11 +92,11 @@ func TestCreate(t *testing.T) {
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.Create() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Create() got = %v, want %v", got, tt.want)
+				t.Errorf("client.Create() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -178,11 +178,11 @@ func TestSearch(t *testing.T) {
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("Search() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.Search() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Search() got = %v, want %v", got, tt.want)
+				t.Errorf("client.Search() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -254,11 +254,11 @@ func TestGet(t *testing.T) {
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("Get() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.Get() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Get() got = %v, want %v", got, tt.want)
+				t.Errorf("client.Get() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -342,11 +342,11 @@ func TestUpdate(t *testing.T) {
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("Update() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.Update() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Update() got = %v, want %v", got, tt.want)
+				t.Errorf("client.Update() got = %v, want %v", got, tt.want)
 			}
 		})
 	}

@@ -21,11 +21,11 @@ func main() {
 	req := customer.UpdateRequest{Description: "Description updated."}
 
 	client := customer.NewClient(cfg)
-	res, err := client.Update(context.Background(), customerID, req)
+	cus, err := client.Update(context.Background(), customerID, req)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(res)
+	fmt.Println(cus)
 }
