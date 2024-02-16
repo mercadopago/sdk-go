@@ -6,18 +6,18 @@ import (
 	"testing"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/user"
+	"github.com/mercadopago/sdk-go/pkg/identificationtype"
 )
 
-func TestUser(t *testing.T) {
-	t.Run("should_get_user_information", func(t *testing.T) {
+func TestIdentificationTypes(t *testing.T) {
+	t.Run("should_list_identification_types", func(t *testing.T) {
 		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		client := user.NewClient(cfg)
-		res, err := client.Get(context.Background())
+		client := identificationtype.NewClient(cfg)
+		res, err := client.List(context.Background())
 
 		if res == nil {
 			t.Error("res can't be nil")

@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/user"
+	"github.com/mercadopago/sdk-go/pkg/identificationtype"
 )
 
 func main() {
@@ -17,12 +17,14 @@ func main() {
 		return
 	}
 
-	client := user.NewClient(cfg)
-	usr, err := client.Get(context.Background())
+	client := identificationtype.NewClient(cfg)
+	identificationTypes, err := client.List(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(usr)
+	for _, v := range identificationTypes {
+		fmt.Println(v)
+	}
 }
