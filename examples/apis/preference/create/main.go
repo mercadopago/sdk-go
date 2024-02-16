@@ -15,7 +15,7 @@ func main() {
 		return
 	}
 
-	preferenceRequest := preference.Request{
+	req := preference.Request{
 		Items: []preference.PreferenceItemRequest{
 			{
 				ID:          "123",
@@ -27,12 +27,12 @@ func main() {
 		},
 	}
 
-	preferenceClient := preference.NewClient(cfg)
-	preference, err := preferenceClient.Create(context.Background(), preferenceRequest)
+	client := preference.NewClient(cfg)
+	pref, err := client.Create(context.Background(), req)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(preference)
+	fmt.Println(pref)
 }
