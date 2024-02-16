@@ -1,0 +1,14 @@
+{
+  "paging": {
+    "limit": 10,
+    "offset": 0,
+    "total": 1
+  },
+  "results": [
+    {
+      "email": "test_user_30851371@testuser.com",
+      "id": "1681303407-9teKW29W0AXP8X",
+      "live_mode": false
+    }
+  ]
+}

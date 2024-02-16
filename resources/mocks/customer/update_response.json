@@ -1,0 +1,17 @@
+{
+  "id": "1681303407-9teKW29W0AXP8X",
+  "email": "test_user_30851371@testuser.com",
+  "first_name": "Jhon",
+  "last_name": "Doe",
+  "phone": {
+    "area_code": "55",
+    "number": "991234567"
+  },
+  "identification": {
+    "type": "CPF",
+    "number": "12345678900"
+  },
+  "description": "Description del user",
+  "default_address": "Home",
+  "live_mode": false
+}
