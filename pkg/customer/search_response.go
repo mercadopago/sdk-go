@@ -8,7 +8,7 @@ type SearchResponse struct {
 
 // PagingResponse represents the paging information within SearchResponse.
 type PagingResponse struct {
-	Total  int64 `json:"total"`
-	Limit  int64 `json:"limit"`
-	Offset int64 `json:"offset"`
+	Total  int `json:"total"`
+	Limit  int `json:"limit"`
+	Offset int `json:"offset"`
 }
