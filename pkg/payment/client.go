@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
 )
 
 const (
@@ -60,7 +60,7 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	res, err := httpclient.Post[Response](ctx, c.cfg, urlBase, request)
+	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (c *client) Search(ctx context.Context, dto SearchRequest) (*SearchResponse
 	}
 	url.RawQuery = params
 
-	res, err := httpclient.Get[SearchResponse](ctx, c.cfg, url.String())
+	res, err := baseclient.Get[*SearchResponse](ctx, c.cfg, url.String())
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (c *client) Search(ctx context.Context, dto SearchRequest) (*SearchResponse
 func (c *client) Get(ctx context.Context, id int64) (*Response, error) {
 	conv := strconv.Itoa(int(id))
 
-	res, err := httpclient.Get[Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1))
+	res, err := baseclient.Get[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1))
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +100,7 @@ func (c *client) Cancel(ctx context.Context, id int64) (*Response, error) {
 	dto := &CancelRequest{Status: "cancelled"}
 	conv := strconv.Itoa(int(id))
 
-	res, err := httpclient.Put[Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
+	res, err := baseclient.Put[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +112,7 @@ func (c *client) Capture(ctx context.Context, id int64) (*Response, error) {
 	dto := &CaptureRequest{Capture: true}
 	conv := strconv.Itoa(int(id))
 
-	res, err := httpclient.Put[Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
+	res, err := baseclient.Put[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
 	if err != nil {
 		return nil, err
 	}
@@ -124,7 +124,7 @@ func (c *client) CaptureAmount(ctx context.Context, id int64, amount float64) (*
 	dto := &CaptureRequest{TransactionAmount: amount, Capture: true}
 	conv := strconv.Itoa(int(id))
 
-	res, err := httpclient.Put[Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
+	res, err := baseclient.Put[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
 	if err != nil {
 		return nil, err
 	}
