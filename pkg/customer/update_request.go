@@ -9,7 +9,7 @@ type UpdateRequest struct {
 	FirstName      string `json:"first_name,omitempty"`
 	LastName       string `json:"last_name,omitempty"`
 
-	Address        AddressRequest        `json:"address,omitempty"`
-	Identification IdentificationRequest `json:"identification,omitempty"`
-	Phone          PhoneRequest          `json:"phone,omitempty"`
+	Address        *AddressRequest        `json:"address,omitempty"`
+	Identification *IdentificationRequest `json:"identification,omitempty"`
+	Phone          *PhoneRequest          `json:"phone,omitempty"`
 }

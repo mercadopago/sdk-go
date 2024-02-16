@@ -20,11 +20,11 @@ func main() {
 	customerID := "{{CUSTOMER_ID}}"
 
 	client := customer.NewClient(cfg)
-	res, err := client.Get(context.Background(), customerID)
+	cus, err := client.Get(context.Background(), customerID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(res)
+	fmt.Println(cus)
 }

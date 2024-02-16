@@ -18,19 +18,19 @@ const (
 
 // Client contains the methods to interact with the Customers API.
 type Client interface {
-	// Create crate a customer with all its data and save the cards used to simplify the payment process.
+	// Create a customer with all its data and save the cards used to simplify the payment process.
 	// It is a post request to the endpoint: https://api.mercadopago.com/v1/customers
 	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers/post/
 	Create(ctx context.Context, request Request) (*Response, error)
-	// Search Find all customer information using specific filters.
+	// Search find all customer information using specific filters.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/customers/search
 	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers_search/get/
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
-	// Get Check all the information of a client created with the client ID of your choice.
+	// Get check all the information of a client created with the client ID of your choice.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/customers/{id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers_id/get/
 	Get(ctx context.Context, id string) (*Response, error)
-	// Update Renew the data of a customer.
+	// Update renew the data of a customer.
 	// It is a put request to the endpoint: https://api.mercadopago.com/v1/customers
 	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers_id/put/
 	Update(ctx context.Context, id string, request UpdateRequest) (*Response, error)
