@@ -17,14 +17,14 @@ func main() {
 		return
 	}
 
-	paymentMethodClient := paymentmethod.NewClient(cfg)
-	paymentMethods, err := paymentMethodClient.List(context.Background())
+	client := paymentmethod.NewClient(cfg)
+	paymentMethods, err := client.List(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, v := range paymentMethods {
-		fmt.Println(v)
+	for _, pm := range paymentMethods {
+		fmt.Println(pm)
 	}
 }

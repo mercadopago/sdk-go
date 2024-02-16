@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
 )
 
 const url = "https://api.mercadopago.com/v1/payment_methods"
@@ -28,10 +28,10 @@ func NewClient(cfg *config.Config) Client {
 }
 
 func (c *client) List(ctx context.Context) ([]Response, error) {
-	res, err := httpclient.Get[[]Response](ctx, c.cfg, url)
+	res, err := baseclient.Get[[]Response](ctx, c.cfg, url)
 	if err != nil {
 		return nil, err
 	}
 
-	return *res, nil
+	return res, nil
 }

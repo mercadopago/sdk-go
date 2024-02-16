@@ -17,12 +17,12 @@ func main() {
 		return
 	}
 
-	userClient := user.NewClient(cfg)
-	user, err := userClient.Get(context.Background())
+	client := user.NewClient(cfg)
+	usr, err := client.Get(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(user)
+	fmt.Println(usr)
 }
