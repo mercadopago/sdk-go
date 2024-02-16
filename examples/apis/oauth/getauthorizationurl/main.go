@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
@@ -19,10 +18,11 @@ func main() {
 
 	client := oauth.NewClient(cfg)
 
-	clientID := "175307012991241"
-	redirectURI := "https://httpdump.app/inspect/e340c21c-3afa-45a2-a6c7-a859cafcb7d2"
+	clientID := "{{CLIENT_ID}}"
+	redirectURI := "{{REDIRECT_URI}}"
+	state := "state"
 
-	url := client.GetAuthorizationURL(context.Background(), clientID, redirectURI)
+	url := client.GetAuthorizationURL(clientID, redirectURI, state)
 
 	fmt.Println(url)
 }
