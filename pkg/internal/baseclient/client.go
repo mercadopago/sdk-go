@@ -1,4 +1,4 @@
-package httpclient
+package baseclient
 
 import (
 	"context"
@@ -12,6 +12,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/mercadopago/sdk-go/pkg/config"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const (
@@ -41,56 +42,52 @@ var (
 
 // Get makes requests with the GET method
 // Will return the struct specified in Generics
-func Get[T any](ctx context.Context, cfg *config.Config, url string, opts ...Option) (*T, error) {
-	req, err := makeRequest(ctx, cfg, http.MethodGet, url, nil, opts...)
-	if err != nil {
-		return nil, err
-	}
-
-	return send[T](cfg.Requester, req)
+func Get[T any](ctx context.Context, cfg *config.Config, url string, opts ...Option) (T, error) {
+	return make[T](ctx, cfg, url, http.MethodGet, nil, opts...)
 }
 
 // Post makes requests with the POST method
 // Will return the struct specified in Generics
-func Post[T any](ctx context.Context, cfg *config.Config, url string, body any, opts ...Option) (*T, error) {
-	req, err := makeRequest(ctx, cfg, http.MethodPost, url, body, opts...)
-	if err != nil {
-		return nil, err
-	}
-
-	return send[T](cfg.Requester, req)
+func Post[T any](ctx context.Context, cfg *config.Config, url string, body any, opts ...Option) (T, error) {
+	return make[T](ctx, cfg, url, http.MethodPost, body, opts...)
 }
 
 // Put makes requests with the PUT method
 // Will return the struct specified in Generics
-func Put[T any](ctx context.Context, cfg *config.Config, url string, body any, opts ...Option) (*T, error) {
-	req, err := makeRequest(ctx, cfg, http.MethodPut, url, body, opts...)
-	if err != nil {
-		return nil, err
-	}
-
-	return send[T](cfg.Requester, req)
+func Put[T any](ctx context.Context, cfg *config.Config, url string, body any, opts ...Option) (T, error) {
+	return make[T](ctx, cfg, url, http.MethodPut, body, opts...)
 }
 
 // Delete makes requests with the DELETE method
 // Will return the struct specified in Generics
-func Delete[T any](ctx context.Context, cfg *config.Config, url string, body any, opts ...Option) (*T, error) {
-	req, err := makeRequest(ctx, cfg, http.MethodDelete, url, body, opts...)
+func Delete[T any](ctx context.Context, cfg *config.Config, url string, body any, opts ...Option) (T, error) {
+	return make[T](ctx, cfg, url, http.MethodDelete, body, opts...)
+}
+
+func make[T any](ctx context.Context, cfg *config.Config, url, method string, body any, opts ...Option) (T, error) {
+	var res T
+
+	req, err := makeRequest(ctx, cfg, method, url, body, opts...)
 	if err != nil {
-		return nil, err
+		return res, err
 	}
 
-	return send[T](cfg.Requester, req)
+	b, err := httpclient.Send(cfg.Requester, req)
+	if err != nil {
+		return res, err
+	}
+
+	return makeResponse(b, res)
 }
 
 func makeRequest(ctx context.Context, cfg *config.Config, method, url string, body any, opts ...Option) (*http.Request, error) {
-	req, err := buildHTTPRequest(ctx, method, url, body)
+	req, err := makeHTTPRequest(ctx, method, url, body)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 
-	// Apply all the functional options to configure the client.
-	opt := clientOption{}
+	// Apply all the functional options to configure the baseclient.
+	opt := &clientOption{}
 	for _, o := range opts {
 		o(opt)
 	}
@@ -103,6 +100,15 @@ func makeRequest(ctx context.Context, cfg *config.Config, method, url string, bo
 	}
 
 	return req, nil
+}
+
+func makeHTTPRequest(ctx context.Context, method, url string, body any) (*http.Request, error) {
+	b, err := makeBody(body)
+	if err != nil {
+		return nil, err
+	}
+
+	return http.NewRequestWithContext(ctx, method, url, b)
 }
 
 func makeHeaders(req *http.Request, cfg *config.Config) {
@@ -126,16 +132,7 @@ func makeHeaders(req *http.Request, cfg *config.Config) {
 	}
 }
 
-func buildHTTPRequest(ctx context.Context, method, url string, body any) (*http.Request, error) {
-	b, err := buildBody(body)
-	if err != nil {
-		return nil, err
-	}
-
-	return http.NewRequestWithContext(ctx, method, url, b)
-}
-
-func buildBody(body any) (io.Reader, error) {
+func makeBody(body any) (io.Reader, error) {
 	if body == nil {
 		return nil, nil
 	}
@@ -173,6 +170,14 @@ func makeQueryParams(req *http.Request, params map[string]string) {
 	}
 
 	req.URL.RawQuery = queryParams.Encode()
+}
+
+func makeResponse[T any](b []byte, response T) (T, error) {
+	if err := json.Unmarshal(b, &response); err != nil {
+		return response, err
+	}
+
+	return response, nil
 }
 
 func validatePathParams(pathURL string) error {
