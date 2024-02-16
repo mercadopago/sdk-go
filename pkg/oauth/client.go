@@ -66,7 +66,7 @@ func (c *client) GetAuthorizationURL(clientID, redirectURI, state string) string
 		"redirect_uri":  redirectURI,
 	}
 
-	host, err := url.Parse(urlAuth)
+	parsedURL, err := url.Parse(urlAuth)
 	if err != nil {
 		return ""
 	}
@@ -77,9 +77,9 @@ func (c *client) GetAuthorizationURL(clientID, redirectURI, state string) string
 		queryParams.Add(k, v)
 	}
 
-	host.RawQuery = queryParams.Encode()
+	parsedURL.RawQuery = queryParams.Encode()
 
-	return host.String()
+	return parsedURL.String()
 }
 
 func (c *client) Refresh(ctx context.Context, refreshToken string) (*Response, error) {
