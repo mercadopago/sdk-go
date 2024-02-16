@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/url"
-	"strings"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
@@ -13,7 +12,7 @@ import (
 const (
 	urlBase   = "https://api.mercadopago.com/v1/customers"
 	urlSearch = urlBase + "/search"
-	urlWithID = urlBase + "/{id}"
+	urlWithID = urlBase + "/:id"
 )
 
 // Client contains the methods to interact with the Customers API.
@@ -33,7 +32,7 @@ type Client interface {
 	// Update renew the data of a customer.
 	// It is a put request to the endpoint: https://api.mercadopago.com/v1/customers
 	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers_id/put/
-	Update(ctx context.Context, id string, request UpdateRequest) (*Response, error)
+	Update(ctx context.Context, id string, request Request) (*Response, error)
 }
 
 // client is the implementation of Client.
@@ -75,7 +74,11 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 }
 
 func (c *client) Get(ctx context.Context, id string) (*Response, error) {
-	res, err := baseclient.Get[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", id, 1))
+	params := map[string]string{
+		"id": id,
+	}
+
+	res, err := baseclient.Get[*Response](ctx, c.cfg, urlWithID, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
@@ -83,8 +86,12 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 	return res, nil
 }
 
-func (c *client) Update(ctx context.Context, id string, request UpdateRequest) (*Response, error) {
-	res, err := baseclient.Put[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", id, 1), request)
+func (c *client) Update(ctx context.Context, id string, request Request) (*Response, error) {
+	params := map[string]string{
+		"id": id,
+	}
+
+	res, err := baseclient.Put[*Response](ctx, c.cfg, urlWithID, request, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}

@@ -271,7 +271,7 @@ func TestUpdate(t *testing.T) {
 	type args struct {
 		ctx     context.Context
 		id      string
-		request UpdateRequest
+		request Request
 	}
 	tests := []struct {
 		name    string

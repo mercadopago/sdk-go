@@ -18,7 +18,7 @@ func main() {
 	}
 
 	customerID := "{{CUSTOMER_ID}}"
-	req := customer.UpdateRequest{Description: "Description updated."}
+	req := customer.Request{Description: "Description updated."}
 
 	client := customer.NewClient(cfg)
 	cus, err := client.Update(context.Background(), customerID, req)
