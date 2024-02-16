@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
 )
 
 const (
@@ -55,7 +55,7 @@ func (c *client) Get(ctx context.Context, paymentID, refundID int64) (*Response,
 
 	url := strings.NewReplacer("{id}", convertedPaymentID, "{refund_id}", convertedRefundID).Replace(urlWithID)
 
-	res, err := httpclient.Get[Response](ctx, c.cfg, url)
+	res, err := baseclient.Get[*Response](ctx, c.cfg, url)
 	if err != nil {
 		return nil, err
 	}
@@ -66,18 +66,18 @@ func (c *client) Get(ctx context.Context, paymentID, refundID int64) (*Response,
 func (c *client) List(ctx context.Context, paymentID int64) ([]Response, error) {
 	convertedRefundID := strconv.Itoa(int(paymentID))
 
-	res, err := httpclient.Get[[]Response](ctx, c.cfg, strings.Replace(urlBase, "{id}", convertedRefundID, 1))
+	res, err := baseclient.Get[[]Response](ctx, c.cfg, strings.Replace(urlBase, "{id}", convertedRefundID, 1))
 	if err != nil {
 		return nil, err
 	}
 
-	return *res, nil
+	return res, nil
 }
 
 func (c *client) Create(ctx context.Context, paymentID int64) (*Response, error) {
 	convertedPaymentID := strconv.Itoa(int(paymentID))
 
-	res, err := httpclient.Post[Response](ctx, c.cfg, strings.Replace(urlBase, "{id}", convertedPaymentID, 1), nil)
+	res, err := baseclient.Post[*Response](ctx, c.cfg, strings.Replace(urlBase, "{id}", convertedPaymentID, 1), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +90,7 @@ func (c *client) CreatePartialRefund(ctx context.Context, amount float64, paymen
 
 	convertedPaymentID := strconv.Itoa(int(paymentID))
 
-	res, err := httpclient.Post[Response](ctx, c.cfg, strings.Replace(urlBase, "{id}", convertedPaymentID, 1), request)
+	res, err := baseclient.Post[*Response](ctx, c.cfg, strings.Replace(urlBase, "{id}", convertedPaymentID, 1), request)
 	if err != nil {
 		return nil, err
 	}

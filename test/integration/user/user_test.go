@@ -11,12 +11,12 @@ import (
 
 func TestUser(t *testing.T) {
 	t.Run("should_get_user_information", func(t *testing.T) {
-		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
+		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		client := user.NewClient(c)
+		client := user.NewClient(cfg)
 		res, err := client.Get(context.Background())
 
 		if res == nil {
