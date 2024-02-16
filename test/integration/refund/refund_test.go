@@ -14,15 +14,13 @@ import (
 
 func TestRefund(t *testing.T) {
 	t.Run("should_create_refund", func(t *testing.T) {
-		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
+		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		paymentClient := payment.NewClient(c)
-
 		// Create payment.
-		paymentRequest := payment.Request{
+		req := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "visa",
 			Payer: &payment.PayerRequest{
@@ -34,8 +32,9 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		payment, err := paymentClient.Create(context.Background(), paymentRequest)
-		if payment == nil {
+		paymentClient := payment.NewClient(cfg)
+		pay, err := paymentClient.Create(context.Background(), req)
+		if pay == nil {
 			t.Error("payment can't be nil")
 			return
 		}
@@ -43,9 +42,9 @@ func TestRefund(t *testing.T) {
 			t.Errorf(err.Error())
 		}
 
-		refundClient := refund.NewClient(c)
-		refund, err := refundClient.Create(context.Background(), payment.ID)
-		if refund == nil {
+		refundClient := refund.NewClient(cfg)
+		ref, err := refundClient.Create(context.Background(), pay.ID)
+		if ref == nil {
 			t.Error("refund can't be nil")
 		}
 		if err != nil {
@@ -54,15 +53,13 @@ func TestRefund(t *testing.T) {
 	})
 
 	t.Run("should_create_partial_refund", func(t *testing.T) {
-		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
+		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		paymentClient := payment.NewClient(c)
-
 		// Create payment.
-		paymentRequest := payment.Request{
+		req := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "visa",
 			Payer: &payment.PayerRequest{
@@ -74,19 +71,21 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		payment, err := paymentClient.Create(context.Background(), paymentRequest)
-		if payment == nil {
+		paymentClient := payment.NewClient(cfg)
+		pay, err := paymentClient.Create(context.Background(), req)
+		if pay == nil {
 			t.Error("payment can't be nil")
 			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
-		partialAmount := paymentRequest.TransactionAmount - 5.0
 
-		refundClient := refund.NewClient(c)
-		refund, err := refundClient.CreatePartialRefund(context.Background(), partialAmount, payment.ID)
-		if refund == nil {
+		partialAmount := req.TransactionAmount - 5.0
+
+		refundClient := refund.NewClient(cfg)
+		ref, err := refundClient.CreatePartialRefund(context.Background(), partialAmount, pay.ID)
+		if ref == nil {
 			t.Error("refund can't be nil")
 		}
 		if err != nil {
@@ -95,15 +94,13 @@ func TestRefund(t *testing.T) {
 	})
 
 	t.Run("should_get_refund", func(t *testing.T) {
-		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
+		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		paymentClient := payment.NewClient(c)
-
 		// Create payment.
-		paymentRequest := payment.Request{
+		req := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "visa",
 			Payer: &payment.PayerRequest{
@@ -115,8 +112,9 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		payment, err := paymentClient.Create(context.Background(), paymentRequest)
-		if payment == nil {
+		paymentClient := payment.NewClient(cfg)
+		pay, err := paymentClient.Create(context.Background(), req)
+		if pay == nil {
 			t.Error("payment can't be nil")
 			return
 		}
@@ -124,9 +122,9 @@ func TestRefund(t *testing.T) {
 			t.Errorf(err.Error())
 		}
 
-		refundClient := refund.NewClient(c)
-		refund, err := refundClient.Create(context.Background(), payment.ID)
-		if refund == nil {
+		refundClient := refund.NewClient(cfg)
+		ref, err := refundClient.Create(context.Background(), pay.ID)
+		if ref == nil {
 			t.Error("refund can't be nil")
 			return
 		}
@@ -134,26 +132,24 @@ func TestRefund(t *testing.T) {
 			t.Errorf(err.Error())
 		}
 
-		refund, err = refundClient.Get(context.Background(), payment.ID, refund.ID)
+		ref, err = refundClient.Get(context.Background(), pay.ID, ref.ID)
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
-		if refund.ID == 0 {
+		if ref.ID == 0 {
 			t.Error("id can't be nil")
 		}
 	})
 
 	t.Run("should_list_refund", func(t *testing.T) {
-		c, err := config.New(os.Getenv("ACCESS_TOKEN"))
+		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		paymentClient := payment.NewClient(c)
-
 		// Create payment.
-		paymentRequest := payment.Request{
+		req := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "visa",
 			Payer: &payment.PayerRequest{
@@ -165,8 +161,9 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		payment, err := paymentClient.Create(context.Background(), paymentRequest)
-		if payment == nil {
+		paymentClient := payment.NewClient(cfg)
+		pay, err := paymentClient.Create(context.Background(), req)
+		if pay == nil {
 			t.Error("payment can't be nil")
 			return
 		}
@@ -174,12 +171,12 @@ func TestRefund(t *testing.T) {
 			t.Errorf(err.Error())
 		}
 
-		refundClient := refund.NewClient(c)
-		partialAmount := paymentRequest.TransactionAmount - 5.0
+		partialAmount := req.TransactionAmount - 5.0
 
 		// Partial refund
-		refund, err := refundClient.CreatePartialRefund(context.Background(), partialAmount, payment.ID)
-		if refund == nil {
+		refundClient := refund.NewClient(cfg)
+		ref, err := refundClient.CreatePartialRefund(context.Background(), partialAmount, pay.ID)
+		if ref == nil {
 			t.Error("refund can't be nil")
 		}
 		if err != nil {
@@ -187,15 +184,15 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Total refund
-		refund, err = refundClient.Create(context.Background(), payment.ID)
-		if refund == nil {
+		ref, err = refundClient.Create(context.Background(), pay.ID)
+		if ref == nil {
 			t.Error("refund can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
-		refunds, err := refundClient.List(context.Background(), payment.ID)
+		refunds, err := refundClient.List(context.Background(), pay.ID)
 		if err != nil {
 			t.Errorf(err.Error())
 		}
