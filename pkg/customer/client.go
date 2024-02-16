@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
 )
 
 const (
@@ -49,7 +49,7 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	res, err := httpclient.Post[Response](ctx, c.cfg, urlBase, request)
+	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 	}
 	parsedUrl.RawQuery = params
 
-	res, err := httpclient.Get[SearchResponse](ctx, c.cfg, parsedUrl.String())
+	res, err := baseclient.Get[*SearchResponse](ctx, c.cfg, parsedUrl.String())
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 }
 
 func (c *client) Get(ctx context.Context, id string) (*Response, error) {
-	res, err := httpclient.Get[Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", id, 1))
+	res, err := baseclient.Get[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", id, 1))
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +84,7 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 }
 
 func (c *client) Update(ctx context.Context, id string, request UpdateRequest) (*Response, error) {
-	res, err := httpclient.Put[Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", id, 1), request)
+	res, err := baseclient.Put[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", id, 1), request)
 	if err != nil {
 		return nil, err
 	}
