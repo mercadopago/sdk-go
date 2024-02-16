@@ -25,11 +25,13 @@ func main() {
 		Filters: filter,
 	}
 
-	pref, err := req.Search(context.Background(), filters)
+	search, err := req.Search(context.Background(), filters)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(pref)
+	for _, pref := range search.Elements {
+		fmt.Println(pref)
+	}
 }
