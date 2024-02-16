@@ -6,7 +6,7 @@ import (
 	"net/url"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
 )
 
 const (
@@ -17,7 +17,7 @@ const (
 
 // Client contains the methods to interact with the Preference API.
 type Client interface {
-	// Create creates a preference with information about a product or service and obtain the URL needed to start the payment flow.
+	// Create a preference with information about a product or service and obtain the URL needed to start the payment flow.
 	// It is a post request to the endpoint: https://api.mercadopago.com/checkout/preferences
 	// Reference: https://www.mercadopago.com/developers/en/reference/preferences/_checkout_preferences/post
 	Create(ctx context.Context, request Request) (*Response, error)
@@ -51,7 +51,7 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	res, err := httpclient.Post[Response](ctx, c.cfg, urlBase, request)
+	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 		"id": id,
 	}
 
-	res, err := httpclient.Get[Response](ctx, c.cfg, urlWithID, httpclient.WithPathParams(params))
+	res, err := baseclient.Get[*Response](ctx, c.cfg, urlWithID, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (c *client) Update(ctx context.Context, request Request, id string) (*Respo
 		"id": id,
 	}
 
-	res, err := httpclient.Put[Response](ctx, c.cfg, urlWithID, request, httpclient.WithPathParams(params))
+	res, err := baseclient.Put[*Response](ctx, c.cfg, urlWithID, request, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 	}
 	url.RawQuery = params
 
-	res, err := httpclient.Get[SearchResponsePage](ctx, c.cfg, url.String())
+	res, err := baseclient.Get[*SearchResponsePage](ctx, c.cfg, url.String())
 	if err != nil {
 		return nil, err
 	}

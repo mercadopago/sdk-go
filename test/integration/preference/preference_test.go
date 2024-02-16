@@ -16,7 +16,9 @@ func TestPreference(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		preferenceRequest := preference.Request{
+		client := preference.NewClient(cfg)
+
+		req := preference.Request{
 			Items: []preference.PreferenceItemRequest{
 				{
 					ID:          "123",
@@ -28,10 +30,8 @@ func TestPreference(t *testing.T) {
 			},
 		}
 
-		client := preference.NewClient(cfg)
-		preference, err := client.Create(context.Background(), preferenceRequest)
-
-		if preference == nil {
+		pref, err := client.Create(context.Background(), req)
+		if pref == nil {
 			t.Error("preference can't be nil")
 		}
 		if err != nil {
@@ -45,7 +45,9 @@ func TestPreference(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		preferenceRequest := preference.Request{
+		client := preference.NewClient(cfg)
+
+		req := preference.Request{
 			Items: []preference.PreferenceItemRequest{
 				{
 					ID:          "123",
@@ -57,9 +59,8 @@ func TestPreference(t *testing.T) {
 			},
 		}
 
-		client := preference.NewClient(cfg)
-		preference, err := client.Create(context.Background(), preferenceRequest)
-		if preference == nil {
+		pref, err := client.Create(context.Background(), req)
+		if pref == nil {
 			t.Error("preference can't be nil")
 			return
 		}
@@ -67,17 +68,15 @@ func TestPreference(t *testing.T) {
 			t.Errorf(err.Error())
 		}
 
-		preference, err = client.Get(context.Background(), preference.ID)
-
-		if preference == nil {
+		pref, err = client.Get(context.Background(), pref.ID)
+		if pref == nil {
 			t.Error("preference can't be nil")
 			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
-
-		if preference.ID == "" {
+		if pref.ID == "" {
 			t.Error("id can't be nil")
 		}
 	})
@@ -88,7 +87,9 @@ func TestPreference(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		preferenceRequest := preference.Request{
+		client := preference.NewClient(cfg)
+
+		req := preference.Request{
 			Items: []preference.PreferenceItemRequest{
 				{
 					ID:          "123",
@@ -99,9 +100,9 @@ func TestPreference(t *testing.T) {
 				},
 			},
 		}
-		client := preference.NewClient(cfg)
-		preferenceCreated, err := client.Create(context.Background(), preferenceRequest)
-		if preferenceCreated == nil {
+
+		pref, err := client.Create(context.Background(), req)
+		if pref == nil {
 			t.Error("preference can't be nil")
 			return
 		}
@@ -109,7 +110,7 @@ func TestPreference(t *testing.T) {
 			t.Errorf(err.Error())
 		}
 
-		preferenceRequest = preference.Request{
+		req = preference.Request{
 			Items: []preference.PreferenceItemRequest{
 				{
 					ID:          "123",
@@ -121,12 +122,10 @@ func TestPreference(t *testing.T) {
 			},
 		}
 
-		preference, err := client.Update(context.Background(), preferenceRequest, preferenceCreated.ID)
-
-		if preference == nil {
+		pref, err = client.Update(context.Background(), req, pref.ID)
+		if pref == nil {
 			t.Error("preference can't be nil")
 		}
-
 		if err != nil {
 			t.Errorf(err.Error())
 		}
@@ -144,9 +143,9 @@ func TestPreference(t *testing.T) {
 		}
 
 		client := preference.NewClient(cfg)
-		preference, err := client.Search(context.Background(), filters)
+		pref, err := client.Search(context.Background(), filters)
 
-		if preference == nil {
+		if pref == nil {
 			t.Error("preference can't be nil")
 		}
 		if err != nil {

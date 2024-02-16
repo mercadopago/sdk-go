@@ -15,12 +15,12 @@ func main() {
 		return
 	}
 
-	preferenceClient := preference.NewClient(cfg)
-	preference, err := preferenceClient.Get(context.Background(), "{{ID_PREFERENCE}}")
+	client := preference.NewClient(cfg)
+	pref, err := client.Get(context.Background(), "{{ID_PREFERENCE}}")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(preference)
+	fmt.Println(pref)
 }

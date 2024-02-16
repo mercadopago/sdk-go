@@ -26,7 +26,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	for _, v := range refunds {
-		fmt.Println(v)
+	for _, ref := range refunds {
+		fmt.Println(ref)
 	}
 }

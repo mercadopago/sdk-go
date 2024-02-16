@@ -1,8 +1,14 @@
-package httpclient
+package baseclient
 
 import (
+	"context"
 	"net/http"
+	"net/url"
 	"testing"
+
+	"github.com/mercadopago/sdk-go/pkg/config"
+	"github.com/mercadopago/sdk-go/pkg/internal/requester"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestMakePathParams(t *testing.T) {
@@ -122,6 +128,63 @@ func TestMakeQueryParams(t *testing.T) {
 			if tt.wantURL != req.URL.String() {
 				t.Errorf("makeQueryParams() wantURL = %v, gotURL %v", tt.wantURL, req.URL.String())
 			}
+		})
+	}
+}
+
+func Test_makeRequest(t *testing.T) {
+	type args struct {
+		cfg    *config.Config
+		method string
+		url    string
+		body   any
+		opts   []Option
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    *http.Request
+		wantErr bool
+	}{
+		{
+			name: "should_create_http_request_success",
+			args: args{
+				cfg: &config.Config{
+					AccessToken: "",
+					Requester:   requester.Default(),
+				},
+				method: http.MethodGet,
+				url:    "https://test.com/tests/:id",
+				body:   nil,
+				opts: []Option{
+					WithPathParams(map[string]string{
+						"id": "123",
+					}),
+				},
+			},
+			want: &http.Request{
+				Method: http.MethodGet,
+				URL: &url.URL{
+					Scheme: "https",
+					Host:   "test.com",
+					Path:   "/tests/123",
+				},
+				Host: "test.com",
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ctx := context.Background()
+			got, err := makeRequest(ctx, tt.args.cfg, tt.args.method, tt.args.url, tt.args.body, tt.args.opts...)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("makeRequest() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+
+			assert.Equal(t, tt.want.URL.String(), got.URL.String())
+			assert.NotEmpty(t, got.Header.Get(headerIdempotency))
+			assert.NotEmpty(t, got.Header.Get(headerRequestID))
 		})
 	}
 }

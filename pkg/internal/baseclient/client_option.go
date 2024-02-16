@@ -1,6 +1,6 @@
-package httpclient
+package baseclient
 
-// ClientOption allows sending options in the http client
+// ClientOption allows sending options in the http baseclient
 type clientOption struct {
 	pathParams  map[string]string
 	queryParams map[string]string

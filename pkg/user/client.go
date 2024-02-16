@@ -4,14 +4,14 @@ import (
 	"context"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
 )
 
 const url = "https://api.mercadopago.com/users/me"
 
 // Client contains the method to interact with the User API.
 type Client interface {
-	// Get get user information.
+	// Get user information.
 	// It is a get request to the endpoint: https://api.mercadopago.com/users/me
 	Get(ctx context.Context) (*Response, error)
 }
@@ -29,7 +29,7 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Get(ctx context.Context) (*Response, error) {
-	res, err := httpclient.Get[Response](ctx, c.cfg, url)
+	res, err := baseclient.Get[*Response](ctx, c.cfg, url)
 	if err != nil {
 		return nil, err
 	}
