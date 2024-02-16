@@ -1,5 +1,6 @@
 package oauth
 
+// Response represents credential information for an Oauth authorization
 type Response struct {
 	AccessToken  string `json:"access_token"`
 	Scope        string `json:"scope"`
