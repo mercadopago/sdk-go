@@ -15,7 +15,7 @@ func main() {
 		return
 	}
 
-	req := preference.NewClient(cfg)
+	client := preference.NewClient(cfg)
 
 	filter := make(map[string]string)
 	filter["external_reference"] = "wee3rffee23"
@@ -25,7 +25,7 @@ func main() {
 		Filters: filter,
 	}
 
-	search, err := req.Search(context.Background(), filters)
+	search, err := client.Search(context.Background(), filters)
 	if err != nil {
 		fmt.Println(err)
 		return
