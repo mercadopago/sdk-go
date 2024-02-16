@@ -4,14 +4,14 @@ import (
 	"context"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
 )
 
 const url = "https://api.mercadopago.com/v1/card_tokens"
 
 // Client contains the method to interact with the card token API.
 type Client interface {
-	// Create create a card token.
+	// Create a card token.
 	// It is a post request to the endpoint: https://api.mercadopago.com/v1/card_tokens
 	Create(ctx context.Context, request Request) (*Response, error)
 }
@@ -25,7 +25,7 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	res, err := httpclient.Post[Response](ctx, c.cfg, url, request)
+	res, err := baseclient.Post[*Response](ctx, c.cfg, url, request)
 	if err != nil {
 		return nil, err
 	}
