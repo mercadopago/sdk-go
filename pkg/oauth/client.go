@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	baseUrl = "https://api.mercadopago.com/oauth/token"
+	urlBase = "https://api.mercadopago.com/oauth/token"
 	urlAuth = "https://auth.mercadopago.com/authorization"
 )
 
@@ -50,7 +50,7 @@ func (c *client) Create(ctx context.Context, authorizationCode, redirectURI stri
 		GrantType:    "authorization_code",
 	}
 
-	res, err := baseclient.Post[*Response](ctx, c.cfg, baseUrl, request)
+	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
 	if err != nil {
 		return nil, err
 	}
@@ -89,7 +89,7 @@ func (c *client) Refresh(ctx context.Context, refreshToken string) (*Response, e
 		GrantType:    "refresh_token",
 	}
 
-	res, err := baseclient.Post[*Response](ctx, c.cfg, baseUrl, request)
+	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
 	if err != nil {
 		return nil, err
 	}
