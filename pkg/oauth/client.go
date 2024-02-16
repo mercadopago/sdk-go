@@ -5,28 +5,28 @@ import (
 	"net/url"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
 )
 
 const (
-	baseUrl  = "https://api.mercadopago.com/oauth/token"
-	urlOAuth = "https://auth.mercadopago.com/authorization"
+	baseUrl = "https://api.mercadopago.com/oauth/token"
+	urlAuth = "https://auth.mercadopago.com/authorization"
 )
 
-// Client contains the method to interact with the OAuth API.
+// Client contains the method to interact with the Oauth API.
 type Client interface {
 
-	// Create Oauth credentials to operate on behalf of a seller
-	// It is a Post request to the endpoint: "https://api.mercadopago.com/oauth/token"
-	// Reference: https://www.mercadopago.com.br/developers/en/reference/oauth/_oauth_token/post
+	// Create oauth credentials to operate on behalf of a seller
+	// It is a post request to the endpoint: "https://api.mercadopago.com/oauth/token"
+	// Reference: https://www.mercadopago.com/developers/en/reference/oauth/_oauth_token/post
 	Create(ctx context.Context, authorizationCode, redirectURI string) (*Response, error)
 
-	// Get URL for Oauth authorization.
-	GetAuthorizationURL(ctx context.Context, clientID, redirectURI string) string
+	// Get url for oauth authorization.
+	GetAuthorizationURL(clientID, redirectURI, state string) string
 
 	// Refresh token received when you create credentials.
-	// It is a Post request to the endpoint: "https://api.mercadopago.com/oauth/token"
-	// Reference: https://www.mercadopago.com.br/developers/en/reference/oauth/_oauth_token/post
+	// It is a post request to the endpoint: "https://api.mercadopago.com/oauth/token"
+	// Reference: https://www.mercadopago.com/developers/en/reference/oauth/_oauth_token/post
 	Refresh(ctx context.Context, refreshToken string) (*Response, error)
 }
 
@@ -35,7 +35,7 @@ type client struct {
 	cfg *config.Config
 }
 
-// NewClient returns a new User API Client.
+// NewClient returns a new Oauth API Client.
 func NewClient(c *config.Config) Client {
 	return &client{
 		cfg: c,
@@ -50,7 +50,7 @@ func (c *client) Create(ctx context.Context, authorizationCode, redirectURI stri
 		GrantType:    "authorization_code",
 	}
 
-	res, err := httpclient.Post[Response](ctx, c.cfg, baseUrl, request)
+	res, err := baseclient.Post[*Response](ctx, c.cfg, baseUrl, request)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +58,7 @@ func (c *client) Create(ctx context.Context, authorizationCode, redirectURI stri
 	return res, nil
 }
 
-func (c *client) GetAuthorizationURL(ctx context.Context, clientID, redirectURI string) string {
+func (c *client) GetAuthorizationURL(clientID, redirectURI, state string) string {
 	params := map[string]string{
 		"client_id":     clientID,
 		"response_type": "code",
@@ -66,7 +66,7 @@ func (c *client) GetAuthorizationURL(ctx context.Context, clientID, redirectURI 
 		"redirect_uri":  redirectURI,
 	}
 
-	host, err := url.Parse(urlOAuth)
+	host, err := url.Parse(urlAuth)
 	if err != nil {
 		return ""
 	}
@@ -89,7 +89,7 @@ func (c *client) Refresh(ctx context.Context, refreshToken string) (*Response, e
 		GrantType:    "refresh_token",
 	}
 
-	res, err := httpclient.Post[Response](ctx, c.cfg, baseUrl, request)
+	res, err := baseclient.Post[*Response](ctx, c.cfg, baseUrl, request)
 	if err != nil {
 		return nil, err
 	}

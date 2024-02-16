@@ -174,10 +174,10 @@ func TestRefresh(t *testing.T) {
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("client.Create() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.Refresh() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.Create() = %v, want %v", got, tt.want)
+				t.Errorf("client.Refresh() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -188,9 +188,9 @@ func TestGetAuthorizationURL(t *testing.T) {
 		config *config.Config
 	}
 	type args struct {
-		ctx         context.Context
-		appID       string
+		clientID    string
 		redirectURI string
+		state       string
 	}
 	tests := []struct {
 		name   string
@@ -206,11 +206,11 @@ func TestGetAuthorizationURL(t *testing.T) {
 				},
 			},
 			args: args{
-				ctx:         context.Background(),
-				appID:       "appID",
+				clientID:    "323123123",
 				redirectURI: "redirectURI",
+				state:       "state",
 			},
-			want: "https://auth.mercadopago.com/authorization?client_id=appID&platform_id=mp&redirect_uri=redirectURI&response_type=code",
+			want: "https://auth.mercadopago.com/authorization?client_id=323123123&platform_id=mp&redirect_uri=redirectURI&response_type=code",
 		},
 	}
 	for _, tt := range tests {
@@ -218,7 +218,7 @@ func TestGetAuthorizationURL(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.config,
 			}
-			got := c.GetAuthorizationURL(tt.args.ctx, tt.args.appID, tt.args.redirectURI)
+			got := c.GetAuthorizationURL(tt.args.clientID, tt.args.redirectURI, tt.args.state)
 
 			if got != tt.want {
 				t.Errorf("client.getAuthorizationURL() = %v, want %v", got, tt.want)

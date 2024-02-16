@@ -9,21 +9,20 @@ import (
 	"github.com/mercadopago/sdk-go/pkg/oauth"
 )
 
-func TestUser(t *testing.T) {
-
-	t.Run("should_create_credentails", func(t *testing.T) {
+func TestOauth(t *testing.T) {
+	t.Run("should_create_credentials", func(t *testing.T) {
 		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
 
 		client := oauth.NewClient(cfg)
-		authorizationCode := "TG-65cf441cb3cf3e000144dfbb-213761027"
-		redirectURI := "https://httpdump.app/inspect/e340c21c-3afa-45a2-a6c7-a859cafcb7d2"
+		authorizationCode := "authorization_code"
+		redirectURI := "redirect_uri"
 
-		credential, err := client.Create(context.Background(), authorizationCode, redirectURI)
+		cred, err := client.Create(context.Background(), authorizationCode, redirectURI)
 
-		if credential == nil {
+		if cred == nil {
 			t.Error("credential can't be nil")
 		}
 		if err != nil {
@@ -38,23 +37,24 @@ func TestUser(t *testing.T) {
 		}
 
 		client := oauth.NewClient(cfg)
-		authorizationCode := "TG-65cf441cb3cf3e000144dfbb-213761027"
-		redirectURI := "https://httpdump.app/inspect/e340c21c-3afa-45a2-a6c7-a859cafcb7d2"
 
-		credential, err := client.Create(context.Background(), authorizationCode, redirectURI)
+		authorizationCode := "authorization_code"
+		redirectURI := "redirect_uri"
 
-		if credential == nil {
-			t.Error("res can't be nil")
+		cred, err := client.Create(context.Background(), authorizationCode, redirectURI)
+
+		if cred == nil {
+			t.Error("credential can't be nil")
 			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
-		refreshToken := credential.RefreshToken
-		credential, err = client.Refresh(context.Background(), refreshToken)
+		refreshToken := cred.RefreshToken
+		cred, err = client.Refresh(context.Background(), refreshToken)
 
-		if credential == nil {
+		if cred == nil {
 			t.Error("credential can't be nil")
 		}
 		if err != nil {
