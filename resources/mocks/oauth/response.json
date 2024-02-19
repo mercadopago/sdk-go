@@ -1,0 +1,11 @@
+{
+    "access_token": "APP_USR-1223334455",
+    "scope": "offline_access payments read write",
+    "refresh_token": "TG-65cf4eed634",
+    "public_key": "APP_USR-5b5b91b7",
+    "token_type": "Bearer",
+    "live_mode": true,
+    "expires_in": 15552000
+}
+
+

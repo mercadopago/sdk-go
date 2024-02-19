@@ -59,13 +59,13 @@ func (c *client) Create(ctx context.Context, request Request) (*Response, error)
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
 	params := request.Parameters()
 
-	parsedUrl, err := url.Parse(urlSearch)
+	parsedURL, err := url.Parse(urlSearch)
 	if err != nil {
 		return nil, fmt.Errorf("error parsing url: %w", err)
 	}
-	parsedUrl.RawQuery = params
+	parsedURL.RawQuery = params
 
-	res, err := baseclient.Get[*SearchResponse](ctx, c.cfg, parsedUrl.String())
+	res, err := baseclient.Get[*SearchResponse](ctx, c.cfg, parsedURL.String())
 	if err != nil {
 		return nil, err
 	}
