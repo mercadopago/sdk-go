@@ -2,6 +2,8 @@ package integration
 
 import (
 	"context"
+	"fmt"
+	"math/rand"
 	"os"
 	"testing"
 
@@ -18,8 +20,7 @@ func TestCustomer(t *testing.T) {
 
 		client := customer.NewClient(cfg)
 
-		email := os.Getenv("TEST_EMAIL")
-		req := customer.Request{Email: email}
+		req := customer.Request{Email: generateEmail()}
 		cus, err := client.Create(context.Background(), req)
 		if cus == nil {
 			t.Error("customer can't be nil")
@@ -41,10 +42,9 @@ func TestCustomer(t *testing.T) {
 
 		client := customer.NewClient(cfg)
 
-		email := os.Getenv("TEST_EMAIL")
 		req := customer.SearchRequest{
 			Filters: map[string]string{
-				"email": email,
+				"email": generateEmail(),
 			},
 		}
 		res, err := client.Search(context.Background(), req)
@@ -64,8 +64,7 @@ func TestCustomer(t *testing.T) {
 
 		client := customer.NewClient(cfg)
 
-		email := os.Getenv("TEST_EMAIL")
-		req := customer.Request{Email: email}
+		req := customer.Request{Email: generateEmail()}
 		cus, err := client.Create(context.Background(), req)
 		if cus == nil {
 			t.Error("customer can't be nil")
@@ -96,8 +95,7 @@ func TestCustomer(t *testing.T) {
 
 		client := customer.NewClient(cfg)
 
-		email := os.Getenv("TEST_EMAIL")
-		req := customer.Request{Email: email}
+		req := customer.Request{Email: generateEmail()}
 		cus, err := client.Create(context.Background(), req)
 		if cus == nil {
 			t.Error("customer can't be nil")
@@ -120,4 +118,9 @@ func TestCustomer(t *testing.T) {
 			t.Errorf(err.Error())
 		}
 	})
+}
+
+func generateEmail() string {
+	id := rand.Intn(200000 /*max*/ -100000 /*min*/) + 100000 /*min*/
+	return fmt.Sprintf("test_user_sdk_%d@testuser.com", id)
 }

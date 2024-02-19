@@ -43,11 +43,11 @@ type AddressResponse struct {
 
 // CardResponse represents a response for a card.
 type CardResponse struct {
-	CustomerID      string `json:"customer_id"`
-	FirstSixDigits  string `json:"first_six_digits"`
 	ID              string `json:"id"`
-	LastFourDigits  string `json:"last_four_digits"`
+	CustomerID      string `json:"customer_id"`
 	UserId          string `json:"user_id"`
+	FirstSixDigits  string `json:"first_six_digits"`
+	LastFourDigits  string `json:"last_four_digits"`
 	ExpirationMonth int    `json:"expiration_month"`
 	ExpirationYear  int    `json:"expiration_year"`
 
