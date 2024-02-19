@@ -14,8 +14,8 @@ type Request struct {
 	NotificationUrl     string                 `json:"notification_url,omitempty"`
 	Purpose             string                 `json:"purpose,omitempty"`
 	StatementDescriptor string                 `json:"statement_descriptor,omitempty"`
-	BinaryMode          *bool                  `json:"binary_mode,omitempty"`
-	Expires             *bool                  `json:"expires,omitempty"`
+	BinaryMode          bool                   `json:"binary_mode,omitempty"`
+	Expires             bool                   `json:"expires,omitempty"`
 	MarketplaceFee      float64                `json:"marketplace_fee,omitempty"`
 	ProcessingModes     []string               `json:"processing_modes,omitempty"`
 	Metadata            map[string]interface{} `json:"metadata,omitempty"`
