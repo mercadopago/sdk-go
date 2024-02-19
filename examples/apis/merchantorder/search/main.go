@@ -19,13 +19,21 @@ func main() {
 
 	client := merchantorder.NewClient(cfg)
 
-	var merchantOrderID int64 = 8416510703
+	filter := make(map[string]string)
+	filter["preference_id"] = "1340175910-f2694bdc-7562-499e-a373-057cce3a027b"
+	req := merchantorder.SearchRequest{
+		Limit:   "10",
+		Offset:  "0",
+		Filters: filter,
+	}
 
-	merchant, err := client.Get(context.Background(), merchantOrderID)
+	search, err := client.Search(context.Background(), req)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(merchant)
+	for _, order := range search.Elements {
+		fmt.Println(order)
+	}
 }
