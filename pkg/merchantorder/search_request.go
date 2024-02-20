@@ -6,7 +6,7 @@ import (
 
 // SearchRequest is the request to search services.
 // Filters field can receive a lot of paramaters. For details, see:
-// https://www.mercadopago.com.br/developers/pt/reference/payments/_payments_search/get.
+// https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_search/get.
 type SearchRequest struct {
 	Limit  string
 	Offset string
