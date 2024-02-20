@@ -295,8 +295,9 @@ func TestSearch(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 				request: SearchRequest{
-					Limit:  "1",
-					Offset: "1",
+					Limit:   "1",
+					Offset:  "1",
+					Filters: map[string]string{"preference": "134445566"},
 				},
 			},
 			want:    buildSearchResponseMock(),
@@ -308,7 +309,7 @@ func TestSearch(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.config,
 			}
-			got, err := c.Search(tt.args.ctx, SearchRequest{})
+			got, err := c.Search(tt.args.ctx, tt.args.request)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
