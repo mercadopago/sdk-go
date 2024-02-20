@@ -5,8 +5,7 @@ import (
 	"fmt"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/payment"
-	"github.com/mercadopago/sdk-go/pkg/refund"
+	"github.com/mercadopago/sdk-go/pkg/merchantorder"
 )
 
 func main() {
@@ -19,32 +18,37 @@ func main() {
 	}
 
 	// Create payment.
-	req := payment.Request{
-		TransactionAmount: 105.1,
-		PaymentMethodID:   "master",
-		Payer: &payment.PayerRequest{
-			Email: "{{EMAIL}}",
+	req := merchantorder.UpdateRequest{
+		ExternalReference: "default",
+		PreferenceID:      "123456789",
+		Collector: &merchantorder.CollectorRequest{
+			ID: 123456789,
 		},
-		Token:        "{{TOKEN}}",
-		Installments: 1,
-		Capture:      false,
+		SiteID: "MLB",
+		Items: []merchantorder.ItemRequest{
+			{
+				CategoryID:  "MLB123456789",
+				CurrencyID:  "BRL",
+				Description: "description",
+				PictureURL:  "https://http2.mlstatic.com/D_NQ_NP_652451-MLB74602308021_022024-F.jpg",
+				Title:       "title",
+				Quantity:    1,
+				UnitPrice:   1,
+			},
+		},
+		ApplicationID: "123456789",
+		Version:       1,
 	}
 
-	client := payment.NewClient(cfg)
-	pay, err := client.Create(context.Background(), req)
+	client := merchantorder.NewClient(cfg)
+
+	var merchantOrderID int64 = 123456789
+
+	order, err := client.Update(context.Background(), req, merchantOrderID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	partialAmount := pay.TransactionAmount - 10.0
-
-	refundClient := refund.NewClient(cfg)
-	ref, err := refundClient.CreatePartialRefund(context.Background(), partialAmount, pay.ID)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(ref)
+	fmt.Println(order)
 }
