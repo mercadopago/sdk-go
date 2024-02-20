@@ -20,22 +20,22 @@ const (
 type Client interface {
 	// Get a specific merchant order by id.
 	// It is a get request to the endpoint: https://api.mercadopago.com/merchant_orders/{id}
-	// Reference: https://www.mercadopago.com.br/developers/en/reference/merchant_orders/_merchant_orders_id/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_id/get
 	Get(ctx context.Context, id int64) (*Response, error)
 
 	// Search for merchant orders.
 	// It is a get request to the endpoint: https://api.mercadopago.com/merchant_orders/search
-	// Reference: https://www.mercadopago.com.br/developers/en/reference/merchant_orders/_merchant_orders_search/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_search/get
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 
 	// Update a merchant order.
 	// It is a put request to the endpoint: https://api.mercadopago.com/merchant_orders/{id}
-	// Reference: https://www.mercadopago.com.br/developers/en/reference/merchant_orders/_merchant_orders_id/put
-	Update(ctx context.Context, request UpdateRequest, id int64) ([]Response, error)
+	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_id/put
+	Update(ctx context.Context, request UpdateRequest, id int64) (*Response, error)
 
 	// Create a merchant order.
 	// It is a post request to the endpoint: https://api.mercadopago.com/merchant_orders
-	// Reference: https://www.mercadopago.com.br/developers/en/reference/merchant_orders/_merchant_orders/post
+	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders/post
 	Create(ctx context.Context, request Request) (*Response, error)
 }
 
@@ -75,6 +75,7 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 	url.RawQuery = params
 
 	res, err := baseclient.Get[*SearchResponse](ctx, c.cfg, url.String())
+
 	if err != nil {
 		return nil, err
 	}
@@ -82,12 +83,12 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 	return res, nil
 }
 
-func (c *client) Update(ctx context.Context, request UpdateRequest, id int64) ([]Response, error) {
+func (c *client) Update(ctx context.Context, request UpdateRequest, id int64) (*Response, error) {
 	param := map[string]string{
 		"id": strconv.Itoa(int(id)),
 	}
 
-	res, err := baseclient.Put[[]Response](ctx, c.cfg, urlWithID, request, baseclient.WithPathParams(param))
+	res, err := baseclient.Put[*Response](ctx, c.cfg, urlWithID, request, baseclient.WithPathParams(param))
 	if err != nil {
 		return nil, err
 	}
