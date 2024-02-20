@@ -155,7 +155,7 @@ func TestUpdate(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.config,
 			}
-			got, err := c.Update(tt.args.ctx, Request{}, 1622029222)
+			got, err := c.Update(tt.args.ctx, UpdateRequest{}, 1622029222)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
@@ -328,7 +328,7 @@ func buildResponseMock() *Response {
 	dateCreated, _ := time.Parse(time.RFC3339, "2023-03-28T13:50:19.143-04:00")
 	lastUpdate, _ := time.Parse(time.RFC3339, "2023-03-28T13:50:19.143-04:00")
 
-	res := &Response{
+	return &Response{
 		ID:           1234545454543,
 		Status:       "opened",
 		PreferenceID: "1340175910-f2694bdc-7562-499e-a373-057cce3a027b",
@@ -352,8 +352,6 @@ func buildResponseMock() *Response {
 		},
 		OrderStatus: "payment_required",
 	}
-
-	return res
 }
 
 func buildSearchResponseMock() *SearchResponse {
