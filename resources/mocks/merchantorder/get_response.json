@@ -1,0 +1,24 @@
+{
+    "id": 1234545454543,
+    "status": "opened",
+    "preference_id": "1340175910-f2694bdc-7562-499e-a373-057cce3a027b",
+    "collector": {
+        "id": 1340175910,
+        "nickname": "TEST_USER_658045679"
+    },
+    "marketplace": "NONE",
+    "date_created": "2023-03-28T13:50:19.143-04:00",
+    "last_updated": "2023-03-28T13:50:19.143-04:00",
+    "total_amount": 10,
+    "site_id": "MLB",
+    "items": [
+        {
+            "currency_id": "BRL",
+            "description": "Some book",
+            "title": "Produto sem descrição",
+            "quantity": 1,
+            "unit_price": 10
+        }
+    ],
+    "order_status": "payment_required"
+}

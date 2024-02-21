@@ -165,6 +165,10 @@ func makePathParams(req *http.Request, params map[string]string) error {
 func makeQueryParams(req *http.Request, params map[string]string) {
 	queryParams := url.Values{}
 
+	if len(params) == 0 {
+		return
+	}
+
 	for k, v := range params {
 		queryParams.Add(k, v)
 	}
