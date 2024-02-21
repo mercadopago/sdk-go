@@ -7,17 +7,17 @@ type UpdateRequest struct {
 	PreferenceID      string `json:"preference_id,omitempty"`
 	ApplicationID     string `json:"application_id,omitempty"`
 	SiteID            string `json:"site_id,omitempty"`
-	SponsorID         string `json:"sponsor_id,omitempty"`
 	NotificationURL   string `json:"notification_url,omitempty"`
 	AdditionalInfo    string `json:"additional_info,omitempty"`
 	ExternalReference string `json:"external_reference,omitempty"`
 	Marketplace       string `json:"marketplace,omitempty"`
 	Version           int64  `json:"version,omitempty"`
+	SponsorID         int64  `json:"sponsor_id,omitempty"`
 
-	Collector *CollectorRequest `json:"collector,omitempty"`
-	Payer     *PayerRequest     `json:"payer,omitempty"`
-	Items     []ItemRequest     `json:"items,omitempty"`
-	Shipments []ShipmentRequest `json:"shipments,omitempty"`
+	Collector *CollectorRequest   `json:"collector,omitempty"`
+	Payer     *PayerRequest       `json:"payer,omitempty"`
+	Items     []ItemUpdateRequest `json:"items,omitempty"`
+	Shipments []ShipmentRequest   `json:"shipments,omitempty"`
 }
 
 // ShipmentRequest represents shipment information.
@@ -103,4 +103,10 @@ type ShippingEstimatedDeliveryRequest struct {
 type ShippingSpeedRequest struct {
 	Handling int64 `json:"handling,omitempty"`
 	Shipping int64 `json:"shipping,omitempty"`
+}
+
+// ItemUpdateRequest represents item information.
+type ItemUpdateRequest struct {
+	ID       string `json:"id,omitempty"`
+	Quantity int    `json:"quantity,omitempty"`
 }
