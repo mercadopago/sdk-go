@@ -73,7 +73,7 @@ func main() {
 	req := merchantorder.UpdateRequest{
 		PreferenceID: pref.ID,
 		SiteID:       pref.SiteID,
-		Items: []merchantorder.ItemRequest{
+		Items: []merchantorder.ItemUpdateRequest{
 			{
 				ID:       order.Items[0].ID,
 				Quantity: 2,
