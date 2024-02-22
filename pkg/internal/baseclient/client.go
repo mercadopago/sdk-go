@@ -58,6 +58,12 @@ func Put[T any](ctx context.Context, cfg *config.Config, url string, body any, o
 	return make[T](ctx, cfg, url, http.MethodPut, body, opts...)
 }
 
+// Patch makes requests with the PATCH method
+// Will return the struct specified in Generics
+func Patch[T any](ctx context.Context, cfg *config.Config, url string, body any, opts ...Option) (T, error) {
+	return make[T](ctx, cfg, url, http.MethodPatch, body, opts...)
+}
+
 // Delete makes requests with the DELETE method
 // Will return the struct specified in Generics
 func Delete[T any](ctx context.Context, cfg *config.Config, url string, body any, opts ...Option) (T, error) {

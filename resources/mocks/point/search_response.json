@@ -1,0 +1,14 @@
+{
+  "id": "7f25f9aa-eea6-4f9c-bf16-a341f71ba2f1",
+  "state": "FINISHED",
+  "amount": 1500,
+  "device_id": "PAX_A910__SMARTPOS1234345545",
+  "payment": {
+    "id": 16499678033
+  },
+  "additional_info": {
+    "external_reference": "some-reference-from-your-application",
+    "print_on_terminal": true,
+    "ticket_number": "S0392JED"
+  }
+}
