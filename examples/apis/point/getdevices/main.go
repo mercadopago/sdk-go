@@ -18,11 +18,11 @@ func main() {
 	}
 
 	client := point.NewClient(cfg)
-	dev, err := client.GetDevices(context.Background())
+	devices, err := client.GetDevices(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(dev)
+	fmt.Println(devices)
 }
