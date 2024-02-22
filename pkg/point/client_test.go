@@ -48,7 +48,7 @@ func TestCreate(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name: "should_return_error_when_create",
+			name: "should_return_error_when_create_point_transaction_intent",
 			fields: fields{
 				cfg: &config.Config{
 					Requester: &httpclient.Mock{
@@ -67,7 +67,7 @@ func TestCreate(t *testing.T) {
 			wantErr: "transport level error: some error",
 		},
 		{
-			name: "should_create_success",
+			name: "should_create_point_transaction_intent_success",
 			fields: fields{
 				cfg: &config.Config{
 					Requester: &httpclient.Mock{
@@ -137,7 +137,7 @@ func TestCreate(t *testing.T) {
 	}
 }
 
-func TestSearch(t *testing.T) {
+func TestGet(t *testing.T) {
 	type fields struct {
 		cfg *config.Config
 	}
@@ -153,7 +153,7 @@ func TestSearch(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name: "should_return_error_when_search",
+			name: "should_return_error_when_get_point_transaction_intent",
 			fields: fields{
 				cfg: &config.Config{
 					Requester: &httpclient.Mock{
@@ -171,7 +171,7 @@ func TestSearch(t *testing.T) {
 			wantErr: "transport level error: some error",
 		},
 		{
-			name: "should_search_success",
+			name: "should_get_point_transaction_intent_success",
 			fields: fields{
 				cfg: &config.Config{
 					Requester: &httpclient.Mock{
@@ -211,7 +211,7 @@ func TestSearch(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.cfg,
 			}
-			got, err := c.Search(tt.args.ctx, tt.args.paymentIntentID)
+			got, err := c.Get(tt.args.ctx, tt.args.paymentIntentID)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
@@ -244,7 +244,7 @@ func TestCancel(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name: "should_return_error_when_cancel",
+			name: "should_return_error_when_cancel_point_transaction_intent",
 			fields: fields{
 				cfg: &config.Config{
 					Requester: &httpclient.Mock{
@@ -263,7 +263,7 @@ func TestCancel(t *testing.T) {
 			wantErr: "transport level error: some error",
 		},
 		{
-			name: "should_cancel_success",
+			name: "should_cancel_point_transaction_intent_success",
 			fields: fields{
 				cfg: &config.Config{
 					Requester: &httpclient.Mock{
