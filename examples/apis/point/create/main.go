@@ -32,11 +32,11 @@ func main() {
 	}
 
 	client := point.NewClient(cfg)
-	ppi, err := client.Create(context.Background(), "{{DEVICE_ID}}", req)
+	paymentIntent, err := client.Create(context.Background(), "{{DEVICE_ID}}", req)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(ppi)
+	fmt.Println(paymentIntent)
 }
