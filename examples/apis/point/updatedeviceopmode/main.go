@@ -22,11 +22,11 @@ func main() {
 	}
 
 	client := point.NewClient(cfg)
-	om, err := client.UpdateDeviceOperationMode(context.Background(), "{{DEVICE_ID}}", req)
+	opMode, err := client.UpdateDeviceOperationMode(context.Background(), "{{DEVICE_ID}}", req)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(om)
+	fmt.Println(opMode)
 }
