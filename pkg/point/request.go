@@ -1,11 +1,11 @@
 package point
 
-type Request struct {
+type CreateRequest struct {
 	Amount      int    `json:"amount"`
 	Description string `json:"description"`
 
 	AdditionalInfo AdditionalInfo `json:"additional_info"`
-	Payment        Payment        `json:"payment"`
+	Payment        PaymentRequest `json:"payment"`
 }
 
 type AdditionalInfo struct {
@@ -14,7 +14,7 @@ type AdditionalInfo struct {
 	TicketNumber      string `json:"ticket_number,omitempty"`
 }
 
-type Payment struct {
+type PaymentRequest struct {
 	ID               int64  `json:"id,omitempty"`
 	Installments     int    `json:"installments,omitempty"`
 	Type             string `json:"type,omitempty"`

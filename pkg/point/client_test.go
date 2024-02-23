@@ -18,17 +18,17 @@ var (
 	createResponseJSON, _ = os.Open("../../resources/mocks/point/create_response.json")
 	createResponse, _     = io.ReadAll(createResponseJSON)
 
-	searchResponseJSON, _ = os.Open("../../resources/mocks/point/search_response.json")
-	searchResponse, _     = io.ReadAll(searchResponseJSON)
+	getResponseJSON, _ = os.Open("../../resources/mocks/point/get_response.json")
+	getResponse, _     = io.ReadAll(getResponseJSON)
 
 	cancelResponseJSON, _ = os.Open("../../resources/mocks/point/cancel_response.json")
 	cancelResponse, _     = io.ReadAll(cancelResponseJSON)
 
-	getDevicesResponseJSON, _ = os.Open("../../resources/mocks/point/get_devices_response.json")
-	getDevicesResponse, _     = io.ReadAll(getDevicesResponseJSON)
+	listDevicesResponseJSON, _ = os.Open("../../resources/mocks/point/list_devices_response.json")
+	listDevicesResponse, _     = io.ReadAll(listDevicesResponseJSON)
 
-	updateDeviceOperationModeResponseJSON, _ = os.Open("../../resources/mocks/point/update_device_operation_mode_response.json")
-	updateDeviceOperationModeResponse, _     = io.ReadAll(updateDeviceOperationModeResponseJSON)
+	UpdateDeviceOperatingModeResponseJSON, _ = os.Open("../../resources/mocks/point/update_device_operating_mode_response.json")
+	UpdateDeviceOperatingModeResponse, _     = io.ReadAll(UpdateDeviceOperatingModeResponseJSON)
 )
 
 func TestCreate(t *testing.T) {
@@ -38,7 +38,7 @@ func TestCreate(t *testing.T) {
 	type args struct {
 		ctx      context.Context
 		deviceID string
-		request  Request
+		request  CreateRequest
 	}
 	tests := []struct {
 		name    string
@@ -61,7 +61,7 @@ func TestCreate(t *testing.T) {
 			args: args{
 				ctx:      context.Background(),
 				deviceID: "any",
-				request:  Request{},
+				request:  CreateRequest{},
 			},
 			want:    nil,
 			wantErr: "transport level error: some error",
@@ -84,14 +84,14 @@ func TestCreate(t *testing.T) {
 			args: args{
 				ctx:      context.Background(),
 				deviceID: "any",
-				request: Request{
+				request: CreateRequest{
 					Amount:      1500,
 					Description: "your payment intent description",
 					AdditionalInfo: AdditionalInfo{
 						PrintOnTerminal:   false,
 						ExternalReference: "4561ads-das4das4-das4754-das456",
 					},
-					Payment: Payment{
+					Payment: PaymentRequest{
 						Installments:     1,
 						Type:             "credit_card",
 						InstallmentsCost: "seller",
@@ -149,7 +149,7 @@ func TestGet(t *testing.T) {
 		name    string
 		fields  fields
 		args    args
-		want    *SearchResponse
+		want    *GetResponse
 		wantErr string
 	}{
 		{
@@ -176,7 +176,7 @@ func TestGet(t *testing.T) {
 				cfg: &config.Config{
 					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
-							stringReader := strings.NewReader(string(searchResponse))
+							stringReader := strings.NewReader(string(getResponse))
 							stringReadCloser := io.NopCloser(stringReader)
 							return &http.Response{
 								Body: stringReadCloser,
@@ -189,7 +189,7 @@ func TestGet(t *testing.T) {
 				ctx:             context.Background(),
 				paymentIntentID: "any",
 			},
-			want: &SearchResponse{
+			want: &GetResponse{
 				ID:       "7f25f9aa-eea6-4f9c-bf16-a341f71ba2f1",
 				State:    "FINISHED",
 				Amount:   1500,
@@ -218,10 +218,10 @@ func TestGet(t *testing.T) {
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("client.Create() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.Get() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.Create() = %v, want %v", got, tt.want)
+				t.Errorf("client.Get() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -300,16 +300,16 @@ func TestCancel(t *testing.T) {
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("client.Create() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.Cancel() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.Create() = %v, want %v", got, tt.want)
+				t.Errorf("client.Cancel() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestGetDevices(t *testing.T) {
+func TestListDevices(t *testing.T) {
 	type fields struct {
 		cfg *config.Config
 	}
@@ -346,7 +346,7 @@ func TestGetDevices(t *testing.T) {
 				cfg: &config.Config{
 					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
-							stringReader := strings.NewReader(string(getDevicesResponse))
+							stringReader := strings.NewReader(string(listDevicesResponse))
 							stringReadCloser := io.NopCloser(stringReader)
 							return &http.Response{
 								Body: stringReadCloser,
@@ -382,23 +382,23 @@ func TestGetDevices(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.cfg,
 			}
-			got, err := c.GetDevices(tt.args.ctx)
+			got, err := c.ListDevices(tt.args.ctx)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("client.Create() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.ListDevices() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.Create() = %v, want %v", got, tt.want)
+				t.Errorf("client.ListDevices() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestUpdateDeviceOperationMode(t *testing.T) {
+func TestUpdateDeviceOperatingMode(t *testing.T) {
 	type fields struct {
 		cfg *config.Config
 	}
@@ -439,7 +439,7 @@ func TestUpdateDeviceOperationMode(t *testing.T) {
 				cfg: &config.Config{
 					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
-							stringReader := strings.NewReader(string(updateDeviceOperationModeResponse))
+							stringReader := strings.NewReader(string(UpdateDeviceOperatingModeResponse))
 							stringReadCloser := io.NopCloser(stringReader)
 							return &http.Response{
 								Body: stringReadCloser,
@@ -463,17 +463,17 @@ func TestUpdateDeviceOperationMode(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.cfg,
 			}
-			got, err := c.UpdateDeviceOperationMode(tt.args.ctx, tt.args.deviceID, tt.args.request)
+			got, err := c.UpdateDeviceOperatingMode(tt.args.ctx, tt.args.deviceID, tt.args.request)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("client.Create() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.UpdateDeviceOperatingMode() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.Create() = %v, want %v", got, tt.want)
+				t.Errorf("client.UpdateDeviceOperatingMode() = %v, want %v", got, tt.want)
 			}
 		})
 	}

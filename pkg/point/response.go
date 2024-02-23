@@ -11,7 +11,7 @@ type CreateResponse struct {
 	AdditionalInfo AdditionalInfo        `json:"additional_info"`
 }
 
-type SearchResponse struct {
+type GetResponse struct {
 	Amount   int    `json:"amount"`
 	ID       string `json:"id"`
 	State    string `json:"state"`
