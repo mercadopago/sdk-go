@@ -87,11 +87,11 @@ func TestCreate(t *testing.T) {
 				request: CreateRequest{
 					Amount:      1500,
 					Description: "your payment intent description",
-					AdditionalInfo: AdditionalInfo{
+					AdditionalInfo: &AdditionalInfo{
 						PrintOnTerminal:   false,
 						ExternalReference: "4561ads-das4das4-das4754-das456",
 					},
-					Payment: PaymentRequest{
+					Payment: &PaymentRequest{
 						Installments:     1,
 						Type:             "credit_card",
 						InstallmentsCost: "seller",
