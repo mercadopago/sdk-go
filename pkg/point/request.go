@@ -4,8 +4,8 @@ type CreateRequest struct {
 	Amount      int    `json:"amount"`
 	Description string `json:"description"`
 
-	AdditionalInfo AdditionalInfo `json:"additional_info"`
-	Payment        PaymentRequest `json:"payment"`
+	AdditionalInfo *AdditionalInfo `json:"additional_info"`
+	Payment        *PaymentRequest `json:"payment"`
 }
 
 type AdditionalInfo struct {
