@@ -1,0 +1,15 @@
+{
+  "id": "7f25f9aa-eea6-4f9c-bf16-a341f71ba2f1",
+  "device_id": "PAX_A910__SMARTPOS1234345545",
+  "amount": 1500,
+  "description": "your payment intent description",
+  "payment": {
+    "installments": 1,
+    "type": "credit_card",
+    "installments_cost": "seller"
+  },
+  "additional_info": {
+    "external_reference": "someone-reference-from-your-application",
+    "print_on_terminal": true
+  }
+}
