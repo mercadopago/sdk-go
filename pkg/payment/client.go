@@ -1,3 +1,4 @@
+// This package is useful for manage payments.
 package payment
 
 import (
@@ -19,40 +20,39 @@ const (
 
 // Client contains the methods to interact with the Payments API.
 type Client interface {
-	// Create creates a new payment.
-	// It is a post request to the endpoint: https://api.mercadopago.com/v1/payments
-	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments/post/
+	// Create a new payment.
+	// It is a post request to the endpoint: https://api.mercadopago.com/v1/payments.
+	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments/post/.
 	Create(ctx context.Context, request Request) (*Response, error)
 
-	// Search searches for payments.
-	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/search
-	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_search/get/
+	// Search for payments.
+	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/search.
+	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_search/get/.
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 
-	// Get gets a payment by its ID.
-	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_id/get/
+	// Get a payment by id.
+	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/{id}.
+	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_id/get/.
 	Get(ctx context.Context, id int64) (*Response, error)
 
-	// Cancel cancels a payment by its ID.
-	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
+	// Cancel a payment by id.
+	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}.
 	Cancel(ctx context.Context, id int64) (*Response, error)
 
-	// Capture captures a payment by its ID.
-	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
+	// Capture a payment by id.
+	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}.
 	Capture(ctx context.Context, id int64) (*Response, error)
 
-	// CaptureAmount captures amount of a payment by its ID.
-	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
+	// CaptureAmount captures amount of a payment by id.
+	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}.
 	CaptureAmount(ctx context.Context, id int64, amount float64) (*Response, error)
 }
 
-// client is the implementation of Client.
 type client struct {
 	cfg *config.Config
 }
 
-// NewClient returns a new Payments API Client.
+// NewClient returns an implementation of Client.
 func NewClient(c *config.Config) Client {
 	return &client{
 		cfg: c,
