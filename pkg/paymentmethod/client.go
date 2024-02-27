@@ -28,10 +28,10 @@ func NewClient(cfg *config.Config) Client {
 }
 
 func (c *client) List(ctx context.Context) ([]Response, error) {
-	res, err := baseclient.Get[[]Response](ctx, c.cfg, url)
+	result, err := baseclient.Get[[]Response](ctx, c.cfg, url)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }

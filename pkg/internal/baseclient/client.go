@@ -56,19 +56,19 @@ func Delete[T any](ctx context.Context, cfg *config.Config, url string, body any
 }
 
 func make[T any](ctx context.Context, cfg *config.Config, url, method string, body any, opts ...Option) (T, error) {
-	var res T
+	var result T
 
 	req, err := makeRequest(ctx, cfg, method, url, body, opts...)
 	if err != nil {
-		return res, err
+		return result, err
 	}
 
 	b, err := httpclient.Send(cfg.Requester, req)
 	if err != nil {
-		return res, err
+		return result, err
 	}
 
-	return makeResponse(b, res)
+	return makeResponse(b, result)
 }
 
 func makeRequest(ctx context.Context, cfg *config.Config, method, url string, body any, opts ...Option) (*http.Request, error) {
