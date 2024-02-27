@@ -4,6 +4,15 @@ import "time"
 
 // Response represents a customer.
 type Response struct {
+	DateRegistered  *time.Time                `json:"date_registered"`
+	DateCreated     *time.Time                `json:"date_created"`
+	DateLastUpdated *time.Time                `json:"date_last_updated"`
+	Phone           PhoneResponse             `json:"phone"`
+	Identification  IdentificationResponse    `json:"identification"`
+	Address         AddressResponse           `json:"address"`
+	Cards           []CardResponse            `json:"cards"`
+	Addresses       []CompleteAddressResponse `json:"addresses"`
+
 	ID             string `json:"id"`
 	Email          string `json:"email"`
 	FirstName      string `json:"first_name"`
@@ -16,15 +25,6 @@ type Response struct {
 	MerchantID     int    `json:"merchant_id"`
 	ClientID       int64  `json:"client_id"`
 	LiveMode       bool   `json:"live_mode"`
-
-	DateRegistered  *time.Time                `json:"date_registered"`
-	DateCreated     *time.Time                `json:"date_created"`
-	DateLastUpdated *time.Time                `json:"date_last_updated"`
-	Phone           PhoneResponse             `json:"phone"`
-	Identification  IdentificationResponse    `json:"identification"`
-	Address         AddressResponse           `json:"address"`
-	Cards           []CardResponse            `json:"cards"`
-	Addresses       []CompleteAddressResponse `json:"addresses"`
 }
 
 // PhoneResponse represents a response for a phone.
@@ -43,6 +43,13 @@ type AddressResponse struct {
 
 // CardResponse represents a response for a card.
 type CardResponse struct {
+	DateCreated     *time.Time            `json:"date_created"`
+	DateLastUpdated *time.Time            `json:"date_last_updated"`
+	Cardholder      CardholderResponse    `json:"cardholder"`
+	Issuer          IssuerResponse        `json:"issuer"`
+	PaymentMethod   PaymentMethodResponse `json:"payment_method"`
+	SecurityCode    SecurityCodeResponse  `json:"security_code"`
+
 	ID              string `json:"id"`
 	CustomerID      string `json:"customer_id"`
 	UserId          string `json:"user_id"`
@@ -50,20 +57,13 @@ type CardResponse struct {
 	LastFourDigits  string `json:"last_four_digits"`
 	ExpirationMonth int    `json:"expiration_month"`
 	ExpirationYear  int    `json:"expiration_year"`
-
-	DateCreated     *time.Time            `json:"date_created"`
-	DateLastUpdated *time.Time            `json:"date_last_updated"`
-	Cardholder      CardholderResponse    `json:"cardholder"`
-	Issuer          IssuerResponse        `json:"issuer"`
-	PaymentMethod   PaymentMethodResponse `json:"payment_method"`
-	SecurityCode    SecurityCodeResponse  `json:"security_code"`
 }
 
 // CardholderResponse represents a response for a cardholder.
 type CardholderResponse struct {
-	Name string `json:"name"`
-
 	Identification IdentificationResponse `json:"identification"`
+
+	Name string `json:"name"`
 }
 
 // IdentificationResponse represents a response for an identification.
@@ -95,15 +95,15 @@ type SecurityCodeResponse struct {
 
 // CompleteAddressResponse represents a response for a complete address.
 type CompleteAddressResponse struct {
-	ID         string `json:"id"`
-	StreetName string `json:"street_name"`
-	ZipCode    string `json:"zip_code"`
-
 	DateCreated  *time.Time           `json:"date_created"`
 	City         CityResponse         `json:"city"`
 	State        StateResponse        `json:"state"`
 	Country      CountryResponse      `json:"country"`
 	Neighborhood NeighborhoodResponse `json:"neighborhood"`
+
+	ID         string `json:"id"`
+	StreetName string `json:"street_name"`
+	ZipCode    string `json:"zip_code"`
 }
 
 // CityResponse represents a response for a city.
