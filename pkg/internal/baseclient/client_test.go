@@ -183,8 +183,8 @@ func Test_makeRequest(t *testing.T) {
 			}
 
 			assert.Equal(t, tt.want.URL.String(), got.URL.String())
-			assert.NotEmpty(t, got.Header.Get(headerIdempotency))
-			assert.NotEmpty(t, got.Header.Get(headerRequestID))
+			assert.NotEmpty(t, got.Header.Get("X-Idempotency-Key"))
+			assert.NotEmpty(t, got.Header.Get("X-Request-Id"))
 		})
 	}
 }

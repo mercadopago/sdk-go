@@ -18,21 +18,6 @@ import (
 const (
 	currentSDKVersion string = "x.x.x"
 	productID         string = "abc"
-	accept            string = "application/json"
-	contentType       string = "application/json; charset=UTF-8"
-
-	headerProductID     = "X-Product-Id"
-	headerAccept        = "Accept"
-	headerContentType   = "Content-Type"
-	headerUserAgent     = "User-Agent"
-	headerTrackingID    = "X-Tracking-Id"
-	headerRequestID     = "X-Request-Id"
-	headerAuthorization = "Authorization"
-	headerIdempotency   = "X-Idempotency-Key"
-
-	headerCorporationID = "X-Corporation-Id"
-	headerIntegratorID  = "X-Integrator-Id"
-	headerPlatformID    = "X-Platform-Id"
 )
 
 var (
@@ -118,23 +103,23 @@ func makeHTTPRequest(ctx context.Context, method, url string, body any) (*http.R
 }
 
 func makeHeaders(req *http.Request, cfg *config.Config) {
-	req.Header.Set(headerProductID, productID)
-	req.Header.Set(headerAccept, accept)
-	req.Header.Set(headerContentType, contentType)
-	req.Header.Set(headerUserAgent, userAgent)
-	req.Header.Set(headerTrackingID, trackingID)
-	req.Header.Set(headerAuthorization, "Bearer "+cfg.AccessToken)
-	req.Header.Set(headerIdempotency, uuid.New().String())
-	req.Header.Set(headerRequestID, uuid.New().String())
+	req.Header.Set("X-Product-Id", productID)
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Content-Type", "application/json; charset=UTF-8")
+	req.Header.Set("User-Agent", userAgent)
+	req.Header.Set("X-Tracking-Id", trackingID)
+	req.Header.Set("Authorization", "Bearer "+cfg.AccessToken)
+	req.Header.Set("X-Idempotency-Key", uuid.New().String())
+	req.Header.Set("X-Request-Id", uuid.New().String())
 
 	if cfg.CorporationID != "" {
-		req.Header.Set(headerCorporationID, cfg.CorporationID)
+		req.Header.Set("X-Corporation-Id", cfg.CorporationID)
 	}
 	if cfg.IntegratorID != "" {
-		req.Header.Set(headerIntegratorID, cfg.IntegratorID)
+		req.Header.Set("X-Integrator-Id", cfg.IntegratorID)
 	}
 	if cfg.PlatformID != "" {
-		req.Header.Set(headerPlatformID, cfg.PlatformID)
+		req.Header.Set("X-Platform-Id", cfg.PlatformID)
 	}
 }
 
