@@ -51,12 +51,12 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
+	result, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Get(ctx context.Context, id string) (*Response, error) {
@@ -64,12 +64,12 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 		"id": id,
 	}
 
-	res, err := baseclient.Get[*Response](ctx, c.cfg, urlWithID, baseclient.WithPathParams(params))
+	result, err := baseclient.Get[*Response](ctx, c.cfg, urlWithID, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Update(ctx context.Context, request Request, id string) (*Response, error) {
@@ -77,12 +77,12 @@ func (c *client) Update(ctx context.Context, request Request, id string) (*Respo
 		"id": id,
 	}
 
-	res, err := baseclient.Put[*Response](ctx, c.cfg, urlWithID, request, baseclient.WithPathParams(params))
+	result, err := baseclient.Put[*Response](ctx, c.cfg, urlWithID, request, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponsePage, error) {
@@ -94,10 +94,10 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 	}
 	url.RawQuery = params
 
-	res, err := baseclient.Get[*SearchResponsePage](ctx, c.cfg, url.String())
+	result, err := baseclient.Get[*SearchResponsePage](ctx, c.cfg, url.String())
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }

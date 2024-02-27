@@ -450,7 +450,7 @@ func TestList(t *testing.T) {
 
 func buildResponseMock() *Response {
 	d, _ := time.Parse(time.RFC3339, "2024-02-05T15:35:49.000-04:00")
-	res := &Response{
+	result := &Response{
 		ID:        1622029222,
 		PaymentID: 7186040733,
 		Status:    "approved",
@@ -465,5 +465,5 @@ func buildResponseMock() *Response {
 		AdjustmentAmount: 0,
 	}
 
-	return res
+	return result
 }
