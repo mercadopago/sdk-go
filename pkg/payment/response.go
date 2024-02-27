@@ -153,6 +153,8 @@ type OrderResponse struct {
 
 // TransactionDetailsResponse represents transaction details.
 type TransactionDetailsResponse struct {
+	Barcode BarcodeResponse `json:"barcode"`
+
 	FinancialInstitution     string  `json:"financial_institution"`
 	ExternalResourceURL      string  `json:"external_resource_url"`
 	PaymentMethodReferenceID string  `json:"payment_method_reference_id"`
@@ -166,8 +168,6 @@ type TransactionDetailsResponse struct {
 	TotalPaidAmount          float64 `json:"total_paid_amount"`
 	InstallmentAmount        float64 `json:"installment_amount"`
 	OverpaidAmount           float64 `json:"overpaid_amount"`
-
-	Barcode BarcodeResponse `json:"barcode"`
 }
 
 // CardResponse represents card information.
