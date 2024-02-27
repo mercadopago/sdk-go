@@ -1,6 +1,8 @@
 package config
 
 import (
+	"fmt"
+
 	"github.com/mercadopago/sdk-go/pkg/internal/requester"
 )
 
@@ -22,7 +24,9 @@ func New(accessToken string, opts ...Option) (*Config, error) {
 
 	// Apply all the functional options to configure the client.
 	for _, opt := range opts {
-		opt(cfg)
+		if err := opt(cfg); err != nil {
+			return nil, fmt.Errorf("fail to build config: %w", err)
+		}
 	}
 
 	return cfg, nil
