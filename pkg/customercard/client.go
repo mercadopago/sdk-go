@@ -57,12 +57,12 @@ func (c *client) Create(ctx context.Context, customerID string, request Request)
 		"customer_id": customerID,
 	}
 
-	res, err := baseclient.Post[*Response](ctx, c.config, urlBase, request, baseclient.WithPathParams(params))
+	result, err := baseclient.Post[*Response](ctx, c.config, urlBase, request, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Get(ctx context.Context, customerID, cardID string) (*Response, error) {
@@ -71,12 +71,12 @@ func (c *client) Get(ctx context.Context, customerID, cardID string) (*Response,
 		"card_id":     cardID,
 	}
 
-	res, err := baseclient.Get[*Response](ctx, c.config, urlWithID, baseclient.WithPathParams(params))
+	result, err := baseclient.Get[*Response](ctx, c.config, urlWithID, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Update(ctx context.Context, customerID, cardID string, request Request) (*Response, error) {
@@ -85,12 +85,12 @@ func (c *client) Update(ctx context.Context, customerID, cardID string, request 
 		"card_id":     cardID,
 	}
 
-	res, err := baseclient.Put[*Response](ctx, c.config, urlWithID, request, baseclient.WithPathParams(params))
+	result, err := baseclient.Put[*Response](ctx, c.config, urlWithID, request, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Delete(ctx context.Context, customerID, cardID string) (*Response, error) {
@@ -99,12 +99,12 @@ func (c *client) Delete(ctx context.Context, customerID, cardID string) (*Respon
 		"card_id":     cardID,
 	}
 
-	res, err := baseclient.Delete[*Response](ctx, c.config, urlWithID, nil, baseclient.WithPathParams(params))
+	result, err := baseclient.Delete[*Response](ctx, c.config, urlWithID, nil, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) List(ctx context.Context, customerID string) ([]Response, error) {
@@ -112,10 +112,10 @@ func (c *client) List(ctx context.Context, customerID string) ([]Response, error
 		"customer_id": customerID,
 	}
 
-	res, err := baseclient.Get[[]Response](ctx, c.config, urlBase, baseclient.WithPathParams(params))
+	result, err := baseclient.Get[[]Response](ctx, c.config, urlBase, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
