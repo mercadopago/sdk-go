@@ -1,24 +1,24 @@
 package point
 
 type CreateResponse struct {
+	Payment        CreatePaymentResponse `json:"payment"`
+	AdditionalInfo AdditionalInfo        `json:"additional_info"`
+
 	Amount      int    `json:"amount"`
 	ID          string `json:"id"`
 	Description string `json:"description"`
 	State       string `json:"state"`
 	DeviceID    string `json:"device_id"`
-
-	Payment        CreatePaymentResponse `json:"payment"`
-	AdditionalInfo AdditionalInfo        `json:"additional_info"`
 }
 
 type GetResponse struct {
+	Payment        PaymentResponse `json:"payment"`
+	AdditionalInfo AdditionalInfo  `json:"additional_info"`
+
 	Amount   int    `json:"amount"`
 	ID       string `json:"id"`
 	State    string `json:"state"`
 	DeviceID string `json:"device_id"`
-
-	Payment        PaymentResponse `json:"payment"`
-	AdditionalInfo AdditionalInfo  `json:"additional_info"`
 }
 
 type CreatePaymentResponse struct {

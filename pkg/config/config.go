@@ -6,11 +6,12 @@ import (
 
 // Config allows you to send custom settings and API authentication
 type Config struct {
+	Requester requester.Requester
+
 	AccessToken   string
 	CorporationID string
 	IntegratorID  string
 	PlatformID    string
-	Requester     requester.Requester
 }
 
 // New returns a new Config.

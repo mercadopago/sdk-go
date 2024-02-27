@@ -6,6 +6,14 @@ import (
 
 // Response represents a merchant order resource.
 type Response struct {
+	DateCreated *time.Time         `json:"date_created"`
+	LastUpdated *time.Time         `json:"last_updated"`
+	Payer       PayerResponse      `json:"payer"`
+	Collector   CollectorResponse  `json:"collector"`
+	Items       []ItemResponse     `json:"items"`
+	Shipments   []ShipmentResponse `json:"shipments"`
+	Payments    []PaymentResponse  `json:"payments"`
+
 	PreferenceID      string  `json:"preference_id"`
 	ApplicationID     string  `json:"application_id"`
 	Status            string  `json:"status"`
@@ -22,14 +30,6 @@ type Response struct {
 	RefundedAmount    float64 `json:"refunded_amount"`
 	ShippingCost      float64 `json:"shipping_cost"`
 	TotalAmount       float64 `json:"total_amount"`
-
-	DateCreated *time.Time         `json:"date_created"`
-	LastUpdated *time.Time         `json:"last_updated"`
-	Payer       PayerResponse      `json:"payer"`
-	Collector   CollectorResponse  `json:"collector"`
-	Items       []ItemResponse     `json:"items"`
-	Shipments   []ShipmentResponse `json:"shipments"`
-	Payments    []PaymentResponse  `json:"payments"`
 }
 
 // PayerResponse represents buyer information.
@@ -46,6 +46,10 @@ type CollectorResponse struct {
 
 // PaymentResponse represents payment information.
 type PaymentResponse struct {
+	DateApproved *time.Time `json:"date_approved"`
+	DateCreated  *time.Time `json:"date_created"`
+	LastModified *time.Time `json:"last_modified"`
+
 	Status            string  `json:"status"`
 	StatusDetails     string  `json:"status_details"`
 	OperationType     string  `json:"operation_type"`
@@ -55,10 +59,6 @@ type PaymentResponse struct {
 	TotalPaidAmount   float64 `json:"total_paid_amount"`
 	ShippingCost      float64 `json:"shipping_cost"`
 	AmountRefunded    float64 `json:"amount_refunded"`
-
-	DateApproved *time.Time `json:"date_approved"`
-	DateCreated  *time.Time `json:"date_created"`
-	LastModified *time.Time `json:"last_modified"`
 }
 
 // ItemResponse represents item information.
@@ -75,6 +75,12 @@ type ItemResponse struct {
 
 // ShipmentResponse represents shipment information.
 type ShipmentResponse struct {
+	DateCreated      *time.Time              `json:"date_created"`
+	LastModified     *time.Time              `json:"last_modified"`
+	DateFirstPrinted *time.Time              `json:"date_first_printed"`
+	ReceiverAddress  ReceiverAddressResponse `json:"receiver_address"`
+	ShippingOption   ShippingOptionResponse  `json:"shipping_option"`
+
 	ShippingType      string                   `json:"shipping_type"`
 	ShippingMode      string                   `json:"shipping_mode"`
 	PickingType       string                   `json:"picking_type"`
@@ -85,16 +91,14 @@ type ShipmentResponse struct {
 	SenderID          int64                    `json:"sender_id"`
 	ReceiverID        int64                    `json:"receiver_id"`
 	Items             []map[string]interface{} `json:"items"`
-
-	DateCreated      *time.Time              `json:"date_created"`
-	LastModified     *time.Time              `json:"last_modified"`
-	DateFirstPrinted *time.Time              `json:"date_first_printed"`
-	ReceiverAddress  ReceiverAddressResponse `json:"receiver_address"`
-	ShippingOption   ShippingOptionResponse  `json:"shipping_option"`
 }
 
 // ReceiverAddressResponse represents receiver address information.
 type ReceiverAddressResponse struct {
+	City    ReceiverAddressCityResponse    `json:"city"`
+	State   ReceiverAddressStateResponse   `json:"state"`
+	Country ReceiverAddressCountryResponse `json:"country"`
+
 	AddressLine  string `json:"address_line"`
 	Apartment    string `json:"apartment"`
 	Comment      string `json:"comment"`
@@ -107,23 +111,19 @@ type ReceiverAddressResponse struct {
 	Latitude     string `json:"latitude"`
 	Longitude    string `json:"longitude"`
 	ID           int64  `json:"id"`
-
-	City    ReceiverAddressCityResponse    `json:"city"`
-	State   ReceiverAddressStateResponse   `json:"state"`
-	Country ReceiverAddressCountryResponse `json:"country"`
 }
 
 // ShippingOptionResponse represents shipping option information.
 type ShippingOptionResponse struct {
+	Speed             ShippingSpeedResponse             `json:"speed"`
+	EstimatedDelivery ShippingEstimatedDeliveryResponse `json:"estimated_delivery"`
+
 	Name             string  `json:"name"`
 	CurrencyID       string  `json:"currency_id"`
 	ID               int64   `json:"id"`
 	ShippingMethodID int64   `json:"shipping_method_id"`
 	Cost             float64 `json:"cost"`
 	ListCost         float64 `json:"list_cost"`
-
-	Speed             ShippingSpeedResponse             `json:"speed"`
-	EstimatedDelivery ShippingEstimatedDeliveryResponse `json:"estimated_delivery"`
 }
 
 // ReceiverAddressCityResponse represents city information.
@@ -146,10 +146,10 @@ type ReceiverAddressCountryResponse struct {
 
 // ShippingEstimatedDeliveryResponse represents estimated delivery information.
 type ShippingEstimatedDeliveryResponse struct {
+	Date *time.Time `json:"date"`
+
 	TimeFrom string `json:"time_from"`
 	TimeTo   string `json:"time_to"`
-
-	Date *time.Time `json:"date"`
 }
 
 // ShippingSpeedResponse represents shipping speed information.

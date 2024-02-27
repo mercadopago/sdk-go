@@ -6,6 +6,16 @@ import (
 
 // Request represents a request for creating or updating a payment.
 type Request struct {
+	DateOfExpiration   *time.Time                 `json:"date_of_expiration,omitempty"`
+	AdditionalInfo     *AdditionalInfoRequest     `json:"additional_info,omitempty"`
+	MerchantServices   *MerchantServicesRequest   `json:"merchant_services,omitempty"`
+	Order              *OrderRequest              `json:"order,omitempty"`
+	Payer              *PayerRequest              `json:"payer,omitempty"`
+	TransactionDetails *TransactionDetailsRequest `json:"transaction_details,omitempty"`
+	PointOfInteraction *PointOfInteractionRequest `json:"point_of_interaction,omitempty"`
+	PaymentMethod      *PaymentMethodRequest      `json:"payment_method,omitempty"`
+	Taxes              []TaxRequest               `json:"taxes,omitempty"`
+
 	CallbackURL           string         `json:"callback_url,omitempty"`
 	CouponCode            string         `json:"coupon_code,omitempty"`
 	Description           string         `json:"description,omitempty"`
@@ -30,40 +40,30 @@ type Request struct {
 	NetAmount             float64        `json:"net_amount,omitempty"`
 	TransactionAmount     float64        `json:"transaction_amount,omitempty"`
 	Metadata              map[string]any `json:"metadata,omitempty"`
-
-	DateOfExpiration   *time.Time                 `json:"date_of_expiration,omitempty"`
-	AdditionalInfo     *AdditionalInfoRequest     `json:"additional_info,omitempty"`
-	MerchantServices   *MerchantServicesRequest   `json:"merchant_services,omitempty"`
-	Order              *OrderRequest              `json:"order,omitempty"`
-	Payer              *PayerRequest              `json:"payer,omitempty"`
-	TransactionDetails *TransactionDetailsRequest `json:"transaction_details,omitempty"`
-	PointOfInteraction *PointOfInteractionRequest `json:"point_of_interaction,omitempty"`
-	PaymentMethod      *PaymentMethodRequest      `json:"payment_method,omitempty"`
-	Taxes              []TaxRequest               `json:"taxes,omitempty"`
 }
 
 // AdditionalInfoRequest represents additional information request within Request.
 type AdditionalInfoRequest struct {
-	IPAddress string `json:"ip_address,omitempty"`
-
 	Payer     *AdditionalInfoPayerRequest   `json:"payer,omitempty"`
 	Shipments *ShipmentsRequest             `json:"shipments,omitempty"`
 	Barcode   *AdditionalInfoBarcodeRequest `json:"barcode,omitempty"`
 	Items     []ItemRequest                 `json:"items,omitempty"`
+
+	IPAddress string `json:"ip_address,omitempty"`
 }
 
 // AdditionalInfoPayerRequest represents payer information request within AdditionalInfoPayerRequest.
 type AdditionalInfoPayerRequest struct {
+	RegistrationDate *time.Time                         `json:"registration_date,omitempty"`
+	LastPurchase     *time.Time                         `json:"last_purchase,omitempty"`
+	Phone            *AdditionalInfoPayerPhoneRequest   `json:"phone,omitempty"`
+	Address          *AdditionalInfoPayerAddressRequest `json:"address,omitempty"`
+
 	FirstName             string `json:"first_name,omitempty"`
 	LastName              string `json:"last_name,omitempty"`
 	AuthenticationType    string `json:"authentication_type,omitempty"`
 	IsPrimeUser           bool   `json:"is_prime_user,omitempty"`
 	IsFirstPurchaseOnline bool   `json:"is_first_purchase_online,omitempty"`
-
-	RegistrationDate *time.Time                         `json:"registration_date,omitempty"`
-	LastPurchase     *time.Time                         `json:"last_purchase,omitempty"`
-	Phone            *AdditionalInfoPayerPhoneRequest   `json:"phone,omitempty"`
-	Address          *AdditionalInfoPayerAddressRequest `json:"address,omitempty"`
 }
 
 // AdditionalInfoPayerPhoneRequest represents phone request within AdditionalInfoPayerRequest.
@@ -81,10 +81,10 @@ type AdditionalInfoPayerAddressRequest struct {
 
 // ShipmentsRequest represents shipments request within AdditionalInfoRequest.
 type ShipmentsRequest struct {
+	ReceiverAddress *ReceiverAddressRequest `json:"receiver_address,omitempty"`
+
 	LocalPickup     bool `json:"local_pickup,omitempty"`
 	ExpressShipment bool `json:"express_shipment,omitempty"`
-
-	ReceiverAddress *ReceiverAddressRequest `json:"receiver_address,omitempty"`
 }
 
 // ReceiverAddressRequest represents receiver address request within ShipmentsRequest.
@@ -108,6 +108,9 @@ type AdditionalInfoBarcodeRequest struct {
 
 // ItemRequest represents an item request within AdditionalInfoRequest.
 type ItemRequest struct {
+	EventDate          *time.Time                 `json:"event_date,omitempty"`
+	CategoryDescriptor *CategoryDescriptorRequest `json:"category_descriptor,omitempty"`
+
 	ID          string  `json:"id,omitempty"`
 	Title       string  `json:"title,omitempty"`
 	Description string  `json:"description,omitempty"`
@@ -116,9 +119,6 @@ type ItemRequest struct {
 	Quantity    int64   `json:"quantity,omitempty"`
 	UnitPrice   float64 `json:"unit_price,omitempty"`
 	Warranty    bool    `json:"warranty,omitempty"`
-
-	EventDate          *time.Time                 `json:"event_date,omitempty"`
-	CategoryDescriptor *CategoryDescriptorRequest `json:"category_descriptor,omitempty"`
 }
 
 // CategoryDescriptorRequest represents category descriptor request within ItemRequest.
@@ -129,10 +129,10 @@ type CategoryDescriptorRequest struct {
 
 // PassengerRequest represents passenger request within CategoryDescriptorRequest.
 type PassengerRequest struct {
+	Identification *IdentificationRequest `json:"identification,omitempty"`
+
 	FirstName string `json:"first_name,omitempty"`
 	LastName  string `json:"last_name,omitempty"`
-
-	Identification *IdentificationRequest `json:"identification,omitempty"`
 }
 
 // IdentificationRequest represents identification request within PaymentPassengerRequest.
@@ -143,12 +143,12 @@ type IdentificationRequest struct {
 
 // RouteRequest represents route request within CategoryDescriptorRequest.
 type RouteRequest struct {
+	DepartureDateTime *time.Time `json:"departure_date_time,omitempty"`
+	ArrivalDateTime   *time.Time `json:"arrival_date_time,omitempty"`
+
 	Departure   string `json:"departure,omitempty"`
 	Destination string `json:"destination,omitempty"`
 	Company     string `json:"company,omitempty"`
-
-	DepartureDateTime *time.Time `json:"departure_date_time,omitempty"`
-	ArrivalDateTime   *time.Time `json:"arrival_date_time,omitempty"`
 }
 
 // MerchantServicesRequest represents merchant services request within Request.
@@ -165,16 +165,16 @@ type OrderRequest struct {
 
 // PayerRequest represents payer request within Request.
 type PayerRequest struct {
+	Identification *IdentificationRequest `json:"identification,omitempty"`
+	Address        *PayerAddressRequest   `json:"address,omitempty"`
+	Phone          *PayerPhoneRequest     `json:"phone,omitempty"`
+
 	Type       string `json:"type,omitempty"`
 	ID         string `json:"id,omitempty"`
 	Email      string `json:"email,omitempty"`
 	FirstName  string `json:"first_name,omitempty"`
 	LastName   string `json:"last_name,omitempty"`
 	EntityType string `json:"entity_type,omitempty"`
-
-	Identification *IdentificationRequest `json:"identification,omitempty"`
-	Address        *PayerAddressRequest   `json:"address,omitempty"`
-	Phone          *PayerPhoneRequest     `json:"phone,omitempty"`
 }
 
 // PayerAddressRequest represents payer address request within PayerRequest.
@@ -200,20 +200,20 @@ type TransactionDetailsRequest struct {
 
 // PointOfInteractionRequest represents point of interaction request within Request.
 type PointOfInteractionRequest struct {
+	TransactionData *TransactionDataRequest `json:"transaction_data,omitempty"`
+
 	LinkedTo string `json:"linked_to,omitempty"`
 	Type     string `json:"type,omitempty"`
-
-	TransactionData *TransactionDataRequest `json:"transaction_data,omitempty"`
 }
 
 type TransactionDataRequest struct {
-	SubscriptionID string `json:"subscription_id,omitempty"`
-	BillingDate    string `json:"billing_date,omitempty"`
-	FirstTimeUse   bool   `json:"first_time_use,omitempty"`
-
 	SubscriptionSequence *SubscriptionSequenceRequest `json:"subscription_sequence,omitempty"`
 	InvoicePeriod        *InvoicePeriodRequest        `json:"invoice_period,omitempty"`
 	PaymentReference     *PaymentReferenceRequest     `json:"payment_reference,omitempty"`
+
+	SubscriptionID string `json:"subscription_id,omitempty"`
+	BillingDate    string `json:"billing_date,omitempty"`
+	FirstTimeUse   bool   `json:"first_time_use,omitempty"`
 }
 
 type SubscriptionSequenceRequest struct {
@@ -255,10 +255,10 @@ type FeeRequest struct {
 
 // DiscountRequest represents discount request within RulesRequest.
 type DiscountRequest struct {
+	LimitDate *time.Time `json:"limit_date,omitempty"`
+
 	Type  string  `json:"type,omitempty"`
 	Value float64 `json:"value,omitempty"`
-
-	LimitDate *time.Time `json:"limit_date,omitempty"`
 }
 
 // TaxRequest represents tax request within Request.
