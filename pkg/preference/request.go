@@ -6,6 +6,18 @@ import (
 
 // PreferenceRequest contains parameters to create/update a preference.
 type Request struct {
+	DateOfExpiration    *time.Time                            `json:"date_of_expiration,omitempty"`
+	ExpirationDateFrom  *time.Time                            `json:"expiration_date_from,omitempty"`
+	ExpirationDateTo    *time.Time                            `json:"expiration_date_to,omitempty"`
+	BackUrls            *PreferenceBackUrlsRequest            `json:"back_urls,omitempty"`
+	DifferentialPricing *PreferenceDifferentialPricingRequest `json:"differential_pricing,omitempty"`
+	Payer               *PreferencePayerRequest               `json:"payer,omitempty"`
+	PaymentMethods      *PreferencePaymentMethodsRequest      `json:"payment_methods,omitempty"`
+	Shipments           *PreferenceShipmentsRequest           `json:"shipments,omitempty"`
+	Items               []PreferenceItemRequest               `json:"items,omitempty"`
+	Taxes               []PreferenceTaxRequest                `json:"taxes,omitempty"`
+	Tracks              []PreferenceTrackRequest              `json:"tracks,omitempty"`
+
 	AdditionalInfo      string                 `json:"additional_info,omitempty"`
 	AutoReturn          string                 `json:"auto_return,omitempty"`
 	ExternalReference   string                 `json:"external_reference,omitempty"`
@@ -19,18 +31,6 @@ type Request struct {
 	MarketplaceFee      float64                `json:"marketplace_fee,omitempty"`
 	ProcessingModes     []string               `json:"processing_modes,omitempty"`
 	Metadata            map[string]interface{} `json:"metadata,omitempty"`
-
-	DateOfExpiration    *time.Time                            `json:"date_of_expiration,omitempty"`
-	ExpirationDateFrom  *time.Time                            `json:"expiration_date_from,omitempty"`
-	ExpirationDateTo    *time.Time                            `json:"expiration_date_to,omitempty"`
-	BackUrls            *PreferenceBackUrlsRequest            `json:"back_urls,omitempty"`
-	DifferentialPricing *PreferenceDifferentialPricingRequest `json:"differential_pricing,omitempty"`
-	Payer               *PreferencePayerRequest               `json:"payer,omitempty"`
-	PaymentMethods      *PreferencePaymentMethodsRequest      `json:"payment_methods,omitempty"`
-	Shipments           *PreferenceShipmentsRequest           `json:"shipments,omitempty"`
-	Items               []PreferenceItemRequest               `json:"items,omitempty"`
-	Taxes               []PreferenceTaxRequest                `json:"taxes,omitempty"`
-	Tracks              []PreferenceTrackRequest              `json:"tracks,omitempty"`
 }
 
 // PreferenceBackUrlsRequest contains callback URLs.
@@ -59,14 +59,14 @@ type PreferenceItemRequest struct {
 
 // PreferencePayerRequest contains payer information in the preference.
 type PreferencePayerRequest struct {
-	Name    string `json:"name,omitempty"`
-	Surname string `json:"surname,omitempty"`
-	Email   string `json:"email,omitempty"`
-
 	DateCreated    *time.Time             `json:"date_created,omitempty"`
 	Phone          *PhoneRequest          `json:"phone,omitempty"`
 	Identification *IdentificationRequest `json:"identification,omitempty"`
 	Address        *AddressRequest        `json:"address,omitempty"`
+
+	Name    string `json:"name,omitempty"`
+	Surname string `json:"surname,omitempty"`
+	Email   string `json:"email,omitempty"`
 }
 
 // PhoneRequest represents a telephone number.
@@ -90,12 +90,12 @@ type AddressRequest struct {
 
 // PreferencePaymentMethodsRequest contains information about payment methods in the preference.
 type PreferencePaymentMethodsRequest struct {
+	ExcludedPaymentMethods []PreferencePaymentMethodRequest `json:"excluded_payment_methods,omitempty"`
+	ExcludedPaymentTypes   []PreferencePaymentTypeRequest   `json:"excluded_payment_types,omitempty"`
+
 	DefaultPaymentMethodID string `json:"default_payment_method_id,omitempty"`
 	Installments           int    `json:"installments,omitempty"`
 	DefaultInstallments    int    `json:"default_installments,omitempty"`
-
-	ExcludedPaymentMethods []PreferencePaymentMethodRequest `json:"excluded_payment_methods,omitempty"`
-	ExcludedPaymentTypes   []PreferencePaymentTypeRequest   `json:"excluded_payment_types,omitempty"`
 }
 
 // PreferencePaymentMethodRequest contains information about the payment method in the preference.
@@ -110,6 +110,9 @@ type PreferencePaymentTypeRequest struct {
 
 // PreferenceShipmentsRequest contains information about shipments in the preference.
 type PreferenceShipmentsRequest struct {
+	ReceiverAddress *PreferenceReceiverAddressRequest `json:"receiver_address,omitempty"`
+	FreeMethods     []PreferenceFreeMethodRequest     `json:"free_methods,omitempty"`
+
 	Mode                  string  `json:"mode,omitempty"`
 	Dimensions            string  `json:"dimensions,omitempty"`
 	DefaultShippingMethod string  `json:"default_shipping_method,omitempty"`
@@ -117,9 +120,6 @@ type PreferenceShipmentsRequest struct {
 	FreeShipping          bool    `json:"free_shipping,omitempty"`
 	ExpressShipment       bool    `json:"express_shipment,omitempty"`
 	Cost                  float64 `json:"cost,omitempty"`
-
-	ReceiverAddress *PreferenceReceiverAddressRequest `json:"receiver_address,omitempty"`
-	FreeMethods     []PreferenceFreeMethodRequest     `json:"free_methods,omitempty"`
 }
 
 // PreferenceFreeMethodRequest contains information about free shipping methods in the preference.
@@ -147,9 +147,9 @@ type PreferenceTaxRequest struct {
 
 // PreferenceTrackRequest contains information about the tracking to be performed during user interaction in the Checkout flow.
 type PreferenceTrackRequest struct {
-	Type string `json:"type,omitempty"`
-
 	Values *PreferenceTrackValuesRequest `json:"values,omitempty"`
+
+	Type string `json:"type,omitempty"`
 }
 
 // PreferenceTrackValuesRequest contains the values ​​of the tracks to be executed during user interaction in the Checkout flow.

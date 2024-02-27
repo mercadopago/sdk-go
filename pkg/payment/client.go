@@ -60,12 +60,12 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
+	result, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Search(ctx context.Context, dto SearchRequest) (*SearchResponse, error) {
@@ -77,57 +77,57 @@ func (c *client) Search(ctx context.Context, dto SearchRequest) (*SearchResponse
 	}
 	url.RawQuery = params
 
-	res, err := baseclient.Get[*SearchResponse](ctx, c.cfg, url.String())
+	result, err := baseclient.Get[*SearchResponse](ctx, c.cfg, url.String())
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Get(ctx context.Context, id int64) (*Response, error) {
 	conv := strconv.Itoa(int(id))
 
-	res, err := baseclient.Get[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1))
+	result, err := baseclient.Get[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1))
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Cancel(ctx context.Context, id int64) (*Response, error) {
 	dto := &CancelRequest{Status: "cancelled"}
 	conv := strconv.Itoa(int(id))
 
-	res, err := baseclient.Put[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
+	result, err := baseclient.Put[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Capture(ctx context.Context, id int64) (*Response, error) {
 	dto := &CaptureRequest{Capture: true}
 	conv := strconv.Itoa(int(id))
 
-	res, err := baseclient.Put[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
+	result, err := baseclient.Put[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) CaptureAmount(ctx context.Context, id int64, amount float64) (*Response, error) {
 	dto := &CaptureRequest{TransactionAmount: amount, Capture: true}
 	conv := strconv.Itoa(int(id))
 
-	res, err := baseclient.Put[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
+	result, err := baseclient.Put[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
