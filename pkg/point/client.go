@@ -60,12 +60,12 @@ func (c *client) Create(ctx context.Context, deviceID string, request CreateRequ
 		"device_id": deviceID,
 	}
 
-	res, err := baseclient.Post[*CreateResponse](ctx, c.cfg, urlPaymentIntent, request, baseclient.WithPathParams(params))
+	result, err := baseclient.Post[*CreateResponse](ctx, c.cfg, urlPaymentIntent, request, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Get(ctx context.Context, paymentIntentID string) (*GetResponse, error) {
@@ -73,12 +73,12 @@ func (c *client) Get(ctx context.Context, paymentIntentID string) (*GetResponse,
 		"payment_intent_id": paymentIntentID,
 	}
 
-	res, err := baseclient.Get[*GetResponse](ctx, c.cfg, urlPaymentIntentGet, baseclient.WithPathParams(params))
+	result, err := baseclient.Get[*GetResponse](ctx, c.cfg, urlPaymentIntentGet, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Cancel(ctx context.Context, deviceID string, paymentIntentID string) (*CancelResponse, error) {
@@ -87,21 +87,21 @@ func (c *client) Cancel(ctx context.Context, deviceID string, paymentIntentID st
 		"payment_intent_id": paymentIntentID,
 	}
 
-	res, err := baseclient.Delete[*CancelResponse](ctx, c.cfg, urlPaymentIntentCancel, nil, baseclient.WithPathParams(params))
+	result, err := baseclient.Delete[*CancelResponse](ctx, c.cfg, urlPaymentIntentCancel, nil, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) ListDevices(ctx context.Context) (*DevicesResponse, error) {
-	res, err := baseclient.Get[*DevicesResponse](ctx, c.cfg, urlDevices)
+	result, err := baseclient.Get[*DevicesResponse](ctx, c.cfg, urlDevices)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) UpdateDeviceOperatingMode(ctx context.Context, deviceID string, request UpdateDeviceOperatingModeRequest) (*OperationModeResponse, error) {
@@ -109,10 +109,10 @@ func (c *client) UpdateDeviceOperatingMode(ctx context.Context, deviceID string,
 		"device_id": deviceID,
 	}
 
-	res, err := baseclient.Patch[*OperationModeResponse](ctx, c.cfg, urlDevicesWithID, request, baseclient.WithPathParams(params))
+	result, err := baseclient.Patch[*OperationModeResponse](ctx, c.cfg, urlDevicesWithID, request, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
