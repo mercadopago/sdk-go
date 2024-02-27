@@ -5,6 +5,20 @@ import (
 )
 
 type Response struct {
+	DateOfExpiration    *time.Time                            `json:"date_of_expiration"`
+	ExpirationDateFrom  *time.Time                            `json:"expiration_date_from"`
+	ExpirationDateTo    *time.Time                            `json:"expiration_date_to"`
+	LastUpdated         *time.Time                            `json:"last_updated"`
+	DateCreated         *time.Time                            `json:"date_created"`
+	Payer               PreferencePayerResponse               `json:"payer"`
+	PaymentMethods      PreferencePaymentMethodsResponse      `json:"payment_methods"`
+	BackURLS            PreferenceBackUrlsResponse            `json:"back_urls"`
+	Shipments           PreferenceShipmentsResponse           `json:"shipments"`
+	DifferentialPricing PreferenceDifferentialPricingResponse `json:"differential_pricing"`
+	Taxes               []PreferenceTaxResponse               `json:"taxes"`
+	Tracks              []PreferenceTrackResponse             `json:"tracks"`
+	Items               []PreferenceItemResponse              `json:"items"`
+
 	ID                  string                 `json:"id"`
 	ClientID            string                 `json:"client_id"`
 	NotificationURL     string                 `json:"notification_url"`
@@ -23,20 +37,6 @@ type Response struct {
 	MarketplaceFee      float64                `json:"marketplace_fee"`
 	ProcessingModes     []string               `json:"processing_modes"`
 	Metadata            map[string]interface{} `json:"metadata"`
-
-	DateOfExpiration    *time.Time                            `json:"date_of_expiration"`
-	ExpirationDateFrom  *time.Time                            `json:"expiration_date_from"`
-	ExpirationDateTo    *time.Time                            `json:"expiration_date_to"`
-	LastUpdated         *time.Time                            `json:"last_updated"`
-	DateCreated         *time.Time                            `json:"date_created"`
-	Payer               PreferencePayerResponse               `json:"payer"`
-	PaymentMethods      PreferencePaymentMethodsResponse      `json:"payment_methods"`
-	BackURLS            PreferenceBackUrlsResponse            `json:"back_urls"`
-	Shipments           PreferenceShipmentsResponse           `json:"shipments"`
-	DifferentialPricing PreferenceDifferentialPricingResponse `json:"differential_pricing"`
-	Taxes               []PreferenceTaxResponse               `json:"taxes"`
-	Tracks              []PreferenceTrackResponse             `json:"tracks"`
-	Items               []PreferenceItemResponse              `json:"items"`
 }
 
 // PreferenceItemResponse represents an item.
@@ -53,25 +53,25 @@ type PreferenceItemResponse struct {
 
 // PreferencePayerResponse contains payer information in the preference.
 type PreferencePayerResponse struct {
-	Name    string `json:"name"`
-	Surname string `json:"surname"`
-	Email   string `json:"email"`
-
 	Phone          PhoneResponse          `json:"phone"`
 	Identification IdentificationResponse `json:"identification"`
 	Address        AddressResponse        `json:"address"`
 	DateCreated    *time.Time             `json:"date_created"`
 	LastPurchase   *time.Time             `json:"last_purchase"`
+
+	Name    string `json:"name"`
+	Surname string `json:"surname"`
+	Email   string `json:"email"`
 }
 
 // PreferencePaymentMethodsResponse contains information about payment methods in the preference.
 type PreferencePaymentMethodsResponse struct {
+	ExcludedPaymentMethods []PreferencePaymentMethodResponse `json:"excluded_payment_methods"`
+	ExcludedPaymentTypes   []PreferencePaymentTypeResponse   `json:"excluded_payment_types"`
+
 	DefaultPaymentMethodID string `json:"default_payment_method_id"`
 	Installments           int    `json:"installments"`
 	DefaultInstallments    int    `json:"default_installments"`
-
-	ExcludedPaymentMethods []PreferencePaymentMethodResponse `json:"excluded_payment_methods"`
-	ExcludedPaymentTypes   []PreferencePaymentTypeResponse   `json:"excluded_payment_types"`
 }
 
 // PreferencePaymentMethodResponse contains information about the payment method in the preference.
@@ -93,6 +93,9 @@ type PreferenceBackUrlsResponse struct {
 
 // PreferenceShipmentsResponse contains preference shipping information.
 type PreferenceShipmentsResponse struct {
+	ReceiverAddress PreferenceReceiverAddressResponse `json:"receiver_address"`
+	FreeMethods     []PreferenceFreeMethodResponse    `json:"free_methods"`
+
 	Mode                  string  `json:"mode"`
 	Dimensions            string  `json:"dimensions"`
 	DefaultShippingMethod string  `json:"default_shipping_method"`
@@ -100,9 +103,6 @@ type PreferenceShipmentsResponse struct {
 	LocalPickup           bool    `json:"local_pickup"`
 	FreeShipping          bool    `json:"free_shipping"`
 	ExpressShipment       bool    `json:"express_shipment"`
-
-	ReceiverAddress PreferenceReceiverAddressResponse `json:"receiver_address"`
-	FreeMethods     []PreferenceFreeMethodResponse    `json:"free_methods"`
 }
 
 // PreferenceFreeMethodResponse contains information about free shipping methods.
@@ -112,13 +112,13 @@ type PreferenceFreeMethodResponse struct {
 
 // PreferenceReceiverAddressResponse represents a sending address.
 type PreferenceReceiverAddressResponse struct {
+	AddressResponse
+
 	CountryName string `json:"country_name"`
 	StateName   string `json:"state_name"`
 	Floor       string `json:"floor"`
 	Apartment   string `json:"apartment"`
 	CityName    string `json:"city_name"`
-
-	AddressResponse
 }
 
 // PreferenceDifferentialPricingResponse contains information about the differential pricing configuration in the preference.
@@ -134,9 +134,9 @@ type PreferenceTaxResponse struct {
 
 // PreferenceTrackResponse represents a trace to be executed during user interaction in the Checkout flow.
 type PreferenceTrackResponse struct {
-	Type string `json:"type"`
-
 	Values PreferenceTrackValuesResponse `json:"values"`
+
+	Type string `json:"type"`
 }
 
 // PreferenceTrackValuesResponse contains the values ​​of the tracks to be executed during user interaction in the Checkout flow.

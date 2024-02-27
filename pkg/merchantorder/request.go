@@ -2,6 +2,10 @@ package merchantorder
 
 // Request represents merchant order request.
 type Request struct {
+	Collector *CollectorRequest `json:"collector,omitempty"`
+	Payer     *PayerRequest     `json:"payer,omitempty"`
+	Items     []ItemRequest     `json:"items,omitempty"`
+
 	PreferenceID      string `json:"preference_id,omitempty"`
 	ApplicationID     string `json:"application_id,omitempty"`
 	SiteID            string `json:"site_id,omitempty"`
@@ -11,10 +15,6 @@ type Request struct {
 	Marketplace       string `json:"marketplace,omitempty"`
 	Version           int64  `json:"version,omitempty"`
 	SponsorID         int64  `json:"sponsor_id,omitempty"`
-
-	Collector *CollectorRequest `json:"collector,omitempty"`
-	Payer     *PayerRequest     `json:"payer,omitempty"`
-	Items     []ItemRequest     `json:"items,omitempty"`
 }
 
 // PayerRequest represents payer information.

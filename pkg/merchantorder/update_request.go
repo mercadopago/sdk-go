@@ -4,6 +4,11 @@ import "time"
 
 // UpdateRequest represents merchant order update.
 type UpdateRequest struct {
+	Collector *CollectorRequest   `json:"collector,omitempty"`
+	Payer     *PayerRequest       `json:"payer,omitempty"`
+	Items     []ItemUpdateRequest `json:"items,omitempty"`
+	Shipments []ShipmentRequest   `json:"shipments,omitempty"`
+
 	PreferenceID      string `json:"preference_id,omitempty"`
 	ApplicationID     string `json:"application_id,omitempty"`
 	SiteID            string `json:"site_id,omitempty"`
@@ -13,15 +18,16 @@ type UpdateRequest struct {
 	Marketplace       string `json:"marketplace,omitempty"`
 	Version           int64  `json:"version,omitempty"`
 	SponsorID         int64  `json:"sponsor_id,omitempty"`
-
-	Collector *CollectorRequest   `json:"collector,omitempty"`
-	Payer     *PayerRequest       `json:"payer,omitempty"`
-	Items     []ItemUpdateRequest `json:"items,omitempty"`
-	Shipments []ShipmentRequest   `json:"shipments,omitempty"`
 }
 
 // ShipmentRequest represents shipment information.
 type ShipmentRequest struct {
+	DateCreated      *time.Time              `json:"date_created,omitempty"`
+	LastModified     *time.Time              `json:"last_modified,omitempty"`
+	DateFirstPrinted *time.Time              `json:"date_first_printed,omitempty"`
+	ReceiverAddress  *ReceiverAddressRequest `json:"receiver_address,omitempty"`
+	ShippingOption   *ShippingOptionRequest  `json:"shipping_option,omitempty"`
+
 	ShippingType      string                   `json:"shipping_type,omitempty"`
 	ShippingMode      string                   `json:"shipping_mode,omitempty"`
 	PickingType       string                   `json:"picking_type,omitempty"`
@@ -32,16 +38,14 @@ type ShipmentRequest struct {
 	SenderID          int64                    `json:"sender_id,omitempty"`
 	ReceiverID        int64                    `json:"receiver_id,omitempty"`
 	Items             []map[string]interface{} `json:"items,omitempty"`
-
-	DateCreated      *time.Time              `json:"date_created,omitempty"`
-	LastModified     *time.Time              `json:"last_modified,omitempty"`
-	DateFirstPrinted *time.Time              `json:"date_first_printed,omitempty"`
-	ReceiverAddress  *ReceiverAddressRequest `json:"receiver_address,omitempty"`
-	ShippingOption   *ShippingOptionRequest  `json:"shipping_option,omitempty"`
 }
 
 // ReceiverAddressRequest represents receiver address information.
 type ReceiverAddressRequest struct {
+	City    *ReceiverAddressCityRequest    `json:"city,omitempty"`
+	State   *ReceiverAddressStateRequest   `json:"state,omitempty"`
+	Country *ReceiverAddressCountryRequest `json:"country,omitempty"`
+
 	AddressLine  string `json:"address_line,omitempty"`
 	Apartment    string `json:"apartment,omitempty"`
 	Comment      string `json:"comment,omitempty"`
@@ -54,23 +58,19 @@ type ReceiverAddressRequest struct {
 	Latitude     string `json:"latitude,omitempty"`
 	Longitude    string `json:"longitude,omitempty"`
 	ID           int64  `json:"id,omitempty"`
-
-	City    *ReceiverAddressCityRequest    `json:"city,omitempty"`
-	State   *ReceiverAddressStateRequest   `json:"state,omitempty"`
-	Country *ReceiverAddressCountryRequest `json:"country,omitempty"`
 }
 
 // ShippingOptionRequest represents shipping option information.
 type ShippingOptionRequest struct {
+	EstimatedDelivery *ShippingEstimatedDeliveryRequest `json:"estimated_delivery,omitempty"`
+	Speed             *ShippingSpeedRequest             `json:"speed,omitempty"`
+
 	Name             string  `json:"name,omitempty"`
 	CurrencyID       string  `json:"currency_id,omitempty"`
 	ShippingMethodID int64   `json:"shipping_method_id,omitempty"`
 	ID               int64   `json:"id,omitempty"`
 	Cost             float64 `json:"cost,omitempty"`
 	ListCost         float64 `json:"list_cost,omitempty"`
-
-	EstimatedDelivery *ShippingEstimatedDeliveryRequest `json:"estimated_delivery,omitempty"`
-	Speed             *ShippingSpeedRequest             `json:"speed,omitempty"`
 }
 
 // ReceiverAddressCityRequest represents city information.
@@ -93,10 +93,10 @@ type ReceiverAddressCountryRequest struct {
 
 // ShippingEstimatedDeliveryRequest represents estimated delivery information.
 type ShippingEstimatedDeliveryRequest struct {
+	Date *time.Time `json:"date,omitempty"`
+
 	TimeFrom string `json:"time_from,omitempty"`
 	TimeTo   string `json:"time_to,omitempty"`
-
-	Date *time.Time `json:"date,omitempty"`
 }
 
 // ShippingSpeedRequest represents shipping speed information.

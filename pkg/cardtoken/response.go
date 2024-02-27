@@ -3,6 +3,11 @@ package cardtoken
 import "time"
 
 type Response struct {
+	DateCreated     *time.Time         `json:"date_created"`
+	DateLastUpdated *time.Time         `json:"date_last_updated"`
+	DateDue         *time.Time         `json:"date_due"`
+	Cardholder      CardholderResponse `json:"cardholder"`
+
 	ID                 string `json:"id"`
 	FirstSixDigits     string `json:"first_six_digits"`
 	LastFourDigits     string `json:"last_four_digits"`
@@ -14,17 +19,12 @@ type Response struct {
 	ExpirationYear     int    `json:"expiration_year"`
 	CardNumberLength   int    `json:"card_number_length"`
 	SecurityCodeLength int    `json:"security_code_length"`
-
-	DateCreated     *time.Time         `json:"date_created"`
-	DateLastUpdated *time.Time         `json:"date_last_updated"`
-	DateDue         *time.Time         `json:"date_due"`
-	Cardholder      CardholderResponse `json:"cardholder"`
 }
 
 type CardholderResponse struct {
-	Name string `json:"name"`
-
 	Identification IdentificationResponse `json:"identification,omitempty"`
+
+	Name string `json:"name"`
 }
 
 type IdentificationResponse struct {
