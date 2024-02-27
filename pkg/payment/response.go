@@ -153,11 +153,17 @@ type OrderResponse struct {
 
 // TransactionDetailsResponse represents transaction details.
 type TransactionDetailsResponse struct {
+	Barcode BarcodeResponse `json:"barcode"`
+
 	FinancialInstitution     string  `json:"financial_institution"`
 	ExternalResourceURL      string  `json:"external_resource_url"`
 	PaymentMethodReferenceID string  `json:"payment_method_reference_id"`
 	AcquirerReference        string  `json:"acquirer_reference"`
 	TransactionID            string  `json:"transaction_id"`
+	DigitableLine            string  `json:"digitable_line"`
+	VerificationCode         string  `json:"verification_code"`
+	PayableDeferralPeriod    string  `json:"payable_deferral_period"`
+	BankTransferID           string  `json:"bank_transfer_id"`
 	NetReceivedAmount        float64 `json:"net_received_amount"`
 	TotalPaidAmount          float64 `json:"total_paid_amount"`
 	InstallmentAmount        float64 `json:"installment_amount"`
@@ -330,4 +336,9 @@ type SourceResponse struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 	Type string `json:"type"`
+}
+
+// BarcodeResponse represents barcode information.
+type BarcodeResponse struct {
+	Content string `json:"content"`
 }
