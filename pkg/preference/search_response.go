@@ -4,6 +4,11 @@ import "time"
 
 // SearchResponse contains information about a preference for searching.
 type SearchResponse struct {
+	DateCreated        *time.Time `json:"date_created"`
+	ExpirationDateFrom *time.Time `json:"expiration_date_from"`
+	ExpirationDateTo   *time.Time `json:"expiration_date_to"`
+	LastUpdated        *time.Time `json:"last_updated"`
+
 	ID                string   `json:"id"`
 	ClientID          string   `json:"client_id"`
 	Marketplace       string   `json:"marketplace"`
@@ -22,17 +27,12 @@ type SearchResponse struct {
 	Expires           bool     `json:"expires"`
 	Items             []string `json:"items"`
 	ProcessingModes   []string `json:"processing_modes"`
-
-	DateCreated        *time.Time `json:"date_created"`
-	ExpirationDateFrom *time.Time `json:"expiration_date_from"`
-	ExpirationDateTo   *time.Time `json:"expiration_date_to"`
-	LastUpdated        *time.Time `json:"last_updated"`
 }
 
 // SearchPageResponse is a search page that contains elements.
 type SearchResponsePage struct {
+	Elements []SearchResponse `json:"elements"`
+
 	Total      int `json:"total"`
 	NextOffset int `json:"next_offset"`
-
-	Elements []SearchResponse `json:"elements"`
 }

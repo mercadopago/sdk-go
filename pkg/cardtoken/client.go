@@ -25,9 +25,9 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	res, err := baseclient.Post[*Response](ctx, c.cfg, url, request)
+	result, err := baseclient.Post[*Response](ctx, c.cfg, url, request)
 	if err != nil {
 		return nil, err
 	}
-	return res, nil
+	return result, nil
 }

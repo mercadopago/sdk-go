@@ -4,10 +4,10 @@ import "net/http"
 
 // ResponseError represents an error response from the API.
 type ResponseError struct {
+	Headers http.Header `json:"headers"`
+
 	Message    string `json:"message"`
 	StatusCode int    `json:"status_code"`
-
-	Headers http.Header `json:"headers"`
 }
 
 // Error implements error.

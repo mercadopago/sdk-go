@@ -50,12 +50,12 @@ func (c *client) Create(ctx context.Context, authorizationCode, redirectURI stri
 		GrantType:    "authorization_code",
 	}
 
-	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
+	result, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) GetAuthorizationURL(clientID, redirectURI, state string) string {
@@ -89,10 +89,10 @@ func (c *client) Refresh(ctx context.Context, refreshToken string) (*Response, e
 		GrantType:    "refresh_token",
 	}
 
-	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
+	result, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }

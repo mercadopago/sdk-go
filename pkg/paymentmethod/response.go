@@ -1,6 +1,9 @@
 package paymentmethod
 
 type Response struct {
+	Settings              []SettingsResponse             `json:"settings"`
+	FinancialInstitutions []FinancialInstitutionResponse `json:"financial_institutions"`
+
 	ID                   string   `json:"id"`
 	Name                 string   `json:"name"`
 	PaymentTypeID        string   `json:"payment_type_id"`
@@ -13,9 +16,6 @@ type Response struct {
 	AccreditationTime    int64    `json:"accreditation_time"`
 	MinAllowedAmount     float64  `json:"min_allowed_amount"`
 	MaxAllowedAmount     float64  `json:"max_allowed_amount"`
-
-	Settings              []SettingsResponse             `json:"settings"`
-	FinancialInstitutions []FinancialInstitutionResponse `json:"financial_institutions"`
 }
 
 // SettingsResponse represents payment method settings.
