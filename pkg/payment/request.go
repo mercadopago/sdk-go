@@ -256,7 +256,7 @@ type AuthenticationRequest struct {
 	Cryptogram           string `json:"cryptogram,omitempty"`
 	ThreeDSServerTransID string `json:"three_ds_server_trans_id,omitempty"`
 	ECI                  string `json:"eci,omitempty"`
-	DSTransID            string `json:"ds_trans_id"`
+	DSTransID            string `json:"ds_trans_id,omitempty"`
 	ACSTransID           string `json:"acs_trans_id,omitempty"`
 	ThreeDSVersion       string `json:"three_ds_version,omitempty"`
 	AuthenticationStatus string `json:"authentication_status,omitempty"`
