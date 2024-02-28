@@ -233,11 +233,14 @@ type PaymentReferenceRequest struct {
 // PaymentMethodRequest represents payment method request within Request.
 type PaymentMethodRequest struct {
 	Data *DataRequest `json:"data,omitempty"`
+
+	Type string `json:"type,omitempty"`
 }
 
 // DataRequest represents payment data request within PaymentMethodRequest.
 type DataRequest struct {
-	Rules *RulesRequest `json:"rules,omitempty"`
+	Authentication *AuthenticationRequest `json:"authentication,omitempty"`
+	Rules          *RulesRequest          `json:"rules,omitempty"`
 }
 
 // RulesRequest represents payment rules request within DataRequest.
@@ -245,6 +248,18 @@ type RulesRequest struct {
 	Fine      *FeeRequest       `json:"fine,omitempty"`
 	Interest  *FeeRequest       `json:"interest,omitempty"`
 	Discounts []DiscountRequest `json:"discounts,omitempty"`
+}
+
+// AuthenticationRequest represents payment authentication request within DataRequest.
+type AuthenticationRequest struct {
+	Type                 string `json:"type,omitempty"`
+	Cryptogram           string `json:"cryptogram,omitempty"`
+	ThreeDsServerTransId string `json:"three_ds_server_trans_id,omitempty"`
+	Eci                  string `json:"eci,omitempty"`
+	DsTransId            string `json:"ds_trans_id"`
+	AcsTransId           string `json:"acs_trans_id,omitempty"`
+	ThreeDsVersion       string `json:"three_ds_version,omitempty"`
+	AuthenticationStatus string `json:"authentication_status,omitempty"`
 }
 
 // FeeRequest represents fee request within RulesRequest.
