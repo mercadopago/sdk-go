@@ -71,8 +71,8 @@ func TestGet(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want: &Response{
-				PreApprovalID:     "8aece7e28dd05e34018dec83200479c9",
-				ID:                7007937218,
+				PreApprovalID:     "202caa5d4084417b8e2a394121bf172b",
+				ID:                3950169598,
 				Type:              "recurring",
 				Status:            "processed",
 				DateCreated:       parseDate("2024-02-27T17:42:04.835-04:00"),
@@ -81,7 +81,7 @@ func TestGet(t *testing.T) {
 				CurrencyID:        "BRL",
 				Reason:            "Yoga classes",
 				Payment: Payment{
-					ID:           73007017969,
+					ID:           3950169598,
 					Status:       "approved",
 					StatusDetail: "accredited",
 				},
@@ -98,7 +98,7 @@ func TestGet(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.config,
 			}
-			got, err := c.Get(tt.args.ctx, "7007937218")
+			got, err := c.Get(tt.args.ctx, "3950169598")
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
@@ -166,8 +166,8 @@ func TestSearch(t *testing.T) {
 			want: &SearchResponsePage{
 				Results: []Response{
 					{
-						PreApprovalID:     "8aece7e28dd05e34018dec83200479c9",
-						ID:                7007937218,
+						PreApprovalID:     "202caa5d4084417b8e2a394121bf172b",
+						ID:                3950169598,
 						Type:              "recurring",
 						Status:            "processed",
 						DateCreated:       parseDate("2024-02-27T17:42:04.835-04:00"),
@@ -176,7 +176,7 @@ func TestSearch(t *testing.T) {
 						CurrencyID:        "BRL",
 						Reason:            "Yoga classes",
 						Payment: Payment{
-							ID:           73007017969,
+							ID:           3950169598,
 							Status:       "approved",
 							StatusDetail: "accredited",
 						},
