@@ -254,11 +254,11 @@ type RulesRequest struct {
 type AuthenticationRequest struct {
 	Type                 string `json:"type,omitempty"`
 	Cryptogram           string `json:"cryptogram,omitempty"`
-	ThreeDsServerTransId string `json:"three_ds_server_trans_id,omitempty"`
-	Eci                  string `json:"eci,omitempty"`
-	DsTransId            string `json:"ds_trans_id"`
-	AcsTransId           string `json:"acs_trans_id,omitempty"`
-	ThreeDsVersion       string `json:"three_ds_version,omitempty"`
+	ThreeDSServerTransID string `json:"three_ds_server_trans_id,omitempty"`
+	ECI                  string `json:"eci,omitempty"`
+	DSTransID            string `json:"ds_trans_id"`
+	ACSTransID           string `json:"acs_trans_id,omitempty"`
+	ThreeDSVersion       string `json:"three_ds_version,omitempty"`
 	AuthenticationStatus string `json:"authentication_status,omitempty"`
 }
 
