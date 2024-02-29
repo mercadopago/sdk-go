@@ -16,12 +16,12 @@ func main() {
 
 	client := invoice.NewClient(cfg)
 
-	filter := make(map[string]string)
-	filter["preapproval_id"] = "preapproval_id"
-	filters := invoice.SearchRequest{
+	req := invoice.SearchRequest{
 		Limit:   "10",
 		Offset:  "10",
-		Filters: filter,
+		Filters: map[string]string{
+		    "preapproval_id": "preapproval_id",
+		},
 	}
 
 	search, err := client.Search(context.Background(), filters)
