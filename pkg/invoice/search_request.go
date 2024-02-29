@@ -11,6 +11,7 @@ type SearchRequest struct {
 	Filters map[string]string
 }
 
+// Parameters converts SearchRequest filters into a string of parameters of an HTTP request.
 func (s SearchRequest) Parameters() string {
 	params := url.Values{}
 

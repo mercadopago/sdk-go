@@ -24,7 +24,7 @@ type Client interface {
 	// Search the invoices for a subscriptions by different parameters.
 	// It is a get request to the endpoint: https://api.mercadopago.com/authorized_payments/search
 	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_authorized_payments_search/get
-	Search(ctx context.Context, request SearchRequest) (*SearchResponsePage, error)
+	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 }
 
 // client is the implementation of Client.
@@ -52,16 +52,16 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 	return res, nil
 }
 
-func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponsePage, error) {
+func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
 	params := request.Parameters()
 
-	parseUrl, err := url.Parse(urlSearch)
+	parsedURL, err := url.Parse(urlSearch)
 	if err != nil {
 		return nil, fmt.Errorf("error parsing parseUrl: %w", err)
 	}
-	parseUrl.RawQuery = params
+	parsedURL.RawQuery = params
 
-	res, err := baseclient.Get[*SearchResponsePage](ctx, c.cfg, parseUrl.String())
+	res, err := baseclient.Get[*SearchResponse](ctx, c.cfg, parsedURL.String())
 	if err != nil {
 		return nil, err
 	}

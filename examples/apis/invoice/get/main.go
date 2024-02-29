@@ -18,11 +18,11 @@ func main() {
 
 	invoiceID := "123"
 
-	inv, err := client.Get(context.Background(), invoiceID)
+	result, err := client.Get(context.Background(), invoiceID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(inv)
+	fmt.Println(result)
 }

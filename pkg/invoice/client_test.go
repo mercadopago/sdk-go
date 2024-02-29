@@ -80,7 +80,7 @@ func TestGet(t *testing.T) {
 				TransactionAmount: 5.00,
 				CurrencyID:        "BRL",
 				Reason:            "Yoga classes",
-				Payment: Payment{
+				Payment: PaymentResponse{
 					ID:           3950169598,
 					Status:       "approved",
 					StatusDetail: "accredited",
@@ -119,13 +119,14 @@ func TestSearch(t *testing.T) {
 		config *config.Config
 	}
 	type args struct {
-		ctx context.Context
+		ctx     context.Context
+		request SearchRequest
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    *SearchResponsePage
+		want    *SearchResponse
 		wantErr string
 	}{
 		{
@@ -163,7 +164,7 @@ func TestSearch(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 			},
-			want: &SearchResponsePage{
+			want: &SearchResponse{
 				Results: []Response{
 					{
 						PreApprovalID:     "202caa5d4084417b8e2a394121bf172b",
@@ -175,7 +176,7 @@ func TestSearch(t *testing.T) {
 						TransactionAmount: 5.00,
 						CurrencyID:        "BRL",
 						Reason:            "Yoga classes",
-						Payment: Payment{
+						Payment: PaymentResponse{
 							ID:           3950169598,
 							Status:       "approved",
 							StatusDetail: "accredited",
@@ -200,12 +201,7 @@ func TestSearch(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.config,
 			}
-
-			dto := SearchRequest{
-				Limit:  "12",
-				Offset: "0",
-			}
-			got, err := c.Search(tt.args.ctx, dto)
+			got, err := c.Search(tt.args.ctx, tt.args.request)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()

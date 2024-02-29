@@ -1,4 +1,4 @@
-package search
+package main
 
 import (
 	"context"
@@ -17,20 +17,20 @@ func main() {
 	client := invoice.NewClient(cfg)
 
 	req := invoice.SearchRequest{
-		Limit:   "10",
-		Offset:  "10",
+		Limit:  "10",
+		Offset: "10",
 		Filters: map[string]string{
-		    "preapproval_id": "preapproval_id",
+			"preapproval_id": "preapproval_id",
 		},
 	}
 
-	search, err := client.Search(context.Background(), filters)
+	result, err := client.Search(context.Background(), req)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, inv := range search.Results {
+	for _, inv := range result.Results {
 		fmt.Println(inv)
 	}
 }
