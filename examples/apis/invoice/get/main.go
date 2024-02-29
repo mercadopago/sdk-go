@@ -1,4 +1,4 @@
-package get
+package main
 
 import (
 	"context"
