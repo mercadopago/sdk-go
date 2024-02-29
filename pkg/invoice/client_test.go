@@ -130,6 +130,17 @@ func TestSearch(t *testing.T) {
 		wantErr string
 	}{
 		{
+			name: "should_fail_to_create_request",
+			fields: fields{
+				config: nil,
+			},
+			args: args{
+				ctx: nil,
+			},
+			want:    nil,
+			wantErr: "error creating request: net/http: nil Context",
+		},
+		{
 			name: "should_return_error_when_send_request",
 			fields: fields{
 				config: &config.Config{
@@ -163,6 +174,9 @@ func TestSearch(t *testing.T) {
 			},
 			args: args{
 				ctx: context.Background(),
+				request: SearchRequest{
+					Limit: "30",
+				},
 			},
 			want: &SearchResponse{
 				Results: []Response{
