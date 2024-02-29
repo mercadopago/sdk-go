@@ -6,9 +6,10 @@ import (
 
 // SearchRequest contains filters accepted in search
 type SearchRequest struct {
+	Filters map[string]string
+	
 	Limit   string
 	Offset  string
-	Filters map[string]string
 }
 
 // Parameters converts SearchRequest filters into a string of parameters of an HTTP request.
