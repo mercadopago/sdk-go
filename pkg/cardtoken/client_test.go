@@ -35,6 +35,23 @@ func TestCreate(t *testing.T) {
 		wantErr string
 	}{
 		{
+			name: "should_fail_create_card_token",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("some error")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+			},
+			want:    nil,
+			wantErr: "transport level error: some error",
+		},
+		{
 			name: "should_create_card_token",
 			fields: fields{
 				cfg: &config.Config{
@@ -54,23 +71,6 @@ func TestCreate(t *testing.T) {
 			},
 			want:    mockCardToken(),
 			wantErr: "",
-		},
-		{
-			name: "should_fail_create_card_token",
-			fields: fields{
-				cfg: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							return nil, fmt.Errorf("some error")
-						},
-					},
-				},
-			},
-			args: args{
-				ctx: context.Background(),
-			},
-			want:    nil,
-			wantErr: "transport level error: some error",
 		},
 	}
 	for _, tt := range tests {
