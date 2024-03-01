@@ -27,12 +27,12 @@ type Client interface {
 	// Create a point payment intent.
 	// It is a post request to the endpoint: https://api.mercadopago.com/point/integration-api/devices/{device_id}/payment-intents
 	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api_paymentintent_mlb/_point_integration-api_devices_deviceid_payment-intents/post
-	Create(ctx context.Context, deviceID string, request CreateRequest) (*CreateResponse, error)
+	Create(ctx context.Context, deviceID string, request CreateRequest) (*Response, error)
 
 	// Get a point payment intent.
 	// It is a get request to the endpoint: https://api.mercadopago.com/point/integration-api/payment-intents/{payment_intent_id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api/_point_integration-api_payment-intents_paymentintentid/get
-	Get(ctx context.Context, paymentIntentID string) (*GetResponse, error)
+	Get(ctx context.Context, paymentIntentID string) (*Response, error)
 
 	// Cancel a point payment intent.
 	// It is a cancel request to the endpoint: https://api.mercadopago.com/point/integration-api/devices/{device_id}/payment-intents/{payment_intent_id}
@@ -47,7 +47,7 @@ type Client interface {
 	// UpdateDeviceOperatingMode update operating mode from device.
 	// It is a patch request to the endpoint: https://api.mercadopago.com/point/integration-api/devices/{device-id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api/_point_integration-api_devices_device-id/patch
-	UpdateDeviceOperatingMode(ctx context.Context, deviceID string, request UpdateDeviceOperatingModeRequest) (*OperationModeResponse, error)
+	UpdateDeviceOperatingMode(ctx context.Context, deviceID string, request UpdateDeviceOperatingModeRequest) (*OperatingModeResponse, error)
 }
 
 // NewClient returns a new Point Client.
@@ -55,12 +55,12 @@ func NewClient(c *config.Config) Client {
 	return &client{cfg: c}
 }
 
-func (c *client) Create(ctx context.Context, deviceID string, request CreateRequest) (*CreateResponse, error) {
+func (c *client) Create(ctx context.Context, deviceID string, request CreateRequest) (*Response, error) {
 	params := map[string]string{
 		"device_id": deviceID,
 	}
 
-	result, err := baseclient.Post[*CreateResponse](ctx, c.cfg, urlPaymentIntent, request, baseclient.WithPathParams(params))
+	result, err := baseclient.Post[*Response](ctx, c.cfg, urlPaymentIntent, request, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
@@ -68,12 +68,12 @@ func (c *client) Create(ctx context.Context, deviceID string, request CreateRequ
 	return result, nil
 }
 
-func (c *client) Get(ctx context.Context, paymentIntentID string) (*GetResponse, error) {
+func (c *client) Get(ctx context.Context, paymentIntentID string) (*Response, error) {
 	params := map[string]string{
 		"payment_intent_id": paymentIntentID,
 	}
 
-	result, err := baseclient.Get[*GetResponse](ctx, c.cfg, urlPaymentIntentGet, baseclient.WithPathParams(params))
+	result, err := baseclient.Get[*Response](ctx, c.cfg, urlPaymentIntentGet, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}
@@ -104,12 +104,12 @@ func (c *client) ListDevices(ctx context.Context) (*DevicesResponse, error) {
 	return result, nil
 }
 
-func (c *client) UpdateDeviceOperatingMode(ctx context.Context, deviceID string, request UpdateDeviceOperatingModeRequest) (*OperationModeResponse, error) {
+func (c *client) UpdateDeviceOperatingMode(ctx context.Context, deviceID string, request UpdateDeviceOperatingModeRequest) (*OperatingModeResponse, error) {
 	params := map[string]string{
 		"device_id": deviceID,
 	}
 
-	result, err := baseclient.Patch[*OperationModeResponse](ctx, c.cfg, urlDevicesWithID, request, baseclient.WithPathParams(params))
+	result, err := baseclient.Patch[*OperatingModeResponse](ctx, c.cfg, urlDevicesWithID, request, baseclient.WithPathParams(params))
 	if err != nil {
 		return nil, err
 	}

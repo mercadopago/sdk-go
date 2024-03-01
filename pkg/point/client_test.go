@@ -44,7 +44,7 @@ func TestCreate(t *testing.T) {
 		name    string
 		fields  fields
 		args    args
-		want    *CreateResponse
+		want    *Response
 		wantErr string
 	}{
 		{
@@ -87,7 +87,7 @@ func TestCreate(t *testing.T) {
 				request: CreateRequest{
 					Amount:      1500,
 					Description: "your payment intent description",
-					AdditionalInfo: &AdditionalInfo{
+					AdditionalInfo: &AdditionalInfoRequest{
 						PrintOnTerminal:   false,
 						ExternalReference: "4561ads-das4das4-das4754-das456",
 					},
@@ -98,17 +98,17 @@ func TestCreate(t *testing.T) {
 					},
 				},
 			},
-			want: &CreateResponse{
+			want: &Response{
 				ID:          "7f25f9aa-eea6-4f9c-bf16-a341f71ba2f1",
 				DeviceID:    "PAX_A910__SMARTPOS1234345545",
 				Amount:      1500,
 				Description: "your payment intent description",
-				Payment: CreatePaymentResponse{
+				Payment: PaymentResponse{
 					Installments:     1,
 					Type:             "credit_card",
 					InstallmentsCost: "seller",
 				},
-				AdditionalInfo: AdditionalInfo{
+				AdditionalInfo: AdditionalInfoResponse{
 					ExternalReference: "someone-reference-from-your-application",
 					PrintOnTerminal:   true,
 				},
@@ -149,7 +149,7 @@ func TestGet(t *testing.T) {
 		name    string
 		fields  fields
 		args    args
-		want    *GetResponse
+		want    *Response
 		wantErr string
 	}{
 		{
@@ -189,7 +189,7 @@ func TestGet(t *testing.T) {
 				ctx:             context.Background(),
 				paymentIntentID: "any",
 			},
-			want: &GetResponse{
+			want: &Response{
 				ID:       "7f25f9aa-eea6-4f9c-bf16-a341f71ba2f1",
 				State:    "FINISHED",
 				Amount:   1500,
@@ -197,7 +197,7 @@ func TestGet(t *testing.T) {
 				Payment: PaymentResponse{
 					ID: 16499678033,
 				},
-				AdditionalInfo: AdditionalInfo{
+				AdditionalInfo: AdditionalInfoResponse{
 					ExternalReference: "some-reference-from-your-application",
 					PrintOnTerminal:   true,
 					TicketNumber:      "S0392JED",
@@ -411,11 +411,11 @@ func TestUpdateDeviceOperatingMode(t *testing.T) {
 		name    string
 		fields  fields
 		args    args
-		want    *OperationModeResponse
+		want    *OperatingModeResponse
 		wantErr string
 	}{
 		{
-			name: "should_return_error_when_update_device_operation_mode",
+			name: "should_return_error_when_update_device_operating_mode",
 			fields: fields{
 				cfg: &config.Config{
 					Requester: &httpclient.Mock{
@@ -434,7 +434,7 @@ func TestUpdateDeviceOperatingMode(t *testing.T) {
 			wantErr: "transport level error: some error",
 		},
 		{
-			name: "should_update_device_operation_mode_success",
+			name: "should_update_device_operating_mode_success",
 			fields: fields{
 				cfg: &config.Config{
 					Requester: &httpclient.Mock{
@@ -452,7 +452,7 @@ func TestUpdateDeviceOperatingMode(t *testing.T) {
 				ctx:      context.Background(),
 				deviceID: "any",
 			},
-			want: &OperationModeResponse{
+			want: &OperatingModeResponse{
 				OperatingMode: "PDV",
 			},
 			wantErr: "",
