@@ -2,9 +2,10 @@ package cardtoken
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const url = "https://api.mercadopago.com/v1/card_tokens"
@@ -25,7 +26,12 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	result, err := baseclient.Post[*Response](ctx, c.cfg, url, request)
+	callData := httpclient.CallData{
+		Body:   request,
+		Method: http.MethodPost,
+		URL:    url,
+	}
+	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
 	if err != nil {
 		return nil, err
 	}
