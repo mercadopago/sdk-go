@@ -1,14 +1,14 @@
 package point
 
 type CreateRequest struct {
-	AdditionalInfo *AdditionalInfo `json:"additional_info"`
-	Payment        *PaymentRequest `json:"payment"`
+	AdditionalInfo *AdditionalInfoRequest `json:"additional_info"`
+	Payment        *PaymentRequest        `json:"payment"`
 
 	Amount      int    `json:"amount"`
 	Description string `json:"description"`
 }
 
-type AdditionalInfo struct {
+type AdditionalInfoRequest struct {
 	PrintOnTerminal   bool   `json:"print_on_terminal,omitempty"`
 	ExternalReference string `json:"external_reference,omitempty"`
 	TicketNumber      string `json:"ticket_number,omitempty"`
