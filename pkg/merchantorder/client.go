@@ -2,12 +2,11 @@ package merchantorder
 
 import (
 	"context"
-	"fmt"
-	"net/url"
+	"net/http"
 	"strconv"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const (
@@ -52,11 +51,16 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Get(ctx context.Context, id int64) (*Response, error) {
-	param := map[string]string{
+	pathParams := map[string]string{
 		"id": strconv.Itoa(int(id)),
 	}
 
-	result, err := baseclient.Get[*Response](ctx, c.cfg, urlWithID, baseclient.WithPathParams(param))
+	callData := httpclient.CallData{
+		PathParams: pathParams,
+		Method:     http.MethodGet,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
 	if err != nil {
 		return nil, err
 	}
@@ -65,17 +69,14 @@ func (c *client) Get(ctx context.Context, id int64) (*Response, error) {
 }
 
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
-	params := request.Parameters()
+	request.Check()
 
-	url, err := url.Parse(urlSearch)
-	if err != nil {
-		return nil, fmt.Errorf("error parsing url: %w", err)
+	callData := httpclient.CallData{
+		QueryParams: request.Filters,
+		Method:      http.MethodGet,
+		URL:         urlSearch,
 	}
-
-	url.RawQuery = params
-
-	result, err := baseclient.Get[*SearchResponse](ctx, c.cfg, url.String())
-
+	result, err := httpclient.Run[*SearchResponse](ctx, c.cfg, callData)
 	if err != nil {
 		return nil, err
 	}
@@ -84,11 +85,17 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 }
 
 func (c *client) Update(ctx context.Context, request UpdateRequest, id int64) (*Response, error) {
-	param := map[string]string{
+	pathParams := map[string]string{
 		"id": strconv.Itoa(int(id)),
 	}
 
-	result, err := baseclient.Put[*Response](ctx, c.cfg, urlWithID, request, baseclient.WithPathParams(param))
+	callData := httpclient.CallData{
+		Body:       request,
+		PathParams: pathParams,
+		Method:     http.MethodPut,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +104,12 @@ func (c *client) Update(ctx context.Context, request UpdateRequest, id int64) (*
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	result, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
+	callData := httpclient.CallData{
+		Body:   request,
+		Method: http.MethodPost,
+		URL:    urlBase,
+	}
+	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
 	if err != nil {
 		return nil, err
 	}

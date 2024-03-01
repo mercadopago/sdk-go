@@ -84,7 +84,7 @@ func TestRefund(t *testing.T) {
 		partialAmount := req.TransactionAmount - 5.0
 
 		refundClient := refund.NewClient(cfg)
-		ref, err := refundClient.CreatePartialRefund(context.Background(), partialAmount, pay.ID)
+		ref, err := refundClient.CreatePartialRefund(context.Background(), pay.ID, partialAmount)
 		if ref == nil {
 			t.Error("refund can't be nil")
 		}
@@ -175,7 +175,7 @@ func TestRefund(t *testing.T) {
 
 		// Partial refund
 		refundClient := refund.NewClient(cfg)
-		ref, err := refundClient.CreatePartialRefund(context.Background(), partialAmount, pay.ID)
+		ref, err := refundClient.CreatePartialRefund(context.Background(), pay.ID, partialAmount)
 		if ref == nil {
 			t.Error("refund can't be nil")
 		}

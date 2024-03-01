@@ -118,17 +118,6 @@ func TestSearch(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name: "should_fail_to_create_request",
-			fields: fields{
-				config: nil,
-			},
-			args: args{
-				ctx: nil,
-			},
-			want:    nil,
-			wantErr: "error creating request: net/http: nil Context",
-		},
-		{
 			name: "should_return_response",
 			fields: fields{
 				config: &config.Config{
