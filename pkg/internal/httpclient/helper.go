@@ -64,7 +64,7 @@ func createRequest(ctx context.Context, cfg *config.Config, callData CallData) (
 	}
 
 	setHeaders(req, cfg)
-	if err = setPathParams(req, callData.QueryParams); err != nil {
+	if err = setPathParams(req, callData.PathParams); err != nil {
 		return nil, err
 	}
 	setQueryParams(req, callData.QueryParams)
@@ -106,18 +106,6 @@ func setHeaders(req *http.Request, cfg *config.Config) {
 	}
 }
 
-func setQueryParams(req *http.Request, params map[string]string) {
-	if len(params) == 0 {
-		return
-	}
-
-	queryParams := url.Values{}
-	for k, v := range params {
-		queryParams.Add(k, v)
-	}
-	req.URL.RawQuery = queryParams.Encode()
-}
-
 func setPathParams(req *http.Request, params map[string]string) error {
 	pathURL := req.URL.Path
 
@@ -149,6 +137,18 @@ func checkReplaces(pathURL string) error {
 	}
 
 	return nil
+}
+
+func setQueryParams(req *http.Request, params map[string]string) {
+	if len(params) == 0 {
+		return
+	}
+
+	queryParams := url.Values{}
+	for k, v := range params {
+		queryParams.Add(k, v)
+	}
+	req.URL.RawQuery = queryParams.Encode()
 }
 
 func wrapUnmarshal[T any](b []byte, response T) (T, error) {

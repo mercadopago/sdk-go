@@ -220,7 +220,7 @@ func TestCreatePartialRefund(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.config,
 			}
-			got, err := c.CreatePartialRefund(tt.args.ctx, tt.args.amount, 1622029222)
+			got, err := c.CreatePartialRefund(tt.args.ctx, 1622029222, tt.args.amount)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
