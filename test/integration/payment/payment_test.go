@@ -147,6 +147,7 @@ func TestPayment(t *testing.T) {
 		}
 		if err != nil {
 			t.Errorf(err.Error())
+			return
 		}
 
 		// Capture payment.
