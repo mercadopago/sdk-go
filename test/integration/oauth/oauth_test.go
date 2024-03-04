@@ -45,6 +45,7 @@ func TestOauth(t *testing.T) {
 
 		if cred == nil {
 			t.Error("credential can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())

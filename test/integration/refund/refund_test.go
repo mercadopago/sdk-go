@@ -36,6 +36,7 @@ func TestRefund(t *testing.T) {
 		pay, err := paymentClient.Create(context.Background(), req)
 		if pay == nil {
 			t.Error("payment can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -45,6 +46,7 @@ func TestRefund(t *testing.T) {
 		ref, err := refundClient.Create(context.Background(), pay.ID)
 		if ref == nil {
 			t.Error("refund can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -74,6 +76,7 @@ func TestRefund(t *testing.T) {
 		pay, err := paymentClient.Create(context.Background(), req)
 		if pay == nil {
 			t.Error("payment can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -85,6 +88,7 @@ func TestRefund(t *testing.T) {
 		ref, err := refundClient.CreatePartialRefund(context.Background(), partialAmount, pay.ID)
 		if ref == nil {
 			t.Error("refund can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -114,6 +118,7 @@ func TestRefund(t *testing.T) {
 		pay, err := paymentClient.Create(context.Background(), req)
 		if pay == nil {
 			t.Error("payment can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -123,6 +128,7 @@ func TestRefund(t *testing.T) {
 		ref, err := refundClient.Create(context.Background(), pay.ID)
 		if ref == nil {
 			t.Error("refund can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -161,6 +167,7 @@ func TestRefund(t *testing.T) {
 		pay, err := paymentClient.Create(context.Background(), req)
 		if pay == nil {
 			t.Error("payment can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -173,6 +180,7 @@ func TestRefund(t *testing.T) {
 		ref, err := refundClient.CreatePartialRefund(context.Background(), partialAmount, pay.ID)
 		if ref == nil {
 			t.Error("refund can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -182,6 +190,7 @@ func TestRefund(t *testing.T) {
 		ref, err = refundClient.Create(context.Background(), pay.ID)
 		if ref == nil {
 			t.Error("refund can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
