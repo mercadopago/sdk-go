@@ -3,38 +3,36 @@ package integration
 import (
 	"context"
 	"fmt"
-	"os"
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/mercadopago/sdk-go/pkg/cardtoken"
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/payment"
+	"github.com/mercadopago/sdk-go/test"
+)
+
+var (
+	cfg             *config.Config = test.Config()
+	paymentClient                  = payment.NewClient(cfg)
+	cardTokenClient                = cardtoken.NewClient(cfg)
 )
 
 func TestPayment(t *testing.T) {
 	t.Run("should_create_payment", func(t *testing.T) {
-		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		client := payment.NewClient(cfg)
+		ctx := context.Background()
 
 		req := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "pix",
 			Payer: &payment.PayerRequest{
-				Email: fmt.Sprintf("gabs_%s@testuser.com", uuid.New()),
+				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
 			},
 		}
 
-		pay, err := client.Create(context.Background(), req)
-		if pay == nil {
+		pay, err := paymentClient.Create(ctx, req)
+		if pay == nil || pay.ID == 0 {
 			t.Error("payment can't be nil")
-			return
-		}
-		if pay.ID == 0 {
-			t.Error("id can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -42,10 +40,7 @@ func TestPayment(t *testing.T) {
 	})
 
 	t.Run("should_search_payment", func(t *testing.T) {
-		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
-		if err != nil {
-			t.Fatal(err)
-		}
+		ctx := context.Background()
 
 		req := payment.SearchRequest{
 			Filters: map[string]string{
@@ -53,10 +48,9 @@ func TestPayment(t *testing.T) {
 			},
 		}
 
-		client := payment.NewClient(cfg)
-		paymentSearch, err := client.Search(context.Background(), req)
-		if paymentSearch == nil {
-			t.Error("paymentSearch can't be nil")
+		result, err := paymentClient.Search(ctx, req)
+		if result == nil {
+			t.Error("result can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -64,36 +58,29 @@ func TestPayment(t *testing.T) {
 	})
 
 	t.Run("should_get_payment", func(t *testing.T) {
-		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
-		if err != nil {
-			t.Fatal(err)
-		}
+		ctx := context.Background()
 
-		client := payment.NewClient(cfg)
+		// Create payment.
 		paymentRequest := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "pix",
 			Payer: &payment.PayerRequest{
-				Email: fmt.Sprintf("gabs_%s@testuser.com", uuid.New()),
+				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
 			},
 		}
 
-		pay, err := client.Create(context.Background(), paymentRequest)
-		if pay == nil {
+		pay, err := paymentClient.Create(ctx, paymentRequest)
+		if pay == nil || pay.ID == 0 {
 			t.Error("payment can't be nil")
-			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
-		pay, err = client.Get(context.Background(), pay.ID)
+		// Get payment.
+		pay, err = paymentClient.Get(ctx, pay.ID)
 		if pay == nil {
 			t.Error("payment can't be nil")
-			return
-		}
-		if pay.ID == 0 {
-			t.Error("id can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -101,76 +88,74 @@ func TestPayment(t *testing.T) {
 	})
 
 	t.Run("should_cancel_payment", func(t *testing.T) {
-		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
-		if err != nil {
-			t.Fatal(err)
-		}
+		ctx := context.Background()
 
-		client := payment.NewClient(cfg)
+		// Create payment.
 		req := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "pix",
 			Payer: &payment.PayerRequest{
-				Email: fmt.Sprintf("gabs_%s@testuser.com", uuid.New()),
+				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
 			},
 		}
 
-		pay, err := client.Create(context.Background(), req)
+		pay, err := paymentClient.Create(ctx, req)
 		if pay == nil {
 			t.Error("payment can't be nil")
-			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
-		}
-
-		pay, err = client.Cancel(context.Background(), pay.ID)
-		if pay == nil {
-			t.Error("payment can't be nil")
 			return
 		}
-		if pay.ID == 0 {
-			t.Error("id can't be nil")
+
+		// Cancel payment.
+		pay, err = paymentClient.Cancel(ctx, pay.ID)
+		if pay == nil {
+			t.Error("payment can't be nil")
+		}
+		if pay != nil && pay.Status != "cancelled" {
+			t.Error("payment should be cancelled, but is wasn't")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 	})
 
-	// We should validate how to test capture and capture amount.
 	t.Run("should_capture_payment", func(t *testing.T) {
-		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
-		if err != nil {
-			t.Fatal(err)
-		}
+		ctx := context.Background()
 
-		client := payment.NewClient(cfg)
+		// Generate token.
+		token, err := test.GenerateCardToken(ctx, cardTokenClient)
+		if err != nil {
+			t.Error("fail to generate card token", err)
+		}
 
 		// Create payment.
 		req := payment.Request{
 			TransactionAmount: 105.1,
-			PaymentMethodID:   "visa",
 			Payer: &payment.PayerRequest{
-				Email: fmt.Sprintf("gabs_%s@testuser.com", uuid.New()),
+				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
 			},
-			// Need to get a token from a card.
-			Token:        "",
+			Token:        token,
 			Installments: 1,
 			Capture:      false,
 		}
 
-		pay, err := client.Create(context.Background(), req)
+		pay, err := paymentClient.Create(ctx, req)
 		if pay == nil {
 			t.Error("payment can't be nil")
-			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
-		pay, err = client.Capture(context.Background(), pay.ID)
+		// Capture payment.
+		pay, err = paymentClient.Capture(ctx, pay.ID)
 		if pay == nil {
 			t.Error("payment can't be nil")
+		}
+		if pay != nil && pay.Status != "approved" {
+			t.Error("payment should be approved, but is wasn't")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -178,15 +163,40 @@ func TestPayment(t *testing.T) {
 	})
 
 	t.Run("should_capture_amount_payment", func(t *testing.T) {
-		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
+		ctx := context.Background()
+
+		// Generate token.
+		token, err := test.GenerateCardToken(ctx, cardTokenClient)
 		if err != nil {
-			t.Fatal(err)
+			t.Error("fail to generate card token", err)
 		}
 
-		client := payment.NewClient(cfg)
-		pay, err := client.CaptureAmount(context.Background(), 123, 100.1)
+		// Create payment.
+		req := payment.Request{
+			TransactionAmount: 105.1,
+			Payer: &payment.PayerRequest{
+				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
+			},
+			Token:        token,
+			Installments: 1,
+			Capture:      false,
+		}
+		pay, err := paymentClient.Create(ctx, req)
 		if pay == nil {
 			t.Error("payment can't be nil")
+		}
+		if err != nil {
+			t.Errorf(err.Error())
+			return
+		}
+
+		// Capture payment.
+		pay, err = paymentClient.CaptureAmount(ctx, pay.ID, 100.1)
+		if pay == nil {
+			t.Error("payment can't be nil")
+		}
+		if pay != nil && pay.Status != "approved" {
+			t.Error("payment should be approved, but is wasn't")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
