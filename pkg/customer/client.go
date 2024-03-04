@@ -103,6 +103,7 @@ func (c *client) Update(ctx context.Context, id string, request Request) (*Respo
 	}
 
 	callData := httpclient.CallData{
+		Body:       request,
 		PathParams: pathParams,
 		Method:     http.MethodPut,
 		URL:        urlWithID,

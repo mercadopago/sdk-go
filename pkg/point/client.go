@@ -10,11 +10,11 @@ import (
 
 const (
 	urlBase                = "https://api.mercadopago.com/point"
-	urlDevices             = urlBase + "/integration-api/devices/"
-	urlPaymentIntent       = urlDevices + ":device_id/payment-intents"
-	urlPaymentIntentGet    = urlBase + "/integration-api/payment-intents/:payment_intent_id"
-	urlPaymentIntentCancel = urlDevices + ":device_id/payment-intents/:payment_intent_id"
-	urlDevicesWithID       = urlDevices + ":device_id"
+	urlDevices             = urlBase + "/integration-api/devices"
+	urlPaymentIntent       = urlDevices + "/{device_id}/payment-intents"
+	urlPaymentIntentGet    = urlBase + "/integration-api/payment-intents/{payment_intent_id}"
+	urlPaymentIntentCancel = urlDevices + "/{device_id}/payment-intents/{payment_intent_id}"
+	urlDevicesWithID       = urlDevices + "/{device_id}"
 )
 
 // client is the implementation of Client.
