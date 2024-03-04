@@ -1,8 +1,8 @@
 package point
 
-type CreateResponse struct {
-	Payment        CreatePaymentResponse `json:"payment"`
-	AdditionalInfo AdditionalInfo        `json:"additional_info"`
+type Response struct {
+	Payment        PaymentResponse        `json:"payment"`
+	AdditionalInfo AdditionalInfoResponse `json:"additional_info"`
 
 	Amount      int    `json:"amount"`
 	ID          string `json:"id"`
@@ -11,24 +11,18 @@ type CreateResponse struct {
 	DeviceID    string `json:"device_id"`
 }
 
-type GetResponse struct {
-	Payment        PaymentResponse `json:"payment"`
-	AdditionalInfo AdditionalInfo  `json:"additional_info"`
-
-	Amount   int    `json:"amount"`
-	ID       string `json:"id"`
-	State    string `json:"state"`
-	DeviceID string `json:"device_id"`
-}
-
-type CreatePaymentResponse struct {
-	Installments     int    `json:"installments"`
-	Type             string `json:"type"`
-	InstallmentsCost string `json:"installments_cost"`
+type AdditionalInfoResponse struct {
+	PrintOnTerminal   bool   `json:"print_on_terminal"`
+	ExternalReference string `json:"external_reference"`
+	TicketNumber      string `json:"ticket_number"`
 }
 
 type PaymentResponse struct {
-	ID int64 `json:"id,omitempty"`
+	ID               int64  `json:"id"`
+	Installments     int    `json:"installments"`
+	Type             string `json:"type"`
+	InstallmentsCost string `json:"installments_cost"`
+	VoucherType      string `json:"voucher_type"`
 }
 
 type CancelResponse struct {
@@ -54,6 +48,6 @@ type Paging struct {
 	Limit  int `json:"limit"`
 }
 
-type OperationModeResponse struct {
+type OperatingModeResponse struct {
 	OperatingMode string `json:"operating_mode"`
 }
