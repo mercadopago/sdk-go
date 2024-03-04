@@ -11,7 +11,7 @@ import (
 const (
 	urlBase   = "https://api.mercadopago.com/checkout/preferences"
 	urlSearch = urlBase + "/search"
-	urlWithID = urlBase + "/:id"
+	urlWithID = urlBase + "/{id}"
 )
 
 // Client contains the methods to interact with the Preference API.

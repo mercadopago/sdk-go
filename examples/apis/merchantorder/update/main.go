@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/mercadopago/sdk-go/pkg/config"
@@ -11,7 +12,7 @@ import (
 )
 
 func main() {
-	accessToken := "{{ACCESS_TOKEN}}"
+	accessToken := "TEST-4718610619866357-092020-f30ef41ea2a9e7ad0fa7bc101b5508af-751574177"
 
 	cfg, err := config.New(accessToken)
 	if err != nil {
@@ -80,6 +81,8 @@ func main() {
 			},
 		},
 	}
+
+	time.Sleep(time.Second * 10)
 
 	order, err = client.Update(context.Background(), req, order.ID)
 	if err != nil {
