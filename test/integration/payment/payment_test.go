@@ -7,15 +7,14 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/mercadopago/sdk-go/pkg/cardtoken"
-	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/payment"
 	"github.com/mercadopago/sdk-go/test"
 )
 
 var (
-	cfg             *config.Config = test.Config()
-	paymentClient                  = payment.NewClient(cfg)
-	cardTokenClient                = cardtoken.NewClient(cfg)
+	cfg             = test.Config()
+	paymentClient   = payment.NewClient(cfg)
+	cardTokenClient = cardtoken.NewClient(cfg)
 )
 
 func TestPayment(t *testing.T) {

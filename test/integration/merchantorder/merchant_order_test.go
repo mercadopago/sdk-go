@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"testing"
-	"time"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/merchantorder"
@@ -144,8 +143,6 @@ func TestMerchantOrder(t *testing.T) {
 				},
 			},
 		}
-
-		time.Sleep(time.Second * 5)
 
 		order, err = client.Update(context.Background(), req, order.ID)
 		if order == nil {
