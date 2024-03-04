@@ -2,8 +2,8 @@ package invoice
 
 // SearchResponse contains the Search response structure.
 type SearchResponse struct {
-	Paging  Paging     `json:"paging,omitempty"`
-	Results []Response `json:"results,omitempty"`
+	Paging  Paging     `json:"paging"`
+	Results []Response `json:"results"`
 }
 
 // Paging contains the paging information.

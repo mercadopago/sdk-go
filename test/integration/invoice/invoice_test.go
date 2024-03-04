@@ -17,8 +17,8 @@ func TestInvoice(t *testing.T) {
 
 		client := invoice.NewClient(cfg)
 
-		inv, err := client.Get(context.Background(), "id")
-		if inv == nil {
+		result, err := client.Get(context.Background(), "id")
+		if result == nil {
 			t.Error("invoice can't be nil")
 			return
 		}
@@ -42,9 +42,9 @@ func TestInvoice(t *testing.T) {
 		}
 
 		client := invoice.NewClient(cfg)
-		inv, err := client.Search(context.Background(), filters)
+		result, err := client.Search(context.Background(), filters)
 
-		if inv == nil {
+		if result == nil {
 			t.Error("invoice can't be nil")
 		}
 		if err != nil {

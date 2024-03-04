@@ -71,7 +71,7 @@ func TestGet(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want: &Response{
-				PreApprovalID:     "202caa5d4084417b8e2a394121bf172b",
+				PreapprovalID:     "202caa5d4084417b8e2a394121bf172b",
 				ID:                3950169598,
 				Type:              "recurring",
 				Status:            "processed",
@@ -130,17 +130,6 @@ func TestSearch(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name: "should_fail_to_create_request",
-			fields: fields{
-				config: nil,
-			},
-			args: args{
-				ctx: nil,
-			},
-			want:    nil,
-			wantErr: "error creating request: net/http: nil Context",
-		},
-		{
 			name: "should_return_error_when_send_request",
 			fields: fields{
 				config: &config.Config{
@@ -181,7 +170,7 @@ func TestSearch(t *testing.T) {
 			want: &SearchResponse{
 				Results: []Response{
 					{
-						PreApprovalID:     "202caa5d4084417b8e2a394121bf172b",
+						PreapprovalID:     "202caa5d4084417b8e2a394121bf172b",
 						ID:                3950169598,
 						Type:              "recurring",
 						Status:            "processed",

@@ -4,12 +4,12 @@ import (
 	"net/url"
 )
 
-// SearchRequest contains filters accepted in search
+// SearchRequest contains filters accepted in search.
 type SearchRequest struct {
 	Filters map[string]string
-	
-	Limit   string
-	Offset  string
+
+	Limit  string
+	Offset string
 }
 
 // Parameters converts SearchRequest filters into a string of parameters of an HTTP request.
