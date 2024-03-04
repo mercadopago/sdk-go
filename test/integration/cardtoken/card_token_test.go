@@ -17,7 +17,23 @@ func TestCardToken(t *testing.T) {
 		}
 
 		client := cardtoken.NewClient(cfg)
-		cardToken, err := client.Create(context.Background(), cardtoken.MockCardTokenRequest())
+
+		request := cardtoken.Request{
+			SiteID:          "Teste",
+			CardNumber:      "5031433215406351",
+			ExpirationMonth: "11",
+			ExpirationYear:  "2025",
+			SecurityCode:    "123",
+			Cardholder: &cardtoken.Cardholder{
+				Identification: &cardtoken.Identification{
+					Type:   "CPF",
+					Number: "70383868084",
+				},
+				Name: "MASTER TEST",
+			},
+		}
+
+		cardToken, err := client.Create(context.Background(), request)
 
 		if cardToken == nil {
 			t.Error("cardToken can't be nil")
