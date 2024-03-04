@@ -159,7 +159,11 @@ func TestSearch(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 				request: SearchRequest{
-					Limit: "10",
+					Filters: map[string]string{
+						"EMAIL": "test_user_30851371@testuser.com",
+					},
+					Limit:  "10",
+					Offset: "10",
 				},
 			},
 			want: &SearchResponse{
