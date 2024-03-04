@@ -2,6 +2,7 @@ package customer
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -42,6 +43,23 @@ func TestCreate(t *testing.T) {
 		want    *Response
 		wantErr string
 	}{
+		{
+			name: "should_fail_to_send_request",
+			fields: fields{
+				config: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("some error")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+			},
+			want:    nil,
+			wantErr: "transport level error: some error",
+		},
 		{
 			name: "should_return_response",
 			fields: fields{
@@ -106,6 +124,23 @@ func TestSearch(t *testing.T) {
 		want    *SearchResponse
 		wantErr string
 	}{
+		{
+			name: "should_fail_to_send_request",
+			fields: fields{
+				config: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("some error")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+			},
+			want:    nil,
+			wantErr: "transport level error: some error",
+		},
 		{
 			name: "should_return_response",
 			fields: fields{
