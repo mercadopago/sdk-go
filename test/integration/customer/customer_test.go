@@ -24,6 +24,7 @@ func TestCustomer(t *testing.T) {
 		cus, err := client.Create(context.Background(), req)
 		if cus == nil {
 			t.Error("customer can't be nil")
+			return
 		}
 		if cus.ID == "" {
 			t.Error("id can't be nil")
@@ -67,6 +68,7 @@ func TestCustomer(t *testing.T) {
 		cus, err := client.Create(context.Background(), req)
 		if cus == nil {
 			t.Error("customer can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -75,6 +77,7 @@ func TestCustomer(t *testing.T) {
 		result, err := client.Get(context.Background(), cus.ID)
 		if result == nil {
 			t.Error("customer can't be nil")
+			return
 		}
 		if result.ID == "" {
 			t.Error("id can't be nil")
@@ -96,6 +99,7 @@ func TestCustomer(t *testing.T) {
 		cus, err := client.Create(context.Background(), req)
 		if cus == nil {
 			t.Error("customer can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
