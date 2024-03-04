@@ -1,0 +1,29 @@
+{
+  "id": "2c938084726fca480172750000000000",
+  "back_url": "https://www.yoursite.com",
+  "collector_id": 100200300,
+  "application_id": 1234567812345678,
+  "reason": "Yoga classes",
+  "status": "active",
+  "date_created": "2024-02-27T17:37:06.459-04:00",
+  "last_modified": "2024-02-27T17:37:06.711-04:00",
+  "init_point": "https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=2c938084726fca480172750000000000",
+  "auto_recurring": {
+    "frequency": 1,
+    "frequency_type": "days",
+    "transaction_amount": 5.00,
+    "currency_id": "BRL"
+  },
+  "payment_methods_allowed": {
+    "payment_types": [
+      {
+        "id": "credit_card"
+      }
+    ],
+    "payment_methods": [
+      {
+        "id": "bolbradesco"
+      }
+    ]
+  }
+}
