@@ -109,6 +109,7 @@ func TestCustomer(t *testing.T) {
 		result, err := client.Update(context.Background(), cus.ID, uReq)
 		if result == nil {
 			t.Error("customer can't be nil")
+			return
 		}
 		if result.Description != "Description updated." {
 			t.Error("update failed")

@@ -34,6 +34,7 @@ func TestMerchantOrder(t *testing.T) {
 		pref, err := preferenceClient.Create(context.Background(), prefReq)
 		if pref == nil {
 			t.Error("preference can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -64,6 +65,7 @@ func TestMerchantOrder(t *testing.T) {
 		order, err := client.Create(context.Background(), req)
 		if order == nil {
 			t.Error("merchant order can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -92,6 +94,7 @@ func TestMerchantOrder(t *testing.T) {
 		pref, err := preferenceClient.Create(context.Background(), prefReq)
 		if pref == nil {
 			t.Error("preference can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -123,6 +126,7 @@ func TestMerchantOrder(t *testing.T) {
 		order, err := client.Create(context.Background(), createReq)
 		if order == nil {
 			t.Error("merchant order can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -144,6 +148,7 @@ func TestMerchantOrder(t *testing.T) {
 		if order == nil {
 			fmt.Println(err)
 			t.Error("merchant order can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -172,6 +177,7 @@ func TestMerchantOrder(t *testing.T) {
 		pref, err := preferenceClient.Create(context.Background(), prefReq)
 		if pref == nil {
 			t.Error("preference can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -202,6 +208,7 @@ func TestMerchantOrder(t *testing.T) {
 		order, err := client.Create(context.Background(), req)
 		if order == nil {
 			t.Error("merchant order can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -210,6 +217,7 @@ func TestMerchantOrder(t *testing.T) {
 		order, err = client.Get(context.Background(), order.ID)
 		if order == nil {
 			t.Error("merchant order can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -233,6 +241,7 @@ func TestMerchantOrder(t *testing.T) {
 		order, err := client.Search(context.Background(), req)
 		if order == nil {
 			t.Error("merchant order can't be nil")
+			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
