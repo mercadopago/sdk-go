@@ -33,7 +33,6 @@ func TestPreference(t *testing.T) {
 		pref, err := client.Create(context.Background(), req)
 		if pref == nil {
 			t.Error("preference can't be nil")
-			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -126,7 +125,6 @@ func TestPreference(t *testing.T) {
 		pref, err = client.Update(context.Background(), req, pref.ID)
 		if pref == nil {
 			t.Error("preference can't be nil")
-			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -149,7 +147,6 @@ func TestPreference(t *testing.T) {
 
 		if pref == nil {
 			t.Error("preference can't be nil")
-			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
