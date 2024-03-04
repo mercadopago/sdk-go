@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	accessToken := "TEST-4718610619866357-092020-f30ef41ea2a9e7ad0fa7bc101b5508af-751574177"
+	accessToken := "{{ACCESS_TOKEN}}"
 
 	cfg, err := config.New(accessToken)
 	if err != nil {
@@ -19,7 +19,7 @@ func main() {
 
 	req := customer.SearchRequest{
 		Filters: map[string]string{
-			"EMAIL": "akdsokdoakdoasakdoas@testuser.com",
+			"EMAIL": "{{EMAIL}}",
 		},
 	}
 
