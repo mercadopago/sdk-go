@@ -55,7 +55,7 @@ func (c *client) Create(ctx context.Context, request Request) (*Response, error)
 		Method: http.MethodPost,
 		URL:    urlBase,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +71,7 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 		Method:      http.MethodGet,
 		URL:         urlSearch,
 	}
-	result, err := httpclient.Run[*SearchResponse](ctx, c.cfg, requestData)
+	result, err := httpclient.DoRequest[*SearchResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -89,7 +89,7 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 		Method:     http.MethodGet,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +108,7 @@ func (c *client) Update(ctx context.Context, id string, request Request) (*Respo
 		Method:     http.MethodPut,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
