@@ -192,7 +192,7 @@ func TestSearch(t *testing.T) {
 						PaymentMethodID: "account_money",
 					},
 				},
-				Paging: Paging{
+				Paging: PagingResponse{
 					Offset: 0,
 					Limit:  12,
 					Total:  1,
