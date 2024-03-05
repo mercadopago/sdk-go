@@ -18,20 +18,20 @@ func TestPreApprovalPlan(t *testing.T) {
 		client := preapprovalplan.NewClient(cfg)
 
 		req := preapprovalplan.Request{
-			AutoRecurring: preapprovalplan.AutoRecurring{
+			AutoRecurring: &preapprovalplan.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "days",
 				TransactionAmount: 5,
 				CurrencyID:        "BRL",
 			},
 			BackURL: "https://www.yoursite.com",
-			PaymentMethodsAllowed: preapprovalplan.PaymentMethodsAllowed{
-				PaymentTypes: []preapprovalplan.PaymentType{
+			PaymentMethodsAllowed: &preapprovalplan.PaymentMethodsAllowedRequest{
+				PaymentTypes: []preapprovalplan.PaymentTypeRequest{
 					{
 						ID: "credit_card",
 					},
 				},
-				PaymentMethods: []preapprovalplan.PaymentMethod{
+				PaymentMethods: []preapprovalplan.PaymentMethodRequest{
 					{
 						ID: "bolbradesco",
 					},
@@ -41,7 +41,7 @@ func TestPreApprovalPlan(t *testing.T) {
 		}
 
 		result, err := client.Create(context.Background(), req)
-		if result == nil {
+		if result == nil || result.ID == "" {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {
@@ -58,20 +58,20 @@ func TestPreApprovalPlan(t *testing.T) {
 		client := preapprovalplan.NewClient(cfg)
 
 		req := preapprovalplan.Request{
-			AutoRecurring: preapprovalplan.AutoRecurring{
+			AutoRecurring: &preapprovalplan.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "days",
 				TransactionAmount: 5,
 				CurrencyID:        "BRL",
 			},
 			BackURL: "https://www.yoursite.com",
-			PaymentMethodsAllowed: preapprovalplan.PaymentMethodsAllowed{
-				PaymentTypes: []preapprovalplan.PaymentType{
+			PaymentMethodsAllowed: &preapprovalplan.PaymentMethodsAllowedRequest{
+				PaymentTypes: []preapprovalplan.PaymentTypeRequest{
 					{
 						ID: "credit_card",
 					},
 				},
-				PaymentMethods: []preapprovalplan.PaymentMethod{
+				PaymentMethods: []preapprovalplan.PaymentMethodRequest{
 					{
 						ID: "bolbradesco",
 					},
@@ -111,20 +111,20 @@ func TestPreApprovalPlan(t *testing.T) {
 		client := preapprovalplan.NewClient(cfg)
 
 		req := preapprovalplan.Request{
-			AutoRecurring: preapprovalplan.AutoRecurring{
+			AutoRecurring: &preapprovalplan.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "days",
 				TransactionAmount: 5,
 				CurrencyID:        "BRL",
 			},
 			BackURL: "https://www.yoursite.com",
-			PaymentMethodsAllowed: preapprovalplan.PaymentMethodsAllowed{
-				PaymentTypes: []preapprovalplan.PaymentType{
+			PaymentMethodsAllowed: &preapprovalplan.PaymentMethodsAllowedRequest{
+				PaymentTypes: []preapprovalplan.PaymentTypeRequest{
 					{
 						ID: "credit_card",
 					},
 				},
-				PaymentMethods: []preapprovalplan.PaymentMethod{
+				PaymentMethods: []preapprovalplan.PaymentMethodRequest{
 					{
 						ID: "bolbradesco",
 					},
@@ -143,7 +143,7 @@ func TestPreApprovalPlan(t *testing.T) {
 		}
 
 		req = preapprovalplan.Request{
-			AutoRecurring: preapprovalplan.AutoRecurring{
+			AutoRecurring: &preapprovalplan.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "months",
 				TransactionAmount: 10,

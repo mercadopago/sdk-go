@@ -15,20 +15,20 @@ func main() {
 	}
 
 	req := preapprovalplan.Request{
-		AutoRecurring: preapprovalplan.AutoRecurring{
+		AutoRecurring: preapprovalplan.AutoRecurringRequest{
 			Frequency:         1,
 			FrequencyType:     "days",
 			TransactionAmount: 5,
 			CurrencyID:        "BRL",
 		},
 		BackURL: "https://www.yoursite.com",
-		PaymentMethodsAllowed: preapprovalplan.PaymentMethodsAllowed{
-			PaymentTypes: []preapprovalplan.PaymentType{
+		PaymentMethodsAllowed: preapprovalplan.PaymentMethodsAllowedRequest{
+			PaymentTypes: []preapprovalplan.PaymentTypeRequest{
 				{
 					ID: "credit_card",
 				},
 			},
-			PaymentMethods: []preapprovalplan.PaymentMethod{
+			PaymentMethods: []preapprovalplan.PaymentMethodRequest{
 				{
 					ID: "bolbradesco",
 				},
