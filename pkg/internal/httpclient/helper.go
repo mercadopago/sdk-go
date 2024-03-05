@@ -27,7 +27,7 @@ var (
 	trackingID = fmt.Sprintf("platform:%s,type:SDK%s,so;", runtime.Version(), currentSDKVersion)
 )
 
-type CallData struct {
+type RequestData struct {
 	Body        any
 	PathParams  map[string]string
 	QueryParams map[string]string
@@ -36,10 +36,10 @@ type CallData struct {
 	URL    string
 }
 
-func Run[T any](ctx context.Context, cfg *config.Config, callData CallData) (T, error) {
+func Run[T any](ctx context.Context, cfg *config.Config, requestData RequestData) (T, error) {
 	var result T
 
-	req, err := createRequest(ctx, cfg, callData)
+	req, err := createRequest(ctx, cfg, requestData)
 	if err != nil {
 		return result, err
 	}
@@ -52,22 +52,22 @@ func Run[T any](ctx context.Context, cfg *config.Config, callData CallData) (T, 
 	return wrapUnmarshal(b, result)
 }
 
-func createRequest(ctx context.Context, cfg *config.Config, callData CallData) (*http.Request, error) {
-	body, err := wrapMarshal(callData.Body)
+func createRequest(ctx context.Context, cfg *config.Config, requestData RequestData) (*http.Request, error) {
+	body, err := wrapMarshal(requestData.Body)
 	if err != nil {
 		return nil, err
 	}
 
-	req, err := http.NewRequestWithContext(ctx, callData.Method, callData.URL, body)
+	req, err := http.NewRequestWithContext(ctx, requestData.Method, requestData.URL, body)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 
 	setHeaders(req, cfg)
-	if err = setPathParams(req, callData.PathParams); err != nil {
+	if err = setPathParams(req, requestData.PathParams); err != nil {
 		return nil, err
 	}
-	setQueryParams(req, callData.QueryParams)
+	setQueryParams(req, requestData.QueryParams)
 
 	return req, nil
 }

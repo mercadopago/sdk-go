@@ -50,12 +50,12 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		Body:   request,
 		Method: http.MethodPost,
 		URL:    urlBase,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -66,12 +66,12 @@ func (c *client) Create(ctx context.Context, request Request) (*Response, error)
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
 	request.Check()
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		QueryParams: request.Filters,
 		Method:      http.MethodGet,
 		URL:         urlSearch,
 	}
-	result, err := httpclient.Run[*SearchResponse](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*SearchResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -84,12 +84,12 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 		"id": id,
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		PathParams: pathParams,
 		Method:     http.MethodGet,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -102,13 +102,13 @@ func (c *client) Update(ctx context.Context, id string, request Request) (*Respo
 		"id": id,
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		Body:       request,
 		PathParams: pathParams,
 		Method:     http.MethodPut,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
