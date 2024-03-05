@@ -33,7 +33,7 @@ func (c *client) List(ctx context.Context) ([]Response, error) {
 		Method: http.MethodGet,
 		URL:    url,
 	}
-	result, err := httpclient.Run[[]Response](ctx, c.cfg, requestData)
+	result, err := httpclient.DoRequest[[]Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}

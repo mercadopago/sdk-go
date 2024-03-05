@@ -56,7 +56,7 @@ func (c *client) Create(ctx context.Context, authorizationCode, redirectURI stri
 		Method: http.MethodPost,
 		URL:    urlBase,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +100,7 @@ func (c *client) Refresh(ctx context.Context, refreshToken string) (*Response, e
 		Method: http.MethodPost,
 		URL:    urlBase,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}

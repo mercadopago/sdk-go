@@ -36,7 +36,7 @@ type RequestData struct {
 	URL    string
 }
 
-func Run[T any](ctx context.Context, cfg *config.Config, requestData RequestData) (T, error) {
+func DoRequest[T any](ctx context.Context, cfg *config.Config, requestData RequestData) (T, error) {
 	var result T
 
 	req, err := createRequest(ctx, cfg, requestData)

@@ -31,7 +31,7 @@ func (c *client) Create(ctx context.Context, request Request) (*Response, error)
 		Method: http.MethodPost,
 		URL:    url,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
