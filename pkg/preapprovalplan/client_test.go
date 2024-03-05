@@ -168,6 +168,7 @@ func TestGet(t *testing.T) {
 	}
 	type args struct {
 		ctx context.Context
+		id  string
 	}
 	tests := []struct {
 		name    string
@@ -210,6 +211,7 @@ func TestGet(t *testing.T) {
 			},
 			args: args{
 				ctx: context.Background(),
+				id:  "2c938084726fca480172750000000000",
 			},
 			want: &Response{
 				ID:            "2c938084726fca480172750000000000",
@@ -248,7 +250,7 @@ func TestGet(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.config,
 			}
-			got, err := c.Get(tt.args.ctx, "2c938084726fca480172750000000000")
+			got, err := c.Get(tt.args.ctx, tt.args.id)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
@@ -270,6 +272,7 @@ func TestUpdate(t *testing.T) {
 	}
 	type args struct {
 		ctx     context.Context
+		id      string
 		request Request
 	}
 	tests := []struct {
@@ -313,6 +316,7 @@ func TestUpdate(t *testing.T) {
 			},
 			args: args{
 				ctx: context.Background(),
+				id:  "2c938084726fca480172750000000000",
 			},
 			want: &Response{
 				ID:            "2c938084726fca480172750000000000",
@@ -360,7 +364,7 @@ func TestUpdate(t *testing.T) {
 				cfg: tt.fields.config,
 			}
 
-			got, err := c.Update(tt.args.ctx, tt.args.request, "2c938084726fca480172750000000000")
+			got, err := c.Update(tt.args.ctx, tt.args.request, tt.args.id)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()

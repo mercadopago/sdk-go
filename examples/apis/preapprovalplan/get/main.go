@@ -17,13 +17,13 @@ func main() {
 
 	client := preapprovalplan.NewClient(cfg)
 
-	preferenceID := "123"
+	preApprovalPlanID := "123"
 
-	pref, err := client.Get(context.Background(), preferenceID)
+	result, err := client.Get(context.Background(), preApprovalPlanID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(pref)
+	fmt.Println(result)
 }

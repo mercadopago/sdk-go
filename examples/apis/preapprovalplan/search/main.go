@@ -20,15 +20,18 @@ func main() {
 	filters := preapprovalplan.SearchRequest{
 		Limit:  "10",
 		Offset: "10",
+		Filters: map[string]string{
+			"status": "active",
+		},
 	}
 
-	search, err := client.Search(context.Background(), filters)
+	result, err := client.Search(context.Background(), filters)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, pref := range search.Results {
-		fmt.Println(pref)
+	for _, plan := range result.Results {
+		fmt.Println(plan)
 	}
 }
