@@ -166,7 +166,7 @@ func TestSearch(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 				request: SearchRequest{
-					Limit: "30",
+					Limit: "12",
 				},
 			},
 			want: &SearchResponse{
