@@ -12,8 +12,8 @@ type SearchRequest struct {
 	Offset string
 }
 
-// Check sets values for limit and offset when not sent.
-func (s *SearchRequest) Check() {
+// SetDefaults sets values for limit and offset when not sent.
+func (s *SearchRequest) SetDefaults() {
 	if len(s.Filters) == 0 {
 		s.Filters = make(map[string]string, 2)
 	} else {

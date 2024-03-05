@@ -10,7 +10,7 @@ type SearchRequest struct {
 	Offset string
 }
 
-func (s *SearchRequest) Check() {
+func (s *SearchRequest) SetDefaults() {
 	if len(s.Filters) == 0 {
 		s.Filters = make(map[string]string, 2)
 	} else {
