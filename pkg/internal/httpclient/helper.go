@@ -49,11 +49,11 @@ func Run[T any](ctx context.Context, cfg *config.Config, requestData RequestData
 		return result, err
 	}
 
-	return wrapUnmarshal(b, result)
+	return unmarshal(b, result)
 }
 
 func createRequest(ctx context.Context, cfg *config.Config, requestData RequestData) (*http.Request, error) {
-	body, err := wrapMarshal(requestData.Body)
+	body, err := marshal(requestData.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -70,19 +70,6 @@ func createRequest(ctx context.Context, cfg *config.Config, requestData RequestD
 	setQueryParams(req, requestData.QueryParams)
 
 	return req, nil
-}
-
-func wrapMarshal(body any) (io.Reader, error) {
-	if body == nil {
-		return nil, nil
-	}
-
-	b, err := json.Marshal(&body)
-	if err != nil {
-		return nil, fmt.Errorf("error marshaling request body: %w", err)
-	}
-
-	return strings.NewReader(string(b)), nil
 }
 
 func setHeaders(req *http.Request, cfg *config.Config) {
@@ -151,7 +138,20 @@ func setQueryParams(req *http.Request, params map[string]string) {
 	req.URL.RawQuery = queryParams.Encode()
 }
 
-func wrapUnmarshal[T any](b []byte, response T) (T, error) {
+func marshal(body any) (io.Reader, error) {
+	if body == nil {
+		return nil, nil
+	}
+
+	b, err := json.Marshal(&body)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling request body: %w", err)
+	}
+
+	return strings.NewReader(string(b)), nil
+}
+
+func unmarshal[T any](b []byte, response T) (T, error) {
 	if err := json.Unmarshal(b, &response); err != nil {
 		return response, err
 	}
