@@ -64,7 +64,7 @@ func (c *client) Create(ctx context.Context, customerID string, request Request)
 		Method:     http.MethodPost,
 		URL:        urlBase,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.config, requestData)
+	result, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func (c *client) Get(ctx context.Context, customerID, cardID string) (*Response,
 		Method:     http.MethodGet,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.config, requestData)
+	result, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -103,7 +103,7 @@ func (c *client) Update(ctx context.Context, customerID, cardID string, request 
 		Method:     http.MethodPut,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.config, requestData)
+	result, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +122,7 @@ func (c *client) Delete(ctx context.Context, customerID, cardID string) (*Respon
 		Method:     http.MethodDelete,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.config, requestData)
+	result, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -140,7 +140,7 @@ func (c *client) List(ctx context.Context, customerID string) ([]Response, error
 		Method:     http.MethodGet,
 		URL:        urlBase,
 	}
-	result, err := httpclient.Run[[]Response](ctx, c.config, requestData)
+	result, err := httpclient.DoRequest[[]Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
