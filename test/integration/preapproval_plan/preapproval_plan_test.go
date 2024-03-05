@@ -40,8 +40,8 @@ func TestPreApprovalPlan(t *testing.T) {
 			Reason: "Yoga classes",
 		}
 
-		pref, err := client.Create(context.Background(), req)
-		if pref == nil {
+		result, err := client.Create(context.Background(), req)
+		if result == nil {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {
@@ -80,8 +80,8 @@ func TestPreApprovalPlan(t *testing.T) {
 			Reason: "Yoga classes",
 		}
 
-		pref, err := client.Create(context.Background(), req)
-		if pref == nil {
+		result, err := client.Create(context.Background(), req)
+		if result == nil {
 			t.Error("preapproval_plan can't be nil")
 			return
 		}
@@ -89,15 +89,15 @@ func TestPreApprovalPlan(t *testing.T) {
 			t.Errorf(err.Error())
 		}
 
-		pref, err = client.Get(context.Background(), pref.ID)
-		if pref == nil {
+		result, err = client.Get(context.Background(), result.ID)
+		if result == nil {
 			t.Error("preapproval_plan can't be nil")
 			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
-		if pref.ID == "" {
+		if result.ID == "" {
 			t.Error("id can't be nil")
 		}
 	})
@@ -133,8 +133,8 @@ func TestPreApprovalPlan(t *testing.T) {
 			Reason: "Yoga classes",
 		}
 
-		pref, err := client.Create(context.Background(), req)
-		if pref == nil {
+		result, err := client.Create(context.Background(), req)
+		if result == nil {
 			t.Error("preapproval_plan can't be nil")
 			return
 		}
@@ -153,8 +153,8 @@ func TestPreApprovalPlan(t *testing.T) {
 			},
 		}
 
-		pref, err = client.Update(context.Background(), req, pref.ID)
-		if pref == nil {
+		result, err = client.Update(context.Background(), req, result.ID)
+		if result == nil {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {
@@ -174,9 +174,9 @@ func TestPreApprovalPlan(t *testing.T) {
 		}
 
 		client := preapprovalplan.NewClient(cfg)
-		pref, err := client.Search(context.Background(), filters)
+		result, err := client.Search(context.Background(), filters)
 
-		if pref == nil {
+		if result == nil || result.Results[0].ID == "" {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {

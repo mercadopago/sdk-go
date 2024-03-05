@@ -382,7 +382,8 @@ func TestSearch(t *testing.T) {
 		config *config.Config
 	}
 	type args struct {
-		ctx context.Context
+		ctx     context.Context
+		request SearchRequest
 	}
 	tests := []struct {
 		name    string
@@ -425,6 +426,9 @@ func TestSearch(t *testing.T) {
 			},
 			args: args{
 				ctx: context.Background(),
+				request: SearchRequest{
+					Limit: "10",
+				},
 			},
 			want: &SearchResponse{
 				Paging: PagingResponse{
@@ -472,12 +476,7 @@ func TestSearch(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.config,
 			}
-
-			dto := SearchRequest{
-				Limit:  "10",
-				Offset: "0",
-			}
-			got, err := c.Search(tt.args.ctx, dto)
+			got, err := c.Search(tt.args.ctx, tt.args.request)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()

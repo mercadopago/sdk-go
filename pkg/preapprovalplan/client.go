@@ -80,13 +80,13 @@ func (c *client) Update(ctx context.Context, request Request, id string) (*Respo
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
 	params := request.Parameters()
 
-	parsedUrl, err := url.Parse(urlSearch)
+	parsedURL, err := url.Parse(urlSearch)
 	if err != nil {
 		return nil, fmt.Errorf("error parsing url: %w", err)
 	}
-	parsedUrl.RawQuery = params
+	parsedURL.RawQuery = params
 
-	result, err := baseclient.Get[*SearchResponse](ctx, c.cfg, parsedUrl.String())
+	result, err := baseclient.Get[*SearchResponse](ctx, c.cfg, parsedURL.String())
 	if err != nil {
 		return nil, err
 	}

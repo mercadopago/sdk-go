@@ -38,11 +38,11 @@ func main() {
 	}
 
 	client := preapprovalplan.NewClient(cfg)
-	pref, err := client.Create(context.Background(), req)
+	result, err := client.Create(context.Background(), req)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(pref)
+	fmt.Println(result)
 }
