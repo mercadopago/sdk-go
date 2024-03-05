@@ -70,7 +70,6 @@ func TestMakePathParams(t *testing.T) {
 			err := makePathParams(req, tt.args.params)
 			if err != nil && err.Error() != tt.wantMsgErr {
 				t.Errorf("makeParams() msgError = %v, wantMsgErr %v", err.Error(), tt.wantMsgErr)
-				return
 			}
 
 			if err == nil && tt.wantURL != req.URL.String() {
@@ -179,7 +178,6 @@ func Test_makeRequest(t *testing.T) {
 			got, err := makeRequest(ctx, tt.args.cfg, tt.args.method, tt.args.url, tt.args.body, tt.args.opts...)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("makeRequest() error = %v, wantErr %v", err, tt.wantErr)
-				return
 			}
 
 			assert.Equal(t, tt.want.URL.String(), got.URL.String())
