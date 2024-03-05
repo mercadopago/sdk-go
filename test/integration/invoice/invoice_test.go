@@ -20,7 +20,6 @@ func TestInvoice(t *testing.T) {
 		result, err := client.Get(context.Background(), "id")
 		if result == nil {
 			t.Error("invoice can't be nil")
-			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
