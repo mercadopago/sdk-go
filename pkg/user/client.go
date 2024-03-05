@@ -30,11 +30,11 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Get(ctx context.Context) (*Response, error) {
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		Method: http.MethodGet,
 		URL:    url,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}

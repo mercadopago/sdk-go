@@ -61,13 +61,13 @@ func (c *client) Create(ctx context.Context, deviceID string, request CreateRequ
 		"device_id": deviceID,
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		Body:       request,
 		PathParams: pathParams,
 		Method:     http.MethodPost,
 		URL:        urlPaymentIntent,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -80,12 +80,12 @@ func (c *client) Get(ctx context.Context, paymentIntentID string) (*Response, er
 		"payment_intent_id": paymentIntentID,
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		PathParams: pathParams,
 		Method:     http.MethodGet,
 		URL:        urlPaymentIntentGet,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -99,12 +99,12 @@ func (c *client) Cancel(ctx context.Context, deviceID string, paymentIntentID st
 		"payment_intent_id": paymentIntentID,
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		PathParams: pathParams,
 		Method:     http.MethodDelete,
 		URL:        urlPaymentIntentCancel,
 	}
-	result, err := httpclient.Run[*CancelResponse](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*CancelResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -113,11 +113,11 @@ func (c *client) Cancel(ctx context.Context, deviceID string, paymentIntentID st
 }
 
 func (c *client) ListDevices(ctx context.Context) (*DevicesResponse, error) {
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		Method: http.MethodGet,
 		URL:    urlDevices,
 	}
-	result, err := httpclient.Run[*DevicesResponse](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*DevicesResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -130,13 +130,13 @@ func (c *client) UpdateDeviceOperatingMode(ctx context.Context, deviceID string,
 		"device_id": deviceID,
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		Body:       request,
 		PathParams: pathParams,
 		Method:     http.MethodPatch,
 		URL:        urlDevicesWithID,
 	}
-	result, err := httpclient.Run[*OperatingModeResponse](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*OperatingModeResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
