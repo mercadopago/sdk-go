@@ -101,7 +101,7 @@ func (c *client) Update(ctx context.Context, request Request, id string) (*Respo
 }
 
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponsePage, error) {
-	request.Check()
+	request.SetDefaults()
 
 	requestData := httpclient.RequestData{
 		Body:   request,

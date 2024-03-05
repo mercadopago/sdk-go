@@ -69,7 +69,7 @@ func (c *client) Get(ctx context.Context, id int64) (*Response, error) {
 }
 
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
-	request.Check()
+	request.SetDefaults()
 
 	requestData := httpclient.RequestData{
 		QueryParams: request.Filters,
