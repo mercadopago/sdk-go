@@ -21,7 +21,7 @@ const (
 )
 
 var (
-	pathParamFormat = regexp.MustCompile("[{}]")
+	pathParamRegexp = regexp.MustCompile(`{[^{}]*}`)
 
 	userAgent  = fmt.Sprintf("MercadoPago Go SDK/%s", currentSDKVersion)
 	trackingID = fmt.Sprintf("platform:%s,type:SDK%s,so;", runtime.Version(), currentSDKVersion)
@@ -97,32 +97,16 @@ func setPathParams(req *http.Request, params map[string]string) error {
 	pathURL := req.URL.Path
 
 	for k, v := range params {
-		pathParam := fmt.Sprintf("{%s}", k)
+		pathParam := "{" + k + "}"
 		pathURL = strings.Replace(pathURL, pathParam, v, 1)
 	}
 
-	if err := checkReplaces(pathURL); err != nil {
-		return err
+	matches := pathParamRegexp.FindAllString(pathURL, -1)
+	if matches != nil {
+		return fmt.Errorf("the following parameters weren't replaced: %v", matches)
 	}
 
 	req.URL.Path = pathURL
-	return nil
-}
-
-func checkReplaces(pathURL string) error {
-	if pathParamFormat.MatchString(pathURL) {
-		elements := strings.Split(pathURL, "/")
-
-		notReplaced := []string{}
-		for _, e := range elements {
-			if pathParamFormat.MatchString(e) {
-				notReplaced = append(notReplaced, e)
-			}
-		}
-
-		return fmt.Errorf("path parameters not informed: %s", strings.Join(notReplaced, ","))
-	}
-
 	return nil
 }
 
