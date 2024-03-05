@@ -27,6 +27,7 @@ func TestGet(t *testing.T) {
 	}
 	type args struct {
 		ctx context.Context
+		id  string
 	}
 	tests := []struct {
 		name    string
@@ -69,6 +70,7 @@ func TestGet(t *testing.T) {
 			},
 			args: args{
 				ctx: context.Background(),
+				id:  "3950169598",
 			},
 			want: &Response{
 				PreapprovalID:     "202caa5d4084417b8e2a394121bf172b",
@@ -98,7 +100,7 @@ func TestGet(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.config,
 			}
-			got, err := c.Get(tt.args.ctx, "3950169598")
+			got, err := c.Get(tt.args.ctx, tt.args.id)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
