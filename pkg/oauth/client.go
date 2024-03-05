@@ -51,12 +51,12 @@ func (c *client) Create(ctx context.Context, authorizationCode, redirectURI stri
 		GrantType:    "authorization_code",
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		Body:   request,
 		Method: http.MethodPost,
 		URL:    urlBase,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -95,12 +95,12 @@ func (c *client) Refresh(ctx context.Context, refreshToken string) (*Response, e
 		GrantType:    "refresh_token",
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		Body:   request,
 		Method: http.MethodPost,
 		URL:    urlBase,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}

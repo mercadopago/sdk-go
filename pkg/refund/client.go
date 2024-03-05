@@ -55,12 +55,12 @@ func (c *client) Get(ctx context.Context, paymentID, refundID int64) (*Response,
 		"refund_id": strconv.Itoa(int(refundID)),
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		PathParams: pathParams,
 		Method:     http.MethodGet,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -73,12 +73,12 @@ func (c *client) List(ctx context.Context, paymentID int64) ([]Response, error) 
 		"id": strconv.Itoa(int(paymentID)),
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		PathParams: pathParams,
 		Method:     http.MethodGet,
 		URL:        urlBase,
 	}
-	result, err := httpclient.Run[[]Response](ctx, c.cfg, callData)
+	result, err := httpclient.Run[[]Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -91,12 +91,12 @@ func (c *client) Create(ctx context.Context, paymentID int64) (*Response, error)
 		"id": strconv.Itoa(int(paymentID)),
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		PathParams: pathParams,
 		Method:     http.MethodPost,
 		URL:        urlBase,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -110,13 +110,13 @@ func (c *client) CreatePartialRefund(ctx context.Context, paymentID int64, amoun
 		"id": strconv.Itoa(int(paymentID)),
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		Body:       request,
 		PathParams: pathParams,
 		Method:     http.MethodPost,
 		URL:        urlBase,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.cfg, callData)
+	result, err := httpclient.Run[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}

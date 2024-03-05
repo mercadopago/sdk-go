@@ -58,13 +58,13 @@ func (c *client) Create(ctx context.Context, customerID string, request Request)
 		"customer_id": customerID,
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		Body:       request,
 		PathParams: pathParams,
 		Method:     http.MethodPost,
 		URL:        urlBase,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.config, callData)
+	result, err := httpclient.Run[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -78,12 +78,12 @@ func (c *client) Get(ctx context.Context, customerID, cardID string) (*Response,
 		"card_id":     cardID,
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		PathParams: pathParams,
 		Method:     http.MethodGet,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.config, callData)
+	result, err := httpclient.Run[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -97,13 +97,13 @@ func (c *client) Update(ctx context.Context, customerID, cardID string, request 
 		"card_id":     cardID,
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		Body:       request,
 		PathParams: pathParams,
 		Method:     http.MethodPut,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.config, callData)
+	result, err := httpclient.Run[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -117,12 +117,12 @@ func (c *client) Delete(ctx context.Context, customerID, cardID string) (*Respon
 		"card_id":     cardID,
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		PathParams: pathParams,
 		Method:     http.MethodDelete,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.Run[*Response](ctx, c.config, callData)
+	result, err := httpclient.Run[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -135,12 +135,12 @@ func (c *client) List(ctx context.Context, customerID string) ([]Response, error
 		"customer_id": customerID,
 	}
 
-	callData := httpclient.CallData{
+	requestData := httpclient.RequestData{
 		PathParams: pathParams,
 		Method:     http.MethodGet,
 		URL:        urlBase,
 	}
-	result, err := httpclient.Run[[]Response](ctx, c.config, callData)
+	result, err := httpclient.Run[[]Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
