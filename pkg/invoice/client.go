@@ -2,10 +2,10 @@ package invoice
 
 import (
 	"context"
-	"fmt"
+	"net/http"
+
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
-	"net/url"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const (
@@ -40,31 +40,35 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Get(ctx context.Context, id string) (*Response, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"id": id,
 	}
 
-	res, err := baseclient.Get[*Response](ctx, c.cfg, urlWithID, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodGet,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
-	params := request.Parameters()
+	request.SetDefaults()
 
-	parsedURL, err := url.Parse(urlSearch)
-	if err != nil {
-		return nil, fmt.Errorf("error parsing parseUrl: %w", err)
+	requestData := httpclient.RequestData{
+		QueryParams: request.Filters,
+		Method:      http.MethodGet,
+		URL:         urlSearch,
 	}
-	parsedURL.RawQuery = params
-
-	res, err := baseclient.Get[*SearchResponse](ctx, c.cfg, parsedURL.String())
+	result, err := httpclient.DoRequest[*SearchResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }

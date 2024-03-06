@@ -1,6 +1,6 @@
 package preapprovalplan
 
-import "net/url"
+import "strings"
 
 // SearchRequest contains filters accepted in search.
 // Filters field can receive a lot of parameters. For details, see:
@@ -12,12 +12,15 @@ type SearchRequest struct {
 	Offset string
 }
 
-// Parameters transforms SearchRequest into url params.
-func (s SearchRequest) Parameters() string {
-	params := url.Values{}
-
-	for k, v := range s.Filters {
-		params.Add(k, v)
+// SetDefaults sets values for limit and offset when not sent.
+func (s *SearchRequest) SetDefaults() {
+	if len(s.Filters) == 0 {
+		s.Filters = make(map[string]string, 2)
+	} else {
+		for k, v := range s.Filters {
+			delete(s.Filters, k)
+			s.Filters[strings.ToLower(k)] = v
+		}
 	}
 
 	if _, ok := s.Filters["limit"]; !ok {
@@ -25,16 +28,13 @@ func (s SearchRequest) Parameters() string {
 		if s.Limit != "" {
 			limit = s.Limit
 		}
-		params.Add("limit", limit)
+		s.Filters["limit"] = limit
 	}
-
 	if _, ok := s.Filters["offset"]; !ok {
 		offset := "0"
 		if s.Offset != "" {
 			offset = s.Offset
 		}
-		params.Add("offset", offset)
+		s.Filters["offset"] = offset
 	}
-
-	return params.Encode()
 }
