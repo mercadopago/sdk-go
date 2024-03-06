@@ -32,7 +32,7 @@ type Client interface {
 	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_plan_id/put
 	Update(ctx context.Context, request Request, id string) (*Response, error)
 
-	// Search finds all pre-approval plan information generated through specific filters
+	// Search finds all pre-approval plan information generated through specific filters.
 	// It is a get request to the endpoint: https://api.mercadopago.com/preapproval_plan/search
 	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_plan_search/get
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)

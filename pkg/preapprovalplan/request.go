@@ -13,13 +13,13 @@ type Request struct {
 type AutoRecurringRequest struct {
 	FreeTrial *FreeTrialRequest `json:"free_trial,omitempty"`
 
-	CurrencyID             string `json:"currency_id,omitempty"`
-	FrequencyType          string `json:"frequency_type,omitempty"`
-	TransactionAmount      int    `json:"transaction_amount,omitempty"`
-	Frequency              int    `json:"frequency,omitempty"`
-	Repetitions            int    `json:"repetitions,omitempty"`
-	BillingDay             int    `json:"billing_day,omitempty"`
-	BillingDayProportional bool   `json:"billing_day_proportional,omitempty"`
+	CurrencyID             string  `json:"currency_id,omitempty"`
+	FrequencyType          string  `json:"frequency_type,omitempty"`
+	TransactionAmount      float64 `json:"transaction_amount,omitempty"`
+	Frequency              int     `json:"frequency,omitempty"`
+	Repetitions            int     `json:"repetitions,omitempty"`
+	BillingDay             int     `json:"billing_day,omitempty"`
+	BillingDayProportional bool    `json:"billing_day_proportional,omitempty"`
 }
 
 // FreeTrialRequest represents the free trial settings.

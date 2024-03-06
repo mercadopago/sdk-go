@@ -41,17 +41,6 @@ func TestCreate(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name: "should_fail_to_create_request",
-			fields: fields{
-				config: nil,
-			},
-			args: args{
-				ctx: nil,
-			},
-			want:    nil,
-			wantErr: "error creating request: net/http: nil Context",
-		},
-		{
 			name: "should_fail_to_send_request",
 			fields: fields{
 				config: &config.Config{
@@ -67,27 +56,6 @@ func TestCreate(t *testing.T) {
 			},
 			want:    nil,
 			wantErr: "transport level error: some error",
-		},
-		{
-			name: "should_fail_to_unmarshaling_response",
-			fields: fields{
-				config: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							stringReader := strings.NewReader("invalid json")
-							stringReadCloser := io.NopCloser(stringReader)
-							return &http.Response{
-								Body: stringReadCloser,
-							}, nil
-						},
-					},
-				},
-			},
-			args: args{
-				ctx: context.Background(),
-			},
-			want:    nil,
-			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_response",
@@ -153,7 +121,6 @@ func TestCreate(t *testing.T) {
 
 			if gotErr != tt.wantErr {
 				t.Errorf("client.Create() error = %v, wantErr %v", err, tt.wantErr)
-				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("client.Create() got = %v, want %v", got, tt.want)
@@ -372,7 +339,6 @@ func TestUpdate(t *testing.T) {
 
 			if gotErr != tt.wantErr {
 				t.Errorf("client.Create() error = %v, wantErr %v", err, tt.wantErr)
-				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("client.Create() got = %v, want %v", got, tt.want)

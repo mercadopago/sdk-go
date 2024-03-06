@@ -2,13 +2,14 @@ package preapprovalplan
 
 import "net/url"
 
-// SearchRequest contains filters accepted in search
+// SearchRequest contains filters accepted in search.
 // Filters field can receive a lot of parameters. For details, see:
 // https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_plan_id/get
 type SearchRequest struct {
-	Limit   string
-	Offset  string
 	Filters map[string]string
+
+	Limit  string
+	Offset string
 }
 
 // Parameters transforms SearchRequest into url params.

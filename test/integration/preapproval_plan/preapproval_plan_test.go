@@ -83,22 +83,18 @@ func TestPreApprovalPlan(t *testing.T) {
 		result, err := client.Create(context.Background(), req)
 		if result == nil {
 			t.Error("preapproval_plan can't be nil")
-			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
+			return
 		}
 
 		result, err = client.Get(context.Background(), result.ID)
-		if result == nil {
+		if result == nil || result.ID == "" {
 			t.Error("preapproval_plan can't be nil")
-			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
-		}
-		if result.ID == "" {
-			t.Error("id can't be nil")
 		}
 	})
 
@@ -136,10 +132,10 @@ func TestPreApprovalPlan(t *testing.T) {
 		result, err := client.Create(context.Background(), req)
 		if result == nil {
 			t.Error("preapproval_plan can't be nil")
-			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
+			return
 		}
 
 		req = preapprovalplan.Request{
