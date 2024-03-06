@@ -28,7 +28,7 @@ type Client interface {
 	Get(ctx context.Context, id string) (*Response, error)
 
 	// Update updates details a pre-approval plan by ID.
-	// It is a put request to the endpoint: https://api.mercadopago.com/checkout/preferences/{id}
+	// It is a put request to the endpoint: https://api.mercadopago.com/preapproval_plan/{id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_plan_id/put
 	Update(ctx context.Context, request Request, id string) (*Response, error)
 
