@@ -7,7 +7,7 @@ A comprehensive Go client library for integrating with the Mercado Pago API.
 
 ## 💡 Requirements
 
-The SDK requires Go 1.15 or higher.
+The SDK requires Go 1.21 or higher.
 
 ## 📲 Installation
 
@@ -15,13 +15,13 @@ First time using Mercado Pago? Create your [Mercado Pago account](https://www.me
 
 1. Install the Mercado Pago SDK for Go:
 ```sh
-$ go get github.com/mercadopago/dx-go
+$ go install github.com/mercadopago/sdk-go
 ```
 
 2. Import the SDK into your Go code:
 
 ```go
-import "github.com/mercadopago/dx-go"
+import "github.com/mercadopago/sdk-go"
 ```
 
 That's it! The Mercado Pago SDK for Go has been successfully installed.
@@ -34,40 +34,51 @@ Simple usage looks like:
 package main
 
 import (
+	"context"
 	"fmt"
 
-	mp "github.com/mercadopago/dx-go"
+	"github.com/mercadopago/sdk-go/pkg/config"
+	"github.com/mercadopago/sdk-go/pkg/payment"
 )
 
 func main() {
-	mp.SDK.Init("YOUR_ACCESS_TOKEN")
+	accessToken := "{{ACCESS_TOKEN}}"
 
-	payment, err := mp.SDK.Payment.Create(&mp.PaymentCreateRequest{
-		TransactionAmount: 1000.0,
-		Token:             "your_cardtoken",
-		Description:       "description",
-		Installments:      1,
-		PaymentMethodID:   "visa",
-		Payer: &mp.PaymentPayerRequest{
-			Email: "dummy_email",
-		},
-	})
-
+	cfg, err := config.New(accessToken)
 	if err != nil {
-		fmt.Printf("Mercado Pago Error. Status: %d, Content: %s\n", err.Status, err.Content)
+		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(payment)
+	req := payment.Request{
+		TransactionAmount: 105.1,
+		PaymentMethodID:   "visa",
+		Payer: &payment.PayerRequest{
+			Email: "{{EMAIL}}",
+		},
+		Token:        "{{CARD_TOKEN}}",
+		Installments: 1,
+	}
+
+	client := payment.NewClient(cfg)
+	pay, err := client.Create(context.Background(), req)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(pay)
 }
 ```
 
 ### SDK Configuration
 
-Before making API requests, you need to initialize the SDK with your access token. You can do this by calling the `Init` function:
+Before making API requests, you need to initialize the SDK with your access token:
 
 ```go
-mp.SDK.Init("YOUR_ACCESS_TOKEN")
+	accessToken := "{{ACCESS_TOKEN}}"
+
+	cfg, err := config.New(accessToken)
 ```
 
 ### Making API Requests
@@ -75,26 +86,30 @@ mp.SDK.Init("YOUR_ACCESS_TOKEN")
 To make requests to the Mercado Pago API, you can use the methods provided by the SDK. For example, to create a payment, you can use the `Payment.Create` method:
 
 ```go
-payment, err := mp.SDK.Payment.Create(&mp.PaymentCreateRequest{
-	TransactionAmount: 1000.0,
-	Token:             "your_cardtoken",
-	Description:       "description",
-	Installments:      1,
-	PaymentMethodID:   "visa",
-	Payer: &mp.PaymentPayerRequest{
-		Email: "dummy_email",
-	},
-})
+	req := payment.Request{
+		TransactionAmount: 105.1,
+		PaymentMethodID:   "visa",
+		Payer: &payment.PayerRequest{
+			Email: "{{EMAIL}}",
+		},
+		Token:        "{{CARD_TOKEN}}",
+		Installments: 1,
+	}
 
-if err != nil {
-	fmt.Printf("Mercado Pago Error. Status: %d, Content: %s\n", err.Status, err.Content)
-	return
-}
-
-fmt.Println(payment)
+	client := payment.NewClient(cfg)
 ```
 
-For more details on the available methods and request parameters, please refer to the [Go Reference](https://pkg.go.dev/github.com/mercadopago/dx-go) documentation.
+### Exception throwing handling
+
+In both cases, client configuration and payment creation, the variable `err` is available, which will contain any error thrown, it is important to handle these errors in the best possible way
+```go
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+```
+
+For more details on the available methods and request parameters, please refer to the [Go Reference](https://pkg.go.dev/github.com/mercadopago/sdk-go) documentation.
 
 ## 📚 Documentation
 
