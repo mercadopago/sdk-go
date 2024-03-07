@@ -20,7 +20,7 @@ func main() {
 	req := point.CreateRequest{
 		Amount:      1500,
 		Description: "your payment intent description",
-		AdditionalInfo: &point.AdditionalInfo{
+		AdditionalInfo: &point.AdditionalInfoRequest{
 			PrintOnTerminal:   false,
 			ExternalReference: "4561ads-das4das4-das4754-das456",
 		},

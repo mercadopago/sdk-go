@@ -2,18 +2,17 @@ package merchantorder
 
 import (
 	"context"
-	"fmt"
-	"net/url"
+	"net/http"
 	"strconv"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const (
 	urlBase   = "https://api.mercadopago.com/merchant_orders"
 	urlSearch = urlBase + "/search"
-	urlWithID = urlBase + "/:id"
+	urlWithID = urlBase + "/{id}"
 )
 
 // Client contains the methods to interact with the Merchant orders API.
@@ -52,11 +51,16 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Get(ctx context.Context, id int64) (*Response, error) {
-	param := map[string]string{
+	pathParams := map[string]string{
 		"id": strconv.Itoa(int(id)),
 	}
 
-	result, err := baseclient.Get[*Response](ctx, c.cfg, urlWithID, baseclient.WithPathParams(param))
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodGet,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -65,17 +69,14 @@ func (c *client) Get(ctx context.Context, id int64) (*Response, error) {
 }
 
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
-	params := request.Parameters()
+	request.SetDefaults()
 
-	url, err := url.Parse(urlSearch)
-	if err != nil {
-		return nil, fmt.Errorf("error parsing url: %w", err)
+	requestData := httpclient.RequestData{
+		QueryParams: request.Filters,
+		Method:      http.MethodGet,
+		URL:         urlSearch,
 	}
-
-	url.RawQuery = params
-
-	result, err := baseclient.Get[*SearchResponse](ctx, c.cfg, url.String())
-
+	result, err := httpclient.DoRequest[*SearchResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -84,11 +85,17 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 }
 
 func (c *client) Update(ctx context.Context, request UpdateRequest, id int64) (*Response, error) {
-	param := map[string]string{
+	pathParams := map[string]string{
 		"id": strconv.Itoa(int(id)),
 	}
 
-	result, err := baseclient.Put[*Response](ctx, c.cfg, urlWithID, request, baseclient.WithPathParams(param))
+	requestData := httpclient.RequestData{
+		Body:       request,
+		PathParams: pathParams,
+		Method:     http.MethodPut,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +104,12 @@ func (c *client) Update(ctx context.Context, request UpdateRequest, id int64) (*
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	result, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
+	requestData := httpclient.RequestData{
+		Body:   request,
+		Method: http.MethodPost,
+		URL:    urlBase,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
