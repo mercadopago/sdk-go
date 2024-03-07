@@ -53,7 +53,7 @@ func TestDo(t *testing.T) {
 			args: args{
 				req: reqWithDeadline,
 			},
-			wantErr: fmt.Sprintf("Get \"http://test\": dial tcp: %s", req.RemoteAddr),
+			wantErr: fmt.Sprintf("Get \"http://test\": dial tcp: %s", reqWithDeadline.Header.Get("X-FORWARDED-FOR")),
 		},
 		{
 			name: "should_return_error_when_retry_is_enabled_and_request_fails",
