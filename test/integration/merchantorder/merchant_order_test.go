@@ -234,7 +234,7 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		req := merchantorder.SearchRequest{
-			Limit: "5",
+			Limit: 5,
 		}
 
 		client := merchantorder.NewClient(cfg)
