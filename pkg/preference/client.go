@@ -101,12 +101,12 @@ func (c *client) Update(ctx context.Context, request Request, id string) (*Respo
 }
 
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponsePage, error) {
-	request.SetDefaults()
+	queryParams := request.GetParams()
 
 	requestData := httpclient.RequestData{
-		Body:   request,
-		Method: http.MethodGet,
-		URL:    urlBase,
+		QueryParams: queryParams,
+		Method:      http.MethodGet,
+		URL:         urlBase,
 	}
 	result, err := httpclient.DoRequest[*SearchResponsePage](ctx, c.cfg, requestData)
 	if err != nil {
