@@ -167,8 +167,8 @@ func TestSearch(t *testing.T) {
 					Filters: map[string]string{
 						"ExTernal_RefeRENCE": uuid.NewString(),
 					},
-					Limit:  "30",
-					Offset: "10",
+					Limit:  30,
+					Offset: 10,
 				},
 			},
 			want: &SearchResponse{

@@ -459,8 +459,8 @@ func TestSearch(t *testing.T) {
 			}
 
 			dto := SearchRequest{
-				Limit:  "22",
-				Offset: "100",
+				Limit:  22,
+				Offset: 100,
 			}
 			got, err := c.Search(tt.args.ctx, dto)
 			gotErr := ""

@@ -295,8 +295,8 @@ func TestSearch(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 				request: SearchRequest{
-					Limit:   "1",
-					Offset:  "1",
+					Limit:   1,
+					Offset:  1,
 					Filters: map[string]string{"preference": "134445566"},
 				},
 			},
