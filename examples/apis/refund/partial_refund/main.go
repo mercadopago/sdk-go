@@ -40,7 +40,7 @@ func main() {
 	partialAmount := pay.TransactionAmount - 10.0
 
 	refundClient := refund.NewClient(cfg)
-	ref, err := refundClient.CreatePartialRefund(context.Background(), partialAmount, pay.ID)
+	ref, err := refundClient.CreatePartialRefund(context.Background(), pay.ID, partialAmount)
 	if err != nil {
 		fmt.Println(err)
 		return
