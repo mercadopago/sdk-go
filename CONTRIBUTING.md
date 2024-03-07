@@ -58,7 +58,7 @@ As a general rule of what not to comment, you should avoid:
 
 ### Branching Guidelines
 
-Currently, `master` is our only long-term branch. Below are a few suggestions for short-term branch names:
+Currently, `main` is our only long-term branch. Below are a few suggestions for short-term branch names:
 
 * `hotfix/something-needs-fix`: Small routine patches in code for an existing feature.
 * `feature/something-new`: A new feature or a change in an existing feature. Beware of breaking changes that would require a major version bump.
