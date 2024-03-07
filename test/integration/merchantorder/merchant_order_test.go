@@ -124,7 +124,7 @@ func TestMerchantOrder(t *testing.T) {
 
 		client := merchantorder.NewClient(cfg)
 		order, err := client.Create(context.Background(), createReq)
-		if order == nil {
+		if order == nil || order.ID == 0 {
 			t.Error("merchant order can't be nil")
 			return
 		}

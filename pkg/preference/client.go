@@ -2,17 +2,16 @@ package preference
 
 import (
 	"context"
-	"fmt"
-	"net/url"
+	"net/http"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const (
 	urlBase   = "https://api.mercadopago.com/checkout/preferences"
 	urlSearch = urlBase + "/search"
-	urlWithID = urlBase + "/:id"
+	urlWithID = urlBase + "/{id}"
 )
 
 // Client contains the methods to interact with the Preference API.
@@ -51,7 +50,12 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	result, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
+	requestData := httpclient.RequestData{
+		Body:   request,
+		Method: http.MethodPost,
+		URL:    urlBase,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -60,11 +64,16 @@ func (c *client) Create(ctx context.Context, request Request) (*Response, error)
 }
 
 func (c *client) Get(ctx context.Context, id string) (*Response, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"id": id,
 	}
 
-	result, err := baseclient.Get[*Response](ctx, c.cfg, urlWithID, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodGet,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -73,11 +82,17 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 }
 
 func (c *client) Update(ctx context.Context, request Request, id string) (*Response, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"id": id,
 	}
 
-	result, err := baseclient.Put[*Response](ctx, c.cfg, urlWithID, request, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		Body:       request,
+		PathParams: pathParams,
+		Method:     http.MethodPut,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -86,15 +101,14 @@ func (c *client) Update(ctx context.Context, request Request, id string) (*Respo
 }
 
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponsePage, error) {
-	params := request.Parameters()
+	request.SetDefaults()
 
-	url, err := url.Parse(urlSearch)
-	if err != nil {
-		return nil, fmt.Errorf("error parsing url: %w", err)
+	requestData := httpclient.RequestData{
+		Body:   request,
+		Method: http.MethodGet,
+		URL:    urlBase,
 	}
-	url.RawQuery = params
-
-	result, err := baseclient.Get[*SearchResponsePage](ctx, c.cfg, url.String())
+	result, err := httpclient.DoRequest[*SearchResponsePage](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}

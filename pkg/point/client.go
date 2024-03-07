@@ -2,18 +2,19 @@ package point
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const (
 	urlBase                = "https://api.mercadopago.com/point"
-	urlDevices             = urlBase + "/integration-api/devices/"
-	urlPaymentIntent       = urlDevices + ":device_id/payment-intents"
-	urlPaymentIntentGet    = urlBase + "/integration-api/payment-intents/:payment_intent_id"
-	urlPaymentIntentCancel = urlDevices + ":device_id/payment-intents/:payment_intent_id"
-	urlDevicesWithID       = urlDevices + ":device_id"
+	urlDevices             = urlBase + "/integration-api/devices"
+	urlPaymentIntent       = urlDevices + "/{device_id}/payment-intents"
+	urlPaymentIntentGet    = urlBase + "/integration-api/payment-intents/{payment_intent_id}"
+	urlPaymentIntentCancel = urlDevices + "/{device_id}/payment-intents/{payment_intent_id}"
+	urlDevicesWithID       = urlDevices + "/{device_id}"
 )
 
 // client is the implementation of Client.
@@ -56,11 +57,17 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, deviceID string, request CreateRequest) (*Response, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"device_id": deviceID,
 	}
 
-	result, err := baseclient.Post[*Response](ctx, c.cfg, urlPaymentIntent, request, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		Body:       request,
+		PathParams: pathParams,
+		Method:     http.MethodPost,
+		URL:        urlPaymentIntent,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -69,11 +76,16 @@ func (c *client) Create(ctx context.Context, deviceID string, request CreateRequ
 }
 
 func (c *client) Get(ctx context.Context, paymentIntentID string) (*Response, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"payment_intent_id": paymentIntentID,
 	}
 
-	result, err := baseclient.Get[*Response](ctx, c.cfg, urlPaymentIntentGet, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodGet,
+		URL:        urlPaymentIntentGet,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -82,12 +94,17 @@ func (c *client) Get(ctx context.Context, paymentIntentID string) (*Response, er
 }
 
 func (c *client) Cancel(ctx context.Context, deviceID string, paymentIntentID string) (*CancelResponse, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"device_id":         deviceID,
 		"payment_intent_id": paymentIntentID,
 	}
 
-	result, err := baseclient.Delete[*CancelResponse](ctx, c.cfg, urlPaymentIntentCancel, nil, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodDelete,
+		URL:        urlPaymentIntentCancel,
+	}
+	result, err := httpclient.DoRequest[*CancelResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +113,11 @@ func (c *client) Cancel(ctx context.Context, deviceID string, paymentIntentID st
 }
 
 func (c *client) ListDevices(ctx context.Context) (*DevicesResponse, error) {
-	result, err := baseclient.Get[*DevicesResponse](ctx, c.cfg, urlDevices)
+	requestData := httpclient.RequestData{
+		Method: http.MethodGet,
+		URL:    urlDevices,
+	}
+	result, err := httpclient.DoRequest[*DevicesResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
@@ -105,11 +126,17 @@ func (c *client) ListDevices(ctx context.Context) (*DevicesResponse, error) {
 }
 
 func (c *client) UpdateDeviceOperatingMode(ctx context.Context, deviceID string, request UpdateDeviceOperatingModeRequest) (*OperatingModeResponse, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"device_id": deviceID,
 	}
 
-	result, err := baseclient.Patch[*OperatingModeResponse](ctx, c.cfg, urlDevicesWithID, request, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		Body:       request,
+		PathParams: pathParams,
+		Method:     http.MethodPatch,
+		URL:        urlDevicesWithID,
+	}
+	result, err := httpclient.DoRequest[*OperatingModeResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
