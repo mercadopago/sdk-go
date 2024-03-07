@@ -1,6 +1,7 @@
 package requester
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"reflect"
@@ -52,7 +53,7 @@ func TestDo(t *testing.T) {
 			args: args{
 				req: reqWithDeadline,
 			},
-			wantErr: "Get \"http://test\": dial tcp: lookup test: no such host",
+			wantErr: fmt.Sprintf("Get \"http://test\": dial tcp: %s", req.RemoteAddr),
 		},
 		{
 			name: "should_return_error_when_retry_is_enabled_and_request_fails",
