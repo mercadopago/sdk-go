@@ -459,7 +459,10 @@ func TestSearch(t *testing.T) {
 			}
 
 			dto := SearchRequest{
-				Limit:  22,
+				Filters: map[string]string{
+					"SponSOR_ID": "123",
+				},
+				Limit:  0,
 				Offset: 100,
 			}
 			got, err := c.Search(tt.args.ctx, dto)
