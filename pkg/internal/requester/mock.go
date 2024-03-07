@@ -60,6 +60,7 @@ func NewRequestWithHTTPServerUnavailableMock() (*httptest.Server, *http.Request)
 func NewRequestWithHTTPServerOKMock() (*httptest.Server, *http.Request) {
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
+		// we should make this to pass in the lint pileline
 		_, _ = http.ResponseWriter.Write(w, []byte(`{id:1}`))
 	}))
 
