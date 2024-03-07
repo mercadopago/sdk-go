@@ -10,6 +10,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
@@ -163,14 +164,18 @@ func TestSearch(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 				dto: SearchRequest{
-					Limit: "30",
+					Filters: map[string]string{
+						"ExTernal_RefeRENCE": uuid.NewString(),
+					},
+					Limit:  "30",
+					Offset: "10",
 				},
 			},
 			want: &SearchResponse{
 				Paging: PagingResponse{
 					Total:  2,
 					Limit:  30,
-					Offset: 0,
+					Offset: 10,
 				},
 				Results: []Response{
 					{

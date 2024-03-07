@@ -2,6 +2,7 @@ package customer
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -43,15 +44,21 @@ func TestCreate(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name: "should_return_error_when_creating_request",
+			name: "should_fail_to_send_request",
 			fields: fields{
-				config: nil,
+				config: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("some error")
+						},
+					},
+				},
 			},
 			args: args{
-				ctx: nil,
+				ctx: context.Background(),
 			},
 			want:    nil,
-			wantErr: "error creating request: net/http: nil Context",
+			wantErr: "transport level error: some error",
 		},
 		{
 			name: "should_return_response",
@@ -93,7 +100,6 @@ func TestCreate(t *testing.T) {
 
 			if gotErr != tt.wantErr {
 				t.Errorf("client.Create() error = %v, wantErr %v", err, tt.wantErr)
-				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("client.Create() got = %v, want %v", got, tt.want)
@@ -118,15 +124,21 @@ func TestSearch(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name: "should_fail_to_create_request",
+			name: "should_fail_to_send_request",
 			fields: fields{
-				config: nil,
+				config: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("some error")
+						},
+					},
+				},
 			},
 			args: args{
-				ctx: nil,
+				ctx: context.Background(),
 			},
 			want:    nil,
-			wantErr: "error creating request: net/http: nil Context",
+			wantErr: "transport level error: some error",
 		},
 		{
 			name: "should_return_response",
@@ -146,7 +158,11 @@ func TestSearch(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 				request: SearchRequest{
-					Limit: "10",
+					Filters: map[string]string{
+						"EMAIL": "test_user_30851371@testuser.com",
+					},
+					Limit:  "10",
+					Offset: "10",
 				},
 			},
 			want: &SearchResponse{
@@ -179,7 +195,6 @@ func TestSearch(t *testing.T) {
 
 			if gotErr != tt.wantErr {
 				t.Errorf("client.Search() error = %v, wantErr %v", err, tt.wantErr)
-				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("client.Search() got = %v, want %v", got, tt.want)
@@ -255,7 +270,6 @@ func TestGet(t *testing.T) {
 
 			if gotErr != tt.wantErr {
 				t.Errorf("client.Get() error = %v, wantErr %v", err, tt.wantErr)
-				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("client.Get() got = %v, want %v", got, tt.want)
@@ -343,7 +357,6 @@ func TestUpdate(t *testing.T) {
 
 			if gotErr != tt.wantErr {
 				t.Errorf("client.Update() error = %v, wantErr %v", err, tt.wantErr)
-				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("client.Update() got = %v, want %v", got, tt.want)
