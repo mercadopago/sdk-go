@@ -1,19 +1,18 @@
 # Mercado Pago SDK for Go
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/mercadopago/sdk-go.svg)](https://pkg.go.dev/github.com/mercadopago/sdk-go)
-[![License](https://img.shields.io/github/license/mercadopago/sdk-go)](https://github.com/mercadopago/sdk-go)
 
 A comprehensive Go client library for integrating with the Mercado Pago API.
 
 ## 💡 Requirements
 
-The SDK requires Go 1.21 or higher.
+The SDK requires Go 1.x.x or higher.
 
 ## 📲 Installation
 
 First time using Mercado Pago? Create your [Mercado Pago account](https://www.mercadopago.com), if you don't have one already.
 
-1. Install the Mercado Pago SDK for Go:
+Install the Mercado Pago SDK for Go:
 ```sh
 $ go install github.com/mercadopago/sdk-go
 ```
@@ -120,10 +119,3 @@ Please read and follow our [contribution guidelines](CONTRIBUTING.md). Contribut
 ## ❤️ Support
 
 If you require technical support, please contact our support team at our developers site: [English](https://www.mercadopago.com/developers/en/support/center/contact) | [Portuguese](https://www.mercadopago.com/developers/pt/support/center/contact) | [Spanish](https://www.mercadopago.com/developers/es/support/center/contact)
-
-## 🏻 License
-
-```
-MIT license. Copyright (c) 2024 - Mercado Pago / Mercado Libre 
-For more information, see the LICENSE file.
-```
