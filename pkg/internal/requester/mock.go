@@ -60,7 +60,7 @@ func NewRequestWithHTTPServerUnavailableMock() (*httptest.Server, *http.Request)
 func NewRequestWithHTTPServerOKMock() (*httptest.Server, *http.Request) {
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{id:1}`))
+		http.ResponseWriter.Write(w, []byte(`{id:1}`))
 	}))
 
 	request, _ := http.NewRequestWithContext(context.Background(), http.MethodGet, s.URL, nil)
