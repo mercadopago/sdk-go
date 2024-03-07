@@ -80,7 +80,6 @@ To make requests to the Mercado Pago APIs, you can use the packages provided by 
 ```go
 	req := payment.Request{
 		TransactionAmount: 105.1,
-		PaymentMethodID:   "visa",
 		Payer: &payment.PayerRequest{
 			Email: "{{EMAIL}}",
 		},
@@ -89,7 +88,7 @@ To make requests to the Mercado Pago APIs, you can use the packages provided by 
 	}
 
 	client := payment.NewClient(cfg)
-        pay, err := client.Create(context.Background(), req)
+	pay, err := client.Create(context.Background(), req)
 ```
 
 ### Exception throwing handling
