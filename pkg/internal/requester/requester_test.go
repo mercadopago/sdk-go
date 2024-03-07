@@ -24,7 +24,6 @@ func TestDo(t *testing.T) {
 		name       string
 		args       args
 		wantStatus string
-		wantBody   *io.ReadCloser
 		wantErr    string
 	}{
 		{
