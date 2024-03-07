@@ -93,7 +93,6 @@ func TestList(t *testing.T) {
 
 			if gotErr != tt.wantErr {
 				t.Errorf("List() error = %v, wantErr %v", err, tt.wantErr)
-				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("List() got = %v, want %v", got, tt.want)
