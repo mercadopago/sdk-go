@@ -19,7 +19,7 @@ func main() {
 
 	req := customer.SearchRequest{
 		Filters: map[string]string{
-			"email": "{{EMAIL}}",
+			"EMAIL": "{{EMAIL}}",
 		},
 	}
 
