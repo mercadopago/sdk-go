@@ -20,8 +20,8 @@ func main() {
 	filter := make(map[string]string)
 	filter["external_reference"] = "wee3rffee23"
 	filters := preference.SearchRequest{
-		Limit:   "10",
-		Offset:  "10",
+		Limit:   10,
+		Offset:  10,
 		Filters: filter,
 	}
 

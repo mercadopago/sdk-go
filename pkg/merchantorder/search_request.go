@@ -1,40 +1,33 @@
 package merchantorder
 
-import "strings"
+import (
+	"strconv"
+	"strings"
+)
 
-// SearchRequest is the request to search services.
+// SearchRequest is the helper structure to build search request.
 // Filters field can receive a lot of paramaters. For details, see:
 // https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_search/get.
 type SearchRequest struct {
 	Filters map[string]string
 
-	Limit  string
-	Offset string
+	Limit  int
+	Offset int
 }
 
-// SetDefaults sets values for limit and offset when not sent.
-func (s *SearchRequest) SetDefaults() {
-	if len(s.Filters) == 0 {
-		s.Filters = make(map[string]string, 2)
-	} else {
-		for k, v := range s.Filters {
-			delete(s.Filters, k)
-			s.Filters[strings.ToLower(k)] = v
-		}
+// GetParams creates map to build query parameters. Keys will be changed to lower case.
+func (sr *SearchRequest) GetParams() map[string]string {
+	params := map[string]string{}
+	for k, v := range sr.Filters {
+		key := strings.ToLower(k)
+		params[key] = v
 	}
 
-	if _, ok := s.Filters["limit"]; !ok {
-		limit := "30"
-		if s.Limit != "" {
-			limit = s.Limit
-		}
-		s.Filters["limit"] = limit
+	if sr.Limit == 0 {
+		sr.Limit = 30
 	}
-	if _, ok := s.Filters["offset"]; !ok {
-		offset := "0"
-		if s.Offset != "" {
-			offset = s.Offset
-		}
-		s.Filters["offset"] = offset
-	}
+	params["limit"] = strconv.Itoa(sr.Limit)
+	params["offset"] = strconv.Itoa(sr.Offset)
+
+	return params
 }

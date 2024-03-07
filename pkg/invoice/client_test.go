@@ -168,8 +168,8 @@ func TestSearch(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 				request: SearchRequest{
-					Limit:  "10",
-					Offset: "10",
+					Limit:  10,
+					Offset: 10,
 					Filters: map[string]string{
 						"iD": uuid.NewString(),
 					},

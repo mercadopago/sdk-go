@@ -58,10 +58,10 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 }
 
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
-	request.SetDefaults()
+	queryParameters := request.GetParams()
 
 	requestData := httpclient.RequestData{
-		QueryParams: request.Filters,
+		QueryParams: queryParameters,
 		Method:      http.MethodGet,
 		URL:         urlSearch,
 	}

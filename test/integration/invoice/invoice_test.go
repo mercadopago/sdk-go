@@ -2,10 +2,11 @@ package integration
 
 import (
 	"context"
-	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/invoice"
 	"os"
 	"testing"
+
+	"github.com/mercadopago/sdk-go/pkg/config"
+	"github.com/mercadopago/sdk-go/pkg/invoice"
 )
 
 func TestInvoice(t *testing.T) {
@@ -33,8 +34,8 @@ func TestInvoice(t *testing.T) {
 		}
 
 		filters := invoice.SearchRequest{
-			Limit:  "10",
-			Offset: "10",
+			Limit:  10,
+			Offset: 10,
 			Filters: map[string]string{
 				"preapproval_id": "id",
 			},
