@@ -1,7 +1,7 @@
 # Mercado Pago SDK for Go
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/mercadopago/sdk-go.svg)](https://pkg.go.dev/github.com/mercadopago/sdk-go)
-[![License]([https://img.shields.io/apm/l/vim-mode](https://img.shields.io/github/license/mercadopago/sdk-go))](https://github.com/mercadopago/sdk-go)
+[![License](https://img.shields.io/github/license/mercadopago/sdk-go)](https://github.com/mercadopago/sdk-go)
 
 A comprehensive Go client library for integrating with the Mercado Pago API.
 
