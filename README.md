@@ -1,7 +1,7 @@
 # Mercado Pago SDK for Go
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/mercadopago/dx-go.svg)](https://pkg.go.dev/github.com/mercadopago/dx-go)
-[![License](https://img.shields.io/apm/l/vim-mode)](https://github.com/mercadopago/sdk-go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/mercadopago/sdk-go.svg)](https://pkg.go.dev/github.com/mercadopago/sdk-go)
+[![License]([https://img.shields.io/apm/l/vim-mode](https://img.shields.io/github/license/mercadopago/sdk-go))](https://github.com/mercadopago/sdk-go)
 
 A comprehensive Go client library for integrating with the Mercado Pago API.
 
@@ -16,12 +16,6 @@ First time using Mercado Pago? Create your [Mercado Pago account](https://www.me
 1. Install the Mercado Pago SDK for Go:
 ```sh
 $ go install github.com/mercadopago/sdk-go
-```
-
-2. Import the SDK into your Go code:
-
-```go
-import "github.com/mercadopago/sdk-go"
 ```
 
 That's it! The Mercado Pago SDK for Go has been successfully installed.
@@ -52,7 +46,6 @@ func main() {
 
 	req := payment.Request{
 		TransactionAmount: 105.1,
-		PaymentMethodID:   "visa",
 		Payer: &payment.PayerRequest{
 			Email: "{{EMAIL}}",
 		},
@@ -83,7 +76,7 @@ Before making API requests, you need to initialize the SDK with your access toke
 
 ### Making API Requests
 
-To make requests to the Mercado Pago API, you can use the methods provided by the SDK. For example, to create a payment, you can use the `Payment.Create` method:
+To make requests to the Mercado Pago APIs, you can use the packages provided by the SDK. For example, to list payment methods, you can use the `paymentmethod` package:
 
 ```go
 	req := payment.Request{
@@ -97,15 +90,16 @@ To make requests to the Mercado Pago API, you can use the methods provided by th
 	}
 
 	client := payment.NewClient(cfg)
+        pay, err := client.Create(context.Background(), req)
 ```
 
 ### Exception throwing handling
 
-In both cases, client configuration and payment creation, the variable `err` is available, which will contain any error thrown, it is important to handle these errors in the best possible way
+Every package methods returns two variables: response (type of the package) and error (type of the std lib), which will contain any error thrown. It is important to handle these errors in the best possible way.
 ```go
+	paymentMethods, err := client.List(context.Background())
 	if err != nil {
-		fmt.Println(err)
-		return
+		// appropriate treatment
 	}
 ```
 
@@ -115,22 +109,17 @@ For more details on the available methods and request parameters, please refer t
 
 See our documentation for more details.
 
-- Mercado Pago API Reference: [English](https://www.mercadopago.com/developers/en/guides)
-- Mercado Pago API Reference: [Spanish](https://www.mercadopago.com/developers/es/guides)
+- Mercado Pago API Reference: [English](https://www.mercadopago.com/developers/en/guides) | [Portuguese](https://www.mercadopago.com/developers/pt/guides) | [Spanish](https://www.mercadopago.com/developers/es/guides)
 
 ## 🤝 Contributing
 
-All contributions are welcome, ranging from people wanting to triage issues, others wanting to write documentation, to people wanting to contribute code.
+All contributions are welcome, ranging from people wanting to triage issues, others wanting to write documentation, to people wanting to contribute with code.
 
 Please read and follow our [contribution guidelines](CONTRIBUTING.md). Contributions not following these guidelines will be disregarded. The guidelines are in place to make all of our lives easier and make contribution a consistent process for everyone.
 
-### Patches to Version 1.x.x
-
-Since the release of version 2.0.0, version 1 is deprecated and will not be receiving new features, only bug fixes. If you need to submit PRs for that version, please do so by using `develop-v1` as your base branch.
-
 ## ❤️ Support
 
-If you require technical support, please contact our support team at our developers site: [English](https://www.mercadopago.com/developers/en/support/center/contact) / [Spanish](https://www.mercadopago.com/developers/es/support/center/contact)
+If you require technical support, please contact our support team at our developers site: [English](https://www.mercadopago.com/developers/en/support/center/contact) | [Portuguese](https://www.mercadopago.com/developers/pt/support/center/contact) | [Spanish](https://www.mercadopago.com/developers/es/support/center/contact)
 
 ## 🏻 License
 
