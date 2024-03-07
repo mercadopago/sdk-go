@@ -2,10 +2,11 @@ package integration
 
 import (
 	"context"
-	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/preapprovalplan"
 	"os"
 	"testing"
+
+	"github.com/mercadopago/sdk-go/pkg/config"
+	"github.com/mercadopago/sdk-go/pkg/preapprovalplan"
 )
 
 func TestPreApprovalPlan(t *testing.T) {
@@ -165,8 +166,8 @@ func TestPreApprovalPlan(t *testing.T) {
 		}
 
 		filters := preapprovalplan.SearchRequest{
-			Limit:  "10",
-			Offset: "10",
+			Limit:  10,
+			Offset: 10,
 		}
 
 		client := preapprovalplan.NewClient(cfg)
