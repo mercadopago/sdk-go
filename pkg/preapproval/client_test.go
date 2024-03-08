@@ -3,6 +3,7 @@ package preapproval
 import (
 	"context"
 	"fmt"
+	"github.com/google/uuid"
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 	"io"
@@ -107,6 +108,7 @@ func TestCreate(t *testing.T) {
 				PaymentMethodID:    "",
 				FirstInvoiceOffset: "",
 			},
+			wantErr: "",
 		},
 	}
 	for _, tt := range tests {
@@ -287,7 +289,11 @@ func TestSearch(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 				request: SearchRequest{
-					Limit: "10",
+					Limit:  10,
+					Offset: 10,
+					Filters: map[string]string{
+						"iD": uuid.NewString(),
+					},
 				},
 			},
 			want: &SearchResponse{

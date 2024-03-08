@@ -1,6 +1,9 @@
 package preapproval
 
-import "net/url"
+import (
+	"strconv"
+	"strings"
+)
 
 // SearchRequest contains filters accepted in search.
 // Filters field can receive a lot of parameters. For details, see:
@@ -8,33 +11,23 @@ import "net/url"
 type SearchRequest struct {
 	Filters map[string]string
 
-	Limit  string
-	Offset string
+	Limit  int
+	Offset int
 }
 
-// Parameters transforms SearchRequest into url params.
-func (s SearchRequest) Parameters() string {
-	params := url.Values{}
-
-	for k, v := range s.Filters {
-		params.Add(k, v)
+// GetParams creates map to build query parameters. Keys will be changed to lower case.
+func (sr SearchRequest) GetParams() map[string]string {
+	params := map[string]string{}
+	for k, v := range sr.Filters {
+		key := strings.ToLower(k)
+		params[key] = v
 	}
 
-	if _, ok := s.Filters["limit"]; !ok {
-		limit := "30"
-		if s.Limit != "" {
-			limit = s.Limit
-		}
-		params.Add("limit", limit)
+	if sr.Limit == 0 {
+		sr.Limit = 30
 	}
+	params["limit"] = strconv.Itoa(sr.Limit)
+	params["offset"] = strconv.Itoa(sr.Offset)
 
-	if _, ok := s.Filters["offset"]; !ok {
-		offset := "0"
-		if s.Offset != "" {
-			offset = s.Offset
-		}
-		params.Add("offset", offset)
-	}
-
-	return params.Encode()
+	return params
 }
