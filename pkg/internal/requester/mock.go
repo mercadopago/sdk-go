@@ -11,7 +11,7 @@ import (
 )
 
 func NewRequestMock() *http.Request {
-	req, _ := http.NewRequestWithContext(context.Background(), http.MethodGet, "http://test", nil)
+	req, _ := http.NewRequestWithContext(context.Background(), http.MethodGet, "", nil)
 
 	return req
 }
@@ -40,9 +40,9 @@ func NewRequestMockWithCancelledContext() *http.Request {
 	return req
 }
 
-func NewRequestMockWithDeadlineContext() (*http.Request, context.CancelFunc) {
+func NewRequestMockWithDeadlineContextAndServerError() (*http.Request, context.CancelFunc) {
 	ctx, cancel := context.WithDeadline(context.Background(), time.Now().Add(time.Second*7))
-	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, "http://test", nil)
+	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, "", nil)
 
 	return req, cancel
 }

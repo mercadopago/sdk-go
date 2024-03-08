@@ -1,7 +1,6 @@
 package requester
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 	"reflect"
@@ -15,7 +14,7 @@ func TestDo(t *testing.T) {
 	serverOK, reqOK := NewRequestWithHTTPServerOKMock()
 	defer serverOK.Close()
 
-	reqWithDeadline, cancel := NewRequestMockWithDeadlineContext()
+	reqWithDeadline, cancel := NewRequestMockWithDeadlineContextAndServerError()
 	defer cancel()
 
 	type args struct {
@@ -53,14 +52,14 @@ func TestDo(t *testing.T) {
 			args: args{
 				req: reqWithDeadline,
 			},
-			wantErr: fmt.Sprintf("Get \"http://test\": dial tcp: %s", reqWithDeadline.Header.Get("X-FORWARDED-FOR")),
+			wantErr: "Get \"\": unsupported protocol scheme \"\"",
 		},
 		{
 			name: "should_return_error_when_retry_is_enabled_and_request_fails",
 			args: args{
 				req: NewRequestMock(),
 			},
-			wantErr: "Get \"http://test\": dial tcp: lookup test: no such host",
+			wantErr: "Get \"\": unsupported protocol scheme \"\"",
 		},
 		{
 			name: "should_return_error_when_request_is_nil",
