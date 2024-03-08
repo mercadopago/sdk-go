@@ -1,36 +1,33 @@
 package preference
 
-import "net/url"
+import (
+	"strconv"
+	"strings"
+)
 
-// SearchRequest contains filters accepted in search
+// SearchRequest is the helper structure to build search request.
+// Filters field can receive a lot of paramaters. For details, see:
+// https://www.mercadopago.com/developers/en/reference/preferences/_checkout_preferences_search/get.
 type SearchRequest struct {
-	Limit   string
-	Offset  string
 	Filters map[string]string
+
+	Limit  int
+	Offset int
 }
 
-func (s SearchRequest) Parameters() string {
-	params := url.Values{}
-
-	for k, v := range s.Filters {
-		params.Add(k, v)
+// GetParams creates map to build query parameters. Keys will be changed to lower case.
+func (sr *SearchRequest) GetParams() map[string]string {
+	params := map[string]string{}
+	for k, v := range sr.Filters {
+		key := strings.ToLower(k)
+		params[key] = v
 	}
 
-	if _, ok := s.Filters["limit"]; !ok {
-		limit := "30"
-		if s.Limit != "" {
-			limit = s.Limit
-		}
-		params.Add("limit", limit)
+	if sr.Limit == 0 {
+		sr.Limit = 30
 	}
+	params["limit"] = strconv.Itoa(sr.Limit)
+	params["offset"] = strconv.Itoa(sr.Offset)
 
-	if _, ok := s.Filters["offset"]; !ok {
-		offset := "0"
-		if s.Offset != "" {
-			offset = s.Offset
-		}
-		params.Add("offset", offset)
-	}
-
-	return params.Encode()
+	return params
 }

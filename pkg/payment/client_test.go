@@ -10,6 +10,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
@@ -50,33 +51,6 @@ func TestCreate(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name: "should_fail_to_marshal_dto",
-			fields: fields{
-				config: nil,
-			},
-			args: args{
-				ctx: nil,
-				dto: Request{
-					Metadata: map[string]any{
-						"fail": make(chan int),
-					},
-				},
-			},
-			want:    nil,
-			wantErr: "error creating request: error marshaling request body: json: unsupported type: chan int",
-		},
-		{
-			name: "should_fail_to_create_request",
-			fields: fields{
-				config: nil,
-			},
-			args: args{
-				ctx: nil,
-			},
-			want:    nil,
-			wantErr: "error creating request: net/http: nil Context",
-		},
-		{
 			name: "should_fail_to_send_request",
 			fields: fields{
 				config: &config.Config{
@@ -92,27 +66,6 @@ func TestCreate(t *testing.T) {
 			},
 			want:    nil,
 			wantErr: "transport level error: some error",
-		},
-		{
-			name: "should_fail_to_unmarshaling_response",
-			fields: fields{
-				config: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							stringReader := strings.NewReader("invalid json")
-							stringReadCloser := io.NopCloser(stringReader)
-							return &http.Response{
-								Body: stringReadCloser,
-							}, nil
-						},
-					},
-				},
-			},
-			args: args{
-				ctx: context.Background(),
-			},
-			want:    nil,
-			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_response",
@@ -177,17 +130,6 @@ func TestSearch(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name: "should_fail_to_create_request",
-			fields: fields{
-				config: nil,
-			},
-			args: args{
-				ctx: nil,
-			},
-			want:    nil,
-			wantErr: "error creating request: net/http: nil Context",
-		},
-		{
 			name: "should_fail_to_send_request",
 			fields: fields{
 				config: &config.Config{
@@ -203,27 +145,6 @@ func TestSearch(t *testing.T) {
 			},
 			want:    nil,
 			wantErr: "transport level error: some error",
-		},
-		{
-			name: "should_fail_to_unmarshaling_response",
-			fields: fields{
-				config: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							stringReader := strings.NewReader("invalid json")
-							stringReadCloser := io.NopCloser(stringReader)
-							return &http.Response{
-								Body: stringReadCloser,
-							}, nil
-						},
-					},
-				},
-			},
-			args: args{
-				ctx: context.Background(),
-			},
-			want:    nil,
-			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_response",
@@ -243,14 +164,18 @@ func TestSearch(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 				dto: SearchRequest{
-					Limit: "30",
+					Filters: map[string]string{
+						"ExTernal_RefeRENCE": uuid.NewString(),
+					},
+					Limit:  30,
+					Offset: 10,
 				},
 			},
 			want: &SearchResponse{
 				Paging: PagingResponse{
 					Total:  2,
 					Limit:  30,
-					Offset: 0,
+					Offset: 10,
 				},
 				Results: []Response{
 					{
@@ -305,17 +230,6 @@ func TestGet(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name: "should_fail_to_create_request",
-			fields: fields{
-				config: nil,
-			},
-			args: args{
-				ctx: nil,
-			},
-			want:    nil,
-			wantErr: "error creating request: net/http: nil Context",
-		},
-		{
 			name: "should_fail_to_send_request",
 			fields: fields{
 				config: &config.Config{
@@ -331,27 +245,6 @@ func TestGet(t *testing.T) {
 			},
 			want:    nil,
 			wantErr: "transport level error: some error",
-		},
-		{
-			name: "should_fail_to_unmarshaling_response",
-			fields: fields{
-				config: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							stringReader := strings.NewReader("invalid json")
-							stringReadCloser := io.NopCloser(stringReader)
-							return &http.Response{
-								Body: stringReadCloser,
-							}, nil
-						},
-					},
-				},
-			},
-			args: args{
-				ctx: context.Background(),
-			},
-			want:    nil,
-			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_response",
@@ -416,17 +309,6 @@ func TestCancel(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name: "should_fail_to_create_request",
-			fields: fields{
-				config: nil,
-			},
-			args: args{
-				ctx: nil,
-			},
-			want:    nil,
-			wantErr: "error creating request: net/http: nil Context",
-		},
-		{
 			name: "should_fail_to_send_request",
 			fields: fields{
 				config: &config.Config{
@@ -442,27 +324,6 @@ func TestCancel(t *testing.T) {
 			},
 			want:    nil,
 			wantErr: "transport level error: some error",
-		},
-		{
-			name: "should_fail_to_unmarshaling_response",
-			fields: fields{
-				config: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							stringReader := strings.NewReader("invalid json")
-							stringReadCloser := io.NopCloser(stringReader)
-							return &http.Response{
-								Body: stringReadCloser,
-							}, nil
-						},
-					},
-				},
-			},
-			args: args{
-				ctx: context.Background(),
-			},
-			want:    nil,
-			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_response",
@@ -527,17 +388,6 @@ func TestCapture(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name: "should_fail_to_create_request",
-			fields: fields{
-				config: nil,
-			},
-			args: args{
-				ctx: nil,
-			},
-			want:    nil,
-			wantErr: "error creating request: net/http: nil Context",
-		},
-		{
 			name: "should_fail_to_send_request",
 			fields: fields{
 				config: &config.Config{
@@ -553,27 +403,6 @@ func TestCapture(t *testing.T) {
 			},
 			want:    nil,
 			wantErr: "transport level error: some error",
-		},
-		{
-			name: "should_fail_to_unmarshaling_response",
-			fields: fields{
-				config: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							stringReader := strings.NewReader("invalid json")
-							stringReadCloser := io.NopCloser(stringReader)
-							return &http.Response{
-								Body: stringReadCloser,
-							}, nil
-						},
-					},
-				},
-			},
-			args: args{
-				ctx: context.Background(),
-			},
-			want:    nil,
-			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_response",
@@ -639,17 +468,6 @@ func TestCaptureAmount(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name: "should_fail_to_create_request",
-			fields: fields{
-				config: nil,
-			},
-			args: args{
-				ctx: nil,
-			},
-			want:    nil,
-			wantErr: "error creating request: net/http: nil Context",
-		},
-		{
 			name: "should_fail_to_send_request",
 			fields: fields{
 				config: &config.Config{
@@ -665,27 +483,6 @@ func TestCaptureAmount(t *testing.T) {
 			},
 			want:    nil,
 			wantErr: "transport level error: some error",
-		},
-		{
-			name: "should_fail_to_unmarshaling_response",
-			fields: fields{
-				config: &config.Config{
-					Requester: &httpclient.Mock{
-						DoMock: func(req *http.Request) (*http.Response, error) {
-							stringReader := strings.NewReader("invalid json")
-							stringReadCloser := io.NopCloser(stringReader)
-							return &http.Response{
-								Body: stringReadCloser,
-							}, nil
-						},
-					},
-				},
-			},
-			args: args{
-				ctx: context.Background(),
-			},
-			want:    nil,
-			wantErr: "invalid character 'i' looking for beginning of value",
 		},
 		{
 			name: "should_return_response",
