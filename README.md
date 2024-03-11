@@ -78,17 +78,8 @@ Before making API requests, you need to initialize the SDK with your access toke
 To make requests to the Mercado Pago APIs, you can use the packages provided by the SDK. For example, to list payment methods, you can use the `paymentmethod` package:
 
 ```go
-	req := payment.Request{
-		TransactionAmount: 105.1,
-		Payer: &payment.PayerRequest{
-			Email: "{{EMAIL}}",
-		},
-		Token:        "{{CARD_TOKEN}}",
-		Installments: 1,
-	}
-
-	client := payment.NewClient(cfg)
-	pay, err := client.Create(context.Background(), req)
+	client := paymentmethod.NewClient(cfg)
+	paymentMethods, err := client.List(context.Background())
 ```
 
 ### Exception throwing handling
