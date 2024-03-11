@@ -133,14 +133,14 @@ func TestRequestFromInternal(t *testing.T) {
 				return
 			}
 
-			stringBody := ""
+			body := ""
 			if got.Body != nil {
-				ir, _ := io.ReadAll(got.Body)
-				stringBody = string(ir)
+				bytes, _ := io.ReadAll(got.Body)
+				body = string(bytes)
 			}
 
-			if tt.want != stringBody {
-				t.Errorf("requester.requestFromInternal() = %v, want %v", stringBody, tt.want)
+			if tt.want != body {
+				t.Errorf("requester.requestFromInternal() = %v, want %v", body, tt.want)
 			}
 		})
 	}
