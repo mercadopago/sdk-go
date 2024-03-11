@@ -91,7 +91,6 @@ func (c *client) Update(ctx context.Context, request UpdateRequest, id string) (
 		Method:     http.MethodPut,
 		URL:        urlWithID,
 	}
-
 	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
