@@ -30,7 +30,7 @@ type AutoRecurringRequest struct {
 
 // FreeTrialRequest represents the free trial settings.
 type FreeTrialRequest struct {
-	FrequencyType      string `json:"frequency_type"`
-	Frequency          int    `json:"frequency"`
-	FirstInvoiceOffset int    `json:"first_invoice_offset"`
+	FrequencyType      string `json:"frequency_type,omitempty"`
+	Frequency          int    `json:"frequency,omitempty"`
+	FirstInvoiceOffset int    `json:"first_invoice_offset,omitempty"`
 }
