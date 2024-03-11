@@ -29,7 +29,7 @@ type SearchResults struct {
 	Reason             string `json:"reason"`
 	ExternalReference  string `json:"external_reference"`
 	InitPoint          string `json:"init_point"`
-	SandBoxInitPoint   string `json:"sandbox_init_point"`
+	SandboxInitPoint   string `json:"sandbox_init_point"`
 	PaymentMethodID    string `json:"payment_method_id"`
 	FirstInvoiceOffset string `json:"first_invoice_offset"`
 	BackURL            string `json:"back_url"`
