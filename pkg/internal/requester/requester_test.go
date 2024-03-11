@@ -150,6 +150,10 @@ func TestCloseResponseBody(t *testing.T) {
 	server, req := NewRequestWithHTTPServerOKMock()
 	defer server.Close()
 
+	s, reqWithResAndCancel, cancel := NewRequestWithHTTPServerUnavailableAndCanceledContext()
+	defer s.Close()
+	defer cancel()
+
 	type args struct {
 		req   *http.Request
 		close func(*http.Response)
@@ -176,6 +180,14 @@ func TestCloseResponseBody(t *testing.T) {
 				close: func(_ *http.Response) {},
 			},
 			wantErr: "",
+		},
+		{
+			name: "should_close_body_when_response_has_error_and_context_is_canceled",
+			args: args{
+				req:   reqWithResAndCancel,
+				close: func(_ *http.Response) {},
+			},
+			wantErr: "http: read on closed response body",
 		},
 	}
 	for _, tt := range tests {
