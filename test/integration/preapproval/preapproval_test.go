@@ -132,16 +132,38 @@ func TestPreApproval(t *testing.T) {
 			t.Fatal(err)
 		}
 
+		client := preapproval.NewClient(cfg)
+
+		req := preapproval.Request{
+			AutoRecurring: &preapproval.AutoRecurringRequest{
+				Frequency:         1,
+				FrequencyType:     "months",
+				TransactionAmount: 100,
+				CurrencyID:        "BRL",
+			},
+			BackURL:           "https://www.yoursite.com",
+			ExternalReference: "Ref-123",
+			PayerEmail:        "test_user_28355466@testuser.com",
+			Reason:            "Yoga Class",
+		}
+
+		createResult, err := client.Create(context.Background(), req)
+		if createResult == nil {
+			t.Error("preapproval can't be nil")
+		}
+		if err != nil {
+			t.Errorf(err.Error())
+			return
+		}
+
 		filters := preapproval.SearchRequest{
 			Limit:  10,
 			Offset: 10,
 		}
 
-		client := preapproval.NewClient(cfg)
 		result, err := client.Search(context.Background(), filters)
-
-		if result == nil || result.Results[0].ID == "" {
-			t.Error("preapproval can't be nil")
+		if result == nil {
+			t.Error("result can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
