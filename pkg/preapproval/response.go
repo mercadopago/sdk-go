@@ -47,7 +47,7 @@ type FreeTrialResponse struct {
 	FirstInvoiceOffset int    `json:"first_invoice_offset"`
 }
 
-// SummarizedResponse contains summary information about invoices and subscription charges
+// SummarizedResponse contains summary information about invoices and subscription charges.
 type SummarizedResponse struct {
 	LastChargedDate   *time.Time `json:"last_charged_date,omitempty"`
 	LastChargedAmount *time.Time `json:"last_charged_amount"`

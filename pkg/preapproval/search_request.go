@@ -7,7 +7,7 @@ import (
 
 // SearchRequest contains filters accepted in search.
 // Filters field can receive a lot of parameters. For details, see:
-// https://www.mercadopago.com.br/developers/pt/reference/subscriptions/_preapproval_search/get
+// https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_search/get
 type SearchRequest struct {
 	Filters map[string]string
 
