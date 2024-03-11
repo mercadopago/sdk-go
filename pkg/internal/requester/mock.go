@@ -31,7 +31,7 @@ func NewInvalidRequestMock() *http.Request {
 	return req
 }
 
-func NewRequestMockWithCancelledContext() *http.Request {
+func NewRequestMockWithCanceledContext() *http.Request {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*1)
 	defer cancel()
 
