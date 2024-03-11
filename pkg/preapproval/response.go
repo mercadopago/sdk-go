@@ -20,7 +20,7 @@ type Response struct {
 	PaymentMethodID    string `json:"payment_method_id"`
 	FirstInvoiceOffset string `json:"first_invoice_offset"`
 	BackURL            string `json:"back_url"`
-	PreapprovalPlan    string `json:"preapproval_plan_id"`
+	PreapprovalPlanID  string `json:"preapproval_plan_id"`
 	CardID             int    `json:"card_id"`
 	Version            int    `json:"version"`
 	PayerID            int    `json:"payer_id"`
