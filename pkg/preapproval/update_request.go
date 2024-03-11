@@ -2,7 +2,7 @@ package preapproval
 
 import "time"
 
-// UpdateRequest represents a request for creating a pre approval.
+// UpdateRequest represents a request for updating a pre approval.
 type UpdateRequest struct {
 	AutoRecurring *AutoRecurringRequest `json:"auto_recurring,omitempty"`
 
