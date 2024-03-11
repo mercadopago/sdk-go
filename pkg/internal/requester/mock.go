@@ -68,3 +68,15 @@ func NewRequestWithHTTPServerOKMock() (*httptest.Server, *http.Request) {
 
 	return s, request
 }
+
+func NewRequestWithHTTPServerUnavailableAndCanceledContext() (*httptest.Server, *http.Request, context.CancelFunc) {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*1)
+	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		_, _ = http.ResponseWriter.Write(w, []byte(`{error}`))
+	}))
+
+	request, _ := http.NewRequestWithContext(ctx, http.MethodGet, s.URL, nil)
+
+	return s, request, cancel
+}
