@@ -27,23 +27,23 @@ func TestDo(t *testing.T) {
 		wantErr    string
 	}{
 		{
-			name: "should_return_reponse_ok_when_status_code_is_200",
+			name: "should_return_response_ok_when_status_code_is_200",
 			args: args{
 				req: reqOK,
 			},
 			wantStatus: "200 OK",
 		},
 		{
-			name: "should_retry_and_return_reponse_erro_when_status_code_is_503",
+			name: "should_retry_and_return_response_error_when_status_code_is_503",
 			args: args{
 				req: req,
 			},
 			wantStatus: "503 Service Unavailable",
 		},
 		{
-			name: "should_return_error_when_context_is_cancelled",
+			name: "should_return_error_when_context_is_canceled",
 			args: args{
-				req: NewRequestMockWithCancelledContext(),
+				req: NewRequestMockWithCanceledContext(),
 			},
 			wantErr: "context canceled",
 		},

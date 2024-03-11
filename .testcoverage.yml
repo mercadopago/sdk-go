@@ -8,5 +8,4 @@ exclude:
   paths:
     - ^pkg/internal
     - ^pkg/config
-    - ^pkg/cardtoken/mock.go
     - ^pkg/internal/requester/mock.go
