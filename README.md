@@ -2,6 +2,10 @@
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/mercadopago/sdk-go.svg)](https://pkg.go.dev/github.com/mercadopago/sdk-go)
 
+![mercado-pago-image-7130x2250](https://github.com/mercadopago/sdk-go/assets/84413927/c18102b2-b4ed-46c9-9a83-b5e6a30d659b)
+
+## Overview
+
 A comprehensive Go client library for integrating with the Mercado Pago API.
 
 ## 💡 Requirements
