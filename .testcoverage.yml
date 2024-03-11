@@ -8,4 +8,3 @@ exclude:
   paths:
     - ^pkg/internal
     - ^pkg/config
-    - ^pkg/internal/requester/mock.go
