@@ -7,11 +7,11 @@ type Response struct {
 	Phone           PhoneResponse             `json:"phone"`
 	Identification  IdentificationResponse    `json:"identification"`
 	Address         AddressResponse           `json:"address"`
-	Cards           []CardResponse            `json:"cards"`
-	Addresses       []CompleteAddressResponse `json:"addresses"`
 	DateRegistered  time.Time                 `json:"date_registered"`
 	DateCreated     time.Time                 `json:"date_created"`
 	DateLastUpdated time.Time                 `json:"date_last_updated"`
+	Cards           []CardResponse            `json:"cards"`
+	Addresses       []CompleteAddressResponse `json:"addresses"`
 
 	ID             string `json:"id"`
 	Email          string `json:"email"`
