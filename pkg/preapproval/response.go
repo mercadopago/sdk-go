@@ -26,6 +26,8 @@ type Response struct {
 	PayerID            int    `json:"payer_id"`
 	CollectorID        int    `json:"collector_id"`
 	ApplicationID      int    `json:"application_id"`
+	PayerFirstName     string `json:"payer_first_name"`
+	PayerLastName      string `json:"payer_last_name"`
 }
 
 // AutoRecurringResponse represents the recurrence settings.

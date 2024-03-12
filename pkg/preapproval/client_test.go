@@ -302,7 +302,7 @@ func TestSearch(t *testing.T) {
 					Limit:  10,
 					Total:  10,
 				},
-				Results: []SearchResults{
+				Results: []Response{
 					{
 						ID:                "2c938084726fca480172750000000000",
 						Status:            "pending",
