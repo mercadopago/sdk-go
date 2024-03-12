@@ -1,0 +1,34 @@
+{
+  "id": "2c938084726fca480172750000000000",
+  "payer_id": 123123123,
+  "payer_email": "",
+  "back_url": "https://www.mercadopago.com.br",
+  "collector_id": 123123123,
+  "application_id": 123123123,
+  "status": "pending",
+  "reason": "reason",
+  "external_reference": "Ref-123",
+  "date_created": "2024-03-06T18:10:01.329-04:00",
+  "last_modified": "2024-03-07T17:48:00.821-04:00",
+  "init_point": "https://www.mercadopago.com.br/subscriptions/checkout?preapproval_id=2c938084726fca480172750000000000",
+  "auto_recurring": {
+    "frequency": 1,
+    "frequency_type": "months",
+    "transaction_amount": 50.0,
+    "currency_id": "BRL",
+    "free_trial": null
+  },
+  "summarized": {
+    "quotas": null,
+    "charged_quantity": null,
+    "pending_charge_quantity": null,
+    "charged_amount": null,
+    "pending_charge_amount": null,
+    "semaphore": null,
+    "last_charged_date": null,
+    "last_charged_amount": null
+  },
+  "next_payment_date": "2024-03-06T18:10:01.000-04:00",
+  "payment_method_id": null,
+  "first_invoice_offset": null
+}
