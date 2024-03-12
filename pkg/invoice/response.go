@@ -4,11 +4,11 @@ import "time"
 
 // Response is the response from the Invoice API.
 type Response struct {
-	DateCreated   *time.Time      `json:"date_created"`
-	DebitDate     *time.Time      `json:"debit_date"`
-	LastModified  *time.Time      `json:"last_modified"`
-	NextRetryDate *time.Time      `json:"next_retry_date"`
 	Payment       PaymentResponse `json:"payment"`
+	DateCreated   time.Time       `json:"date_created"`
+	DebitDate     time.Time       `json:"debit_date"`
+	LastModified  time.Time       `json:"last_modified"`
+	NextRetryDate time.Time       `json:"next_retry_date"`
 
 	CurrencyID        string  `json:"currency_id"`
 	ExternalReference string  `json:"external_reference"`

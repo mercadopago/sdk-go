@@ -5,38 +5,38 @@ import (
 )
 
 type Response struct {
-	DateOfExpiration    *time.Time                            `json:"date_of_expiration"`
-	ExpirationDateFrom  *time.Time                            `json:"expiration_date_from"`
-	ExpirationDateTo    *time.Time                            `json:"expiration_date_to"`
-	LastUpdated         *time.Time                            `json:"last_updated"`
-	DateCreated         *time.Time                            `json:"date_created"`
 	Payer               PreferencePayerResponse               `json:"payer"`
 	PaymentMethods      PreferencePaymentMethodsResponse      `json:"payment_methods"`
 	BackURLS            PreferenceBackUrlsResponse            `json:"back_urls"`
 	Shipments           PreferenceShipmentsResponse           `json:"shipments"`
 	DifferentialPricing PreferenceDifferentialPricingResponse `json:"differential_pricing"`
+	DateOfExpiration    time.Time                             `json:"date_of_expiration"`
+	ExpirationDateFrom  time.Time                             `json:"expiration_date_from"`
+	ExpirationDateTo    time.Time                             `json:"expiration_date_to"`
+	LastUpdated         time.Time                             `json:"last_updated"`
+	DateCreated         time.Time                             `json:"date_created"`
 	Taxes               []PreferenceTaxResponse               `json:"taxes"`
 	Tracks              []PreferenceTrackResponse             `json:"tracks"`
 	Items               []PreferenceItemResponse              `json:"items"`
 
-	ID                  string                 `json:"id"`
-	ClientID            string                 `json:"client_id"`
-	NotificationURL     string                 `json:"notification_url"`
-	StatementDescriptor string                 `json:"statement_descriptor"`
-	Marketplace         string                 `json:"marketplace"`
-	ExternalReference   string                 `json:"external_reference"`
-	AdditionalInfo      string                 `json:"additional_info"`
-	AutoReturn          string                 `json:"auto_return"`
-	OperationType       string                 `json:"operation_type"`
-	InitPoint           string                 `json:"init_point"`
-	SandboxInitPoint    string                 `json:"sandbox_init_point"`
-	SiteID              string                 `json:"site_id"`
-	CollectorID         int64                  `json:"collector_id"`
-	Expires             bool                   `json:"expires"`
-	BinaryMode          bool                   `json:"binary_mode"`
-	MarketplaceFee      float64                `json:"marketplace_fee"`
-	ProcessingModes     []string               `json:"processing_modes"`
-	Metadata            map[string]interface{} `json:"metadata"`
+	ID                  string         `json:"id"`
+	ClientID            string         `json:"client_id"`
+	NotificationURL     string         `json:"notification_url"`
+	StatementDescriptor string         `json:"statement_descriptor"`
+	Marketplace         string         `json:"marketplace"`
+	ExternalReference   string         `json:"external_reference"`
+	AdditionalInfo      string         `json:"additional_info"`
+	AutoReturn          string         `json:"auto_return"`
+	OperationType       string         `json:"operation_type"`
+	InitPoint           string         `json:"init_point"`
+	SandboxInitPoint    string         `json:"sandbox_init_point"`
+	SiteID              string         `json:"site_id"`
+	CollectorID         int64          `json:"collector_id"`
+	Expires             bool           `json:"expires"`
+	BinaryMode          bool           `json:"binary_mode"`
+	MarketplaceFee      float64        `json:"marketplace_fee"`
+	ProcessingModes     []string       `json:"processing_modes"`
+	Metadata            map[string]any `json:"metadata"`
 }
 
 // PreferenceItemResponse represents an item.
@@ -56,8 +56,8 @@ type PreferencePayerResponse struct {
 	Phone          PhoneResponse          `json:"phone"`
 	Identification IdentificationResponse `json:"identification"`
 	Address        AddressResponse        `json:"address"`
-	DateCreated    *time.Time             `json:"date_created"`
-	LastPurchase   *time.Time             `json:"last_purchase"`
+	DateCreated    time.Time              `json:"date_created"`
+	LastPurchase   time.Time              `json:"last_purchase"`
 
 	Name    string `json:"name"`
 	Surname string `json:"surname"`
@@ -112,7 +112,7 @@ type PreferenceFreeMethodResponse struct {
 
 // PreferenceReceiverAddressResponse represents a sending address.
 type PreferenceReceiverAddressResponse struct {
-	AddressResponse
+	Address AddressResponse `json:"address"`
 
 	CountryName string `json:"country_name"`
 	StateName   string `json:"state_name"`

@@ -20,9 +20,9 @@ type Response struct {
 
 // SettingsResponse represents payment method settings.
 type SettingsResponse struct {
-	Bin          *SettingsBinResponse          `json:"bin"`
-	CardNumber   *SettingsCardNumberResponse   `json:"card_number"`
-	SecurityCode *SettingsSecurityCodeResponse `json:"security_code"`
+	Bin          SettingsBinResponse          `json:"bin"`
+	CardNumber   SettingsCardNumberResponse   `json:"card_number"`
+	SecurityCode SettingsSecurityCodeResponse `json:"security_code"`
 }
 
 // SettingsBinResponse represents BIN (Bank Identification Number) settings.

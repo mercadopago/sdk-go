@@ -6,11 +6,6 @@ import (
 
 // Response is the response from the Payments API.
 type Response struct {
-	DateCreated        *time.Time                 `json:"date_created"`
-	DateApproved       *time.Time                 `json:"date_approved"`
-	DateLastUpdated    *time.Time                 `json:"date_last_updated"`
-	DateOfExpiration   *time.Time                 `json:"date_of_expiration"`
-	MoneyReleaseDate   *time.Time                 `json:"money_release_date"`
 	Payer              PayerResponse              `json:"payer"`
 	AdditionalInfo     AdditionalInfoResponse     `json:"additional_info"`
 	Order              OrderResponse              `json:"order"`
@@ -19,6 +14,11 @@ type Response struct {
 	PointOfInteraction PointOfInteractionResponse `json:"point_of_interaction"`
 	PaymentMethod      PaymentMethodResponse      `json:"payment_method"`
 	ThreeDSInfo        ThreeDSInfoResponse        `json:"three_ds_info"`
+	DateCreated        time.Time                  `json:"date_created"`
+	DateApproved       time.Time                  `json:"date_approved"`
+	DateLastUpdated    time.Time                  `json:"date_last_updated"`
+	DateOfExpiration   time.Time                  `json:"date_of_expiration"`
+	MoneyReleaseDate   time.Time                  `json:"money_release_date"`
 	FeeDetails         []FeeDetailResponse        `json:"fee_details"`
 	Taxes              []TaxResponse              `json:"taxes"`
 	Refunds            []RefundResponse           `json:"refunds"`
@@ -109,9 +109,9 @@ type ItemResponse struct {
 
 // AdditionalInfoPayerResponse represents payer's additional information.
 type AdditionalInfoPayerResponse struct {
-	RegistrationDate *time.Time      `json:"registration_date"`
 	Phone            PhoneResponse   `json:"phone"`
 	Address          AddressResponse `json:"address"`
+	RegistrationDate time.Time       `json:"registration_date"`
 
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
@@ -172,9 +172,9 @@ type TransactionDetailsResponse struct {
 
 // CardResponse represents card information.
 type CardResponse struct {
-	DateCreated     *time.Time         `json:"date_created"`
-	DateLastUpdated *time.Time         `json:"date_last_updated"`
 	Cardholder      CardholderResponse `json:"cardholder"`
+	DateCreated     time.Time          `json:"date_created"`
+	DateLastUpdated time.Time          `json:"date_last_updated"`
 
 	ID              string `json:"id"`
 	LastFourDigits  string `json:"last_four_digits"`
@@ -285,7 +285,7 @@ type RulesResponse struct {
 
 // DiscountResponse represents payment discount information.
 type DiscountResponse struct {
-	LimitDate *time.Time `json:"limit_date"`
+	LimitDate time.Time `json:"limit_date"`
 
 	Type  string  `json:"type"`
 	Value float64 `json:"value"`
@@ -318,8 +318,8 @@ type TaxResponse struct {
 
 // RefundResponse represents refund information.
 type RefundResponse struct {
-	DateCreated *time.Time     `json:"date_created"`
 	Source      SourceResponse `json:"source"`
+	DateCreated time.Time      `json:"date_created"`
 
 	Status               string  `json:"status"`
 	RefundMode           string  `json:"refund_mode"`

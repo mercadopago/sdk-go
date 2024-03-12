@@ -4,14 +4,14 @@ import "time"
 
 // Response represents a customer.
 type Response struct {
-	DateRegistered  *time.Time                `json:"date_registered"`
-	DateCreated     *time.Time                `json:"date_created"`
-	DateLastUpdated *time.Time                `json:"date_last_updated"`
 	Phone           PhoneResponse             `json:"phone"`
 	Identification  IdentificationResponse    `json:"identification"`
 	Address         AddressResponse           `json:"address"`
 	Cards           []CardResponse            `json:"cards"`
 	Addresses       []CompleteAddressResponse `json:"addresses"`
+	DateRegistered  time.Time                 `json:"date_registered"`
+	DateCreated     time.Time                 `json:"date_created"`
+	DateLastUpdated time.Time                 `json:"date_last_updated"`
 
 	ID             string `json:"id"`
 	Email          string `json:"email"`
@@ -43,12 +43,12 @@ type AddressResponse struct {
 
 // CardResponse represents a response for a card.
 type CardResponse struct {
-	DateCreated     *time.Time            `json:"date_created"`
-	DateLastUpdated *time.Time            `json:"date_last_updated"`
 	Cardholder      CardholderResponse    `json:"cardholder"`
 	Issuer          IssuerResponse        `json:"issuer"`
 	PaymentMethod   PaymentMethodResponse `json:"payment_method"`
 	SecurityCode    SecurityCodeResponse  `json:"security_code"`
+	DateCreated     time.Time             `json:"date_created"`
+	DateLastUpdated time.Time             `json:"date_last_updated"`
 
 	ID              string `json:"id"`
 	CustomerID      string `json:"customer_id"`
@@ -95,11 +95,11 @@ type SecurityCodeResponse struct {
 
 // CompleteAddressResponse represents a response for a complete address.
 type CompleteAddressResponse struct {
-	DateCreated  *time.Time           `json:"date_created"`
 	City         CityResponse         `json:"city"`
 	State        StateResponse        `json:"state"`
 	Country      CountryResponse      `json:"country"`
 	Neighborhood NeighborhoodResponse `json:"neighborhood"`
+	DateCreated  time.Time            `json:"date_created"`
 
 	ID         string `json:"id"`
 	StreetName string `json:"street_name"`

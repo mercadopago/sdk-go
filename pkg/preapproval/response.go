@@ -6,9 +6,9 @@ import "time"
 type Response struct {
 	AutoRecurring   AutoRecurringResponse `json:"auto_recurring"`
 	Summarized      SummarizedResponse    `json:"summarized"`
-	DateCreated     *time.Time            `json:"date_created"`
-	LastModified    *time.Time            `json:"last_modified"`
-	NextPaymentDate *time.Time            `json:"next_payment_date"`
+	DateCreated     time.Time             `json:"date_created"`
+	LastModified    time.Time             `json:"last_modified"`
+	NextPaymentDate time.Time             `json:"next_payment_date"`
 
 	ID                 string `json:"id"`
 	PayerEmail         string `json:"payer_email"`
@@ -33,8 +33,8 @@ type Response struct {
 // AutoRecurringResponse represents the recurrence settings.
 type AutoRecurringResponse struct {
 	FreeTrial FreeTrialResponse `json:"free_trial"`
-	StartDate *time.Time        `json:"start_date"`
-	EndDate   *time.Time        `json:"end_date"`
+	StartDate time.Time         `json:"start_date"`
+	EndDate   time.Time         `json:"end_date"`
 
 	CurrencyID        string  `json:"currency_id"`
 	FrequencyType     string  `json:"frequency_type"`
@@ -51,8 +51,8 @@ type FreeTrialResponse struct {
 
 // SummarizedResponse contains summary information about invoices and subscription charges.
 type SummarizedResponse struct {
-	LastChargedDate   *time.Time `json:"last_charged_date"`
-	LastChargedAmount *time.Time `json:"last_charged_amount"`
+	LastChargedDate   time.Time `json:"last_charged_date"`
+	LastChargedAmount time.Time `json:"last_charged_amount"`
 
 	Quotas                int     `json:"quotas"`
 	PendingChargeQuantity int     `json:"pending_charge_quantity"`

@@ -4,8 +4,8 @@ import "time"
 
 // Response is the response from the Refund's API.
 type Response struct {
-	DateCreated *time.Time `json:"date_created"`
-	Source      Source     `json:"source"`
+	Source      Source    `json:"source"`
+	DateCreated time.Time `json:"date_created"`
 
 	Status               string  `json:"status"`
 	RefundMode           string  `json:"refund_mode"`

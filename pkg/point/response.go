@@ -30,11 +30,11 @@ type CancelResponse struct {
 }
 
 type DevicesResponse struct {
-	Devices []Device `json:"devices"`
-	Paging  Paging   `json:"paging"`
+	Devices []DeviceResponse `json:"devices"`
+	Paging  PagingResponse   `json:"paging"`
 }
 
-type Device struct {
+type DeviceResponse struct {
 	PosID         int    `json:"pos_id"`
 	StoreID       int    `json:"store_id"`
 	ID            string `json:"id"`
@@ -42,7 +42,7 @@ type Device struct {
 	OperatingMode string `json:"operating_mode"`
 }
 
-type Paging struct {
+type PagingResponse struct {
 	Total  int `json:"total"`
 	Offset int `json:"offset"`
 	Limit  int `json:"limit"`

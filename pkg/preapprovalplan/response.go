@@ -4,10 +4,10 @@ import "time"
 
 // Response represents the response from the pre-approval plan endpoint.
 type Response struct {
-	DateCreated           *time.Time                    `json:"date_created"`
-	LastModified          *time.Time                    `json:"last_modified"`
 	AutoRecurring         AutoRecurringResponse         `json:"auto_recurring"`
 	PaymentMethodsAllowed PaymentMethodsAllowedResponse `json:"payment_methods_allowed"`
+	DateCreated           time.Time                     `json:"date_created"`
+	LastModified          time.Time                     `json:"last_modified"`
 
 	ID            string `json:"id"`
 	BackURL       string `json:"back_url"`

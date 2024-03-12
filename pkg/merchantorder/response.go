@@ -6,10 +6,10 @@ import (
 
 // Response represents a merchant order resource.
 type Response struct {
-	DateCreated *time.Time         `json:"date_created"`
-	LastUpdated *time.Time         `json:"last_updated"`
 	Payer       PayerResponse      `json:"payer"`
 	Collector   CollectorResponse  `json:"collector"`
+	DateCreated time.Time          `json:"date_created"`
+	LastUpdated time.Time          `json:"last_updated"`
 	Items       []ItemResponse     `json:"items"`
 	Shipments   []ShipmentResponse `json:"shipments"`
 	Payments    []PaymentResponse  `json:"payments"`
@@ -46,9 +46,9 @@ type CollectorResponse struct {
 
 // PaymentResponse represents payment information.
 type PaymentResponse struct {
-	DateApproved *time.Time `json:"date_approved"`
-	DateCreated  *time.Time `json:"date_created"`
-	LastModified *time.Time `json:"last_modified"`
+	DateApproved time.Time `json:"date_approved"`
+	DateCreated  time.Time `json:"date_created"`
+	LastModified time.Time `json:"last_modified"`
 
 	Status            string  `json:"status"`
 	StatusDetails     string  `json:"status_details"`
@@ -75,22 +75,22 @@ type ItemResponse struct {
 
 // ShipmentResponse represents shipment information.
 type ShipmentResponse struct {
-	DateCreated      *time.Time              `json:"date_created"`
-	LastModified     *time.Time              `json:"last_modified"`
-	DateFirstPrinted *time.Time              `json:"date_first_printed"`
 	ReceiverAddress  ReceiverAddressResponse `json:"receiver_address"`
 	ShippingOption   ShippingOptionResponse  `json:"shipping_option"`
+	DateCreated      time.Time               `json:"date_created"`
+	LastModified     time.Time               `json:"last_modified"`
+	DateFirstPrinted time.Time               `json:"date_first_printed"`
 
-	ShippingType      string                   `json:"shipping_type"`
-	ShippingMode      string                   `json:"shipping_mode"`
-	PickingType       string                   `json:"picking_type"`
-	Status            string                   `json:"status"`
-	ShippingSubstatus string                   `json:"shipping_substatus"`
-	ServiceID         string                   `json:"service_id"`
-	ID                int64                    `json:"id"`
-	SenderID          int64                    `json:"sender_id"`
-	ReceiverID        int64                    `json:"receiver_id"`
-	Items             []map[string]interface{} `json:"items"`
+	ShippingType      string           `json:"shipping_type"`
+	ShippingMode      string           `json:"shipping_mode"`
+	PickingType       string           `json:"picking_type"`
+	Status            string           `json:"status"`
+	ShippingSubstatus string           `json:"shipping_substatus"`
+	ServiceID         string           `json:"service_id"`
+	ID                int64            `json:"id"`
+	SenderID          int64            `json:"sender_id"`
+	ReceiverID        int64            `json:"receiver_id"`
+	Items             []map[string]any `json:"items"`
 }
 
 // ReceiverAddressResponse represents receiver address information.
@@ -146,7 +146,7 @@ type ReceiverAddressCountryResponse struct {
 
 // ShippingEstimatedDeliveryResponse represents estimated delivery information.
 type ShippingEstimatedDeliveryResponse struct {
-	Date *time.Time `json:"date"`
+	Date time.Time `json:"date"`
 
 	TimeFrom string `json:"time_from"`
 	TimeTo   string `json:"time_to"`

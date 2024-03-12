@@ -6,7 +6,6 @@ import (
 
 // Request represents a request for creating or updating a payment.
 type Request struct {
-	DateOfExpiration   *time.Time                 `json:"date_of_expiration,omitempty"`
 	AdditionalInfo     *AdditionalInfoRequest     `json:"additional_info,omitempty"`
 	MerchantServices   *MerchantServicesRequest   `json:"merchant_services,omitempty"`
 	Order              *OrderRequest              `json:"order,omitempty"`
@@ -14,6 +13,7 @@ type Request struct {
 	TransactionDetails *TransactionDetailsRequest `json:"transaction_details,omitempty"`
 	PointOfInteraction *PointOfInteractionRequest `json:"point_of_interaction,omitempty"`
 	PaymentMethod      *PaymentMethodRequest      `json:"payment_method,omitempty"`
+	DateOfExpiration   *time.Time                 `json:"date_of_expiration,omitempty"`
 	Taxes              []TaxRequest               `json:"taxes,omitempty"`
 
 	CallbackURL           string         `json:"callback_url,omitempty"`
@@ -54,10 +54,10 @@ type AdditionalInfoRequest struct {
 
 // AdditionalInfoPayerRequest represents payer information request within AdditionalInfoPayerRequest.
 type AdditionalInfoPayerRequest struct {
-	RegistrationDate *time.Time                         `json:"registration_date,omitempty"`
-	LastPurchase     *time.Time                         `json:"last_purchase,omitempty"`
 	Phone            *AdditionalInfoPayerPhoneRequest   `json:"phone,omitempty"`
 	Address          *AdditionalInfoPayerAddressRequest `json:"address,omitempty"`
+	RegistrationDate *time.Time                         `json:"registration_date,omitempty"`
+	LastPurchase     *time.Time                         `json:"last_purchase,omitempty"`
 
 	FirstName             string `json:"first_name,omitempty"`
 	LastName              string `json:"last_name,omitempty"`
@@ -108,8 +108,8 @@ type AdditionalInfoBarcodeRequest struct {
 
 // ItemRequest represents an item request within AdditionalInfoRequest.
 type ItemRequest struct {
-	EventDate          *time.Time                 `json:"event_date,omitempty"`
 	CategoryDescriptor *CategoryDescriptorRequest `json:"category_descriptor,omitempty"`
+	EventDate          *time.Time                 `json:"event_date,omitempty"`
 
 	ID          string  `json:"id,omitempty"`
 	Title       string  `json:"title,omitempty"`
