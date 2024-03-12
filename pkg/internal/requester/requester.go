@@ -4,7 +4,6 @@ import (
 	"context"
 	"io"
 	"net/http"
-	"strconv"
 	"time"
 )
 
@@ -47,7 +46,7 @@ func (d *defaultRequester) Do(req *http.Request) (*http.Response, error) {
 	var err error
 
 	for i := 0; ; i++ {
-		req, err = requestFromInternal(req, i)
+		req, err = requestFromInternal(req)
 		if err != nil {
 			return nil, err
 		}
@@ -82,7 +81,7 @@ func (d *defaultRequester) Do(req *http.Request) (*http.Response, error) {
 		}
 
 		// Call backoff to see how much time we must wait until next retry.
-		backoffWait := backoffDuration(i, resp)
+		backoffWait := backoffDuration(i)
 
 		// If the request context has a deadline, check whether that deadline
 		// happens before the wait period of the backoff strategy. In case
@@ -104,7 +103,7 @@ func (d *defaultRequester) Do(req *http.Request) (*http.Response, error) {
 }
 
 // requestFromInternal builds an *http.Request from our internal request.
-func requestFromInternal(req *http.Request, retryAttempt int) (*http.Request, error) {
+func requestFromInternal(req *http.Request) (*http.Request, error) {
 	ctx := req.Context()
 
 	// Use the context from the internal request. When cloning requests
@@ -158,36 +157,8 @@ func drainBody(body io.ReadCloser) {
 	_, _ = io.Copy(io.Discard, io.LimitReader(body, respReadLimit))
 }
 
-func backoffDuration(attemptNum int, resp *http.Response) time.Duration {
-	if resp != nil {
-		if resp.StatusCode == http.StatusTooManyRequests || resp.StatusCode == http.StatusServiceUnavailable {
-			if s, ok := resp.Header["Retry-After"]; ok {
-				if sleep, err := retryAfterDuration(s[0]); err == nil {
-					return sleep
-				}
-			}
-		}
-	}
-
+func backoffDuration(attemptNum int) time.Duration {
 	return defaultBackoffStrategy(attemptNum)
-}
-
-// retryAfterDuration returns the duration for the Retry-After header.
-func retryAfterDuration(t string) (time.Duration, error) {
-	when, err := time.Parse(http.TimeFormat, t)
-	if err == nil {
-		// when is always in UTC, so make the math from UTC+0.
-		t := time.Now().UTC()
-		return when.Sub(t), nil
-	}
-
-	// The duration can be in seconds.
-	d, err := strconv.Atoi(t)
-	if err != nil {
-		return 0, err
-	}
-
-	return time.Duration(d) * time.Second, nil
 }
 
 // constantBackoff provides a callback for backoffStrategy which will perform
