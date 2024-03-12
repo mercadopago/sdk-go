@@ -1,0 +1,31 @@
+{
+  "paging": {
+    "offset": 0,
+    "limit": 10,
+    "total": 10
+  },
+  "results": [
+    {
+      "id": "2c938084726fca480172750000000000",
+      "status": "pending",
+      "reason": "Yoga classes",
+      "summarized": {},
+      "payer_id": 123123123,
+      "back_url": "https://www.mercadopago.com.br",
+      "collector_id": 123123123,
+      "application_id": 123123123,
+      "external_reference": "Ref-123",
+      "date_created": "2023-10-10T10:00:32.895-04:00",
+      "last_modified": "2023-10-10T10:00:32.896-04:00",
+      "init_point": "https://www.mercadopago.com.br/subscriptions/checkout?preapproval_id=2c938084726fca480172750000000000",
+      "auto_recurring": {
+        "frequency": 1,
+        "frequency_type": "months",
+        "transaction_amount": 10.0,
+        "currency_id": "BRL"
+      },
+      "payer_first_name": "Test",
+      "payer_last_name": ""
+    }
+  ]
+}
