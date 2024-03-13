@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+
 	"github.com/mercadopago/sdk-go/pkg/preapprovalplan"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
@@ -57,7 +58,7 @@ func main() {
 		},
 	}
 
-	result, err = client.Update(context.Background(), req, result.ID)
+	result, err = client.Update(context.Background(), result.ID, req)
 	if err != nil {
 		fmt.Println(err)
 		return

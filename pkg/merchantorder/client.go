@@ -30,7 +30,7 @@ type Client interface {
 	// Update a merchant order.
 	// It is a put request to the endpoint: https://api.mercadopago.com/merchant_orders/{id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_id/put
-	Update(ctx context.Context, request UpdateRequest, id int) (*Response, error)
+	Update(ctx context.Context, id int, request UpdateRequest) (*Response, error)
 
 	// Create a merchant order.
 	// It is a post request to the endpoint: https://api.mercadopago.com/merchant_orders
@@ -84,7 +84,7 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 	return result, nil
 }
 
-func (c *client) Update(ctx context.Context, request UpdateRequest, id int) (*Response, error) {
+func (c *client) Update(ctx context.Context, id int, request UpdateRequest) (*Response, error) {
 	pathParams := map[string]string{
 		"id": strconv.Itoa(int(id)),
 	}

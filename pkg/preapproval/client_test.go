@@ -438,7 +438,7 @@ func TestUpdate(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.config,
 			}
-			got, err := c.Update(tt.args.ctx, tt.args.request, tt.args.id)
+			got, err := c.Update(tt.args.ctx, tt.args.id, tt.args.request)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
