@@ -11,7 +11,7 @@ import (
 const (
 	urlBase   = "https://api.mercadopago.com/authorized_payments"
 	urlSearch = urlBase + "/search"
-	urlWithID = urlBase + "/:id"
+	urlWithID = urlBase + "/{id}"
 )
 
 // Client contains the methods to interact with the Invoice API.
