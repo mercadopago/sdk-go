@@ -17,7 +17,7 @@ type AdditionalInfoRequest struct {
 type PaymentRequest struct {
 	Type             string `json:"type,omitempty"`
 	InstallmentsCost string `json:"installments_cost,omitempty"`
-	ID               int64  `json:"id,omitempty"`
+	ID               int    `json:"id,omitempty"`
 	Installments     int    `json:"installments,omitempty"`
 }
 

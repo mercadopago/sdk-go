@@ -42,7 +42,7 @@ type PreferenceBackUrlsRequest struct {
 
 // PreferenceDifferentialPricingRequest contains information about differential pricing configuration.
 type PreferenceDifferentialPricingRequest struct {
-	ID int64 `json:"id,omitempty"`
+	ID int `json:"id,omitempty"`
 }
 
 // PreferenceItemRequest represents a purchased item.
@@ -124,7 +124,7 @@ type PreferenceShipmentsRequest struct {
 
 // PreferenceFreeMethodRequest contains information about free shipping methods in the preference.
 type PreferenceFreeMethodRequest struct {
-	ID int64 `json:"id,omitempty"`
+	ID int `json:"id,omitempty"`
 }
 
 // PreferenceReceiverAddressRequest contains information about the send address in the preference.

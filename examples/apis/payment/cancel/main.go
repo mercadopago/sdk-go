@@ -18,7 +18,7 @@ func main() {
 	}
 
 	client := payment.NewClient(cfg)
-	var paymentID int64 = 123
+	paymentID := 123
 
 	pay, err := client.Cancel(context.Background(), paymentID)
 	if err != nil {

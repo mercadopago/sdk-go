@@ -32,7 +32,7 @@ type Response struct {
 	SandboxInitPoint    string         `json:"sandbox_init_point"`
 	SiteID              string         `json:"site_id"`
 	MarketplaceFee      float64        `json:"marketplace_fee"`
-	CollectorID         int64          `json:"collector_id"`
+	CollectorID         int            `json:"collector_id"`
 	Expires             bool           `json:"expires"`
 	BinaryMode          bool           `json:"binary_mode"`
 	ProcessingModes     []string       `json:"processing_modes"`
@@ -107,7 +107,7 @@ type PreferenceShipmentsResponse struct {
 
 // PreferenceFreeMethodResponse contains information about free shipping methods.
 type PreferenceFreeMethodResponse struct {
-	ID int64 `json:"id"`
+	ID int `json:"id"`
 }
 
 // PreferenceReceiverAddressResponse represents a sending address.
@@ -123,7 +123,7 @@ type PreferenceReceiverAddressResponse struct {
 
 // PreferenceDifferentialPricingResponse contains information about the differential pricing configuration in the preference.
 type PreferenceDifferentialPricingResponse struct {
-	ID int64 `json:"id"`
+	ID int `json:"id"`
 }
 
 // PreferenceTaxResponse contains information about taxes in the preference.

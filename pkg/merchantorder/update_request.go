@@ -16,8 +16,8 @@ type UpdateRequest struct {
 	AdditionalInfo    string `json:"additional_info,omitempty"`
 	ExternalReference string `json:"external_reference,omitempty"`
 	Marketplace       string `json:"marketplace,omitempty"`
-	Version           int64  `json:"version,omitempty"`
-	SponsorID         int64  `json:"sponsor_id,omitempty"`
+	Version           int    `json:"version,omitempty"`
+	SponsorID         int    `json:"sponsor_id,omitempty"`
 }
 
 // ShipmentRequest represents shipment information.
@@ -34,9 +34,9 @@ type ShipmentRequest struct {
 	Status            string           `json:"status,omitempty"`
 	ShippingSubstatus string           `json:"shipping_substatus,omitempty"`
 	ServiceID         string           `json:"service_id,omitempty"`
-	ID                int64            `json:"id,omitempty"`
-	SenderID          int64            `json:"sender_id,omitempty"`
-	ReceiverID        int64            `json:"receiver_id,omitempty"`
+	ID                int              `json:"id,omitempty"`
+	SenderID          int              `json:"sender_id,omitempty"`
+	ReceiverID        int              `json:"receiver_id,omitempty"`
 	Items             []map[string]any `json:"items,omitempty"`
 }
 
@@ -57,7 +57,7 @@ type ReceiverAddressRequest struct {
 	Phone        string `json:"phone,omitempty"`
 	Latitude     string `json:"latitude,omitempty"`
 	Longitude    string `json:"longitude,omitempty"`
-	ID           int64  `json:"id,omitempty"`
+	ID           int    `json:"id,omitempty"`
 }
 
 // ShippingOptionRequest represents shipping option information.
@@ -69,8 +69,8 @@ type ShippingOptionRequest struct {
 	CurrencyID       string  `json:"currency_id,omitempty"`
 	Cost             float64 `json:"cost,omitempty"`
 	ListCost         float64 `json:"list_cost,omitempty"`
-	ShippingMethodID int64   `json:"shipping_method_id,omitempty"`
-	ID               int64   `json:"id,omitempty"`
+	ShippingMethodID int     `json:"shipping_method_id,omitempty"`
+	ID               int     `json:"id,omitempty"`
 }
 
 // ReceiverAddressCityRequest represents city information.
@@ -101,8 +101,8 @@ type ShippingEstimatedDeliveryRequest struct {
 
 // ShippingSpeedRequest represents shipping speed information.
 type ShippingSpeedRequest struct {
-	Handling int64 `json:"handling,omitempty"`
-	Shipping int64 `json:"shipping,omitempty"`
+	Handling int `json:"handling,omitempty"`
+	Shipping int `json:"shipping,omitempty"`
 }
 
 // ItemUpdateRequest represents item information.
