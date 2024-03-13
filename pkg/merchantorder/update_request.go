@@ -67,10 +67,10 @@ type ShippingOptionRequest struct {
 
 	Name             string  `json:"name,omitempty"`
 	CurrencyID       string  `json:"currency_id,omitempty"`
-	ShippingMethodID int64   `json:"shipping_method_id,omitempty"`
-	ID               int64   `json:"id,omitempty"`
 	Cost             float64 `json:"cost,omitempty"`
 	ListCost         float64 `json:"list_cost,omitempty"`
+	ShippingMethodID int64   `json:"shipping_method_id,omitempty"`
+	ID               int64   `json:"id,omitempty"`
 }
 
 // ReceiverAddressCityRequest represents city information.

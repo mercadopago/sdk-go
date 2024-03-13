@@ -4,21 +4,21 @@ type CreateRequest struct {
 	AdditionalInfo *AdditionalInfoRequest `json:"additional_info"`
 	Payment        *PaymentRequest        `json:"payment"`
 
-	Amount      int    `json:"amount"`
 	Description string `json:"description"`
+	Amount      int    `json:"amount"`
 }
 
 type AdditionalInfoRequest struct {
-	PrintOnTerminal   bool   `json:"print_on_terminal,omitempty"`
 	ExternalReference string `json:"external_reference,omitempty"`
 	TicketNumber      string `json:"ticket_number,omitempty"`
+	PrintOnTerminal   bool   `json:"print_on_terminal,omitempty"`
 }
 
 type PaymentRequest struct {
-	ID               int64  `json:"id,omitempty"`
-	Installments     int    `json:"installments,omitempty"`
 	Type             string `json:"type,omitempty"`
 	InstallmentsCost string `json:"installments_cost,omitempty"`
+	ID               int64  `json:"id,omitempty"`
+	Installments     int    `json:"installments,omitempty"`
 }
 
 type UpdateDeviceOperatingModeRequest struct {

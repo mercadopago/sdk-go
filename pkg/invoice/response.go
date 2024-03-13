@@ -18,9 +18,9 @@ type Response struct {
 	Status            string  `json:"status"`
 	Summarized        string  `json:"summarized"`
 	Type              string  `json:"type"`
+	TransactionAmount float64 `json:"transaction_amount"`
 	ID                int     `json:"id"`
 	RetryAttempt      int     `json:"retry_attempt"`
-	TransactionAmount float64 `json:"transaction_amount"`
 }
 
 // PaymentResponse contains information about payment.

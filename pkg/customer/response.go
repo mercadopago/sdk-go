@@ -74,8 +74,8 @@ type IdentificationResponse struct {
 
 // IssuerResponse represents a response for an issuer.
 type IssuerResponse struct {
-	ID   int    `json:"id"`
 	Name string `json:"name"`
+	ID   int    `json:"id"`
 }
 
 // PaymentMethodResponse represents a response for a payment method.
@@ -89,8 +89,8 @@ type PaymentMethodResponse struct {
 
 // SecurityCodeResponse represents a response for a security code.
 type SecurityCodeResponse struct {
-	Length       int    `json:"length"`
 	CardLocation string `json:"card_location"`
+	Length       int    `json:"length"`
 }
 
 // CompleteAddressResponse represents a response for a complete address.

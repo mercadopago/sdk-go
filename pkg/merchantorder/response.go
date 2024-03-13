@@ -24,12 +24,12 @@ type Response struct {
 	Marketplace       string  `json:"marketplace"`
 	SponsorID         string  `json:"sponsor_id"`
 	OrderStatus       string  `json:"order_status"`
-	ID                int64   `json:"id"`
-	Cancelled         bool    `json:"cancelled"`
 	PaidAmount        float64 `json:"paid_amount"`
 	RefundedAmount    float64 `json:"refunded_amount"`
 	ShippingCost      float64 `json:"shipping_cost"`
 	TotalAmount       float64 `json:"total_amount"`
+	ID                int64   `json:"id"`
+	Cancelled         bool    `json:"cancelled"`
 }
 
 // PayerResponse represents buyer information.
@@ -54,11 +54,11 @@ type PaymentResponse struct {
 	StatusDetails     string  `json:"status_details"`
 	OperationType     string  `json:"operation_type"`
 	CurrencyID        string  `json:"currency_id"`
-	ID                int64   `json:"id"`
 	TransactionAmount float64 `json:"transaction_amount"`
 	TotalPaidAmount   float64 `json:"total_paid_amount"`
 	ShippingCost      float64 `json:"shipping_cost"`
 	AmountRefunded    float64 `json:"amount_refunded"`
+	ID                int64   `json:"id"`
 }
 
 // ItemResponse represents item information.
@@ -69,8 +69,8 @@ type ItemResponse struct {
 	PictureURL  string  `json:"picture_url"`
 	CurrencyID  string  `json:"currency_id"`
 	CategoryID  string  `json:"category_id"`
-	Quantity    int     `json:"quantity"`
 	UnitPrice   float64 `json:"unit_price"`
+	Quantity    int     `json:"quantity"`
 }
 
 // ShipmentResponse represents shipment information.
@@ -120,10 +120,10 @@ type ShippingOptionResponse struct {
 
 	Name             string  `json:"name"`
 	CurrencyID       string  `json:"currency_id"`
-	ID               int64   `json:"id"`
-	ShippingMethodID int64   `json:"shipping_method_id"`
 	Cost             float64 `json:"cost"`
 	ListCost         float64 `json:"list_cost"`
+	ID               int64   `json:"id"`
+	ShippingMethodID int64   `json:"shipping_method_id"`
 }
 
 // ReceiverAddressCityResponse represents city information.

@@ -31,10 +31,10 @@ type Response struct {
 	InitPoint           string         `json:"init_point"`
 	SandboxInitPoint    string         `json:"sandbox_init_point"`
 	SiteID              string         `json:"site_id"`
+	MarketplaceFee      float64        `json:"marketplace_fee"`
 	CollectorID         int64          `json:"collector_id"`
 	Expires             bool           `json:"expires"`
 	BinaryMode          bool           `json:"binary_mode"`
-	MarketplaceFee      float64        `json:"marketplace_fee"`
 	ProcessingModes     []string       `json:"processing_modes"`
 	Metadata            map[string]any `json:"metadata"`
 }
@@ -47,8 +47,8 @@ type PreferenceItemResponse struct {
 	CurrencyID  string  `json:"currency_id"`
 	PictureURL  string  `json:"picture_url"`
 	CategoryID  string  `json:"category_id"`
-	Quantity    int     `json:"quantity"`
 	UnitPrice   float64 `json:"unit_price"`
+	Quantity    int     `json:"quantity"`
 }
 
 // PreferencePayerResponse contains payer information in the preference.

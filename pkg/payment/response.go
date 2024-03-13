@@ -52,16 +52,16 @@ type Response struct {
 	CallForAuthorizeID        string         `json:"call_for_authorize_id"`
 	StatementDescriptor       string         `json:"statement_descriptor"`
 	MoneyReleaseStatus        string         `json:"money_release_status"`
-	Installments              int            `json:"installments"`
-	ID                        int64          `json:"id"`
-	SponsorID                 int64          `json:"sponsor_id"`
-	CollectorID               int64          `json:"collector_id"`
 	TransactionAmount         float64        `json:"transaction_amount"`
 	TransactionAmountRefunded float64        `json:"transaction_amount_refunded"`
 	CouponAmount              float64        `json:"coupon_amount"`
 	TaxesAmount               float64        `json:"taxes_amount"`
 	ShippingAmount            float64        `json:"shipping_amount"`
 	NetAmount                 float64        `json:"net_amount"`
+	Installments              int            `json:"installments"`
+	ID                        int64          `json:"id"`
+	SponsorID                 int64          `json:"sponsor_id"`
+	CollectorID               int64          `json:"collector_id"`
 	LiveMode                  bool           `json:"live_mode"`
 	Captured                  bool           `json:"captured"`
 	BinaryMode                bool           `json:"binary_mode"`
@@ -103,8 +103,8 @@ type ItemResponse struct {
 	Description string  `json:"description"`
 	PictureURL  string  `json:"picture_url"`
 	CategoryID  string  `json:"category_id"`
-	Quantity    int     `json:"quantity"`
 	UnitPrice   float64 `json:"unit_price"`
+	Quantity    int     `json:"quantity"`
 }
 
 // AdditionalInfoPayerResponse represents payer's additional information.
@@ -147,8 +147,8 @@ type ReceiverAddressResponse struct {
 
 // OrderResponse represents order information.
 type OrderResponse struct {
-	ID   int    `json:"id"`
 	Type string `json:"type"`
+	ID   int    `json:"id"`
 }
 
 // TransactionDetailsResponse represents transaction details.
@@ -325,10 +325,10 @@ type RefundResponse struct {
 	RefundMode           string  `json:"refund_mode"`
 	Reason               string  `json:"reason"`
 	UniqueSequenceNumber string  `json:"unique_sequence_number"`
-	ID                   int64   `json:"id"`
-	PaymentID            int64   `json:"payment_id"`
 	Amount               float64 `json:"amount"`
 	AdjustmentAmount     float64 `json:"adjustment_amount"`
+	ID                   int64   `json:"id"`
+	PaymentID            int64   `json:"payment_id"`
 }
 
 // SourceResponse represents source information.

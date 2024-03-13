@@ -29,16 +29,16 @@ type Request struct {
 	PaymentMethodOptionID string         `json:"payment_method_option_id,omitempty"`
 	StatementDescriptor   string         `json:"statement_descriptor,omitempty"`
 	ThreeDSecureMode      string         `json:"three_d_secure_mode,omitempty"`
+	ApplicationFee        float64        `json:"application_fee,omitempty"`
+	CouponAmount          float64        `json:"coupon_amount,omitempty"`
+	NetAmount             float64        `json:"net_amount,omitempty"`
+	TransactionAmount     float64        `json:"transaction_amount,omitempty"`
 	Installments          int            `json:"installments,omitempty"`
 	CampaignID            int64          `json:"campaign_id,omitempty"`
 	DifferentialPricingID int64          `json:"differential_pricing_id,omitempty"`
 	SponsorID             int64          `json:"sponsor_id,omitempty"`
 	BinaryMode            bool           `json:"binary_mode,omitempty"`
 	Capture               bool           `json:"capture,omitempty"`
-	ApplicationFee        float64        `json:"application_fee,omitempty"`
-	CouponAmount          float64        `json:"coupon_amount,omitempty"`
-	NetAmount             float64        `json:"net_amount,omitempty"`
-	TransactionAmount     float64        `json:"transaction_amount,omitempty"`
 	Metadata              map[string]any `json:"metadata,omitempty"`
 }
 
@@ -116,8 +116,8 @@ type ItemRequest struct {
 	Description string  `json:"description,omitempty"`
 	PictureURL  string  `json:"picture_url,omitempty"`
 	CategoryID  string  `json:"category_id,omitempty"`
-	Quantity    int64   `json:"quantity,omitempty"`
 	UnitPrice   float64 `json:"unit_price,omitempty"`
+	Quantity    int64   `json:"quantity,omitempty"`
 	Warranty    bool    `json:"warranty,omitempty"`
 }
 

@@ -21,13 +21,13 @@ type Response struct {
 	FirstInvoiceOffset string `json:"first_invoice_offset"`
 	BackURL            string `json:"back_url"`
 	PreapprovalPlanID  string `json:"preapproval_plan_id"`
+	PayerFirstName     string `json:"payer_first_name"`
+	PayerLastName      string `json:"payer_last_name"`
 	CardID             int    `json:"card_id"`
 	Version            int    `json:"version"`
 	PayerID            int    `json:"payer_id"`
 	CollectorID        int    `json:"collector_id"`
 	ApplicationID      int    `json:"application_id"`
-	PayerFirstName     string `json:"payer_first_name"`
-	PayerLastName      string `json:"payer_last_name"`
 }
 
 // AutoRecurringResponse represents the recurrence settings.
@@ -38,8 +38,8 @@ type AutoRecurringResponse struct {
 
 	CurrencyID        string  `json:"currency_id"`
 	FrequencyType     string  `json:"frequency_type"`
-	Frequency         int     `json:"frequency"`
 	TransactionAmount float64 `json:"transaction_amount"`
+	Frequency         int     `json:"frequency"`
 }
 
 // FreeTrialResponse represents the free trial settings.
@@ -54,10 +54,10 @@ type SummarizedResponse struct {
 	LastChargedDate   time.Time `json:"last_charged_date"`
 	LastChargedAmount time.Time `json:"last_charged_amount"`
 
+	Semaphore             string  `json:"semaphore"`
+	PendingChargeAmount   float64 `json:"pending_charge_amount"`
+	ChargedAmount         float64 `json:"charged_amount"`
 	Quotas                int     `json:"quotas"`
 	PendingChargeQuantity int     `json:"pending_charge_quantity"`
 	ChargedQuantity       int     `json:"charged_quantity"`
-	PendingChargeAmount   float64 `json:"pending_charge_amount"`
-	ChargedAmount         float64 `json:"charged_amount"`
-	Semaphore             string  `json:"semaphore"`
 }

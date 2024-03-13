@@ -11,10 +11,10 @@ type Response struct {
 	RefundMode           string  `json:"refund_mode"`
 	Reason               string  `json:"reason"`
 	UniqueSequenceNumber string  `json:"unique_sequence_number"`
-	ID                   int64   `json:"id"`
-	PaymentID            int64   `json:"payment_id"`
 	Amount               float64 `json:"amount"`
 	AdjustmentAmount     float64 `json:"adjustment_amount"`
+	ID                   int64   `json:"id"`
+	PaymentID            int64   `json:"payment_id"`
 }
 
 // Source represents the data to identify who originated the refund

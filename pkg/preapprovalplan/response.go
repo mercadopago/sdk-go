@@ -25,10 +25,10 @@ type AutoRecurringResponse struct {
 
 	CurrencyID             string  `json:"currency_id"`
 	FrequencyType          string  `json:"frequency_type"`
+	TransactionAmount      float64 `json:"transaction_amount"`
 	Frequency              int     `json:"frequency"`
 	Repetitions            int     `json:"repetitions"`
 	BillingDay             int     `json:"billing_day"`
-	TransactionAmount      float64 `json:"transaction_amount"`
 	BillingDayProportional bool    `json:"billing_day_proportional"`
 }
 

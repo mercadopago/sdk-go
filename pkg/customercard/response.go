@@ -45,8 +45,8 @@ type IdentificationResponse struct {
 
 // IssuerResponse represents the card issuer code.
 type IssuerResponse struct {
-	ID   int    `json:"id"`
 	Name string `json:"name"`
+	ID   int    `json:"id"`
 }
 
 // PaymentMethodResponse represents the card's payment method.
@@ -60,6 +60,6 @@ type PaymentMethodResponse struct {
 
 // SecurityCode represents the card's security code.
 type SecurityCodeResponse struct {
-	Length       int    `json:"length"`
 	CardLocation string `json:"card_location"`
+	Length       int    `json:"length"`
 }

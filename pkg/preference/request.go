@@ -26,9 +26,9 @@ type Request struct {
 	NotificationUrl     string         `json:"notification_url,omitempty"`
 	Purpose             string         `json:"purpose,omitempty"`
 	StatementDescriptor string         `json:"statement_descriptor,omitempty"`
+	MarketplaceFee      float64        `json:"marketplace_fee,omitempty"`
 	BinaryMode          bool           `json:"binary_mode,omitempty"`
 	Expires             bool           `json:"expires,omitempty"`
-	MarketplaceFee      float64        `json:"marketplace_fee,omitempty"`
 	ProcessingModes     []string       `json:"processing_modes,omitempty"`
 	Metadata            map[string]any `json:"metadata,omitempty"`
 }
@@ -53,8 +53,8 @@ type PreferenceItemRequest struct {
 	PictureURL  string  `json:"picture_url,omitempty"`
 	CategoryID  string  `json:"category_id,omitempty"`
 	CurrencyID  string  `json:"currency_id,omitempty"`
-	Quantity    int     `json:"quantity,omitempty"`
 	UnitPrice   float64 `json:"unit_price,omitempty"`
+	Quantity    int     `json:"quantity,omitempty"`
 }
 
 // PreferencePayerRequest contains payer information in the preference.
@@ -116,10 +116,10 @@ type PreferenceShipmentsRequest struct {
 	Mode                  string  `json:"mode,omitempty"`
 	Dimensions            string  `json:"dimensions,omitempty"`
 	DefaultShippingMethod string  `json:"default_shipping_method,omitempty"`
+	Cost                  float64 `json:"cost,omitempty"`
 	LocalPickup           bool    `json:"local_pickup,omitempty"`
 	FreeShipping          bool    `json:"free_shipping,omitempty"`
 	ExpressShipment       bool    `json:"express_shipment,omitempty"`
-	Cost                  float64 `json:"cost,omitempty"`
 }
 
 // PreferenceFreeMethodRequest contains information about free shipping methods in the preference.
