@@ -103,8 +103,8 @@ type ItemResponse struct {
 	Description string  `json:"description"`
 	PictureURL  string  `json:"picture_url"`
 	CategoryID  string  `json:"category_id"`
+	Quantity    string  `json:"quantity"`
 	UnitPrice   float64 `json:"unit_price"`
-	Quantity    int     `json:"quantity"`
 }
 
 // AdditionalInfoPayerResponse represents payer's additional information.
