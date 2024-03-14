@@ -18,8 +18,8 @@ func main() {
 	client := preapproval.NewClient(cfg)
 
 	filters := preapproval.SearchRequest{
-		Limit:  10,
-		Offset: 10,
+		Limit:  "10",
+		Offset: "10",
 		Filters: map[string]string{
 			"payer_id": "123123123",
 		},
