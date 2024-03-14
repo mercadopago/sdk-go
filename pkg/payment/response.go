@@ -103,7 +103,7 @@ type ItemResponse struct {
 	Description string  `json:"description"`
 	PictureURL  string  `json:"picture_url"`
 	CategoryID  string  `json:"category_id"`
-	Quantity    int     `json:"quantity"`
+	Quantity    string  `json:"quantity"`
 	UnitPrice   float64 `json:"unit_price"`
 }
 
