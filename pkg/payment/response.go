@@ -98,13 +98,13 @@ type AdditionalInfoResponse struct {
 
 // ItemResponse represents an item.
 type ItemResponse struct {
-	ID          string  `json:"id"`
-	Title       string  `json:"title"`
-	Description string  `json:"description"`
-	PictureURL  string  `json:"picture_url"`
-	CategoryID  string  `json:"category_id"`
-	Quantity    string  `json:"quantity"`
-	UnitPrice   float64 `json:"unit_price"`
+	ID          string `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	PictureURL  string `json:"picture_url"`
+	CategoryID  string `json:"category_id"`
+	Quantity    string `json:"quantity"`
+	UnitPrice   string `json:"unit_price"`
 }
 
 // AdditionalInfoPayerResponse represents payer's additional information.
@@ -147,7 +147,7 @@ type ReceiverAddressResponse struct {
 
 // OrderResponse represents order information.
 type OrderResponse struct {
-	ID   int    `json:"id"`
+	ID   string `json:"id"`
 	Type string `json:"type"`
 }
 
