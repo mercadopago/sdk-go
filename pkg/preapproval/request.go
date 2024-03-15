@@ -18,9 +18,9 @@ type Request struct {
 
 // AutoRecurringRequest represents the recurrence settings.
 type AutoRecurringRequest struct {
+	FreeTrial *FreeTrialRequest `json:"free_trial,omitempty"`
 	StartDate *time.Time        `json:"start_date,omitempty"`
 	EndDate   *time.Time        `json:"end_date,omitempty"`
-	FreeTrial *FreeTrialRequest `json:"free_trial,omitempty"`
 
 	CurrencyID        string  `json:"currency_id,omitempty"`
 	FrequencyType     string  `json:"frequency_type,omitempty"`

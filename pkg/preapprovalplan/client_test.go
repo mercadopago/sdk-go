@@ -468,7 +468,7 @@ func TestSearch(t *testing.T) {
 	}
 }
 
-func parseDate(s string) *time.Time {
+func parseDate(s string) time.Time {
 	d, _ := time.Parse(time.RFC3339, s)
-	return &d
+	return d
 }

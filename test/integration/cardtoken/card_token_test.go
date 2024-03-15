@@ -24,8 +24,8 @@ func TestCardToken(t *testing.T) {
 			ExpirationMonth: "11",
 			ExpirationYear:  "2025",
 			SecurityCode:    "123",
-			Cardholder: &cardtoken.Cardholder{
-				Identification: &cardtoken.Identification{
+			Cardholder: &cardtoken.CardholderRequest{
+				Identification: &cardtoken.IdentificationRequest{
 					Type:   "CPF",
 					Number: "70383868084",
 				},

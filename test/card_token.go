@@ -8,8 +8,8 @@ import (
 
 func GenerateCardToken(ctx context.Context, client cardtoken.Client) (string, error) {
 	req := cardtoken.Request{
-		Cardholder: &cardtoken.Cardholder{
-			Identification: &cardtoken.Identification{
+		Cardholder: &cardtoken.CardholderRequest{
+			Identification: &cardtoken.IdentificationRequest{
 				Number: "01234567890",
 				Type:   "CPF",
 			},
