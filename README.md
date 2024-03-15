@@ -1,5 +1,8 @@
 # Mercado Pago SDK for Go
 
+## Work In Progress
+SDK development is still ongoing, we aim to release a reliable 1.0.0 soon.
+
 [![Go Reference](https://pkg.go.dev/badge/github.com/mercadopago/sdk-go.svg)](https://pkg.go.dev/github.com/mercadopago/sdk-go)
 
 ![mercado-pago-image-7130x2250](https://github.com/mercadopago/sdk-go/assets/84413927/c18102b2-b4ed-46c9-9a83-b5e6a30d659b)
