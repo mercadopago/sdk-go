@@ -2,8 +2,8 @@ package preapprovalplan
 
 // SearchResponse represents the response from the search endpoint.
 type SearchResponse struct {
-	Results []Response     `json:"results"`
 	Paging  PagingResponse `json:"paging"`
+	Results []Response     `json:"results"`
 }
 
 // PagingResponse represents the paging information within SearchResponse.

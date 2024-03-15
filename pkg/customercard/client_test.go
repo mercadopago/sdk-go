@@ -112,7 +112,7 @@ func TestCreate(t *testing.T) {
 					Thumbnail:       "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 					SecureThumbnail: "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 				},
-				SecurityCode: SecurityCode{
+				SecurityCode: SecurityCodeResponse{
 					Length:       3,
 					CardLocation: "back",
 				},
@@ -230,7 +230,7 @@ func TestUpdate(t *testing.T) {
 					Thumbnail:       "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 					SecureThumbnail: "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 				},
-				SecurityCode: SecurityCode{
+				SecurityCode: SecurityCodeResponse{
 					Length:       3,
 					CardLocation: "back",
 				},
@@ -345,7 +345,7 @@ func TestGet(t *testing.T) {
 					Thumbnail:       "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 					SecureThumbnail: "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 				},
-				SecurityCode: SecurityCode{
+				SecurityCode: SecurityCodeResponse{
 					Length:       3,
 					CardLocation: "back",
 				},
@@ -460,7 +460,7 @@ func TestDelete(t *testing.T) {
 					Thumbnail:       "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 					SecureThumbnail: "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 				},
-				SecurityCode: SecurityCode{
+				SecurityCode: SecurityCodeResponse{
 					Length:       3,
 					CardLocation: "back",
 				},
@@ -574,7 +574,7 @@ func TestList(t *testing.T) {
 						Thumbnail:       "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 						SecureThumbnail: "https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png",
 					},
-					SecurityCode: SecurityCode{
+					SecurityCode: SecurityCodeResponse{
 						Length:       3,
 						CardLocation: "back",
 					},
@@ -602,7 +602,7 @@ func TestList(t *testing.T) {
 	}
 }
 
-func parseDate(s string) *time.Time {
+func parseDate(s string) time.Time {
 	d, _ := time.Parse(time.RFC3339, s)
-	return &d
+	return d
 }

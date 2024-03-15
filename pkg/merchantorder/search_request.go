@@ -9,10 +9,9 @@ import (
 // Filters field can receive a lot of paramaters. For details, see:
 // https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_search/get.
 type SearchRequest struct {
+	Limit   int
+	Offset  int
 	Filters map[string]string
-
-	Limit  int
-	Offset int
 }
 
 // GetParams creates map to build query parameters. Keys will be changed to lower case.

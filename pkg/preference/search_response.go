@@ -4,10 +4,10 @@ import "time"
 
 // SearchResponse contains information about a preference for searching.
 type SearchResponse struct {
-	DateCreated        *time.Time `json:"date_created"`
-	ExpirationDateFrom *time.Time `json:"expiration_date_from"`
-	ExpirationDateTo   *time.Time `json:"expiration_date_to"`
-	LastUpdated        *time.Time `json:"last_updated"`
+	DateCreated        time.Time `json:"date_created"`
+	ExpirationDateFrom time.Time `json:"expiration_date_from"`
+	ExpirationDateTo   time.Time `json:"expiration_date_to"`
+	LastUpdated        time.Time `json:"last_updated"`
 
 	ID                string   `json:"id"`
 	ClientID          string   `json:"client_id"`

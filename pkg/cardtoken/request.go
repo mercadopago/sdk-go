@@ -1,7 +1,7 @@
 package cardtoken
 
 type Request struct {
-	Cardholder *Cardholder `json:"cardholder,omitempty"`
+	Cardholder *CardholderRequest `json:"cardholder,omitempty"`
 
 	SiteID          string `json:"site_id,omitempty"`
 	CardNumber      string `json:"card_number,omitempty"`
@@ -10,13 +10,13 @@ type Request struct {
 	SecurityCode    string `json:"security_code,omitempty"`
 }
 
-type Cardholder struct {
-	Identification *Identification `json:"identification,omitempty"`
+type CardholderRequest struct {
+	Identification *IdentificationRequest `json:"identification,omitempty"`
 
 	Name string `json:"name,omitempty"`
 }
 
-type Identification struct {
+type IdentificationRequest struct {
 	Number string `json:"number,omitempty"`
 	Type   string `json:"type,omitempty"`
 }

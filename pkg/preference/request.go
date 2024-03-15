@@ -6,31 +6,31 @@ import (
 
 // PreferenceRequest contains parameters to create/update a preference.
 type Request struct {
-	DateOfExpiration    *time.Time                            `json:"date_of_expiration,omitempty"`
-	ExpirationDateFrom  *time.Time                            `json:"expiration_date_from,omitempty"`
-	ExpirationDateTo    *time.Time                            `json:"expiration_date_to,omitempty"`
 	BackUrls            *PreferenceBackUrlsRequest            `json:"back_urls,omitempty"`
 	DifferentialPricing *PreferenceDifferentialPricingRequest `json:"differential_pricing,omitempty"`
 	Payer               *PreferencePayerRequest               `json:"payer,omitempty"`
 	PaymentMethods      *PreferencePaymentMethodsRequest      `json:"payment_methods,omitempty"`
 	Shipments           *PreferenceShipmentsRequest           `json:"shipments,omitempty"`
+	DateOfExpiration    *time.Time                            `json:"date_of_expiration,omitempty"`
+	ExpirationDateFrom  *time.Time                            `json:"expiration_date_from,omitempty"`
+	ExpirationDateTo    *time.Time                            `json:"expiration_date_to,omitempty"`
 	Items               []PreferenceItemRequest               `json:"items,omitempty"`
 	Taxes               []PreferenceTaxRequest                `json:"taxes,omitempty"`
 	Tracks              []PreferenceTrackRequest              `json:"tracks,omitempty"`
 
-	AdditionalInfo      string                 `json:"additional_info,omitempty"`
-	AutoReturn          string                 `json:"auto_return,omitempty"`
-	ExternalReference   string                 `json:"external_reference,omitempty"`
-	Marketplace         string                 `json:"marketplace,omitempty"`
-	OperationType       string                 `json:"operation_type,omitempty"`
-	NotificationUrl     string                 `json:"notification_url,omitempty"`
-	Purpose             string                 `json:"purpose,omitempty"`
-	StatementDescriptor string                 `json:"statement_descriptor,omitempty"`
-	BinaryMode          bool                   `json:"binary_mode,omitempty"`
-	Expires             bool                   `json:"expires,omitempty"`
-	MarketplaceFee      float64                `json:"marketplace_fee,omitempty"`
-	ProcessingModes     []string               `json:"processing_modes,omitempty"`
-	Metadata            map[string]interface{} `json:"metadata,omitempty"`
+	AdditionalInfo      string         `json:"additional_info,omitempty"`
+	AutoReturn          string         `json:"auto_return,omitempty"`
+	ExternalReference   string         `json:"external_reference,omitempty"`
+	Marketplace         string         `json:"marketplace,omitempty"`
+	OperationType       string         `json:"operation_type,omitempty"`
+	NotificationUrl     string         `json:"notification_url,omitempty"`
+	Purpose             string         `json:"purpose,omitempty"`
+	StatementDescriptor string         `json:"statement_descriptor,omitempty"`
+	MarketplaceFee      float64        `json:"marketplace_fee,omitempty"`
+	BinaryMode          bool           `json:"binary_mode,omitempty"`
+	Expires             bool           `json:"expires,omitempty"`
+	ProcessingModes     []string       `json:"processing_modes,omitempty"`
+	Metadata            map[string]any `json:"metadata,omitempty"`
 }
 
 // PreferenceBackUrlsRequest contains callback URLs.
@@ -53,16 +53,16 @@ type PreferenceItemRequest struct {
 	PictureURL  string  `json:"picture_url,omitempty"`
 	CategoryID  string  `json:"category_id,omitempty"`
 	CurrencyID  string  `json:"currency_id,omitempty"`
-	Quantity    int     `json:"quantity,omitempty"`
 	UnitPrice   float64 `json:"unit_price,omitempty"`
+	Quantity    int     `json:"quantity,omitempty"`
 }
 
 // PreferencePayerRequest contains payer information in the preference.
 type PreferencePayerRequest struct {
-	DateCreated    *time.Time             `json:"date_created,omitempty"`
 	Phone          *PhoneRequest          `json:"phone,omitempty"`
 	Identification *IdentificationRequest `json:"identification,omitempty"`
 	Address        *AddressRequest        `json:"address,omitempty"`
+	DateCreated    *time.Time             `json:"date_created,omitempty"`
 
 	Name    string `json:"name,omitempty"`
 	Surname string `json:"surname,omitempty"`
@@ -116,10 +116,10 @@ type PreferenceShipmentsRequest struct {
 	Mode                  string  `json:"mode,omitempty"`
 	Dimensions            string  `json:"dimensions,omitempty"`
 	DefaultShippingMethod string  `json:"default_shipping_method,omitempty"`
+	Cost                  float64 `json:"cost,omitempty"`
 	LocalPickup           bool    `json:"local_pickup,omitempty"`
 	FreeShipping          bool    `json:"free_shipping,omitempty"`
 	ExpressShipment       bool    `json:"express_shipment,omitempty"`
-	Cost                  float64 `json:"cost,omitempty"`
 }
 
 // PreferenceFreeMethodRequest contains information about free shipping methods in the preference.
