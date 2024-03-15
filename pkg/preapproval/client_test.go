@@ -3,9 +3,6 @@ package preapproval
 import (
 	"context"
 	"fmt"
-	"github.com/google/uuid"
-	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 	"io"
 	"net/http"
 	"os"
@@ -13,6 +10,10 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/google/uuid"
+	"github.com/mercadopago/sdk-go/pkg/config"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 var (
@@ -101,8 +102,6 @@ func TestCreate(t *testing.T) {
 					ChargedQuantity:       0,
 					PendingChargeQuantity: 0,
 					ChargedAmount:         0,
-					LastChargedDate:       nil,
-					LastChargedAmount:     nil,
 				},
 				NextPaymentDate:    parseDate("2024-03-06T18:10:01.000-04:00"),
 				PaymentMethodID:    "",
@@ -208,8 +207,6 @@ func TestGet(t *testing.T) {
 					ChargedQuantity:       0,
 					PendingChargeQuantity: 0,
 					ChargedAmount:         0,
-					LastChargedDate:       nil,
-					LastChargedAmount:     nil,
 				},
 				NextPaymentDate:    parseDate("2024-03-06T18:10:01.000-04:00"),
 				PaymentMethodID:    "",
@@ -428,8 +425,6 @@ func TestUpdate(t *testing.T) {
 					PendingChargeQuantity: 0,
 					ChargedAmount:         0,
 					Semaphore:             "",
-					LastChargedDate:       nil,
-					LastChargedAmount:     nil,
 				},
 				NextPaymentDate:    parseDate("2024-03-06T18:10:01.000-04:00"),
 				PaymentMethodID:    "",
@@ -458,7 +453,7 @@ func TestUpdate(t *testing.T) {
 	}
 }
 
-func parseDate(s string) *time.Time {
+func parseDate(s string) time.Time {
 	d, _ := time.Parse(time.RFC3339, s)
-	return &d
+	return d
 }

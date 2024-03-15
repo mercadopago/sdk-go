@@ -338,8 +338,8 @@ func buildResponseMock() *Response {
 			Nickname: "TEST_USER_658045679",
 		},
 		Marketplace: "NONE",
-		DateCreated: &dateCreated,
-		LastUpdated: &lastUpdate,
+		DateCreated: dateCreated,
+		LastUpdated: lastUpdate,
 		TotalAmount: 10,
 		SiteID:      "MLB",
 		Items: []ItemResponse{

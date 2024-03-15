@@ -4,13 +4,13 @@ import "time"
 
 // Response represents a customer card.
 type Response struct {
-	DateCreated     *time.Time             `json:"date_created"`
-	DateLastUpdated *time.Time             `json:"date_last_updated"`
 	Issuer          IssuerResponse         `json:"issuer"`
 	Cardholder      CardholderResponse     `json:"cardholder"`
 	AdditionalInfo  AdditionalInfoResponse `json:"additional_info"`
 	PaymentMethod   PaymentMethodResponse  `json:"payment_method"`
-	SecurityCode    SecurityCode           `json:"security_code"`
+	SecurityCode    SecurityCodeResponse   `json:"security_code"`
+	DateCreated     time.Time              `json:"date_created"`
+	DateLastUpdated time.Time              `json:"date_last_updated"`
 
 	ID              string `json:"id"`
 	CustomerID      string `json:"customer_id"`
@@ -45,8 +45,8 @@ type IdentificationResponse struct {
 
 // IssuerResponse represents the card issuer code.
 type IssuerResponse struct {
-	ID   int    `json:"id"`
 	Name string `json:"name"`
+	ID   int    `json:"id"`
 }
 
 // PaymentMethodResponse represents the card's payment method.
@@ -59,7 +59,7 @@ type PaymentMethodResponse struct {
 }
 
 // SecurityCode represents the card's security code.
-type SecurityCode struct {
-	Length       int    `json:"length"`
+type SecurityCodeResponse struct {
 	CardLocation string `json:"card_location"`
+	Length       int    `json:"length"`
 }

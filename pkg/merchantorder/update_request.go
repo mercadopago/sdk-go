@@ -22,22 +22,22 @@ type UpdateRequest struct {
 
 // ShipmentRequest represents shipment information.
 type ShipmentRequest struct {
+	ReceiverAddress  *ReceiverAddressRequest `json:"receiver_address,omitempty"`
+	ShippingOption   *ShippingOptionRequest  `json:"shipping_option,omitempty"`
 	DateCreated      *time.Time              `json:"date_created,omitempty"`
 	LastModified     *time.Time              `json:"last_modified,omitempty"`
 	DateFirstPrinted *time.Time              `json:"date_first_printed,omitempty"`
-	ReceiverAddress  *ReceiverAddressRequest `json:"receiver_address,omitempty"`
-	ShippingOption   *ShippingOptionRequest  `json:"shipping_option,omitempty"`
 
-	ShippingType      string                   `json:"shipping_type,omitempty"`
-	ShippingMode      string                   `json:"shipping_mode,omitempty"`
-	PickingType       string                   `json:"picking_type,omitempty"`
-	Status            string                   `json:"status,omitempty"`
-	ShippingSubstatus string                   `json:"shipping_substatus,omitempty"`
-	ServiceID         string                   `json:"service_id,omitempty"`
-	ID                int64                    `json:"id,omitempty"`
-	SenderID          int64                    `json:"sender_id,omitempty"`
-	ReceiverID        int64                    `json:"receiver_id,omitempty"`
-	Items             []map[string]interface{} `json:"items,omitempty"`
+	ShippingType      string           `json:"shipping_type,omitempty"`
+	ShippingMode      string           `json:"shipping_mode,omitempty"`
+	PickingType       string           `json:"picking_type,omitempty"`
+	Status            string           `json:"status,omitempty"`
+	ShippingSubstatus string           `json:"shipping_substatus,omitempty"`
+	ServiceID         string           `json:"service_id,omitempty"`
+	ID                int64            `json:"id,omitempty"`
+	SenderID          int64            `json:"sender_id,omitempty"`
+	ReceiverID        int64            `json:"receiver_id,omitempty"`
+	Items             []map[string]any `json:"items,omitempty"`
 }
 
 // ReceiverAddressRequest represents receiver address information.
@@ -67,10 +67,10 @@ type ShippingOptionRequest struct {
 
 	Name             string  `json:"name,omitempty"`
 	CurrencyID       string  `json:"currency_id,omitempty"`
-	ShippingMethodID int64   `json:"shipping_method_id,omitempty"`
-	ID               int64   `json:"id,omitempty"`
 	Cost             float64 `json:"cost,omitempty"`
 	ListCost         float64 `json:"list_cost,omitempty"`
+	ShippingMethodID int64   `json:"shipping_method_id,omitempty"`
+	ID               int64   `json:"id,omitempty"`
 }
 
 // ReceiverAddressCityRequest represents city information.

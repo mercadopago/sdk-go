@@ -359,7 +359,7 @@ func TestListDevices(t *testing.T) {
 				ctx: context.Background(),
 			},
 			want: &DevicesResponse{
-				Devices: []Device{
+				Devices: []DeviceResponse{
 					{
 						ID:            "PAX_A910__SMARTPOS1234345545",
 						PosID:         47792476,
@@ -368,7 +368,7 @@ func TestListDevices(t *testing.T) {
 						OperatingMode: "PDV",
 					},
 				},
-				Paging: Paging{
+				Paging: PagingResponse{
 					Total:  1,
 					Offset: 0,
 					Limit:  50,

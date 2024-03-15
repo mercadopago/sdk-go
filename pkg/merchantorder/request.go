@@ -31,8 +31,8 @@ type ItemRequest struct {
 	PictureURL  string  `json:"picture_url,omitempty"`
 	CategoryID  string  `json:"category_id,omitempty"`
 	CurrencyID  string  `json:"currency_id,omitempty"`
-	Quantity    int     `json:"quantity,omitempty"`
 	UnitPrice   float64 `json:"unit_price,omitempty"`
+	Quantity    int     `json:"quantity,omitempty"`
 }
 
 // CollectorRequest represents seller information.
