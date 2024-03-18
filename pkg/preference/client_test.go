@@ -356,7 +356,7 @@ func TestUpdate(t *testing.T) {
 					},
 				},
 			}
-			got, err := c.Update(tt.args.ctx, dto, "1273205088-6a2d2fa5-edb8-4d06-90c7-74b756a75f38")
+			got, err := c.Update(tt.args.ctx, "1273205088-6a2d2fa5-edb8-4d06-90c7-74b756a75f38", dto)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()

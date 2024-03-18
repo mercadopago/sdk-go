@@ -81,7 +81,7 @@ func main() {
 		},
 	}
 
-	order, err = client.Update(context.Background(), req, order.ID)
+	order, err = client.Update(context.Background(), order.ID, req)
 	if err != nil {
 		fmt.Println(err)
 		return

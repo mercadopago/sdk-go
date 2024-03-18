@@ -21,8 +21,8 @@ type SearchResponse struct {
 	ProductID         string   `json:"product_id"`
 	Purpose           string   `json:"purpose"`
 	SiteID            string   `json:"site_id"`
-	CollectorID       int64    `json:"collector_id"`
-	SponsorID         int64    `json:"sponsor_id"`
+	CollectorID       int      `json:"collector_id"`
+	SponsorID         int      `json:"sponsor_id"`
 	LiveMode          bool     `json:"live_mode"`
 	Expires           bool     `json:"expires"`
 	Items             []string `json:"items"`

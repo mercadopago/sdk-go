@@ -21,7 +21,7 @@ type PaymentResponse struct {
 	Type             string `json:"type"`
 	InstallmentsCost string `json:"installments_cost"`
 	VoucherType      string `json:"voucher_type"`
-	ID               int64  `json:"id"`
+	ID               int    `json:"id"`
 	Installments     int    `json:"installments"`
 }
 

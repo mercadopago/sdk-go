@@ -24,7 +24,6 @@ type client struct {
 
 // Client contains the methods to interact with the Point API.
 type Client interface {
-
 	// Create a point payment intent.
 	// It is a post request to the endpoint: https://api.mercadopago.com/point/integration-api/devices/{device_id}/payment-intents
 	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api_paymentintent_mlb/_point_integration-api_devices_deviceid_payment-intents/post
@@ -38,7 +37,7 @@ type Client interface {
 	// Cancel a point payment intent.
 	// It is a cancel request to the endpoint: https://api.mercadopago.com/point/integration-api/devices/{device_id}/payment-intents/{payment_intent_id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api/_point_integration-api_devices_deviceid_payment-intents_paymentintentid/delete
-	Cancel(ctx context.Context, deviceID string, paymentIntentID string) (*CancelResponse, error)
+	Cancel(ctx context.Context, deviceID, paymentIntentID string) (*CancelResponse, error)
 
 	// ListDevices retrieve devices.
 	// It is a get request to the endpoint: https://api.mercadopago.com/point/integration-api/devices

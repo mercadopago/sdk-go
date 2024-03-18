@@ -7,6 +7,6 @@ type Response struct {
 	RefreshToken string `json:"refresh_token"`
 	PublicKey    string `json:"public_key"`
 	TokenType    string `json:"token_type"`
-	ExpiresIn    int64  `json:"expires_in"`
+	ExpiresIn    int    `json:"expires_in"`
 	LiveMode     bool   `json:"live_mode"`
 }
