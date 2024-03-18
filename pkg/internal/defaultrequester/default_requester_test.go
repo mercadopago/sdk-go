@@ -1,4 +1,4 @@
-package requester
+package defaultrequester
 
 import (
 	"io"
@@ -71,7 +71,7 @@ func TestDo(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			d := Default()
+			d := New()
 			got, err := d.Do(tt.args.req)
 
 			gotError := ""
@@ -192,7 +192,7 @@ func TestCloseResponseBody(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			d := Default()
+			d := New()
 			got, _ := d.Do(tt.args.req)
 
 			tt.args.close(got)

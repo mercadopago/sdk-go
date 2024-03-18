@@ -5,7 +5,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/mercadopago/sdk-go/pkg/internal/requester"
+	"github.com/mercadopago/sdk-go/pkg/requester"
 )
 
 func Send(requester requester.Requester, req *http.Request) ([]byte, error) {

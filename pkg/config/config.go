@@ -3,7 +3,8 @@ package config
 import (
 	"fmt"
 
-	"github.com/mercadopago/sdk-go/pkg/internal/requester"
+	"github.com/mercadopago/sdk-go/pkg/internal/defaultrequester"
+	"github.com/mercadopago/sdk-go/pkg/requester"
 )
 
 // Config allows you to send custom settings and API authentication
@@ -20,7 +21,7 @@ type Config struct {
 func New(accessToken string, opts ...Option) (*Config, error) {
 	cfg := &Config{
 		AccessToken: accessToken,
-		Requester:   requester.Default(),
+		Requester:   defaultrequester.New(),
 	}
 
 	// Apply all the functional options to configure the client.
