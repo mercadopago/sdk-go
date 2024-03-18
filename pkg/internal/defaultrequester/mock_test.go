@@ -10,19 +10,19 @@ import (
 	"time"
 )
 
-func NewRequestMock() *http.Request {
+func newRequestMock() *http.Request {
 	req, _ := http.NewRequestWithContext(context.Background(), http.MethodGet, "", nil)
 
 	return req
 }
 
-func NewRequestMockWithBody() *http.Request {
+func newRequestMockWithBody() *http.Request {
 	req, _ := http.NewRequest(http.MethodPost, "http://test", bytes.NewBuffer([]byte(`{id:1}`)))
 
 	return req
 }
 
-func NewInvalidRequestMock() *http.Request {
+func newInvalidRequestMock() *http.Request {
 	req, _ := http.NewRequest(http.MethodGet, "http://test", nil)
 	req.GetBody = func() (io.ReadCloser, error) {
 		return nil, fmt.Errorf("error getting body")
@@ -31,7 +31,7 @@ func NewInvalidRequestMock() *http.Request {
 	return req
 }
 
-func NewRequestMockWithCanceledContext() *http.Request {
+func newRequestMockWithCanceledContext() *http.Request {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*1)
 	defer cancel()
 
@@ -40,14 +40,14 @@ func NewRequestMockWithCanceledContext() *http.Request {
 	return req
 }
 
-func NewRequestMockWithDeadlineContextAndServerError() (*http.Request, context.CancelFunc) {
+func newRequestMockWithDeadlineContextAndServerError() (*http.Request, context.CancelFunc) {
 	ctx, cancel := context.WithDeadline(context.Background(), time.Now().Add(time.Second*7))
 	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, "", nil)
 
 	return req, cancel
 }
 
-func NewRequestWithHTTPServerUnavailableMock() (*httptest.Server, *http.Request) {
+func newRequestWithHTTPServerUnavailableMock() (*httptest.Server, *http.Request) {
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusServiceUnavailable)
 	}))
@@ -57,7 +57,7 @@ func NewRequestWithHTTPServerUnavailableMock() (*httptest.Server, *http.Request)
 	return s, request
 }
 
-func NewRequestWithHTTPServerOKMock() (*httptest.Server, *http.Request) {
+func newRequestWithHTTPServerOKMock() (*httptest.Server, *http.Request) {
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		// we should make this to pass in the lint pileline
@@ -69,7 +69,7 @@ func NewRequestWithHTTPServerOKMock() (*httptest.Server, *http.Request) {
 	return s, request
 }
 
-func NewRequestWithHTTPServerUnavailableAndCanceledContext() (*httptest.Server, *http.Request, context.CancelFunc) {
+func newRequestWithHTTPServerUnavailableAndCanceledContext() (*httptest.Server, *http.Request, context.CancelFunc) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*1)
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusServiceUnavailable)
