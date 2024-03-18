@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 
-	"github.com/mercadopago/sdk-go/pkg/internal/requester"
+	"github.com/mercadopago/sdk-go/pkg/requester"
 )
 
 type Option func(*Config) error

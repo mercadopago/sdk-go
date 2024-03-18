@@ -1,4 +1,4 @@
-package httpclient
+package mperror
 
 import "net/http"
 

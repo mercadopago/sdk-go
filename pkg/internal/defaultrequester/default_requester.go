@@ -1,10 +1,12 @@
-package requester
+package defaultrequester
 
 import (
 	"context"
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/mercadopago/sdk-go/pkg/requester"
 )
 
 var (
@@ -21,11 +23,6 @@ var (
 	defaultBackoffStrategy = constantBackoff(time.Second * 2)
 )
 
-// Requester has the minimum required method to send http requests.
-type Requester interface {
-	Do(req *http.Request) (*http.Response, error)
-}
-
 // defaultRequester provides an immutable implementation of option.Requester.
 type defaultRequester struct{}
 
@@ -34,8 +31,8 @@ type defaultRequester struct{}
 // pass before trying again.
 type backoffFunc func(attempt int) time.Duration
 
-// Default return the default implementation of Requester interface.
-func Default() Requester {
+// New return the default implementation of Requester interface.
+func New() requester.Requester {
 	return &defaultRequester{}
 }
 
