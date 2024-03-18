@@ -2,10 +2,11 @@ package integration
 
 import (
 	"context"
-	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/preapproval"
 	"os"
 	"testing"
+
+	"github.com/mercadopago/sdk-go/pkg/config"
+	"github.com/mercadopago/sdk-go/pkg/preapproval"
 )
 
 func TestPreApproval(t *testing.T) {
@@ -117,7 +118,7 @@ func TestPreApproval(t *testing.T) {
 			},
 		}
 
-		result, err = client.Update(context.Background(), update, result.ID)
+		result, err = client.Update(context.Background(), result.ID, update)
 		if result == nil {
 			t.Error("preapproval can't be nil")
 		}

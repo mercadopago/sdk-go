@@ -23,7 +23,7 @@ type Response struct {
 	Status         string `json:"status"`
 	UserID         int    `json:"user_id"`
 	MerchantID     int    `json:"merchant_id"`
-	ClientID       int64  `json:"client_id"`
+	ClientID       int    `json:"client_id"`
 	LiveMode       bool   `json:"live_mode"`
 }
 
@@ -38,7 +38,7 @@ type AddressResponse struct {
 	ID           string `json:"id"`
 	ZipCode      string `json:"zip_code"`
 	StreetName   string `json:"street_name"`
-	StreetNumber int64  `json:"street_number"`
+	StreetNumber int    `json:"street_number"`
 }
 
 // CardResponse represents a response for a card.

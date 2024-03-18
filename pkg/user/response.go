@@ -7,5 +7,5 @@ type Response struct {
 	CountryID string `json:"country_id"`
 	Email     string `json:"email"`
 	SiteID    string `json:"site_id"`
-	ID        int64  `json:"id"`
+	ID        int    `json:"id"`
 }

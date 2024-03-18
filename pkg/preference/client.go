@@ -29,7 +29,7 @@ type Client interface {
 	// Update updates details for a payment preference.
 	// It is a put request to the endpoint: https://api.mercadopago.com/checkout/preferences/{id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/preferences/_checkout_preferences_id/put
-	Update(ctx context.Context, request Request, id string) (*Response, error)
+	Update(ctx context.Context, id string, request Request) (*Response, error)
 
 	// Search finds all preference information generated through specific filters
 	// It is a get request to the endpoint: https://api.mercadopago.com/checkout/preferences/search
@@ -81,7 +81,7 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 	return result, nil
 }
 
-func (c *client) Update(ctx context.Context, request Request, id string) (*Response, error) {
+func (c *client) Update(ctx context.Context, id string, request Request) (*Response, error) {
 	pathParams := map[string]string{
 		"id": id,
 	}

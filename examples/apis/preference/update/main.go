@@ -47,7 +47,7 @@ func main() {
 		},
 	}
 
-	pref, err = client.Update(context.Background(), req, pref.ID)
+	pref, err = client.Update(context.Background(), pref.ID, req)
 	if err != nil {
 		fmt.Println(err)
 		return

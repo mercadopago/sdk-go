@@ -150,7 +150,7 @@ func TestPreApprovalPlan(t *testing.T) {
 			},
 		}
 
-		result, err = client.Update(context.Background(), req, result.ID)
+		result, err = client.Update(context.Background(), result.ID, req)
 		if result == nil {
 			t.Error("preapproval_plan can't be nil")
 		}

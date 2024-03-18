@@ -2,9 +2,10 @@ package preapproval
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
-	"net/http"
 )
 
 const (
@@ -28,7 +29,7 @@ type Client interface {
 	// Update updates details a pre-approval by ID.
 	// It is a put request to the endpoint: https://api.mercadopago.com/preapproval/{id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_id/put
-	Update(ctx context.Context, request UpdateRequest, id string) (*Response, error)
+	Update(ctx context.Context, id string, request UpdateRequest) (*Response, error)
 
 	// Search finds all pre-approval information generated through specific filters.
 	// It is a get request to the endpoint: https://api.mercadopago.com/preapproval/search
@@ -80,7 +81,7 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 	return result, nil
 }
 
-func (c *client) Update(ctx context.Context, request UpdateRequest, id string) (*Response, error) {
+func (c *client) Update(ctx context.Context, id string, request UpdateRequest) (*Response, error) {
 	pathParams := map[string]string{
 		"id": id,
 	}

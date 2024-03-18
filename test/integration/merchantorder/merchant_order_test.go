@@ -144,7 +144,7 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		order, err = client.Update(context.Background(), req, order.ID)
+		order, err = client.Update(context.Background(), order.ID, req)
 		if order == nil {
 			fmt.Println(err)
 			t.Error("merchant order can't be nil")

@@ -34,9 +34,9 @@ type Request struct {
 	NetAmount             float64        `json:"net_amount,omitempty"`
 	TransactionAmount     float64        `json:"transaction_amount,omitempty"`
 	Installments          int            `json:"installments,omitempty"`
-	CampaignID            int64          `json:"campaign_id,omitempty"`
-	DifferentialPricingID int64          `json:"differential_pricing_id,omitempty"`
-	SponsorID             int64          `json:"sponsor_id,omitempty"`
+	CampaignID            int            `json:"campaign_id,omitempty"`
+	DifferentialPricingID int            `json:"differential_pricing_id,omitempty"`
+	SponsorID             int            `json:"sponsor_id,omitempty"`
 	BinaryMode            bool           `json:"binary_mode,omitempty"`
 	Capture               bool           `json:"capture,omitempty"`
 	Metadata              map[string]any `json:"metadata,omitempty"`
@@ -117,7 +117,7 @@ type ItemRequest struct {
 	PictureURL  string  `json:"picture_url,omitempty"`
 	CategoryID  string  `json:"category_id,omitempty"`
 	UnitPrice   float64 `json:"unit_price,omitempty"`
-	Quantity    int64   `json:"quantity,omitempty"`
+	Quantity    int     `json:"quantity,omitempty"`
 	Warranty    bool    `json:"warranty,omitempty"`
 }
 
@@ -160,7 +160,7 @@ type MerchantServicesRequest struct {
 // OrderRequest represents order request within Request.
 type OrderRequest struct {
 	Type string `json:"type,omitempty"`
-	ID   int64  `json:"id,omitempty"`
+	ID   int    `json:"id,omitempty"`
 }
 
 // PayerRequest represents payer request within Request.
@@ -217,13 +217,13 @@ type TransactionDataRequest struct {
 }
 
 type SubscriptionSequenceRequest struct {
-	Number int64 `json:"number,omitempty"`
-	Total  int64 `json:"total,omitempty"`
+	Number int `json:"number,omitempty"`
+	Total  int `json:"total,omitempty"`
 }
 
 type InvoicePeriodRequest struct {
 	Type   string `json:"type,omitempty"`
-	Period int64  `json:"period,omitempty"`
+	Period int    `json:"period,omitempty"`
 }
 
 type PaymentReferenceRequest struct {

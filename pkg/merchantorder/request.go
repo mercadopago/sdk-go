@@ -13,14 +13,14 @@ type Request struct {
 	AdditionalInfo    string `json:"additional_info,omitempty"`
 	ExternalReference string `json:"external_reference,omitempty"`
 	Marketplace       string `json:"marketplace,omitempty"`
-	Version           int64  `json:"version,omitempty"`
-	SponsorID         int64  `json:"sponsor_id,omitempty"`
+	Version           int    `json:"version,omitempty"`
+	SponsorID         int    `json:"sponsor_id,omitempty"`
 }
 
 // PayerRequest represents payer information.
 type PayerRequest struct {
 	Nickname string `json:"nickname,omitempty"`
-	ID       int64  `json:"id,omitempty"`
+	ID       int    `json:"id,omitempty"`
 }
 
 // ItemRequest represents item information.
@@ -37,5 +37,5 @@ type ItemRequest struct {
 
 // CollectorRequest represents seller information.
 type CollectorRequest struct {
-	ID int64 `json:"id,omitempty"`
+	ID int `json:"id,omitempty"`
 }

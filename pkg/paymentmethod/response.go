@@ -13,7 +13,7 @@ type Response struct {
 	DeferredCapture      string   `json:"deferred_capture"`
 	MinAllowedAmount     float64  `json:"min_allowed_amount"`
 	MaxAllowedAmount     float64  `json:"max_allowed_amount"`
-	AccreditationTime    int64    `json:"accreditation_time"`
+	AccreditationTime    int      `json:"accreditation_time"`
 	AdditionalInfoNeeded []string `json:"additional_info_needed"`
 	ProcessingModes      []string `json:"processing_modes"`
 }

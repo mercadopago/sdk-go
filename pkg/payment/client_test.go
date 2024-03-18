@@ -220,7 +220,7 @@ func TestGet(t *testing.T) {
 	}
 	type args struct {
 		ctx context.Context
-		id  int64
+		id  int
 	}
 	tests := []struct {
 		name    string
@@ -299,7 +299,7 @@ func TestCancel(t *testing.T) {
 	}
 	type args struct {
 		ctx context.Context
-		id  int64
+		id  int
 	}
 	tests := []struct {
 		name    string
@@ -378,7 +378,7 @@ func TestCapture(t *testing.T) {
 	}
 	type args struct {
 		ctx context.Context
-		id  int64
+		id  int
 	}
 	tests := []struct {
 		name    string
@@ -457,7 +457,7 @@ func TestCaptureAmount(t *testing.T) {
 	}
 	type args struct {
 		ctx    context.Context
-		id     int64
+		id     int
 		amount float64
 	}
 	tests := []struct {

@@ -4,6 +4,6 @@ package merchantorder
 type SearchResponse struct {
 	Elements []Response `json:"elements"`
 
-	Total  int64 `json:"total"`
-	Offset int64 `json:"next_offset"`
+	Total  int `json:"total"`
+	Offset int `json:"next_offset"`
 }
