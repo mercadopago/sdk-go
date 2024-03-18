@@ -106,7 +106,7 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 	requestData := httpclient.RequestData{
 		QueryParams: queryParams,
 		Method:      http.MethodGet,
-		URL:         urlBase,
+		URL:         urlSearch,
 	}
 	result, err := httpclient.DoRequest[*SearchResponsePage](ctx, c.cfg, requestData)
 	if err != nil {
