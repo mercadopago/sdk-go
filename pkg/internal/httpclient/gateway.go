@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/mercadopago/sdk-go/pkg/mperror"
 	"github.com/mercadopago/sdk-go/pkg/requester"
 )
 
@@ -18,7 +19,7 @@ func Send(requester requester.Requester, req *http.Request) ([]byte, error) {
 
 	response, err := io.ReadAll(result.Body)
 	if err != nil {
-		return nil, &ResponseError{
+		return nil, &mperror.ResponseError{
 			StatusCode: result.StatusCode,
 			Message:    "error reading response body: " + err.Error(),
 			Headers:    result.Header,
@@ -26,7 +27,7 @@ func Send(requester requester.Requester, req *http.Request) ([]byte, error) {
 	}
 
 	if result.StatusCode > 399 {
-		return nil, &ResponseError{
+		return nil, &mperror.ResponseError{
 			StatusCode: result.StatusCode,
 			Message:    string(response),
 			Headers:    result.Header,
