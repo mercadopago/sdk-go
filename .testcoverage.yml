@@ -6,5 +6,4 @@ threshold:
 
 exclude:
   paths:
-    - ^pkg/internal
     - ^pkg/config

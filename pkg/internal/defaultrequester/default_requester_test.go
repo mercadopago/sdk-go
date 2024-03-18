@@ -1,4 +1,4 @@
-package requester
+package defaultrequester
 
 import (
 	"io"
@@ -8,13 +8,13 @@ import (
 )
 
 func TestDo(t *testing.T) {
-	server, req := NewRequestWithHTTPServerUnavailableMock()
+	server, req := newRequestWithHTTPServerUnavailableMock()
 	defer server.Close()
 
-	serverOK, reqOK := NewRequestWithHTTPServerOKMock()
+	serverOK, reqOK := newRequestWithHTTPServerOKMock()
 	defer serverOK.Close()
 
-	reqWithDeadline, cancel := NewRequestMockWithDeadlineContextAndServerError()
+	reqWithDeadline, cancel := newRequestMockWithDeadlineContextAndServerError()
 	defer cancel()
 
 	type args struct {
@@ -43,7 +43,7 @@ func TestDo(t *testing.T) {
 		{
 			name: "should_return_error_when_context_is_canceled",
 			args: args{
-				req: NewRequestMockWithCanceledContext(),
+				req: newRequestMockWithCanceledContext(),
 			},
 			wantErr: "context canceled",
 		},
@@ -57,21 +57,21 @@ func TestDo(t *testing.T) {
 		{
 			name: "should_return_error_when_retry_is_enabled_and_request_fails",
 			args: args{
-				req: NewRequestMock(),
+				req: newRequestMock(),
 			},
 			wantErr: "Get \"\": unsupported protocol scheme \"\"",
 		},
 		{
 			name: "should_return_error_when_request_is_nil",
 			args: args{
-				req: NewInvalidRequestMock(),
+				req: newInvalidRequestMock(),
 			},
 			wantErr: "error getting body",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			d := Default()
+			d := New()
 			got, err := d.Do(tt.args.req)
 
 			gotError := ""
@@ -108,14 +108,14 @@ func TestRequestFromInternal(t *testing.T) {
 		{
 			name: "should_copy_and_return_request_with_body",
 			args: args{
-				req: NewRequestMockWithBody(),
+				req: newRequestMockWithBody(),
 			},
 			want: "{id:1}",
 		},
 		{
 			name: "should_copy_and_return_request_with_body_nil",
 			args: args{
-				req: NewRequestMock(),
+				req: newRequestMock(),
 			},
 			want: "",
 		},
@@ -147,10 +147,10 @@ func TestRequestFromInternal(t *testing.T) {
 }
 
 func TestCloseResponseBody(t *testing.T) {
-	server, req := NewRequestWithHTTPServerOKMock()
+	server, req := newRequestWithHTTPServerOKMock()
 	defer server.Close()
 
-	s, reqWithResAndCancel, cancel := NewRequestWithHTTPServerUnavailableAndCanceledContext()
+	s, reqWithResAndCancel, cancel := newRequestWithHTTPServerUnavailableAndCanceledContext()
 	defer s.Close()
 	defer cancel()
 
@@ -192,7 +192,7 @@ func TestCloseResponseBody(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			d := Default()
+			d := New()
 			got, _ := d.Do(tt.args.req)
 
 			tt.args.close(got)
