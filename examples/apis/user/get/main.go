@@ -19,11 +19,11 @@ func main() {
 
 	client := user.NewClient(cfg)
 
-	usr, err := client.Get(context.Background())
+	resource, err := client.Get(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(usr)
+	fmt.Println(resource)
 }
