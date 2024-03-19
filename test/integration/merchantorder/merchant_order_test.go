@@ -19,7 +19,7 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		prefReq := preference.Request{
-			Items: []preference.PreferenceItemRequest{
+			Items: []preference.ItemRequest{
 				{
 					ID:          "123",
 					Title:       "Title",
@@ -79,7 +79,7 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		prefReq := preference.Request{
-			Items: []preference.PreferenceItemRequest{
+			Items: []preference.ItemRequest{
 				{
 					ID:          "123",
 					Title:       "Title",
@@ -162,7 +162,7 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		prefReq := preference.Request{
-			Items: []preference.PreferenceItemRequest{
+			Items: []preference.ItemRequest{
 				{
 					ID:          "123",
 					Title:       "Title",

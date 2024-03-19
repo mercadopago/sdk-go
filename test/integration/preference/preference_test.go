@@ -19,7 +19,7 @@ func TestPreference(t *testing.T) {
 		client := preference.NewClient(cfg)
 
 		req := preference.Request{
-			Items: []preference.PreferenceItemRequest{
+			Items: []preference.ItemRequest{
 				{
 					ID:          "123",
 					Title:       "Title",
@@ -48,7 +48,7 @@ func TestPreference(t *testing.T) {
 		client := preference.NewClient(cfg)
 
 		req := preference.Request{
-			Items: []preference.PreferenceItemRequest{
+			Items: []preference.ItemRequest{
 				{
 					ID:          "123",
 					Title:       "Title",
@@ -90,7 +90,7 @@ func TestPreference(t *testing.T) {
 		client := preference.NewClient(cfg)
 
 		req := preference.Request{
-			Items: []preference.PreferenceItemRequest{
+			Items: []preference.ItemRequest{
 				{
 					ID:          "123",
 					Title:       "Title",
@@ -111,7 +111,7 @@ func TestPreference(t *testing.T) {
 		}
 
 		req = preference.Request{
-			Items: []preference.PreferenceItemRequest{
+			Items: []preference.ItemRequest{
 				{
 					ID:          "123",
 					Title:       "Title",

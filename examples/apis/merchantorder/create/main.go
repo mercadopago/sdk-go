@@ -22,7 +22,7 @@ func main() {
 	// Create preference.
 	prefReq := preference.Request{
 		ExternalReference: uuid.New().String(),
-		Items: []preference.PreferenceItemRequest{
+		Items: []preference.ItemRequest{
 			{
 				ID:          "123",
 				Title:       "Title",

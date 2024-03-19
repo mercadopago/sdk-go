@@ -16,7 +16,7 @@ func main() {
 	}
 
 	req := preference.Request{
-		Items: []preference.PreferenceItemRequest{
+		Items: []preference.ItemRequest{
 			{
 				ID:          "123",
 				Title:       "Title",
