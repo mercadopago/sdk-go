@@ -90,7 +90,7 @@ func TestCreate(t *testing.T) {
 				BinaryMode:       false,
 				Expires:          false,
 				InitPoint:        "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-6da17b39-3bf4-4307-9124-4381c56372e0",
-				Items: []PreferenceItemResponse{
+				Items: []ItemResponse{
 					{
 						ID:          "123",
 						CurrencyID:  "BRL",
@@ -100,11 +100,11 @@ func TestCreate(t *testing.T) {
 						UnitPrice:   100,
 					},
 				},
-				PaymentMethods: PreferencePaymentMethodsResponse{
-					ExcludedPaymentMethods: []PreferencePaymentMethodResponse{
+				PaymentMethods: PaymentMethodsResponse{
+					ExcludedPaymentMethods: []PaymentMethodResponse{
 						{},
 					},
-					ExcludedPaymentTypes: []PreferencePaymentTypeResponse{
+					ExcludedPaymentTypes: []PaymentTypeResponse{
 						{},
 					},
 				},
@@ -120,7 +120,7 @@ func TestCreate(t *testing.T) {
 			}
 
 			dto := Request{
-				Items: []PreferenceItemRequest{
+				Items: []ItemRequest{
 					{
 						ID:          "123",
 						Title:       "Title",
@@ -206,18 +206,18 @@ func TestGet(t *testing.T) {
 				SiteID:           "MLB",
 				BinaryMode:       false,
 				Expires:          false,
-				PaymentMethods: PreferencePaymentMethodsResponse{
-					ExcludedPaymentMethods: []PreferencePaymentMethodResponse{
+				PaymentMethods: PaymentMethodsResponse{
+					ExcludedPaymentMethods: []PaymentMethodResponse{
 						{},
 					},
-					ExcludedPaymentTypes: []PreferencePaymentTypeResponse{
+					ExcludedPaymentTypes: []PaymentTypeResponse{
 						{},
 					},
 				},
 				Metadata:  map[string]interface{}{},
 				ID:        "1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4",
 				InitPoint: "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-13736a46-a3e0-45bb-b610-2cef417f8da4",
-				Items: []PreferenceItemResponse{
+				Items: []ItemResponse{
 					{
 						ID:          "123",
 						CategoryID:  "",
@@ -313,18 +313,18 @@ func TestUpdate(t *testing.T) {
 				SiteID:           "MLB",
 				BinaryMode:       false,
 				Expires:          false,
-				PaymentMethods: PreferencePaymentMethodsResponse{
-					ExcludedPaymentMethods: []PreferencePaymentMethodResponse{
+				PaymentMethods: PaymentMethodsResponse{
+					ExcludedPaymentMethods: []PaymentMethodResponse{
 						{},
 					},
-					ExcludedPaymentTypes: []PreferencePaymentTypeResponse{
+					ExcludedPaymentTypes: []PaymentTypeResponse{
 						{},
 					},
 				},
 				Metadata:  map[string]interface{}{},
 				ID:        "1273205088-6a2d2fa5-edb8-4d06-90c7-74b756a75f38",
 				InitPoint: "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=1273205088-6a2d2fa5-edb8-4d06-90c7-74b756a75f38",
-				Items: []PreferenceItemResponse{
+				Items: []ItemResponse{
 					{
 						ID:          "321",
 						CategoryID:  "",
@@ -346,7 +346,7 @@ func TestUpdate(t *testing.T) {
 			}
 
 			dto := Request{
-				Items: []PreferenceItemRequest{
+				Items: []ItemRequest{
 					{
 						ID:          "321",
 						Description: "Updated Description",
