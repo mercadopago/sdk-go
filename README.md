@@ -87,14 +87,14 @@ To make requests to the Mercado Pago APIs, you can use the packages provided by 
 
 ```go
 	client := paymentmethod.NewClient(cfg)
-	paymentMethods, err := client.List(context.Background())
+	resources, err := client.List(context.Background())
 ```
 
 ### Exception throwing handling
 
 Every package methods returns two variables: response (type of the package) and error (type of the std lib), which will contain any error thrown. It is important to handle these errors in the best possible way.
 ```go
-	paymentMethods, err := client.List(context.Background())
+	resources, err := client.List(context.Background())
 	if err != nil {
 		// appropriate treatment
 	}
