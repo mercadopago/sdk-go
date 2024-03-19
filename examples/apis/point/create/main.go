@@ -33,11 +33,11 @@ func main() {
 		},
 	}
 
-	paymentIntent, err := client.Create(context.Background(), "{{DEVICE_ID}}", request)
+	resource, err := client.Create(context.Background(), "{{DEVICE_ID}}", request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(paymentIntent)
+	fmt.Println(resource)
 }
