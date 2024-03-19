@@ -49,7 +49,7 @@ func TestPayment(t *testing.T) {
 
 		resource, err := paymentClient.Search(ctx, req)
 		if resource == nil {
-			t.Error("result can't be nil")
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())

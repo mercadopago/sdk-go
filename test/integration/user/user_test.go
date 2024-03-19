@@ -20,7 +20,7 @@ func TestUser(t *testing.T) {
 		resource, err := client.Get(context.Background())
 
 		if resource == nil {
-			t.Error("result can't be nil")
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())

@@ -148,9 +148,9 @@ func TestPreApproval(t *testing.T) {
 			Reason:            "Yoga Class",
 		}
 
-		createResult, err := client.Create(context.Background(), req)
-		if createResult == nil {
-			t.Error("preapproval can't be nil")
+		resource, err := client.Create(context.Background(), req)
+		if resource == nil {
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -162,9 +162,9 @@ func TestPreApproval(t *testing.T) {
 			Offset: 10,
 		}
 
-		resource, err := client.Search(context.Background(), filters)
-		if resource == nil {
-			t.Error("result can't be nil")
+		searchResource, err := client.Search(context.Background(), filters)
+		if searchResource == nil {
+			t.Error("searchResource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
