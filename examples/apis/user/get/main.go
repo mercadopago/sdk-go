@@ -18,6 +18,7 @@ func main() {
 	}
 
 	client := user.NewClient(cfg)
+
 	usr, err := client.Get(context.Background())
 	if err != nil {
 		fmt.Println(err)

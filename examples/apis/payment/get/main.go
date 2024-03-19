@@ -17,6 +17,8 @@ func main() {
 		return
 	}
 
+	client := payment.NewClient(cfg)
+
 	request := payment.Request{
 		TransactionAmount: 105.1,
 		PaymentMethodID:   "pix",
@@ -25,7 +27,6 @@ func main() {
 		},
 	}
 
-	client := payment.NewClient(cfg)
 	resource, err := client.Create(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)

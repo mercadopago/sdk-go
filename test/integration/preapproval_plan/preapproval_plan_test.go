@@ -165,12 +165,13 @@ func TestPreApprovalPlan(t *testing.T) {
 			t.Fatal(err)
 		}
 
+		client := preapprovalplan.NewClient(cfg)
+
 		filters := preapprovalplan.SearchRequest{
 			Limit:  10,
 			Offset: 10,
 		}
 
-		client := preapprovalplan.NewClient(cfg)
 		resource, err := client.Search(context.Background(), filters)
 
 		if resource == nil || resource.Results[0].ID == "" {

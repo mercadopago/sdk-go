@@ -18,6 +18,7 @@ func main() {
 	}
 
 	client := customercard.NewClient(cfg)
+
 	cards, err := client.List(context.Background(), "{{CUSTOMER_ID}}")
 	if err != nil {
 		fmt.Println(err)

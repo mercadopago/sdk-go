@@ -18,6 +18,7 @@ func main() {
 	}
 
 	client := oauth.NewClient(cfg)
+
 	authorizationCode := "{{AUTHORIZATION_CODE}}"
 	redirectURI := "{{REDIRECT_URI}}"
 

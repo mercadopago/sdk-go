@@ -17,9 +17,10 @@ func main() {
 		return
 	}
 
+	client := customer.NewClient(cfg)
+
 	customerID := "{{CUSTOMER_ID}}"
 
-	client := customer.NewClient(cfg)
 	resource, err := client.Get(context.Background(), customerID)
 	if err != nil {
 		fmt.Println(err)

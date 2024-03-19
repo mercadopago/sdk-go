@@ -18,6 +18,9 @@ func TestMerchantOrder(t *testing.T) {
 			t.Fatal(err)
 		}
 
+		preferenceClient := preference.NewClient(cfg)
+		merchantOrderClient := merchantorder.NewClient(cfg)
+
 		prefReq := preference.Request{
 			Items: []preference.PreferenceItemRequest{
 				{
@@ -30,7 +33,6 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		preferenceClient := preference.NewClient(cfg)
 		resource, err := preferenceClient.Create(context.Background(), prefReq)
 		if resource == nil {
 			t.Error("preference can't be nil")
@@ -61,8 +63,7 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		client := merchantorder.NewClient(cfg)
-		order, err := client.Create(context.Background(), request)
+		order, err := merchantOrderClient.Create(context.Background(), request)
 		if order == nil {
 			t.Error("merchant order can't be nil")
 			return
@@ -78,6 +79,9 @@ func TestMerchantOrder(t *testing.T) {
 			t.Fatal(err)
 		}
 
+		preferenceClient := preference.NewClient(cfg)
+		merchantOrderClient := merchantorder.NewClient(cfg)
+
 		prefReq := preference.Request{
 			Items: []preference.PreferenceItemRequest{
 				{
@@ -90,7 +94,6 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		preferenceClient := preference.NewClient(cfg)
 		resource, err := preferenceClient.Create(context.Background(), prefReq)
 		if resource == nil {
 			t.Error("preference can't be nil")
@@ -122,8 +125,7 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		client := merchantorder.NewClient(cfg)
-		order, err := client.Create(context.Background(), createReq)
+		order, err := merchantOrderClient.Create(context.Background(), createReq)
 		if order == nil || order.ID == 0 {
 			t.Error("merchant order can't be nil")
 			return
@@ -144,7 +146,7 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		order, err = client.Update(context.Background(), order.ID, request)
+		order, err = merchantOrderClient.Update(context.Background(), order.ID, request)
 		if order == nil {
 			fmt.Println(err)
 			t.Error("merchant order can't be nil")
@@ -161,6 +163,9 @@ func TestMerchantOrder(t *testing.T) {
 			t.Fatal(err)
 		}
 
+		preferenceClient := preference.NewClient(cfg)
+		merchantOrderClient := merchantorder.NewClient(cfg)
+
 		prefReq := preference.Request{
 			Items: []preference.PreferenceItemRequest{
 				{
@@ -173,7 +178,6 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		preferenceClient := preference.NewClient(cfg)
 		resource, err := preferenceClient.Create(context.Background(), prefReq)
 		if resource == nil {
 			t.Error("preference can't be nil")
@@ -204,8 +208,7 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		client := merchantorder.NewClient(cfg)
-		order, err := client.Create(context.Background(), request)
+		order, err := merchantOrderClient.Create(context.Background(), request)
 		if order == nil {
 			t.Error("merchant order can't be nil")
 			return
@@ -214,7 +217,7 @@ func TestMerchantOrder(t *testing.T) {
 			t.Errorf(err.Error())
 		}
 
-		order, err = client.Get(context.Background(), order.ID)
+		order, err = merchantOrderClient.Get(context.Background(), order.ID)
 		if order == nil {
 			t.Error("merchant order can't be nil")
 			return
@@ -233,11 +236,12 @@ func TestMerchantOrder(t *testing.T) {
 			t.Fatal(err)
 		}
 
+		client := merchantorder.NewClient(cfg)
+
 		request := merchantorder.SearchRequest{
 			Limit: 5,
 		}
 
-		client := merchantorder.NewClient(cfg)
 		order, err := client.Search(context.Background(), request)
 		if order == nil {
 			t.Error("merchant order can't be nil")

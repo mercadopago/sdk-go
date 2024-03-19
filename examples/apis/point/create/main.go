@@ -17,6 +17,8 @@ func main() {
 		return
 	}
 
+	client := point.NewClient(cfg)
+
 	request := point.CreateRequest{
 		Amount:      1500,
 		Description: "your payment intent description",
@@ -31,7 +33,6 @@ func main() {
 		},
 	}
 
-	client := point.NewClient(cfg)
 	paymentIntent, err := client.Create(context.Background(), "{{DEVICE_ID}}", request)
 	if err != nil {
 		fmt.Println(err)

@@ -137,12 +137,13 @@ func TestPreference(t *testing.T) {
 			t.Fatal(err)
 		}
 
+		client := preference.NewClient(cfg)
+
 		filters := preference.SearchRequest{
 			Limit:  10,
 			Offset: 10,
 		}
 
-		client := preference.NewClient(cfg)
 		resource, err := client.Search(context.Background(), filters)
 
 		if resource == nil {

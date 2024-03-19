@@ -18,6 +18,7 @@ func main() {
 	}
 
 	client := paymentmethod.NewClient(cfg)
+
 	paymentMethods, err := client.List(context.Background())
 	if err != nil {
 		fmt.Println(err)

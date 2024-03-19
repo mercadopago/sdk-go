@@ -18,6 +18,7 @@ func main() {
 	}
 
 	client := identificationtype.NewClient(cfg)
+
 	identificationTypes, err := client.List(context.Background())
 	if err != nil {
 		fmt.Println(err)

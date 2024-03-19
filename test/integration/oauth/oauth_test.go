@@ -17,6 +17,7 @@ func TestOauth(t *testing.T) {
 		}
 
 		client := oauth.NewClient(cfg)
+
 		authorizationCode := "authorization_code"
 		redirectURI := "redirect_uri"
 

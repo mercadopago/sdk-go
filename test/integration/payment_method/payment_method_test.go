@@ -17,6 +17,7 @@ func TestPaymentMethod(t *testing.T) {
 		}
 
 		client := paymentmethod.NewClient(cfg)
+
 		resource, err := client.List(context.Background())
 
 		if resource == nil {

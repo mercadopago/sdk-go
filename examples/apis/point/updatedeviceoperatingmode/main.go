@@ -17,11 +17,12 @@ func main() {
 		return
 	}
 
+	client := point.NewClient(cfg)
+
 	request := point.UpdateDeviceOperatingModeRequest{
 		OperatingMode: "PDV", // PDV or STANDALONE
 	}
 
-	client := point.NewClient(cfg)
 	opMode, err := client.UpdateDeviceOperatingMode(context.Background(), "{{DEVICE_ID}}", request)
 	if err != nil {
 		fmt.Println(err)

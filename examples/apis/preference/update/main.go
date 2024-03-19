@@ -15,6 +15,8 @@ func main() {
 		return
 	}
 
+	client := preference.NewClient(cfg)
+
 	request := preference.Request{
 		Items: []preference.PreferenceItemRequest{
 			{
@@ -26,8 +28,6 @@ func main() {
 			},
 		},
 	}
-
-	client := preference.NewClient(cfg)
 
 	resource, err := client.Create(context.Background(), request)
 	if err != nil {
