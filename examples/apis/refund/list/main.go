@@ -21,12 +21,12 @@ func main() {
 
 	paymentID := 12233344
 
-	refunds, err := refundClient.List(context.Background(), paymentID)
+	resources, err := refundClient.List(context.Background(), paymentID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	for _, v := range refunds {
+	for _, v := range resources {
 		fmt.Println(v)
 	}
 }

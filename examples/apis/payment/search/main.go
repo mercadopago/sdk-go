@@ -24,13 +24,13 @@ func main() {
 	}
 
 	client := payment.NewClient(cfg)
-	search, err := client.Search(context.Background(), request)
+	resource, err := client.Search(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, v := range search.Results {
+	for _, v := range resource.Results {
 		fmt.Println(v)
 	}
 }

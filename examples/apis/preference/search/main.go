@@ -25,13 +25,13 @@ func main() {
 		Filters: filter,
 	}
 
-	search, err := client.Search(context.Background(), filters)
+	resource, err := client.Search(context.Background(), filters)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, v := range search.Elements {
+	for _, v := range resource.Elements {
 		fmt.Println(v)
 	}
 }
