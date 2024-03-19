@@ -22,18 +22,18 @@ func main() {
 	authorizationCode := "{{AUTHORIZATION_CODE}}"
 	redirectURI := "{{REDIRECT_URI}}"
 
-	cred, err := client.Create(context.Background(), authorizationCode, redirectURI)
+	resource, err := client.Create(context.Background(), authorizationCode, redirectURI)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	refreshToken := cred.RefreshToken
-	cred, err = client.Refresh(context.Background(), refreshToken)
+	refreshToken := resource.RefreshToken
+	resource, err = client.Refresh(context.Background(), refreshToken)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(cred)
+	fmt.Println(resource)
 }
