@@ -41,7 +41,7 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		// Create merchant order.
-		req := merchantorder.Request{
+		request := merchantorder.Request{
 			ExternalReference: pref.ExternalReference,
 			PreferenceID:      pref.ID,
 			Collector: &merchantorder.CollectorRequest{
@@ -62,7 +62,7 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		client := merchantorder.NewClient(cfg)
-		order, err := client.Create(context.Background(), req)
+		order, err := client.Create(context.Background(), request)
 		if order == nil {
 			t.Error("merchant order can't be nil")
 			return
@@ -133,7 +133,7 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		// Update merchant order.
-		req := merchantorder.UpdateRequest{
+		request := merchantorder.UpdateRequest{
 			PreferenceID: pref.ID,
 			SiteID:       pref.SiteID,
 			Items: []merchantorder.ItemUpdateRequest{
@@ -144,7 +144,7 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		order, err = client.Update(context.Background(), order.ID, req)
+		order, err = client.Update(context.Background(), order.ID, request)
 		if order == nil {
 			fmt.Println(err)
 			t.Error("merchant order can't be nil")
@@ -184,7 +184,7 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		// Create merchant order.
-		req := merchantorder.Request{
+		request := merchantorder.Request{
 			ExternalReference: pref.ExternalReference,
 			PreferenceID:      pref.ID,
 			Collector: &merchantorder.CollectorRequest{
@@ -205,7 +205,7 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		client := merchantorder.NewClient(cfg)
-		order, err := client.Create(context.Background(), req)
+		order, err := client.Create(context.Background(), request)
 		if order == nil {
 			t.Error("merchant order can't be nil")
 			return
@@ -233,12 +233,12 @@ func TestMerchantOrder(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		req := merchantorder.SearchRequest{
+		request := merchantorder.SearchRequest{
 			Limit: 5,
 		}
 
 		client := merchantorder.NewClient(cfg)
-		order, err := client.Search(context.Background(), req)
+		order, err := client.Search(context.Background(), request)
 		if order == nil {
 			t.Error("merchant order can't be nil")
 			return

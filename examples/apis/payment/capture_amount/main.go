@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Create payment.
-	req := payment.Request{
+	request := payment.Request{
 		TransactionAmount: 105.1,
 		PaymentMethodID:   "visa",
 		Payer: &payment.PayerRequest{
@@ -30,7 +30,7 @@ func main() {
 	}
 
 	client := payment.NewClient(cfg)
-	pay, err := client.Create(context.Background(), req)
+	pay, err := client.Create(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return

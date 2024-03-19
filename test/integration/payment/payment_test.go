@@ -21,7 +21,7 @@ func TestPayment(t *testing.T) {
 	t.Run("should_create_payment", func(t *testing.T) {
 		ctx := context.Background()
 
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "pix",
 			Payer: &payment.PayerRequest{
@@ -29,7 +29,7 @@ func TestPayment(t *testing.T) {
 			},
 		}
 
-		pay, err := paymentClient.Create(ctx, req)
+		pay, err := paymentClient.Create(ctx, request)
 		if pay == nil || pay.ID == 0 {
 			t.Error("payment can't be nil")
 		}
@@ -41,13 +41,13 @@ func TestPayment(t *testing.T) {
 	t.Run("should_search_payment", func(t *testing.T) {
 		ctx := context.Background()
 
-		req := payment.SearchRequest{
+		request := payment.SearchRequest{
 			Filters: map[string]string{
 				"external_reference": "abc_def_ghi_123_456123",
 			},
 		}
 
-		resource, err := paymentClient.Search(ctx, req)
+		resource, err := paymentClient.Search(ctx, request)
 		if resource == nil {
 			t.Error("resource can't be nil")
 		}
@@ -90,7 +90,7 @@ func TestPayment(t *testing.T) {
 		ctx := context.Background()
 
 		// Create payment.
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "pix",
 			Payer: &payment.PayerRequest{
@@ -98,7 +98,7 @@ func TestPayment(t *testing.T) {
 			},
 		}
 
-		pay, err := paymentClient.Create(ctx, req)
+		pay, err := paymentClient.Create(ctx, request)
 		if pay == nil {
 			t.Error("payment can't be nil")
 		}
@@ -130,7 +130,7 @@ func TestPayment(t *testing.T) {
 		}
 
 		// Create payment.
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
 				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
@@ -140,7 +140,7 @@ func TestPayment(t *testing.T) {
 			Capture:      false,
 		}
 
-		pay, err := paymentClient.Create(ctx, req)
+		pay, err := paymentClient.Create(ctx, request)
 		if pay == nil {
 			t.Error("payment can't be nil")
 		}
@@ -172,7 +172,7 @@ func TestPayment(t *testing.T) {
 		}
 
 		// Create payment.
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
 				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
@@ -181,7 +181,7 @@ func TestPayment(t *testing.T) {
 			Installments: 1,
 			Capture:      false,
 		}
-		pay, err := paymentClient.Create(ctx, req)
+		pay, err := paymentClient.Create(ctx, request)
 		if pay == nil {
 			t.Error("payment can't be nil")
 		}

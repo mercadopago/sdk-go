@@ -17,7 +17,7 @@ func main() {
 		return
 	}
 
-	req := point.CreateRequest{
+	request := point.CreateRequest{
 		Amount:      1500,
 		Description: "your payment intent description",
 		AdditionalInfo: &point.AdditionalInfoRequest{
@@ -32,7 +32,7 @@ func main() {
 	}
 
 	client := point.NewClient(cfg)
-	paymentIntent, err := client.Create(context.Background(), "{{DEVICE_ID}}", req)
+	paymentIntent, err := client.Create(context.Background(), "{{DEVICE_ID}}", request)
 	if err != nil {
 		fmt.Println(err)
 		return

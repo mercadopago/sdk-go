@@ -30,7 +30,7 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Create payment.
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
 				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
@@ -40,7 +40,7 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		pay, err := paymentClient.Create(ctx, req)
+		pay, err := paymentClient.Create(ctx, request)
 		if pay == nil {
 			t.Error("payment can't be nil")
 		}
@@ -69,7 +69,7 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Create payment.
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
 				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
@@ -79,7 +79,7 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		pay, err := paymentClient.Create(ctx, req)
+		pay, err := paymentClient.Create(ctx, request)
 		if pay == nil {
 			t.Error("payment can't be nil")
 		}
@@ -110,7 +110,7 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Create payment.
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
 				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
@@ -120,7 +120,7 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		pay, err := paymentClient.Create(ctx, req)
+		pay, err := paymentClient.Create(ctx, request)
 		if pay == nil {
 			t.Error("payment can't be nil")
 		}
@@ -160,7 +160,7 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Create payment.
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
 				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
@@ -170,7 +170,7 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		pay, err := paymentClient.Create(ctx, req)
+		pay, err := paymentClient.Create(ctx, request)
 		if pay == nil {
 			t.Error("payment can't be nil")
 			return
@@ -180,7 +180,7 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Create partial refund.
-		partialAmount := req.TransactionAmount - 5.0
+		partialAmount := request.TransactionAmount - 5.0
 
 		ref, err := refundClient.CreatePartialRefund(ctx, pay.ID, partialAmount)
 		if ref == nil {

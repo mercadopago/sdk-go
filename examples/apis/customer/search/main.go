@@ -17,18 +17,18 @@ func main() {
 		return
 	}
 
-	req := customer.SearchRequest{
+	request := customer.SearchRequest{
 		Filters: map[string]string{
 			"EMAIL": "{{EMAIL}}",
 		},
 	}
 
 	client := customer.NewClient(cfg)
-	cus, err := client.Search(context.Background(), req)
+	resource, err := client.Search(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(cus)
+	fmt.Println(resource)
 }

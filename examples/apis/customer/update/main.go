@@ -17,15 +17,16 @@ func main() {
 		return
 	}
 
-	customerID := "{{CUSTOMER_ID}}"
-	req := customer.Request{Description: "Description updated."}
-
 	client := customer.NewClient(cfg)
-	cus, err := client.Update(context.Background(), customerID, req)
+
+	customerID := "{{CUSTOMER_ID}}"
+	request := customer.Request{Description: "Description updated."}
+
+	resource, err := client.Update(context.Background(), customerID, request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(cus)
+	fmt.Println(resource)
 }

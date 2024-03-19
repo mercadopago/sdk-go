@@ -17,7 +17,7 @@ func main() {
 
 	client := invoice.NewClient(cfg)
 
-	req := invoice.SearchRequest{
+	request := invoice.SearchRequest{
 		Limit:  10,
 		Offset: 10,
 		Filters: map[string]string{
@@ -25,13 +25,13 @@ func main() {
 		},
 	}
 
-	resource, err := client.Search(context.Background(), req)
+	resource, err := client.Search(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, inv := range resource.Results {
-		fmt.Println(inv)
+	for _, v := range resource.Results {
+		fmt.Println(v)
 	}
 }

@@ -18,7 +18,7 @@ func TestPreApprovalPlan(t *testing.T) {
 
 		client := preapprovalplan.NewClient(cfg)
 
-		req := preapprovalplan.Request{
+		request := preapprovalplan.Request{
 			AutoRecurring: &preapprovalplan.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "days",
@@ -41,7 +41,7 @@ func TestPreApprovalPlan(t *testing.T) {
 			Reason: "Yoga classes",
 		}
 
-		resource, err := client.Create(context.Background(), req)
+		resource, err := client.Create(context.Background(), request)
 		if resource == nil || resource.ID == "" {
 			t.Error("preapproval_plan can't be nil")
 		}
@@ -58,7 +58,7 @@ func TestPreApprovalPlan(t *testing.T) {
 
 		client := preapprovalplan.NewClient(cfg)
 
-		req := preapprovalplan.Request{
+		request := preapprovalplan.Request{
 			AutoRecurring: &preapprovalplan.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "days",
@@ -81,7 +81,7 @@ func TestPreApprovalPlan(t *testing.T) {
 			Reason: "Yoga classes",
 		}
 
-		resource, err := client.Create(context.Background(), req)
+		resource, err := client.Create(context.Background(), request)
 		if resource == nil {
 			t.Error("preapproval_plan can't be nil")
 		}
@@ -107,7 +107,7 @@ func TestPreApprovalPlan(t *testing.T) {
 
 		client := preapprovalplan.NewClient(cfg)
 
-		req := preapprovalplan.Request{
+		request := preapprovalplan.Request{
 			AutoRecurring: &preapprovalplan.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "days",
@@ -130,7 +130,7 @@ func TestPreApprovalPlan(t *testing.T) {
 			Reason: "Yoga classes",
 		}
 
-		resource, err := client.Create(context.Background(), req)
+		resource, err := client.Create(context.Background(), request)
 		if resource == nil {
 			t.Error("preapproval_plan can't be nil")
 		}
@@ -139,7 +139,7 @@ func TestPreApprovalPlan(t *testing.T) {
 			return
 		}
 
-		req = preapprovalplan.Request{
+		request = preapprovalplan.Request{
 			AutoRecurring: &preapprovalplan.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "months",
@@ -150,7 +150,7 @@ func TestPreApprovalPlan(t *testing.T) {
 			},
 		}
 
-		resource, err = client.Update(context.Background(), resource.ID, req)
+		resource, err = client.Update(context.Background(), resource.ID, request)
 		if resource == nil {
 			t.Error("preapproval_plan can't be nil")
 		}

@@ -20,8 +20,8 @@ func TestCustomer(t *testing.T) {
 
 		client := customer.NewClient(cfg)
 
-		req := customer.Request{Email: generateEmail()}
-		cus, err := client.Create(context.Background(), req)
+		request := customer.Request{Email: generateEmail()}
+		cus, err := client.Create(context.Background(), request)
 		if cus == nil {
 			t.Error("customer can't be nil")
 			return
@@ -42,12 +42,12 @@ func TestCustomer(t *testing.T) {
 
 		client := customer.NewClient(cfg)
 
-		req := customer.SearchRequest{
+		request := customer.SearchRequest{
 			Filters: map[string]string{
 				"email": generateEmail(),
 			},
 		}
-		resource, err := client.Search(context.Background(), req)
+		resource, err := client.Search(context.Background(), request)
 		if resource == nil {
 			t.Error("customerSearch can't be nil")
 		}
@@ -64,8 +64,8 @@ func TestCustomer(t *testing.T) {
 
 		client := customer.NewClient(cfg)
 
-		req := customer.Request{Email: generateEmail()}
-		cus, err := client.Create(context.Background(), req)
+		request := customer.Request{Email: generateEmail()}
+		cus, err := client.Create(context.Background(), request)
 		if cus == nil {
 			t.Error("customer can't be nil")
 			return
@@ -95,8 +95,8 @@ func TestCustomer(t *testing.T) {
 
 		client := customer.NewClient(cfg)
 
-		req := customer.Request{Email: generateEmail()}
-		cus, err := client.Create(context.Background(), req)
+		request := customer.Request{Email: generateEmail()}
+		cus, err := client.Create(context.Background(), request)
 		if cus == nil {
 			t.Error("customer can't be nil")
 			return

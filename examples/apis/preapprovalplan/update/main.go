@@ -16,7 +16,7 @@ func main() {
 		return
 	}
 
-	req := preapprovalplan.Request{
+	request := preapprovalplan.Request{
 		AutoRecurring: &preapprovalplan.AutoRecurringRequest{
 			Frequency:         1,
 			FrequencyType:     "days",
@@ -41,13 +41,13 @@ func main() {
 
 	client := preapprovalplan.NewClient(cfg)
 
-	resource, err := client.Create(context.Background(), req)
+	resource, err := client.Create(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	req = preapprovalplan.Request{
+	request = preapprovalplan.Request{
 		AutoRecurring: &preapprovalplan.AutoRecurringRequest{
 			Frequency:         1,
 			FrequencyType:     "months",
@@ -58,7 +58,7 @@ func main() {
 		},
 	}
 
-	resource, err = client.Update(context.Background(), resource.ID, req)
+	resource, err = client.Update(context.Background(), resource.ID, request)
 	if err != nil {
 		fmt.Println(err)
 		return
