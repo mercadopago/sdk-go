@@ -30,7 +30,7 @@ func main() {
 		return
 	}
 
-	for _, pay := range search.Results {
-		fmt.Println(pay)
+	for _, resource := range search.Results {
+		fmt.Println(resource)
 	}
 }

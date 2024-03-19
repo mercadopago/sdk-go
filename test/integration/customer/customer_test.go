@@ -21,12 +21,12 @@ func TestCustomer(t *testing.T) {
 		client := customer.NewClient(cfg)
 
 		request := customer.Request{Email: generateEmail()}
-		cus, err := client.Create(context.Background(), request)
-		if cus == nil {
-			t.Error("customer can't be nil")
+		resource, err := client.Create(context.Background(), request)
+		if resource == nil {
+			t.Error("resource can't be nil")
 			return
 		}
-		if cus.ID == "" {
+		if resource.ID == "" {
 			t.Error("id can't be nil")
 		}
 		if err != nil {
@@ -65,18 +65,18 @@ func TestCustomer(t *testing.T) {
 		client := customer.NewClient(cfg)
 
 		request := customer.Request{Email: generateEmail()}
-		cus, err := client.Create(context.Background(), request)
-		if cus == nil {
-			t.Error("customer can't be nil")
+		resource, err := client.Create(context.Background(), request)
+		if resource == nil {
+			t.Error("resource can't be nil")
 			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
-		resource, err := client.Get(context.Background(), cus.ID)
+		resource, err = client.Get(context.Background(), resource.ID)
 		if resource == nil {
-			t.Error("customer can't be nil")
+			t.Error("resource can't be nil")
 			return
 		}
 		if resource.ID == "" {
@@ -96,9 +96,9 @@ func TestCustomer(t *testing.T) {
 		client := customer.NewClient(cfg)
 
 		request := customer.Request{Email: generateEmail()}
-		cus, err := client.Create(context.Background(), request)
-		if cus == nil {
-			t.Error("customer can't be nil")
+		resource, err := client.Create(context.Background(), request)
+		if resource == nil {
+			t.Error("resource can't be nil")
 			return
 		}
 		if err != nil {
@@ -106,7 +106,7 @@ func TestCustomer(t *testing.T) {
 		}
 
 		uReq := customer.Request{Description: "Description updated."}
-		resource, err := client.Update(context.Background(), cus.ID, uReq)
+		resource, err = client.Update(context.Background(), resource.ID, uReq)
 		if resource == nil {
 			t.Error("customer can't be nil")
 			return

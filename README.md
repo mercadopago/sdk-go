@@ -61,13 +61,13 @@ func main() {
 		Installments: 1,
 	}
 
-	pay, err := client.Create(context.Background(), request)
+	resource, err := client.Create(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(pay)
+	fmt.Println(resource)
 }
 ```
 
