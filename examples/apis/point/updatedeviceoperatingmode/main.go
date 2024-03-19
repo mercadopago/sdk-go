@@ -23,11 +23,11 @@ func main() {
 		OperatingMode: "PDV", // PDV or STANDALONE
 	}
 
-	opMode, err := client.UpdateDeviceOperatingMode(context.Background(), "{{DEVICE_ID}}", request)
+	resource, err := client.UpdateDeviceOperatingMode(context.Background(), "{{DEVICE_ID}}", request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(opMode)
+	fmt.Println(resource)
 }
