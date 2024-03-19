@@ -14,7 +14,7 @@ func main() {
 	accessToken := "{{ACCESS_TOKEN}}"
 	httpClient := &http.Client{Timeout: time.Second * 5}
 
-	cfg, err := config.New(accessToken, config.WithHTTTPClient(httpClient))
+	cfg, err := config.New(accessToken, config.WithHTTPClient(httpClient))
 	if err != nil {
 		fmt.Println(err)
 		return

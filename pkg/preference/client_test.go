@@ -356,7 +356,7 @@ func TestUpdate(t *testing.T) {
 					},
 				},
 			}
-			got, err := c.Update(tt.args.ctx, dto, "1273205088-6a2d2fa5-edb8-4d06-90c7-74b756a75f38")
+			got, err := c.Update(tt.args.ctx, "1273205088-6a2d2fa5-edb8-4d06-90c7-74b756a75f38", dto)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
@@ -459,8 +459,11 @@ func TestSearch(t *testing.T) {
 			}
 
 			dto := SearchRequest{
-				Limit:  "22",
-				Offset: "100",
+				Filters: map[string]string{
+					"SponSOR_ID": "123",
+				},
+				Limit:  0,
+				Offset: 100,
 			}
 			got, err := c.Search(tt.args.ctx, dto)
 			gotErr := ""
@@ -478,7 +481,7 @@ func TestSearch(t *testing.T) {
 	}
 }
 
-func parseDate(s string) *time.Time {
+func parseDate(s string) time.Time {
 	d, _ := time.Parse(time.RFC3339, s)
-	return &d
+	return d
 }

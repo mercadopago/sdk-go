@@ -5,31 +5,32 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/mercadopago/sdk-go/pkg/internal/requester"
+	"github.com/mercadopago/sdk-go/pkg/mperror"
+	"github.com/mercadopago/sdk-go/pkg/requester"
 )
 
 func Send(requester requester.Requester, req *http.Request) ([]byte, error) {
-	res, err := requester.Do(req)
+	result, err := requester.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("transport level error: %w", err)
 	}
 
-	defer func() { _ = res.Body.Close() }()
+	defer func() { _ = result.Body.Close() }()
 
-	response, err := io.ReadAll(res.Body)
+	response, err := io.ReadAll(result.Body)
 	if err != nil {
-		return nil, &ResponseError{
-			StatusCode: res.StatusCode,
+		return nil, &mperror.ResponseError{
+			StatusCode: result.StatusCode,
 			Message:    "error reading response body: " + err.Error(),
-			Headers:    res.Header,
+			Headers:    result.Header,
 		}
 	}
 
-	if res.StatusCode > 399 {
-		return nil, &ResponseError{
-			StatusCode: res.StatusCode,
+	if result.StatusCode > 399 {
+		return nil, &mperror.ResponseError{
+			StatusCode: result.StatusCode,
 			Message:    string(response),
-			Headers:    res.Header,
+			Headers:    result.Header,
 		}
 	}
 

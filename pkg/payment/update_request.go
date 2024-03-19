@@ -8,5 +8,5 @@ type CancelRequest struct {
 // CaptureRequest represents a payment capture request.
 type CaptureRequest struct {
 	TransactionAmount float64 `json:"transaction_amount,omitempty"`
-	Capture           bool    `json:"capture"`
+	Capture           bool    `json:"capture,omitempty"`
 }

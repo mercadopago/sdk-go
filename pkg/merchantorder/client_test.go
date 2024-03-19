@@ -155,7 +155,7 @@ func TestUpdate(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.config,
 			}
-			got, err := c.Update(tt.args.ctx, UpdateRequest{}, 1622029222)
+			got, err := c.Update(tt.args.ctx, 1622029222, UpdateRequest{})
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
@@ -295,8 +295,8 @@ func TestSearch(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 				request: SearchRequest{
-					Limit:   "1",
-					Offset:  "1",
+					Limit:   1,
+					Offset:  1,
 					Filters: map[string]string{"preference": "134445566"},
 				},
 			},
@@ -338,8 +338,8 @@ func buildResponseMock() *Response {
 			Nickname: "TEST_USER_658045679",
 		},
 		Marketplace: "NONE",
-		DateCreated: &dateCreated,
-		LastUpdated: &lastUpdate,
+		DateCreated: dateCreated,
+		LastUpdated: lastUpdate,
 		TotalAmount: 10,
 		SiteID:      "MLB",
 		Items: []ItemResponse{

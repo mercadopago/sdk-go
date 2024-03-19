@@ -3,13 +3,11 @@ package payment
 
 import (
 	"context"
-	"fmt"
-	"net/url"
+	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const (
@@ -30,22 +28,22 @@ type Client interface {
 	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_search/get/.
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 
-	// Get a payment by id.
-	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/{id}.
-	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_id/get/.
-	Get(ctx context.Context, id int64) (*Response, error)
+	// Get gets a payment by its ID.
+	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
+	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_id/get/
+	Get(ctx context.Context, id int) (*Response, error)
 
-	// Cancel a payment by id.
-	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}.
-	Cancel(ctx context.Context, id int64) (*Response, error)
+	// Cancel cancels a payment by its ID.
+	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
+	Cancel(ctx context.Context, id int) (*Response, error)
 
-	// Capture a payment by id.
-	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}.
-	Capture(ctx context.Context, id int64) (*Response, error)
+	// Capture captures a payment by its ID.
+	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
+	Capture(ctx context.Context, id int) (*Response, error)
 
-	// CaptureAmount captures amount of a payment by id.
-	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}.
-	CaptureAmount(ctx context.Context, id int64, amount float64) (*Response, error)
+	// CaptureAmount captures amount of a payment by its ID.
+	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
+	CaptureAmount(ctx context.Context, id int, amount float64) (*Response, error)
 }
 
 type client struct {
@@ -60,74 +58,112 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
+	requestData := httpclient.RequestData{
+		Body:   request,
+		Method: http.MethodPost,
+		URL:    urlBase,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
-func (c *client) Search(ctx context.Context, dto SearchRequest) (*SearchResponse, error) {
-	params := dto.Parameters()
+func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
+	queryParams := request.GetParams()
 
-	url, err := url.Parse(urlSearch)
-	if err != nil {
-		return nil, fmt.Errorf("error parsing url: %w", err)
+	requestData := httpclient.RequestData{
+		QueryParams: queryParams,
+		Method:      http.MethodGet,
+		URL:         urlSearch,
 	}
-	url.RawQuery = params
-
-	res, err := baseclient.Get[*SearchResponse](ctx, c.cfg, url.String())
+	result, err := httpclient.DoRequest[*SearchResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
-func (c *client) Get(ctx context.Context, id int64) (*Response, error) {
-	conv := strconv.Itoa(int(id))
+func (c *client) Get(ctx context.Context, id int) (*Response, error) {
+	pathParams := map[string]string{
+		"id": strconv.Itoa(int(id)),
+	}
 
-	res, err := baseclient.Get[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1))
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodGet,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
-func (c *client) Cancel(ctx context.Context, id int64) (*Response, error) {
-	dto := &CancelRequest{Status: "cancelled"}
-	conv := strconv.Itoa(int(id))
+func (c *client) Cancel(ctx context.Context, id int) (*Response, error) {
+	request := &CancelRequest{Status: "cancelled"}
 
-	res, err := baseclient.Put[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
+	pathParams := map[string]string{
+		"id": strconv.Itoa(int(id)),
+	}
+
+	requestData := httpclient.RequestData{
+		Body:       request,
+		PathParams: pathParams,
+		Method:     http.MethodPut,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
-func (c *client) Capture(ctx context.Context, id int64) (*Response, error) {
-	dto := &CaptureRequest{Capture: true}
-	conv := strconv.Itoa(int(id))
+func (c *client) Capture(ctx context.Context, id int) (*Response, error) {
+	request := &CaptureRequest{Capture: true}
 
-	res, err := baseclient.Put[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
+	pathParams := map[string]string{
+		"id": strconv.Itoa(int(id)),
+	}
+
+	requestData := httpclient.RequestData{
+		Body:       request,
+		PathParams: pathParams,
+		Method:     http.MethodPut,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
-func (c *client) CaptureAmount(ctx context.Context, id int64, amount float64) (*Response, error) {
-	dto := &CaptureRequest{TransactionAmount: amount, Capture: true}
-	conv := strconv.Itoa(int(id))
+func (c *client) CaptureAmount(ctx context.Context, id int, amount float64) (*Response, error) {
+	request := &CaptureRequest{TransactionAmount: amount, Capture: true}
 
-	res, err := baseclient.Put[*Response](ctx, c.cfg, strings.Replace(urlWithID, "{id}", conv, 1), dto)
+	pathParams := map[string]string{
+		"id": strconv.Itoa(int(id)),
+	}
+
+	requestData := httpclient.RequestData{
+		Body:       request,
+		PathParams: pathParams,
+		Method:     http.MethodPut,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }

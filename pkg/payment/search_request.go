@@ -1,42 +1,32 @@
 package payment
 
 import (
-	"net/url"
+	"strconv"
+	"strings"
 )
 
-// SearchRequest is the request to search services.
+// SearchRequest is the helper structure to build search request.
 // Filters field can receive a lot of paramaters. For details, see:
-// https://www.mercadopago.com.br/developers/pt/reference/payments/_payments_search/get.
+// https://www.mercadopago.com/developers/en/reference/payments/_payments_search/get.
 type SearchRequest struct {
-	Limit  string
-	Offset string
-
+	Limit   int
+	Offset  int
 	Filters map[string]string
 }
 
-// Parameters transforms SearchRequest into url params.
-func (s SearchRequest) Parameters() string {
-	params := url.Values{}
-
-	for k, v := range s.Filters {
-		params.Add(k, v)
+// GetParams creates map to build query parameters. Keys will be changed to lower case.
+func (sr *SearchRequest) GetParams() map[string]string {
+	params := map[string]string{}
+	for k, v := range sr.Filters {
+		key := strings.ToLower(k)
+		params[key] = v
 	}
 
-	if _, ok := s.Filters["limit"]; !ok {
-		limit := "30"
-		if s.Limit != "" {
-			limit = s.Limit
-		}
-		params.Add("limit", limit)
+	if sr.Limit == 0 {
+		sr.Limit = 30
 	}
+	params["limit"] = strconv.Itoa(sr.Limit)
+	params["offset"] = strconv.Itoa(sr.Offset)
 
-	if _, ok := s.Filters["offset"]; !ok {
-		offset := "0"
-		if s.Offset != "" {
-			offset = s.Offset
-		}
-		params.Add("offset", offset)
-	}
-
-	return params.Encode()
+	return params
 }

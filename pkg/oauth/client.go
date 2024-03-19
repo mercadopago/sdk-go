@@ -2,10 +2,11 @@ package oauth
 
 import (
 	"context"
+	"net/http"
 	"net/url"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const (
@@ -50,12 +51,17 @@ func (c *client) Create(ctx context.Context, authorizationCode, redirectURI stri
 		GrantType:    "authorization_code",
 	}
 
-	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
+	requestData := httpclient.RequestData{
+		Body:   request,
+		Method: http.MethodPost,
+		URL:    urlBase,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) GetAuthorizationURL(clientID, redirectURI, state string) string {
@@ -89,10 +95,15 @@ func (c *client) Refresh(ctx context.Context, refreshToken string) (*Response, e
 		GrantType:    "refresh_token",
 	}
 
-	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
+	requestData := httpclient.RequestData{
+		Body:   request,
+		Method: http.MethodPost,
+		URL:    urlBase,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }

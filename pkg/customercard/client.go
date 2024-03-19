@@ -2,14 +2,15 @@ package customercard
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const (
-	urlBase   = "https://api.mercadopago.com/v1/customers/:customer_id/cards"
-	urlWithID = urlBase + "/:card_id"
+	urlBase   = "https://api.mercadopago.com/v1/customers/{customer_id}/cards"
+	urlWithID = urlBase + "/{card_id}"
 )
 
 // Client contains the methods to interact with the Customer Cards API.
@@ -53,69 +54,96 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, customerID string, request Request) (*Response, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"customer_id": customerID,
 	}
 
-	res, err := baseclient.Post[*Response](ctx, c.config, urlBase, request, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		Body:       request,
+		PathParams: pathParams,
+		Method:     http.MethodPost,
+		URL:        urlBase,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Get(ctx context.Context, customerID, cardID string) (*Response, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"customer_id": customerID,
 		"card_id":     cardID,
 	}
 
-	res, err := baseclient.Get[*Response](ctx, c.config, urlWithID, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodGet,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Update(ctx context.Context, customerID, cardID string, request Request) (*Response, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"customer_id": customerID,
 		"card_id":     cardID,
 	}
 
-	res, err := baseclient.Put[*Response](ctx, c.config, urlWithID, request, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		Body:       request,
+		PathParams: pathParams,
+		Method:     http.MethodPut,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Delete(ctx context.Context, customerID, cardID string) (*Response, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"customer_id": customerID,
 		"card_id":     cardID,
 	}
 
-	res, err := baseclient.Delete[*Response](ctx, c.config, urlWithID, nil, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodDelete,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) List(ctx context.Context, customerID string) ([]Response, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"customer_id": customerID,
 	}
 
-	res, err := baseclient.Get[[]Response](ctx, c.config, urlBase, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodGet,
+		URL:        urlBase,
+	}
+	result, err := httpclient.DoRequest[[]Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
