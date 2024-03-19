@@ -19,11 +19,11 @@ func main() {
 
 	client := customercard.NewClient(cfg)
 
-	card, err := client.Delete(context.Background(), "{{CUSTOMER_ID}}", "{{CARD_ID}}")
+	resource, err := client.Delete(context.Background(), "{{CUSTOMER_ID}}", "{{CARD_ID}}")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(card)
+	fmt.Println(resource)
 }
