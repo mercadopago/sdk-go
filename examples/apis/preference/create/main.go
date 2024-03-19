@@ -28,11 +28,11 @@ func main() {
 	}
 
 	client := preference.NewClient(cfg)
-	pref, err := client.Create(context.Background(), request)
+	resource, err := client.Create(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(pref)
+	fmt.Println(resource)
 }

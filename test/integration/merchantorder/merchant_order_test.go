@@ -31,8 +31,8 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		preferenceClient := preference.NewClient(cfg)
-		pref, err := preferenceClient.Create(context.Background(), prefReq)
-		if pref == nil {
+		resource, err := preferenceClient.Create(context.Background(), prefReq)
+		if resource == nil {
 			t.Error("preference can't be nil")
 			return
 		}
@@ -42,21 +42,21 @@ func TestMerchantOrder(t *testing.T) {
 
 		// Create merchant order.
 		request := merchantorder.Request{
-			ExternalReference: pref.ExternalReference,
-			PreferenceID:      pref.ID,
+			ExternalReference: resource.ExternalReference,
+			PreferenceID:      resource.ID,
 			Collector: &merchantorder.CollectorRequest{
-				ID: pref.CollectorID,
+				ID: resource.CollectorID,
 			},
-			SiteID: pref.SiteID,
+			SiteID: resource.SiteID,
 			Items: []merchantorder.ItemRequest{
 				{
-					CategoryID:  pref.Items[0].CategoryID,
-					CurrencyID:  pref.Items[0].CurrencyID,
-					Description: pref.Items[0].Description,
-					PictureURL:  pref.Items[0].PictureURL,
-					Title:       pref.Items[0].Title,
-					Quantity:    pref.Items[0].Quantity,
-					UnitPrice:   pref.Items[0].UnitPrice,
+					CategoryID:  resource.Items[0].CategoryID,
+					CurrencyID:  resource.Items[0].CurrencyID,
+					Description: resource.Items[0].Description,
+					PictureURL:  resource.Items[0].PictureURL,
+					Title:       resource.Items[0].Title,
+					Quantity:    resource.Items[0].Quantity,
+					UnitPrice:   resource.Items[0].UnitPrice,
 				},
 			},
 		}
@@ -91,8 +91,8 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		preferenceClient := preference.NewClient(cfg)
-		pref, err := preferenceClient.Create(context.Background(), prefReq)
-		if pref == nil {
+		resource, err := preferenceClient.Create(context.Background(), prefReq)
+		if resource == nil {
 			t.Error("preference can't be nil")
 			return
 		}
@@ -102,22 +102,22 @@ func TestMerchantOrder(t *testing.T) {
 
 		// Create merchant order.
 		createReq := merchantorder.Request{
-			ExternalReference: pref.ExternalReference,
-			PreferenceID:      pref.ID,
+			ExternalReference: resource.ExternalReference,
+			PreferenceID:      resource.ID,
 			Collector: &merchantorder.CollectorRequest{
-				ID: pref.CollectorID,
+				ID: resource.CollectorID,
 			},
-			SiteID: pref.SiteID,
+			SiteID: resource.SiteID,
 			Items: []merchantorder.ItemRequest{
 				{
-					ID:          pref.Items[0].ID,
-					CategoryID:  pref.Items[0].CategoryID,
-					CurrencyID:  pref.Items[0].CurrencyID,
-					Description: pref.Items[0].Description,
-					PictureURL:  pref.Items[0].PictureURL,
-					Title:       pref.Items[0].Title,
-					Quantity:    pref.Items[0].Quantity,
-					UnitPrice:   pref.Items[0].UnitPrice,
+					ID:          resource.Items[0].ID,
+					CategoryID:  resource.Items[0].CategoryID,
+					CurrencyID:  resource.Items[0].CurrencyID,
+					Description: resource.Items[0].Description,
+					PictureURL:  resource.Items[0].PictureURL,
+					Title:       resource.Items[0].Title,
+					Quantity:    resource.Items[0].Quantity,
+					UnitPrice:   resource.Items[0].UnitPrice,
 				},
 			},
 		}
@@ -134,8 +134,8 @@ func TestMerchantOrder(t *testing.T) {
 
 		// Update merchant order.
 		request := merchantorder.UpdateRequest{
-			PreferenceID: pref.ID,
-			SiteID:       pref.SiteID,
+			PreferenceID: resource.ID,
+			SiteID:       resource.SiteID,
 			Items: []merchantorder.ItemUpdateRequest{
 				{
 					ID:       order.Items[0].ID,
@@ -174,8 +174,8 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		preferenceClient := preference.NewClient(cfg)
-		pref, err := preferenceClient.Create(context.Background(), prefReq)
-		if pref == nil {
+		resource, err := preferenceClient.Create(context.Background(), prefReq)
+		if resource == nil {
 			t.Error("preference can't be nil")
 			return
 		}
@@ -185,21 +185,21 @@ func TestMerchantOrder(t *testing.T) {
 
 		// Create merchant order.
 		request := merchantorder.Request{
-			ExternalReference: pref.ExternalReference,
-			PreferenceID:      pref.ID,
+			ExternalReference: resource.ExternalReference,
+			PreferenceID:      resource.ID,
 			Collector: &merchantorder.CollectorRequest{
-				ID: pref.CollectorID,
+				ID: resource.CollectorID,
 			},
-			SiteID: pref.SiteID,
+			SiteID: resource.SiteID,
 			Items: []merchantorder.ItemRequest{
 				{
-					CategoryID:  pref.Items[0].CategoryID,
-					CurrencyID:  pref.Items[0].CurrencyID,
-					Description: pref.Items[0].Description,
-					PictureURL:  pref.Items[0].PictureURL,
-					Title:       pref.Items[0].Title,
-					Quantity:    pref.Items[0].Quantity,
-					UnitPrice:   pref.Items[0].UnitPrice,
+					CategoryID:  resource.Items[0].CategoryID,
+					CurrencyID:  resource.Items[0].CurrencyID,
+					Description: resource.Items[0].Description,
+					PictureURL:  resource.Items[0].PictureURL,
+					Title:       resource.Items[0].Title,
+					Quantity:    resource.Items[0].Quantity,
+					UnitPrice:   resource.Items[0].UnitPrice,
 				},
 			},
 		}

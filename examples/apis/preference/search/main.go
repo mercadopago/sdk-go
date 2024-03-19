@@ -31,7 +31,7 @@ func main() {
 		return
 	}
 
-	for _, pref := range search.Elements {
-		fmt.Println(pref)
+	for _, resource := range search.Elements {
+		fmt.Println(resource)
 	}
 }
