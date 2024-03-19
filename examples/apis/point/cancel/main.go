@@ -19,11 +19,11 @@ func main() {
 
 	client := point.NewClient(cfg)
 
-	canceledResponse, err := client.Cancel(context.Background(), "{{DEVICE_ID}}", "{{PAYMENT_INTENT_ID}}")
+	resource, err := client.Cancel(context.Background(), "{{DEVICE_ID}}", "{{PAYMENT_INTENT_ID}}")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(canceledResponse)
+	fmt.Println(resource)
 }
