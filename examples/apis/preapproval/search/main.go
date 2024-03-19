@@ -25,13 +25,13 @@ func main() {
 		},
 	}
 
-	result, err := client.Search(context.Background(), filters)
+	resource, err := client.Search(context.Background(), filters)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, plan := range result.Results {
+	for _, plan := range resource.Results {
 		fmt.Println(plan)
 	}
 }

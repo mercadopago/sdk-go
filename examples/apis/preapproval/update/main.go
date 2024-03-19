@@ -29,7 +29,7 @@ func main() {
 	}
 
 	client := preapproval.NewClient(cfg)
-	result, err := client.Create(context.Background(), req)
+	resource, err := client.Create(context.Background(), req)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -47,11 +47,11 @@ func main() {
 		Reason:            "Yoga Class",
 	}
 
-	result, err = client.Update(context.Background(), result.ID, update)
+	resource, err = client.Update(context.Background(), resource.ID, update)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(result)
+	fmt.Println(resource)
 }

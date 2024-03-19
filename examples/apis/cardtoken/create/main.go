@@ -34,10 +34,10 @@ func main() {
 		},
 	}
 
-	result, err := client.Create(context.Background(), req)
+	resource, err := client.Create(context.Background(), req)
 	if err != nil {
 		return
 	}
 
-	fmt.Println(result)
+	fmt.Println(resource)
 }

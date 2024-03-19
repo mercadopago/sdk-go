@@ -17,9 +17,9 @@ func TestUser(t *testing.T) {
 		}
 
 		client := user.NewClient(cfg)
-		result, err := client.Get(context.Background())
+		resource, err := client.Get(context.Background())
 
-		if result == nil {
+		if resource == nil {
 			t.Error("result can't be nil")
 		}
 		if err != nil {

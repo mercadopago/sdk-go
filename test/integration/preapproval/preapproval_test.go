@@ -31,8 +31,8 @@ func TestPreApproval(t *testing.T) {
 			Reason:            "Yoga Class",
 		}
 
-		result, err := client.Create(context.Background(), req)
-		if result == nil || result.ID == "" {
+		resource, err := client.Create(context.Background(), req)
+		if resource == nil || resource.ID == "" {
 			t.Error("preapproval can't be nil")
 		}
 		if err != nil {
@@ -61,8 +61,8 @@ func TestPreApproval(t *testing.T) {
 			Reason:            "Yoga Class",
 		}
 
-		result, err := client.Create(context.Background(), req)
-		if result == nil {
+		resource, err := client.Create(context.Background(), req)
+		if resource == nil {
 			t.Error("preapproval can't be nil")
 		}
 		if err != nil {
@@ -70,8 +70,8 @@ func TestPreApproval(t *testing.T) {
 			return
 		}
 
-		result, err = client.Get(context.Background(), result.ID)
-		if result == nil || result.ID == "" {
+		resource, err = client.Get(context.Background(), resource.ID)
+		if resource == nil || resource.ID == "" {
 			t.Error("preapproval can't be nil")
 		}
 		if err != nil {
@@ -100,8 +100,8 @@ func TestPreApproval(t *testing.T) {
 			Reason:            "Yoga Class",
 		}
 
-		result, err := client.Create(context.Background(), req)
-		if result == nil {
+		resource, err := client.Create(context.Background(), req)
+		if resource == nil {
 			t.Error("preapproval can't be nil")
 		}
 		if err != nil {
@@ -118,8 +118,8 @@ func TestPreApproval(t *testing.T) {
 			},
 		}
 
-		result, err = client.Update(context.Background(), result.ID, update)
-		if result == nil {
+		resource, err = client.Update(context.Background(), resource.ID, update)
+		if resource == nil {
 			t.Error("preapproval can't be nil")
 		}
 		if err != nil {
@@ -162,8 +162,8 @@ func TestPreApproval(t *testing.T) {
 			Offset: 10,
 		}
 
-		result, err := client.Search(context.Background(), filters)
-		if result == nil {
+		resource, err := client.Search(context.Background(), filters)
+		if resource == nil {
 			t.Error("result can't be nil")
 		}
 		if err != nil {

@@ -22,10 +22,10 @@ func GenerateCardToken(ctx context.Context, client cardtoken.Client) (string, er
 		SecurityCode:    "123",
 	}
 
-	result, err := client.Create(context.Background(), req)
+	resource, err := client.Create(context.Background(), req)
 	if err != nil {
 		return "", err
 	}
 
-	return result.ID, nil
+	return resource.ID, nil
 }

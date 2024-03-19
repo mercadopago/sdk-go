@@ -47,8 +47,8 @@ func TestPayment(t *testing.T) {
 			},
 		}
 
-		result, err := paymentClient.Search(ctx, req)
-		if result == nil {
+		resource, err := paymentClient.Search(ctx, req)
+		if resource == nil {
 			t.Error("result can't be nil")
 		}
 		if err != nil {
