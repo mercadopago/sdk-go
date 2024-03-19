@@ -18,6 +18,9 @@ func main() {
 		return
 	}
 
+	paymentClient := payment.NewClient(cfg)
+	refundClient := refund.NewClient(cfg)
+
 	// Create payment.
 	request := payment.Request{
 		TransactionAmount: 105.1,
@@ -30,19 +33,17 @@ func main() {
 		Capture:      false,
 	}
 
-	client := payment.NewClient(cfg)
-	resource, err := client.Create(context.Background(), request)
+	paymentResource, err := paymentClient.Create(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	refundClient := refund.NewClient(cfg)
-	ref, err := refundClient.Create(context.Background(), resource.ID)
+	refundResource, err := refundClient.Create(context.Background(), paymentResource.ID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(ref)
+	fmt.Println(refundResource)
 }
