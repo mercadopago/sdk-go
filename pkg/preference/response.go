@@ -139,7 +139,7 @@ type PreferenceTrackResponse struct {
 	Type string `json:"type"`
 }
 
-// PreferenceTrackValuesResponse contains the values ​​of the tracks to be executed during user interaction in the Checkout flow.
+// PreferenceTrackValuesResponse contains the values of the tracks to be executed during user interaction in the Checkout flow.
 type PreferenceTrackValuesResponse struct {
 	ConversionID    string `json:"conversion_id"`
 	ConversionLabel string `json:"conversion_label"`

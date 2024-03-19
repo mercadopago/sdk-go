@@ -22,7 +22,7 @@ type Response struct {
 }
 
 type CardholderResponse struct {
-	Identification IdentificationResponse `json:"identification,omitempty"`
+	Identification IdentificationResponse `json:"identification"`
 
 	Name string `json:"name"`
 }

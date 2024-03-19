@@ -58,7 +58,7 @@ type PaymentMethodResponse struct {
 	SecureThumbnail string `json:"secure_thumbnail"`
 }
 
-// SecurityCode represents the card's security code.
+// SecurityCodeResponse represents the card's security code.
 type SecurityCodeResponse struct {
 	CardLocation string `json:"card_location"`
 	Length       int    `json:"length"`
