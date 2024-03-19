@@ -6,17 +6,17 @@ import (
 
 // Request contains every field accepted by Payments API.
 type Request struct {
-	AdditionalInfo     *AdditionalInfoRequest     `json:"additional_info,omitempty"`
+	AdditionalInfo     *AdditionalInfoRequest     `json:"additional_info,omitempty"` // additional data of the payment, complete this can help to improve payment approval rate
 	MerchantServices   *MerchantServicesRequest   `json:"merchant_services,omitempty"`
 	Order              *OrderRequest              `json:"order,omitempty"`
-	Payer              *PayerRequest              `json:"payer,omitempty"`
+	Payer              *PayerRequest              `json:"payer,omitempty"` // payer's payment data
 	TransactionDetails *TransactionDetailsRequest `json:"transaction_details,omitempty"`
 	PointOfInteraction *PointOfInteractionRequest `json:"point_of_interaction,omitempty"`
 	PaymentMethod      *PaymentMethodRequest      `json:"payment_method,omitempty"`
-	DateOfExpiration   *time.Time                 `json:"date_of_expiration,omitempty"`
+	DateOfExpiration   *time.Time                 `json:"date_of_expiration,omitempty"` // expiration date of the payment
 	Taxes              []TaxRequest               `json:"taxes,omitempty"`
 
-	CallbackURL           string         `json:"callback_url,omitempty"`
+	CallbackURL           string         `json:"callback_url,omitempty"` // some payment methods have redirects after payment, here you can set to where payer will be redirected
 	CouponCode            string         `json:"coupon_code,omitempty"`
 	Description           string         `json:"description,omitempty"`        // payment description, can be useful for during/after payment experience (for payers and sellers)
 	ExternalReference     string         `json:"external_reference,omitempty"` // a payment identification sent by the integrator, can be anything that you use as an identifier
@@ -28,24 +28,24 @@ type Request struct {
 	Token                 string         `json:"token,omitempty"`                    // for payments using cards this field receives the generated card token
 	PaymentMethodOptionID string         `json:"payment_method_option_id,omitempty"` // useful for not instantaneous payments, change a option to where payer should realize the payment. Example: the payment_method_id is X and should be paid on Y (can be a virtual or in-person place)
 	StatementDescriptor   string         `json:"statement_descriptor,omitempty"`
-	ThreeDSecureMode      string         `json:"three_d_secure_mode,omitempty"`
+	ThreeDSecureMode      string         `json:"three_d_secure_mode,omitempty"` // useful for payments using 3DS authentication, see: https://www.mercadopago.com/developers/en/docs/checkout-api/how-tos/integrate-3ds
 	ApplicationFee        float64        `json:"application_fee,omitempty"`
 	CouponAmount          float64        `json:"coupon_amount,omitempty"`
 	NetAmount             float64        `json:"net_amount,omitempty"`
-	TransactionAmount     float64        `json:"transaction_amount,omitempty"`
-	Installments          int            `json:"installments,omitempty"`
+	TransactionAmount     float64        `json:"transaction_amount,omitempty"` // amount to be paid
+	Installments          int            `json:"installments,omitempty"`       // number of installments
 	CampaignID            int            `json:"campaign_id,omitempty"`
 	DifferentialPricingID int            `json:"differential_pricing_id,omitempty"`
 	SponsorID             int            `json:"sponsor_id,omitempty"`
 	BinaryMode            bool           `json:"binary_mode,omitempty"`
-	Capture               bool           `json:"capture,omitempty"`
-	Metadata              map[string]any `json:"metadata,omitempty"`
+	Capture               bool           `json:"capture,omitempty"`  // useful for reserve values feature: https://www.mercadopago.com/developers/en/docs/checkout-api/payment-management/make-value-reserve
+	Metadata              map[string]any `json:"metadata,omitempty"` // occasional data sent to the payment
 }
 
 // AdditionalInfoRequest allows sent non required data on payment operations.
 // Complete this can help to improve payment approval rate.
 type AdditionalInfoRequest struct {
-	Payer     *AdditionalInfoPayerRequest   `json:"payer,omitempty"`
+	Payer     *AdditionalInfoPayerRequest   `json:"payer,omitempty"` // payer's payment additional data
 	Shipments *ShipmentsRequest             `json:"shipments,omitempty"`
 	Barcode   *AdditionalInfoBarcodeRequest `json:"barcode,omitempty"`
 	Items     []ItemRequest                 `json:"items,omitempty"`
@@ -55,13 +55,13 @@ type AdditionalInfoRequest struct {
 
 // AdditionalInfoPayerRequest is the payer's payment additional data.
 type AdditionalInfoPayerRequest struct {
-	Phone            *AdditionalInfoPayerPhoneRequest   `json:"phone,omitempty"`
-	Address          *AdditionalInfoPayerAddressRequest `json:"address,omitempty"`
-	RegistrationDate *time.Time                         `json:"registration_date,omitempty"`
+	Phone            *AdditionalInfoPayerPhoneRequest   `json:"phone,omitempty"`             // phone information
+	Address          *AdditionalInfoPayerAddressRequest `json:"address,omitempty"`           // address information
+	RegistrationDate *time.Time                         `json:"registration_date,omitempty"` // registration date
 	LastPurchase     *time.Time                         `json:"last_purchase,omitempty"`
 
-	FirstName             string `json:"first_name,omitempty"`
-	LastName              string `json:"last_name,omitempty"`
+	FirstName             string `json:"first_name,omitempty"` // first name
+	LastName              string `json:"last_name,omitempty"`  // last name
 	AuthenticationType    string `json:"authentication_type,omitempty"`
 	IsPrimeUser           bool   `json:"is_prime_user,omitempty"`
 	IsFirstPurchaseOnline bool   `json:"is_first_purchase_online,omitempty"`
@@ -112,13 +112,13 @@ type ItemRequest struct {
 	CategoryDescriptor *CategoryDescriptorRequest `json:"category_descriptor,omitempty"`
 	EventDate          *time.Time                 `json:"event_date,omitempty"`
 
-	ID          string  `json:"id,omitempty"`
-	Title       string  `json:"title,omitempty"`
-	Description string  `json:"description,omitempty"`
-	PictureURL  string  `json:"picture_url,omitempty"`
+	ID          string  `json:"id,omitempty"`          // identification
+	Title       string  `json:"title,omitempty"`       // title
+	Description string  `json:"description,omitempty"` // more detailed text about the item
+	PictureURL  string  `json:"picture_url,omitempty"` // the url sent here should has a saved picture, this picture will be used on during/after payment
 	CategoryID  string  `json:"category_id,omitempty"`
-	UnitPrice   float64 `json:"unit_price,omitempty"`
-	Quantity    int     `json:"quantity,omitempty"`
+	UnitPrice   float64 `json:"unit_price,omitempty"` // it will not be used for calculate the final price, it's only for reference
+	Quantity    int     `json:"quantity,omitempty"`   // quantity
 	Warranty    bool    `json:"warranty,omitempty"`
 }
 
@@ -130,10 +130,10 @@ type CategoryDescriptorRequest struct {
 
 // PassengerRequest represents passenger request within CategoryDescriptorRequest.
 type PassengerRequest struct {
-	Identification *IdentificationRequest `json:"identification,omitempty"`
+	Identification *IdentificationRequest `json:"identification,omitempty"` // identification
 
-	FirstName string `json:"first_name,omitempty"`
-	LastName  string `json:"last_name,omitempty"`
+	FirstName string `json:"first_name,omitempty"` // first name
+	LastName  string `json:"last_name,omitempty"`  // last name
 }
 
 // IdentificationRequest represents identification request within PaymentPassengerRequest.
@@ -166,15 +166,15 @@ type OrderRequest struct {
 
 // PayerRequest represents payer request within Request.
 type PayerRequest struct {
-	Identification *IdentificationRequest `json:"identification,omitempty"`
-	Address        *PayerAddressRequest   `json:"address,omitempty"`
-	Phone          *PayerPhoneRequest     `json:"phone,omitempty"`
+	Identification *IdentificationRequest `json:"identification,omitempty"` // identification
+	Address        *PayerAddressRequest   `json:"address,omitempty"`        // address
+	Phone          *PayerPhoneRequest     `json:"phone,omitempty"`          // phone
 
-	Type       string `json:"type,omitempty"`
-	ID         string `json:"id,omitempty"`
-	Email      string `json:"email,omitempty"`
-	FirstName  string `json:"first_name,omitempty"`
-	LastName   string `json:"last_name,omitempty"`
+	Type       string `json:"type,omitempty"`       // it is useful for customer & cards feature: https://www.mercadopago.com/developers/en/docs/checkout-api/customer-management
+	ID         string `json:"id,omitempty"`         // it is useful for customer & cards feature (receives customer id): https://www.mercadopago.com/developers/en/docs/checkout-api/customer-management
+	Email      string `json:"email,omitempty"`      // it is required for payments that don't have an assigned customer
+	FirstName  string `json:"first_name,omitempty"` // first name
+	LastName   string `json:"last_name,omitempty"`  // last name
 	EntityType string `json:"entity_type,omitempty"`
 }
 
@@ -208,12 +208,12 @@ type PointOfInteractionRequest struct {
 }
 
 type TransactionDataRequest struct {
-	SubscriptionSequence *SubscriptionSequenceRequest `json:"subscription_sequence,omitempty"`
+	SubscriptionSequence *SubscriptionSequenceRequest `json:"subscription_sequence,omitempty"` // subscription sequence is useful for subscriptions feature: https://www.mercadopago.com/developers/en/docs/subscriptions/landing
 	InvoicePeriod        *InvoicePeriodRequest        `json:"invoice_period,omitempty"`
 	PaymentReference     *PaymentReferenceRequest     `json:"payment_reference,omitempty"`
 
-	SubscriptionID string `json:"subscription_id,omitempty"`
-	BillingDate    string `json:"billing_date,omitempty"`
+	SubscriptionID string `json:"subscription_id,omitempty"` // subscription id is useful for subscriptions feature: https://www.mercadopago.com/developers/en/docs/subscriptions/landing
+	BillingDate    string `json:"billing_date,omitempty"`    // billing date is useful for subscriptions feature: https://www.mercadopago.com/developers/en/docs/subscriptions/landing
 	FirstTimeUse   bool   `json:"first_time_use,omitempty"`
 }
 

@@ -28,21 +28,21 @@ type Client interface {
 	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_search/get/.
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 
-	// Get gets a payment by its ID.
-	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_id/get/
+	// Get a payment by id.
+	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/{id}.
+	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_id/get/.
 	Get(ctx context.Context, id int) (*Response, error)
 
-	// Cancel cancels a payment by its ID.
-	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
+	// Cancel a payment by id.
+	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}.
 	Cancel(ctx context.Context, id int) (*Response, error)
 
-	// Capture captures a payment by its ID.
-	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
+	// Capture a payment by id.
+	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}.
 	Capture(ctx context.Context, id int) (*Response, error)
 
-	// CaptureAmount captures amount of a payment by its ID.
-	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
+	// CaptureAmount captures amount of a payment by id.
+	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}.
 	CaptureAmount(ctx context.Context, id int, amount float64) (*Response, error)
 }
 

@@ -6,19 +6,19 @@ import (
 
 // Response is the response from the Payments API.
 type Response struct {
-	Payer              PayerResponse              `json:"payer"`
-	AdditionalInfo     AdditionalInfoResponse     `json:"additional_info"`
+	Payer              PayerResponse              `json:"payer"`           // payer's data
+	AdditionalInfo     AdditionalInfoResponse     `json:"additional_info"` // additional info data
 	Order              OrderResponse              `json:"order"`
 	TransactionDetails TransactionDetailsResponse `json:"transaction_details"`
-	Card               CardResponse               `json:"card"`
+	Card               CardResponse               `json:"card"` // card data
 	PointOfInteraction PointOfInteractionResponse `json:"point_of_interaction"`
 	PaymentMethod      PaymentMethodResponse      `json:"payment_method"`
-	ThreeDSInfo        ThreeDSInfoResponse        `json:"three_ds_info"`
-	DateCreated        time.Time                  `json:"date_created"`
-	DateApproved       time.Time                  `json:"date_approved"`
-	DateLastUpdated    time.Time                  `json:"date_last_updated"`
-	DateOfExpiration   time.Time                  `json:"date_of_expiration"`
-	MoneyReleaseDate   time.Time                  `json:"money_release_date"`
+	ThreeDSInfo        ThreeDSInfoResponse        `json:"three_ds_info"`      // useful for payments using 3DS authentication, see: https://www.mercadopago.com/developers/en/docs/checkout-api/how-tos/integrate-3ds
+	DateCreated        time.Time                  `json:"date_created"`       // creation date
+	DateApproved       time.Time                  `json:"date_approved"`      // approved date (filled when the payment is set to approved)
+	DateLastUpdated    time.Time                  `json:"date_last_updated"`  // last updated date
+	DateOfExpiration   time.Time                  `json:"date_of_expiration"` // expiration date
+	MoneyReleaseDate   time.Time                  `json:"money_release_date"` // money release date
 	FeeDetails         []FeeDetailResponse        `json:"fee_details"`
 	Taxes              []TaxResponse              `json:"taxes"`
 	Refunds            []RefundResponse           `json:"refunds"`
@@ -52,32 +52,32 @@ type Response struct {
 	CallForAuthorizeID        string         `json:"call_for_authorize_id"`
 	StatementDescriptor       string         `json:"statement_descriptor"`
 	MoneyReleaseStatus        string         `json:"money_release_status"`
-	TransactionAmount         float64        `json:"transaction_amount"`
-	TransactionAmountRefunded float64        `json:"transaction_amount_refunded"`
+	TransactionAmount         float64        `json:"transaction_amount"`          // payment amount
+	TransactionAmountRefunded float64        `json:"transaction_amount_refunded"` // payment refunded amount (will be > 0 if a refund occurs)
 	CouponAmount              float64        `json:"coupon_amount"`
 	TaxesAmount               float64        `json:"taxes_amount"`
 	ShippingAmount            float64        `json:"shipping_amount"`
 	NetAmount                 float64        `json:"net_amount"`
-	Installments              int            `json:"installments"`
-	ID                        int            `json:"id"`
+	Installments              int            `json:"installments"` // number of installments
+	ID                        int            `json:"id"`           // created payment identification
 	SponsorID                 int            `json:"sponsor_id"`
-	CollectorID               int            `json:"collector_id"`
+	CollectorID               int            `json:"collector_id"` // receiver identification
 	LiveMode                  bool           `json:"live_mode"`
 	Captured                  bool           `json:"captured"`
 	BinaryMode                bool           `json:"binary_mode"`
-	Metadata                  map[string]any `json:"metadata"`
-	InternalMetadata          map[string]any `json:"internal_metadata"`
+	Metadata                  map[string]any `json:"metadata"`          // occasional data sent to the payment
+	InternalMetadata          map[string]any `json:"internal_metadata"` // occasional internal data sent to the payment
 }
 
 // PayerResponse represents the payer of the payment.
 type PayerResponse struct {
-	Identification IdentificationResponse `json:"identification"`
+	Identification IdentificationResponse `json:"identification"` // identification
 
-	Type       string `json:"type"`
-	ID         string `json:"id"`
-	Email      string `json:"email"`
-	FirstName  string `json:"first_name"`
-	LastName   string `json:"last_name"`
+	Type       string `json:"type"`       // good for differentiating customer & cards payments: https://www.mercadopago.com/developers/en/docs/checkout-api/customer-management
+	ID         string `json:"id"`         // can be useful when the payments was created by customer & cards feature: https://www.mercadopago.com/developers/en/docs/checkout-api/customer-management
+	Email      string `json:"email"`      // email can be useful to notify payer when a payment change occurs
+	FirstName  string `json:"first_name"` // first name
+	LastName   string `json:"last_name"`  // last name
 	EntityType string `json:"entity_type"`
 }
 
@@ -89,7 +89,7 @@ type IdentificationResponse struct {
 
 // AdditionalInfoResponse receives non required data on payment operations.
 type AdditionalInfoResponse struct {
-	Payer     AdditionalInfoPayerResponse `json:"payer"`
+	Payer     AdditionalInfoPayerResponse `json:"payer"` // payer's payment additional data
 	Shipments ShipmentsResponse           `json:"shipments"`
 	Items     []ItemResponse              `json:"items"`
 
@@ -98,23 +98,23 @@ type AdditionalInfoResponse struct {
 
 // ItemResponse represents an item.
 type ItemResponse struct {
-	ID          string `json:"id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	PictureURL  string `json:"picture_url"`
+	ID          string `json:"id"`          // identification
+	Title       string `json:"title"`       // title
+	Description string `json:"description"` // more detailed text about the item
+	PictureURL  string `json:"picture_url"` // item picture, this picture will be used on during/after payment
 	CategoryID  string `json:"category_id"`
-	Quantity    string `json:"quantity"`
-	UnitPrice   string `json:"unit_price"`
+	Quantity    string `json:"quantity"`   // quantity
+	UnitPrice   string `json:"unit_price"` // it will not be used for calculate the final price, it's only for reference
 }
 
 // AdditionalInfoPayerResponse represents payer's additional information.
 type AdditionalInfoPayerResponse struct {
-	Phone            PhoneResponse   `json:"phone"`
-	Address          AddressResponse `json:"address"`
-	RegistrationDate time.Time       `json:"registration_date"`
+	Phone            PhoneResponse   `json:"phone"`             // phone information
+	Address          AddressResponse `json:"address"`           // address information
+	RegistrationDate time.Time       `json:"registration_date"` // registration date
 
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
+	FirstName string `json:"first_name"` // first name
+	LastName  string `json:"last_name"`  // last name
 }
 
 // PhoneResponse represents phone information.
@@ -137,12 +137,12 @@ type ShipmentsResponse struct {
 
 // ReceiverAddressResponse represents the receiver's address within ShipmentsResponse.
 type ReceiverAddressResponse struct {
-	Address AddressResponse `json:"address"`
+	Address AddressResponse `json:"address"` // address
 
-	StateName string `json:"state_name"`
-	CityName  string `json:"city_name"`
-	Floor     string `json:"floor"`
-	Apartment string `json:"apartment"`
+	StateName string `json:"state_name"` // street name
+	CityName  string `json:"city_name"`  // city name
+	Floor     string `json:"floor"`      // floor (when it is relevant)
+	Apartment string `json:"apartment"`  // apartment (when it is relevant)
 }
 
 // OrderResponse represents order information.
@@ -159,7 +159,7 @@ type TransactionDetailsResponse struct {
 	ExternalResourceURL      string  `json:"external_resource_url"` // can be useful for no card payments, depending on the payment method saves an useful payment experience
 	PaymentMethodReferenceID string  `json:"payment_method_reference_id"`
 	AcquirerReference        string  `json:"acquirer_reference"`
-	TransactionID            string  `json:"transaction_id"`
+	TransactionID            string  `json:"transaction_id"` // BACEN identification for Pix payments (Brazil)
 	DigitableLine            string  `json:"digitable_line"`
 	VerificationCode         string  `json:"verification_code"`
 	PayableDeferralPeriod    string  `json:"payable_deferral_period"`
@@ -172,22 +172,22 @@ type TransactionDetailsResponse struct {
 
 // CardResponse represents card information.
 type CardResponse struct {
-	Cardholder      CardholderResponse `json:"cardholder"`
-	DateCreated     time.Time          `json:"date_created"`
-	DateLastUpdated time.Time          `json:"date_last_updated"`
+	Cardholder      CardholderResponse `json:"cardholder"`        // cardholder data
+	DateCreated     time.Time          `json:"date_created"`      // creation date
+	DateLastUpdated time.Time          `json:"date_last_updated"` // last update date
 
-	ID              string `json:"id"`
-	LastFourDigits  string `json:"last_four_digits"`
-	FirstSixDigits  string `json:"first_six_digits"`
-	ExpirationYear  int    `json:"expiration_year"`
-	ExpirationMonth int    `json:"expiration_month"`
+	ID              string `json:"id"`               // card identification
+	LastFourDigits  string `json:"last_four_digits"` // last four digits
+	FirstSixDigits  string `json:"first_six_digits"` // first six digits
+	ExpirationYear  int    `json:"expiration_year"`  // expiration year
+	ExpirationMonth int    `json:"expiration_month"` // expiration month
 }
 
 // CardholderResponse represents cardholder information.
 type CardholderResponse struct {
-	Identification IdentificationResponse `json:"identification"`
+	Identification IdentificationResponse `json:"identification"` // identification
 
-	Name string `json:"name"`
+	Name string `json:"name"` // name
 }
 
 // PointOfInteractionResponse represents point of interaction information.
