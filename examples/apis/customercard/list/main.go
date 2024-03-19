@@ -25,7 +25,7 @@ func main() {
 		return
 	}
 
-	for _, c := range resources {
-		fmt.Println(c)
+	for _, v := range resources {
+		fmt.Println(v)
 	}
 }

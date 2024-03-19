@@ -25,7 +25,7 @@ func main() {
 		return
 	}
 
-	for _, pm := range paymentMethods {
-		fmt.Println(pm)
+	for _, v := range paymentMethods {
+		fmt.Println(v)
 	}
 }

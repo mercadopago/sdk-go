@@ -30,7 +30,7 @@ func main() {
 		return
 	}
 
-	for _, resource := range search.Results {
-		fmt.Println(resource)
+	for _, v := range search.Results {
+		fmt.Println(v)
 	}
 }

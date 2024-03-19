@@ -31,7 +31,7 @@ func main() {
 		return
 	}
 
-	for _, plan := range resource.Results {
-		fmt.Println(plan)
+	for _, v := range resource.Results {
+		fmt.Println(v)
 	}
 }
