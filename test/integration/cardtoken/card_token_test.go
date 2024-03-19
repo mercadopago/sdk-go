@@ -43,20 +43,3 @@ func TestCardToken(t *testing.T) {
 		}
 	})
 }
-
-func mockCardTokenRequest() cardtoken.Request {
-	return cardtoken.Request{
-		SiteID:          "Teste",
-		CardNumber:      "5031433215406351",
-		ExpirationMonth: "11",
-		ExpirationYear:  "2025",
-		SecurityCode:    "123",
-		Cardholder: &cardtoken.CardholderRequest{
-			Identification: &cardtoken.IdentificationRequest{
-				Type:   "CPF",
-				Number: "70383868084",
-			},
-			Name: "MASTER TEST",
-		},
-	}
-}
