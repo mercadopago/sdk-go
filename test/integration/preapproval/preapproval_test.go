@@ -33,7 +33,7 @@ func TestPreApproval(t *testing.T) {
 
 		resource, err := client.Create(context.Background(), request)
 		if resource == nil || resource.ID == "" {
-			t.Error("preapproval can't be nil")
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -63,7 +63,7 @@ func TestPreApproval(t *testing.T) {
 
 		resource, err := client.Create(context.Background(), request)
 		if resource == nil {
-			t.Error("preapproval can't be nil")
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -72,7 +72,7 @@ func TestPreApproval(t *testing.T) {
 
 		resource, err = client.Get(context.Background(), resource.ID)
 		if resource == nil || resource.ID == "" {
-			t.Error("preapproval can't be nil")
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -102,14 +102,14 @@ func TestPreApproval(t *testing.T) {
 
 		resource, err := client.Create(context.Background(), request)
 		if resource == nil {
-			t.Error("preapproval can't be nil")
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 			return
 		}
 
-		update := preapproval.UpdateRequest{
+		updateRequest := preapproval.UpdateRequest{
 			AutoRecurring: &preapproval.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "months",
@@ -118,9 +118,9 @@ func TestPreApproval(t *testing.T) {
 			},
 		}
 
-		resource, err = client.Update(context.Background(), resource.ID, update)
+		resource, err = client.Update(context.Background(), resource.ID, updateRequest)
 		if resource == nil {
-			t.Error("preapproval can't be nil")
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
