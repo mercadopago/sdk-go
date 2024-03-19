@@ -15,6 +15,8 @@ func main() {
 		return
 	}
 
+	client := preapproval.NewClient(cfg)
+
 	request := preapproval.Request{
 		AutoRecurring: &preapproval.AutoRecurringRequest{
 			Frequency:         1,
@@ -28,7 +30,6 @@ func main() {
 		Reason:            "Yoga Class",
 	}
 
-	client := preapproval.NewClient(cfg)
 	resource, err := client.Create(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
