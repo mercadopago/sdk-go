@@ -122,7 +122,7 @@ func TestPreference(t *testing.T) {
 			},
 		}
 
-		pref, err = client.Update(context.Background(), req, pref.ID)
+		pref, err = client.Update(context.Background(), pref.ID, req)
 		if pref == nil {
 			t.Error("preference can't be nil")
 		}
@@ -138,8 +138,8 @@ func TestPreference(t *testing.T) {
 		}
 
 		filters := preference.SearchRequest{
-			Limit:  "10",
-			Offset: "10",
+			Limit:  10,
+			Offset: 10,
 		}
 
 		client := preference.NewClient(cfg)

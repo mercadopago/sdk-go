@@ -4,6 +4,15 @@ import "time"
 
 // Response represents a customer.
 type Response struct {
+	Phone           PhoneResponse             `json:"phone"`
+	Identification  IdentificationResponse    `json:"identification"`
+	Address         AddressResponse           `json:"address"`
+	DateRegistered  time.Time                 `json:"date_registered"`
+	DateCreated     time.Time                 `json:"date_created"`
+	DateLastUpdated time.Time                 `json:"date_last_updated"`
+	Cards           []CardResponse            `json:"cards"`
+	Addresses       []CompleteAddressResponse `json:"addresses"`
+
 	ID             string `json:"id"`
 	Email          string `json:"email"`
 	FirstName      string `json:"first_name"`
@@ -14,17 +23,8 @@ type Response struct {
 	Status         string `json:"status"`
 	UserID         int    `json:"user_id"`
 	MerchantID     int    `json:"merchant_id"`
-	ClientID       int64  `json:"client_id"`
+	ClientID       int    `json:"client_id"`
 	LiveMode       bool   `json:"live_mode"`
-
-	DateRegistered  *time.Time                `json:"date_registered"`
-	DateCreated     *time.Time                `json:"date_created"`
-	DateLastUpdated *time.Time                `json:"date_last_updated"`
-	Phone           PhoneResponse             `json:"phone"`
-	Identification  IdentificationResponse    `json:"identification"`
-	Address         AddressResponse           `json:"address"`
-	Cards           []CardResponse            `json:"cards"`
-	Addresses       []CompleteAddressResponse `json:"addresses"`
 }
 
 // PhoneResponse represents a response for a phone.
@@ -38,11 +38,18 @@ type AddressResponse struct {
 	ID           string `json:"id"`
 	ZipCode      string `json:"zip_code"`
 	StreetName   string `json:"street_name"`
-	StreetNumber int64  `json:"street_number"`
+	StreetNumber int    `json:"street_number"`
 }
 
 // CardResponse represents a response for a card.
 type CardResponse struct {
+	Cardholder      CardholderResponse    `json:"cardholder"`
+	Issuer          IssuerResponse        `json:"issuer"`
+	PaymentMethod   PaymentMethodResponse `json:"payment_method"`
+	SecurityCode    SecurityCodeResponse  `json:"security_code"`
+	DateCreated     time.Time             `json:"date_created"`
+	DateLastUpdated time.Time             `json:"date_last_updated"`
+
 	ID              string `json:"id"`
 	CustomerID      string `json:"customer_id"`
 	UserId          string `json:"user_id"`
@@ -50,20 +57,13 @@ type CardResponse struct {
 	LastFourDigits  string `json:"last_four_digits"`
 	ExpirationMonth int    `json:"expiration_month"`
 	ExpirationYear  int    `json:"expiration_year"`
-
-	DateCreated     *time.Time            `json:"date_created"`
-	DateLastUpdated *time.Time            `json:"date_last_updated"`
-	Cardholder      CardholderResponse    `json:"cardholder"`
-	Issuer          IssuerResponse        `json:"issuer"`
-	PaymentMethod   PaymentMethodResponse `json:"payment_method"`
-	SecurityCode    SecurityCodeResponse  `json:"security_code"`
 }
 
 // CardholderResponse represents a response for a cardholder.
 type CardholderResponse struct {
-	Name string `json:"name"`
-
 	Identification IdentificationResponse `json:"identification"`
+
+	Name string `json:"name"`
 }
 
 // IdentificationResponse represents a response for an identification.
@@ -74,8 +74,8 @@ type IdentificationResponse struct {
 
 // IssuerResponse represents a response for an issuer.
 type IssuerResponse struct {
-	ID   int    `json:"id"`
 	Name string `json:"name"`
+	ID   int    `json:"id"`
 }
 
 // PaymentMethodResponse represents a response for a payment method.
@@ -89,21 +89,21 @@ type PaymentMethodResponse struct {
 
 // SecurityCodeResponse represents a response for a security code.
 type SecurityCodeResponse struct {
-	Length       int    `json:"length"`
 	CardLocation string `json:"card_location"`
+	Length       int    `json:"length"`
 }
 
 // CompleteAddressResponse represents a response for a complete address.
 type CompleteAddressResponse struct {
-	ID         string `json:"id"`
-	StreetName string `json:"street_name"`
-	ZipCode    string `json:"zip_code"`
-
-	DateCreated  *time.Time           `json:"date_created"`
 	City         CityResponse         `json:"city"`
 	State        StateResponse        `json:"state"`
 	Country      CountryResponse      `json:"country"`
 	Neighborhood NeighborhoodResponse `json:"neighborhood"`
+	DateCreated  time.Time            `json:"date_created"`
+
+	ID         string `json:"id"`
+	StreetName string `json:"street_name"`
+	ZipCode    string `json:"zip_code"`
 }
 
 // CityResponse represents a response for a city.

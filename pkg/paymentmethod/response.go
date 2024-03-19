@@ -1,6 +1,9 @@
 package paymentmethod
 
 type Response struct {
+	Settings              []SettingsResponse             `json:"settings"`
+	FinancialInstitutions []FinancialInstitutionResponse `json:"financial_institutions"`
+
 	ID                   string   `json:"id"`
 	Name                 string   `json:"name"`
 	PaymentTypeID        string   `json:"payment_type_id"`
@@ -8,21 +11,18 @@ type Response struct {
 	SecureThumbnail      string   `json:"secure_thumbnail"`
 	Thumbnail            string   `json:"thumbnail"`
 	DeferredCapture      string   `json:"deferred_capture"`
-	AdditionalInfoNeeded []string `json:"additional_info_needed"`
-	ProcessingModes      []string `json:"processing_modes"`
-	AccreditationTime    int64    `json:"accreditation_time"`
 	MinAllowedAmount     float64  `json:"min_allowed_amount"`
 	MaxAllowedAmount     float64  `json:"max_allowed_amount"`
-
-	Settings              []SettingsResponse             `json:"settings"`
-	FinancialInstitutions []FinancialInstitutionResponse `json:"financial_institutions"`
+	AccreditationTime    int      `json:"accreditation_time"`
+	AdditionalInfoNeeded []string `json:"additional_info_needed"`
+	ProcessingModes      []string `json:"processing_modes"`
 }
 
 // SettingsResponse represents payment method settings.
 type SettingsResponse struct {
-	Bin          *SettingsBinResponse          `json:"bin"`
-	CardNumber   *SettingsCardNumberResponse   `json:"card_number"`
-	SecurityCode *SettingsSecurityCodeResponse `json:"security_code"`
+	Bin          SettingsBinResponse          `json:"bin"`
+	CardNumber   SettingsCardNumberResponse   `json:"card_number"`
+	SecurityCode SettingsSecurityCodeResponse `json:"security_code"`
 }
 
 // SettingsBinResponse represents BIN (Bank Identification Number) settings.
@@ -34,15 +34,15 @@ type SettingsBinResponse struct {
 
 // SettingsCardNumberResponse represents card number settings.
 type SettingsCardNumberResponse struct {
-	Length     int    `json:"length"`
 	Validation string `json:"validation"`
+	Length     int    `json:"length"`
 }
 
 // SettingsSecurityCodeResponse represents security code settings.
 type SettingsSecurityCodeResponse struct {
 	Mode         string `json:"mode"`
-	Length       int    `json:"length"`
 	CardLocation string `json:"card_location"`
+	Length       int    `json:"length"`
 }
 
 // FinancialInstitutionResponse represents financial institution settings.

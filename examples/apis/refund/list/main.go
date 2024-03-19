@@ -19,7 +19,7 @@ func main() {
 
 	refundClient := refund.NewClient(cfg)
 
-	var paymentID int64 = 12233344
+	paymentID := 12233344
 
 	refunds, err := refundClient.List(context.Background(), paymentID)
 	if err != nil {

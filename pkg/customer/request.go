@@ -4,27 +4,27 @@ import "time"
 
 // Request represents a request for creating a customer.
 type Request struct {
+	Address        *AddressRequest        `json:"address,omitempty"`
+	Identification *IdentificationRequest `json:"identification,omitempty"`
+	Phone          *PhoneRequest          `json:"phone,omitempty"`
+	DateRegistered *time.Time             `json:"date_registered,omitempty"`
+
 	DefaultAddress string `json:"default_address,omitempty"`
 	DefaultCard    string `json:"default_card,omitempty"`
 	Description    string `json:"description,omitempty"`
 	Email          string `json:"email,omitempty"`
 	FirstName      string `json:"first_name,omitempty"`
 	LastName       string `json:"last_name,omitempty"`
-
-	DateRegistered *time.Time             `json:"date_registered,omitempty"`
-	Address        *AddressResponse       `json:"address,omitempty"`
-	Identification *IdentificationRequest `json:"identification,omitempty"`
-	Phone          *PhoneRequest          `json:"phone,omitempty"`
 }
 
 // AddressRequest represents a request for an address.
 type AddressRequest struct {
+	City *CityRequest `json:"city,omitempty"`
+
 	ID           string `json:"id,omitempty"`
 	ZipCode      string `json:"zip_code,omitempty"`
 	StreetName   string `json:"street_name,omitempty"`
 	StreetNumber int    `json:"street_number,omitempty"`
-
-	City *CityRequest `json:"city,omitempty"`
 }
 
 // CityRequest represents a request for a city.

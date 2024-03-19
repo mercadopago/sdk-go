@@ -1,22 +1,20 @@
 package refund
 
-import (
-	"time"
-)
+import "time"
 
 // Response is the response from the Refund's API.
 type Response struct {
+	Source      Source    `json:"source"`
+	DateCreated time.Time `json:"date_created"`
+
 	Status               string  `json:"status"`
 	RefundMode           string  `json:"refund_mode"`
 	Reason               string  `json:"reason"`
 	UniqueSequenceNumber string  `json:"unique_sequence_number"`
-	ID                   int64   `json:"id"`
-	PaymentID            int64   `json:"payment_id"`
 	Amount               float64 `json:"amount"`
 	AdjustmentAmount     float64 `json:"adjustment_amount"`
-
-	DateCreated *time.Time `json:"date_created"`
-	Source      Source     `json:"source"`
+	ID                   int     `json:"id"`
+	PaymentID            int     `json:"payment_id"`
 }
 
 // Source represents the data to identify who originated the refund

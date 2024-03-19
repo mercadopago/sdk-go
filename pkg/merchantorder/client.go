@@ -2,18 +2,17 @@ package merchantorder
 
 import (
 	"context"
-	"fmt"
-	"net/url"
+	"net/http"
 	"strconv"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const (
 	urlBase   = "https://api.mercadopago.com/merchant_orders"
 	urlSearch = urlBase + "/search"
-	urlWithID = urlBase + "/:id"
+	urlWithID = urlBase + "/{id}"
 )
 
 // Client contains the methods to interact with the Merchant orders API.
@@ -21,7 +20,7 @@ type Client interface {
 	// Get a specific merchant order by id.
 	// It is a get request to the endpoint: https://api.mercadopago.com/merchant_orders/{id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_id/get
-	Get(ctx context.Context, id int64) (*Response, error)
+	Get(ctx context.Context, id int) (*Response, error)
 
 	// Search for merchant orders.
 	// It is a get request to the endpoint: https://api.mercadopago.com/merchant_orders/search
@@ -31,7 +30,7 @@ type Client interface {
 	// Update a merchant order.
 	// It is a put request to the endpoint: https://api.mercadopago.com/merchant_orders/{id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_id/put
-	Update(ctx context.Context, request UpdateRequest, id int64) (*Response, error)
+	Update(ctx context.Context, id int, request UpdateRequest) (*Response, error)
 
 	// Create a merchant order.
 	// It is a post request to the endpoint: https://api.mercadopago.com/merchant_orders
@@ -51,56 +50,69 @@ func NewClient(c *config.Config) Client {
 	}
 }
 
-func (c *client) Get(ctx context.Context, id int64) (*Response, error) {
-	param := map[string]string{
+func (c *client) Get(ctx context.Context, id int) (*Response, error) {
+	pathParams := map[string]string{
 		"id": strconv.Itoa(int(id)),
 	}
 
-	res, err := baseclient.Get[*Response](ctx, c.cfg, urlWithID, baseclient.WithPathParams(param))
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodGet,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
-	params := request.Parameters()
+	queryParams := request.GetParams()
 
-	url, err := url.Parse(urlSearch)
-	if err != nil {
-		return nil, fmt.Errorf("error parsing url: %w", err)
+	requestData := httpclient.RequestData{
+		QueryParams: queryParams,
+		Method:      http.MethodGet,
+		URL:         urlSearch,
 	}
-
-	url.RawQuery = params
-
-	res, err := baseclient.Get[*SearchResponse](ctx, c.cfg, url.String())
-
+	result, err := httpclient.DoRequest[*SearchResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
-func (c *client) Update(ctx context.Context, request UpdateRequest, id int64) (*Response, error) {
-	param := map[string]string{
+func (c *client) Update(ctx context.Context, id int, request UpdateRequest) (*Response, error) {
+	pathParams := map[string]string{
 		"id": strconv.Itoa(int(id)),
 	}
 
-	res, err := baseclient.Put[*Response](ctx, c.cfg, urlWithID, request, baseclient.WithPathParams(param))
+	requestData := httpclient.RequestData{
+		Body:       request,
+		PathParams: pathParams,
+		Method:     http.MethodPut,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
+	requestData := httpclient.RequestData{
+		Body:   request,
+		Method: http.MethodPost,
+		URL:    urlBase,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }

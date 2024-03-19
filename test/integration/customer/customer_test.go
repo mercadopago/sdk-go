@@ -47,8 +47,8 @@ func TestCustomer(t *testing.T) {
 				"email": generateEmail(),
 			},
 		}
-		res, err := client.Search(context.Background(), req)
-		if res == nil {
+		result, err := client.Search(context.Background(), req)
+		if result == nil {
 			t.Error("customerSearch can't be nil")
 		}
 		if err != nil {
@@ -74,12 +74,12 @@ func TestCustomer(t *testing.T) {
 			t.Errorf(err.Error())
 		}
 
-		res, err := client.Get(context.Background(), cus.ID)
-		if res == nil {
+		result, err := client.Get(context.Background(), cus.ID)
+		if result == nil {
 			t.Error("customer can't be nil")
 			return
 		}
-		if res.ID == "" {
+		if result.ID == "" {
 			t.Error("id can't be nil")
 		}
 		if err != nil {
@@ -106,12 +106,12 @@ func TestCustomer(t *testing.T) {
 		}
 
 		uReq := customer.Request{Description: "Description updated."}
-		res, err := client.Update(context.Background(), cus.ID, uReq)
-		if res == nil {
+		result, err := client.Update(context.Background(), cus.ID, uReq)
+		if result == nil {
 			t.Error("customer can't be nil")
 			return
 		}
-		if res.Description != "Description updated." {
+		if result.Description != "Description updated." {
 			t.Error("update failed")
 		}
 		if err != nil {

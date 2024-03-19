@@ -2,17 +2,16 @@ package preference
 
 import (
 	"context"
-	"fmt"
-	"net/url"
+	"net/http"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const (
 	urlBase   = "https://api.mercadopago.com/checkout/preferences"
 	urlSearch = urlBase + "/search"
-	urlWithID = urlBase + "/:id"
+	urlWithID = urlBase + "/{id}"
 )
 
 // Client contains the methods to interact with the Preference API.
@@ -30,7 +29,7 @@ type Client interface {
 	// Update updates details for a payment preference.
 	// It is a put request to the endpoint: https://api.mercadopago.com/checkout/preferences/{id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/preferences/_checkout_preferences_id/put
-	Update(ctx context.Context, request Request, id string) (*Response, error)
+	Update(ctx context.Context, id string, request Request) (*Response, error)
 
 	// Search finds all preference information generated through specific filters
 	// It is a get request to the endpoint: https://api.mercadopago.com/checkout/preferences/search
@@ -51,53 +50,68 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
+	requestData := httpclient.RequestData{
+		Body:   request,
+		Method: http.MethodPost,
+		URL:    urlBase,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Get(ctx context.Context, id string) (*Response, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"id": id,
 	}
 
-	res, err := baseclient.Get[*Response](ctx, c.cfg, urlWithID, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodGet,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
-func (c *client) Update(ctx context.Context, request Request, id string) (*Response, error) {
-	params := map[string]string{
+func (c *client) Update(ctx context.Context, id string, request Request) (*Response, error) {
+	pathParams := map[string]string{
 		"id": id,
 	}
 
-	res, err := baseclient.Put[*Response](ctx, c.cfg, urlWithID, request, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		Body:       request,
+		PathParams: pathParams,
+		Method:     http.MethodPut,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponsePage, error) {
-	params := request.Parameters()
+	queryParams := request.GetParams()
 
-	url, err := url.Parse(urlSearch)
-	if err != nil {
-		return nil, fmt.Errorf("error parsing url: %w", err)
+	requestData := httpclient.RequestData{
+		QueryParams: queryParams,
+		Method:      http.MethodGet,
+		URL:         urlSearch,
 	}
-	url.RawQuery = params
-
-	res, err := baseclient.Get[*SearchResponsePage](ctx, c.cfg, url.String())
+	result, err := httpclient.DoRequest[*SearchResponsePage](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }

@@ -1,0 +1,20 @@
+{
+  "preapproval_id": "202caa5d4084417b8e2a394121bf172b",
+  "id": 3950169598,
+  "type": "recurring",
+  "status": "processed",
+  "date_created": "2024-02-27T17:42:04.835-04:00",
+  "last_modified": "2024-02-27T17:45:06.462-04:00",
+  "transaction_amount": 5.00,
+  "currency_id": "BRL",
+  "reason": "Yoga classes",
+  "payment": {
+    "id": 3950169598,
+    "status": "approved",
+    "status_detail": "accredited"
+  },
+  "retry_attempt": 1,
+  "next_retry_date": "2024-02-28T17:40:33.000-04:00",
+  "debit_date": "2024-02-27T17:40:32.000-04:00",
+  "payment_method_id": "account_money"
+}

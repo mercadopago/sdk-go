@@ -6,6 +6,4 @@ threshold:
 
 exclude:
   paths:
-    - ^pkg/internal
     - ^pkg/config
-    - ^pkg/cardtoken/mock.go

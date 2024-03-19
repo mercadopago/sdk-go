@@ -2,11 +2,11 @@ package refund
 
 import (
 	"context"
+	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const (
@@ -19,22 +19,22 @@ type Client interface {
 	// Get gets a specific refund by payment id and refund id.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/{id}/refunds/{refund_id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/chargebacks/_payments_id_refunds_refund_id/get
-	Get(ctx context.Context, paymentID, refundID int64) (*Response, error)
+	Get(ctx context.Context, paymentID, refundID int) (*Response, error)
 
 	// List gets a refund list by payment id.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/{id}/refunds
 	// Reference: https://www.mercadopago.com/developers/en/reference/chargebacks/_payments_id_refunds/get
-	List(ctx context.Context, paymentID int64) ([]Response, error)
+	List(ctx context.Context, paymentID int) ([]Response, error)
 
 	// Create create a refund by payment id.
 	// It is a post request to the endpoint: https://api.mercadopago.com/v1/payments/{id}/refunds
 	// Reference: https://www.mercadopago.com/developers/en/reference/chargebacks/_payments_id_refunds/post
-	Create(ctx context.Context, paymentID int64) (*Response, error)
+	Create(ctx context.Context, paymentID int) (*Response, error)
 
 	// CreatePartialRefund create a partial refund by payment id.
 	// It is a post request to the endpoint: https://api.mercadopago.com/v1/payments/{id}/refunds
 	// Reference: https://www.mercadopago.com/developers/en/reference/chargebacks/_payments_id_refunds/post
-	CreatePartialRefund(ctx context.Context, amount float64, paymentID int64) (*Response, error)
+	CreatePartialRefund(ctx context.Context, paymentID int, amount float64) (*Response, error)
 }
 
 // client is the implementation of Client.
@@ -49,51 +49,77 @@ func NewClient(c *config.Config) Client {
 	}
 }
 
-func (c *client) Get(ctx context.Context, paymentID, refundID int64) (*Response, error) {
-	convertedPaymentID := strconv.Itoa(int(paymentID))
-	convertedRefundID := strconv.Itoa(int(refundID))
+func (c *client) Get(ctx context.Context, paymentID, refundID int) (*Response, error) {
+	pathParams := map[string]string{
+		"id":        strconv.Itoa(int(paymentID)),
+		"refund_id": strconv.Itoa(int(refundID)),
+	}
 
-	url := strings.NewReplacer("{id}", convertedPaymentID, "{refund_id}", convertedRefundID).Replace(urlWithID)
-
-	res, err := baseclient.Get[*Response](ctx, c.cfg, url)
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodGet,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
-func (c *client) List(ctx context.Context, paymentID int64) ([]Response, error) {
-	convertedRefundID := strconv.Itoa(int(paymentID))
+func (c *client) List(ctx context.Context, paymentID int) ([]Response, error) {
+	pathParams := map[string]string{
+		"id": strconv.Itoa(int(paymentID)),
+	}
 
-	res, err := baseclient.Get[[]Response](ctx, c.cfg, strings.Replace(urlBase, "{id}", convertedRefundID, 1))
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodGet,
+		URL:        urlBase,
+	}
+	result, err := httpclient.DoRequest[[]Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
-func (c *client) Create(ctx context.Context, paymentID int64) (*Response, error) {
-	convertedPaymentID := strconv.Itoa(int(paymentID))
+func (c *client) Create(ctx context.Context, paymentID int) (*Response, error) {
+	pathParams := map[string]string{
+		"id": strconv.Itoa(int(paymentID)),
+	}
 
-	res, err := baseclient.Post[*Response](ctx, c.cfg, strings.Replace(urlBase, "{id}", convertedPaymentID, 1), nil)
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodPost,
+		URL:        urlBase,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
-func (c *client) CreatePartialRefund(ctx context.Context, amount float64, paymentID int64) (*Response, error) {
+func (c *client) CreatePartialRefund(ctx context.Context, paymentID int, amount float64) (*Response, error) {
 	request := &Request{Amount: amount}
+	pathParams := map[string]string{
+		"id": strconv.Itoa(int(paymentID)),
+	}
 
-	convertedPaymentID := strconv.Itoa(int(paymentID))
-
-	res, err := baseclient.Post[*Response](ctx, c.cfg, strings.Replace(urlBase, "{id}", convertedPaymentID, 1), request)
+	requestData := httpclient.RequestData{
+		Body:       request,
+		PathParams: pathParams,
+		Method:     http.MethodPost,
+		URL:        urlBase,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }

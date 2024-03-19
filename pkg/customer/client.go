@@ -2,17 +2,16 @@ package customer
 
 import (
 	"context"
-	"fmt"
-	"net/url"
+	"net/http"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/internal/baseclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
 const (
 	urlBase   = "https://api.mercadopago.com/v1/customers"
 	urlSearch = urlBase + "/search"
-	urlWithID = urlBase + "/:id"
+	urlWithID = urlBase + "/{id}"
 )
 
 // Client contains the methods to interact with the Customers API.
@@ -21,14 +20,17 @@ type Client interface {
 	// It is a post request to the endpoint: https://api.mercadopago.com/v1/customers
 	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers/post/
 	Create(ctx context.Context, request Request) (*Response, error)
+
 	// Search find all customer information using specific filters.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/customers/search
 	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers_search/get/
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
+
 	// Get check all the information of a client created with the client ID of your choice.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/customers/{id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers_id/get/
 	Get(ctx context.Context, id string) (*Response, error)
+
 	// Update renew the data of a customer.
 	// It is a put request to the endpoint: https://api.mercadopago.com/v1/customers
 	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers_id/put/
@@ -48,53 +50,68 @@ func NewClient(c *config.Config) Client {
 }
 
 func (c *client) Create(ctx context.Context, request Request) (*Response, error) {
-	res, err := baseclient.Post[*Response](ctx, c.cfg, urlBase, request)
+	requestData := httpclient.RequestData{
+		Body:   request,
+		Method: http.MethodPost,
+		URL:    urlBase,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
-	params := request.Parameters()
+	queryParams := request.GetParams()
 
-	parsedURL, err := url.Parse(urlSearch)
-	if err != nil {
-		return nil, fmt.Errorf("error parsing url: %w", err)
+	requestData := httpclient.RequestData{
+		QueryParams: queryParams,
+		Method:      http.MethodGet,
+		URL:         urlSearch,
 	}
-	parsedURL.RawQuery = params
-
-	res, err := baseclient.Get[*SearchResponse](ctx, c.cfg, parsedURL.String())
+	result, err := httpclient.DoRequest[*SearchResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Get(ctx context.Context, id string) (*Response, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"id": id,
 	}
 
-	res, err := baseclient.Get[*Response](ctx, c.cfg, urlWithID, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		PathParams: pathParams,
+		Method:     http.MethodGet,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
 
 func (c *client) Update(ctx context.Context, id string, request Request) (*Response, error) {
-	params := map[string]string{
+	pathParams := map[string]string{
 		"id": id,
 	}
 
-	res, err := baseclient.Put[*Response](ctx, c.cfg, urlWithID, request, baseclient.WithPathParams(params))
+	requestData := httpclient.RequestData{
+		Body:       request,
+		PathParams: pathParams,
+		Method:     http.MethodPut,
+		URL:        urlWithID,
+	}
+	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return result, nil
 }
