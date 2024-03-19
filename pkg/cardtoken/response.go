@@ -2,6 +2,7 @@ package cardtoken
 
 import "time"
 
+// Response contains the cardtoken information.
 type Response struct {
 	Cardholder      CardholderResponse `json:"cardholder"`
 	DateCreated     time.Time          `json:"date_created"`
@@ -21,12 +22,14 @@ type Response struct {
 	RequireEsc         bool   `json:"require_esc"`
 }
 
+// CardholderResponse contains cardholder information in the cardtoken.
 type CardholderResponse struct {
 	Identification IdentificationResponse `json:"identification"`
 
 	Name string `json:"name"`
 }
 
+// IdentificationResponse is a base type that represents identifications, such as customer identification.
 type IdentificationResponse struct {
 	Number string `json:"number"`
 	Type   string `json:"type"`
