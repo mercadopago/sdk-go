@@ -21,7 +21,7 @@ func TestMerchantOrder(t *testing.T) {
 		preferenceClient := preference.NewClient(cfg)
 		merchantOrderClient := merchantorder.NewClient(cfg)
 
-		prefReq := preference.Request{
+		preferenceRequest := preference.Request{
 			Items: []preference.PreferenceItemRequest{
 				{
 					ID:          "123",
@@ -33,7 +33,7 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		preferenceResource, err := preferenceClient.Create(context.Background(), prefReq)
+		preferenceResource, err := preferenceClient.Create(context.Background(), preferenceRequest)
 		if preferenceResource == nil {
 			t.Error("preferenceResource can't be nil")
 			return
@@ -43,7 +43,7 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		// Create merchant order.
-		request := merchantorder.Request{
+		merchantOrderRequest := merchantorder.Request{
 			ExternalReference: preferenceResource.ExternalReference,
 			PreferenceID:      preferenceResource.ID,
 			Collector: &merchantorder.CollectorRequest{
@@ -63,7 +63,7 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		merchantOrderResource, err := merchantOrderClient.Create(context.Background(), request)
+		merchantOrderResource, err := merchantOrderClient.Create(context.Background(), merchantOrderRequest)
 		if merchantOrderResource == nil {
 			t.Error("merchantOrderResource can't be nil")
 			return
@@ -82,7 +82,7 @@ func TestMerchantOrder(t *testing.T) {
 		preferenceClient := preference.NewClient(cfg)
 		merchantOrderClient := merchantorder.NewClient(cfg)
 
-		prefReq := preference.Request{
+		preferenceRequest := preference.Request{
 			Items: []preference.PreferenceItemRequest{
 				{
 					ID:          "123",
@@ -94,7 +94,7 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		preferenceResource, err := preferenceClient.Create(context.Background(), prefReq)
+		preferenceResource, err := preferenceClient.Create(context.Background(), preferenceRequest)
 		if preferenceResource == nil {
 			t.Error("preferenceResource can't be nil")
 			return
@@ -104,7 +104,7 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		// Create merchant order.
-		createReq := merchantorder.Request{
+		createRequest := merchantorder.Request{
 			ExternalReference: preferenceResource.ExternalReference,
 			PreferenceID:      preferenceResource.ID,
 			Collector: &merchantorder.CollectorRequest{
@@ -125,7 +125,7 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		merchantOrderResource, err := merchantOrderClient.Create(context.Background(), createReq)
+		merchantOrderResource, err := merchantOrderClient.Create(context.Background(), createRequest)
 		if merchantOrderResource == nil || merchantOrderResource.ID == 0 {
 			t.Error("merchantOrderResource can't be nil")
 			return
@@ -135,7 +135,7 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		// Update merchant order.
-		request := merchantorder.UpdateRequest{
+		updateRequest := merchantorder.UpdateRequest{
 			PreferenceID: preferenceResource.ID,
 			SiteID:       preferenceResource.SiteID,
 			Items: []merchantorder.ItemUpdateRequest{
@@ -146,7 +146,7 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		merchantOrderResource, err = merchantOrderClient.Update(context.Background(), merchantOrderResource.ID, request)
+		merchantOrderResource, err = merchantOrderClient.Update(context.Background(), merchantOrderResource.ID, updateRequest)
 		if merchantOrderResource == nil {
 			fmt.Println(err)
 			t.Error("merchantOrderResource can't be nil")
@@ -166,7 +166,7 @@ func TestMerchantOrder(t *testing.T) {
 		preferenceClient := preference.NewClient(cfg)
 		merchantOrderClient := merchantorder.NewClient(cfg)
 
-		prefReq := preference.Request{
+		preferenceRequest := preference.Request{
 			Items: []preference.PreferenceItemRequest{
 				{
 					ID:          "123",
@@ -178,7 +178,7 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		preferenceResource, err := preferenceClient.Create(context.Background(), prefReq)
+		preferenceResource, err := preferenceClient.Create(context.Background(), preferenceRequest)
 		if preferenceResource == nil {
 			t.Error("preferenceResource can't be nil")
 			return
@@ -188,7 +188,7 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		// Create merchant order.
-		request := merchantorder.Request{
+		merchantOrderRequest := merchantorder.Request{
 			ExternalReference: preferenceResource.ExternalReference,
 			PreferenceID:      preferenceResource.ID,
 			Collector: &merchantorder.CollectorRequest{
@@ -208,7 +208,7 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		merchantOrderResource, err := merchantOrderClient.Create(context.Background(), request)
+		merchantOrderResource, err := merchantOrderClient.Create(context.Background(), merchantOrderRequest)
 		if merchantOrderResource == nil {
 			t.Error("merchantOrderResource can't be nil")
 			return
