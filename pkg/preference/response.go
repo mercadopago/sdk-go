@@ -8,7 +8,7 @@ import (
 type Response struct {
 	Payer               PayerResponse               `json:"payer"`
 	PaymentMethods      PaymentMethodsResponse      `json:"payment_methods"`
-	BackURLS            BackUrlsResponse            `json:"back_urls"`
+	BackURLs            BackURLsResponse            `json:"back_urls"`
 	Shipments           ShipmentsResponse           `json:"shipments"`
 	DifferentialPricing DifferentialPricingResponse `json:"differential_pricing"`
 	DateOfExpiration    time.Time                   `json:"date_of_expiration"`
@@ -85,8 +85,8 @@ type PaymentTypeResponse struct {
 	ID string `json:"id"`
 }
 
-// BackUrlsResponse contains preference back URLs.
-type BackUrlsResponse struct {
+// BackURLsResponse contains preference back URLs.
+type BackURLsResponse struct {
 	Success string `json:"success"`
 	Pending string `json:"pending"`
 	Failure string `json:"failure"`

@@ -383,7 +383,7 @@ func TestSearch(t *testing.T) {
 		name    string
 		fields  fields
 		args    args
-		want    *SearchResponsePage
+		want    *PagingResponse
 		wantErr string
 	}{
 		{
@@ -421,7 +421,7 @@ func TestSearch(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 			},
-			want: &SearchResponsePage{
+			want: &PagingResponse{
 				Total:      1229,
 				NextOffset: 22,
 				Elements: []SearchResponse{

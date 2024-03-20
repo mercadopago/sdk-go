@@ -6,7 +6,7 @@ import (
 
 // Request contains parameters to create/update a preference.
 type Request struct {
-	BackUrls            *BackUrlsRequest            `json:"back_urls,omitempty"`
+	BackURLs            *BackURLsRequest            `json:"back_urls,omitempty"`
 	DifferentialPricing *DifferentialPricingRequest `json:"differential_pricing,omitempty"`
 	Payer               *PayerRequest               `json:"payer,omitempty"`
 	PaymentMethods      *PaymentMethodsRequest      `json:"payment_methods,omitempty"`
@@ -33,8 +33,8 @@ type Request struct {
 	Metadata            map[string]any `json:"metadata,omitempty"`
 }
 
-// BackUrlsRequest contains callback URLs.
-type BackUrlsRequest struct {
+// BackURLsRequest contains callback URLs.
+type BackURLsRequest struct {
 	Success string `json:"success,omitempty"`
 	Pending string `json:"pending,omitempty"`
 	Failure string `json:"failure,omitempty"`
