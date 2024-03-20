@@ -19,8 +19,11 @@ func main() {
 		return
 	}
 
+	preferenceClient := preference.NewClient(cfg)
+	client := merchantorder.NewClient(cfg)
+
 	// Create preference.
-	prefReq := preference.Request{
+	preferenceRequest := preference.Request{
 		ExternalReference: uuid.New().String(),
 		Items: []preference.PreferenceItemRequest{
 			{
@@ -33,59 +36,57 @@ func main() {
 		},
 	}
 
-	preferenceClient := preference.NewClient(cfg)
-	pref, err := preferenceClient.Create(context.Background(), prefReq)
+	preferenceResource, err := preferenceClient.Create(context.Background(), preferenceRequest)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(preferenceResource)
 		return
 	}
 
 	// Create merchant order.
-	createReq := merchantorder.Request{
-		ExternalReference: pref.ExternalReference,
-		PreferenceID:      pref.ID,
+	merchantOrderRequest := merchantorder.Request{
+		ExternalReference: preferenceResource.ExternalReference,
+		PreferenceID:      preferenceResource.ID,
 		Collector: &merchantorder.CollectorRequest{
-			ID: pref.CollectorID,
+			ID: preferenceResource.CollectorID,
 		},
-		SiteID: pref.SiteID,
+		SiteID: preferenceResource.SiteID,
 		Items: []merchantorder.ItemRequest{
 			{
-				ID:          pref.Items[0].ID,
-				CategoryID:  pref.Items[0].CategoryID,
-				CurrencyID:  pref.Items[0].CurrencyID,
-				Description: pref.Items[0].Description,
-				PictureURL:  pref.Items[0].PictureURL,
-				Title:       pref.Items[0].Title,
-				Quantity:    pref.Items[0].Quantity,
-				UnitPrice:   pref.Items[0].UnitPrice,
+				ID:          preferenceResource.Items[0].ID,
+				CategoryID:  preferenceResource.Items[0].CategoryID,
+				CurrencyID:  preferenceResource.Items[0].CurrencyID,
+				Description: preferenceResource.Items[0].Description,
+				PictureURL:  preferenceResource.Items[0].PictureURL,
+				Title:       preferenceResource.Items[0].Title,
+				Quantity:    preferenceResource.Items[0].Quantity,
+				UnitPrice:   preferenceResource.Items[0].UnitPrice,
 			},
 		},
 	}
 
-	client := merchantorder.NewClient(cfg)
-	order, err := client.Create(context.Background(), createReq)
+	merchantOrderResource, err := client.Create(context.Background(), merchantOrderRequest)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	// Update merchant order.
-	req := merchantorder.UpdateRequest{
-		PreferenceID: pref.ID,
-		SiteID:       pref.SiteID,
+	merchantOrderUpdateRequest := merchantorder.UpdateRequest{
+		PreferenceID: preferenceResource.ID,
+		SiteID:       preferenceResource.SiteID,
 		Items: []merchantorder.ItemUpdateRequest{
 			{
-				ID:       order.Items[0].ID,
+				ID:       merchantOrderResource.Items[0].ID,
 				Quantity: 2,
 			},
 		},
 	}
 
-	order, err = client.Update(context.Background(), order.ID, req)
+	merchantOrderResource, err = client.Update(context.Background(), merchantOrderResource.ID, merchantOrderUpdateRequest)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(order)
+	fmt.Println(merchantOrderResource)
 }

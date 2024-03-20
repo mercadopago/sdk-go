@@ -18,7 +18,7 @@ func TestPreApprovalPlan(t *testing.T) {
 
 		client := preapprovalplan.NewClient(cfg)
 
-		req := preapprovalplan.Request{
+		request := preapprovalplan.Request{
 			AutoRecurring: &preapprovalplan.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "days",
@@ -41,8 +41,8 @@ func TestPreApprovalPlan(t *testing.T) {
 			Reason: "Yoga classes",
 		}
 
-		result, err := client.Create(context.Background(), req)
-		if result == nil || result.ID == "" {
+		resource, err := client.Create(context.Background(), request)
+		if resource == nil || resource.ID == "" {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {
@@ -58,7 +58,7 @@ func TestPreApprovalPlan(t *testing.T) {
 
 		client := preapprovalplan.NewClient(cfg)
 
-		req := preapprovalplan.Request{
+		request := preapprovalplan.Request{
 			AutoRecurring: &preapprovalplan.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "days",
@@ -81,8 +81,8 @@ func TestPreApprovalPlan(t *testing.T) {
 			Reason: "Yoga classes",
 		}
 
-		result, err := client.Create(context.Background(), req)
-		if result == nil {
+		resource, err := client.Create(context.Background(), request)
+		if resource == nil {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {
@@ -90,8 +90,8 @@ func TestPreApprovalPlan(t *testing.T) {
 			return
 		}
 
-		result, err = client.Get(context.Background(), result.ID)
-		if result == nil || result.ID == "" {
+		resource, err = client.Get(context.Background(), resource.ID)
+		if resource == nil || resource.ID == "" {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {
@@ -107,7 +107,7 @@ func TestPreApprovalPlan(t *testing.T) {
 
 		client := preapprovalplan.NewClient(cfg)
 
-		req := preapprovalplan.Request{
+		request := preapprovalplan.Request{
 			AutoRecurring: &preapprovalplan.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "days",
@@ -130,8 +130,8 @@ func TestPreApprovalPlan(t *testing.T) {
 			Reason: "Yoga classes",
 		}
 
-		result, err := client.Create(context.Background(), req)
-		if result == nil {
+		resource, err := client.Create(context.Background(), request)
+		if resource == nil {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {
@@ -139,7 +139,7 @@ func TestPreApprovalPlan(t *testing.T) {
 			return
 		}
 
-		req = preapprovalplan.Request{
+		request = preapprovalplan.Request{
 			AutoRecurring: &preapprovalplan.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "months",
@@ -150,8 +150,8 @@ func TestPreApprovalPlan(t *testing.T) {
 			},
 		}
 
-		result, err = client.Update(context.Background(), result.ID, req)
-		if result == nil {
+		resource, err = client.Update(context.Background(), resource.ID, request)
+		if resource == nil {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {
@@ -165,15 +165,16 @@ func TestPreApprovalPlan(t *testing.T) {
 			t.Fatal(err)
 		}
 
+		client := preapprovalplan.NewClient(cfg)
+
 		filters := preapprovalplan.SearchRequest{
 			Limit:  10,
 			Offset: 10,
 		}
 
-		client := preapprovalplan.NewClient(cfg)
-		result, err := client.Search(context.Background(), filters)
+		resource, err := client.Search(context.Background(), filters)
 
-		if result == nil || result.Results[0].ID == "" {
+		if resource == nil || resource.Results[0].ID == "" {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {

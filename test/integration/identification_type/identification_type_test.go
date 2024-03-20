@@ -17,10 +17,11 @@ func TestIdentificationTypes(t *testing.T) {
 		}
 
 		client := identificationtype.NewClient(cfg)
-		result, err := client.List(context.Background())
 
-		if result == nil {
-			t.Error("result can't be nil")
+		resource, err := client.List(context.Background())
+
+		if resource == nil {
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())

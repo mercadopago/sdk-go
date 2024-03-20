@@ -17,13 +17,14 @@ func TestOauth(t *testing.T) {
 		}
 
 		client := oauth.NewClient(cfg)
+
 		authorizationCode := "authorization_code"
 		redirectURI := "redirect_uri"
 
-		cred, err := client.Create(context.Background(), authorizationCode, redirectURI)
+		resource, err := client.Create(context.Background(), authorizationCode, redirectURI)
 
-		if cred == nil {
-			t.Error("credential can't be nil")
+		if resource == nil {
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -41,21 +42,21 @@ func TestOauth(t *testing.T) {
 		authorizationCode := "authorization_code"
 		redirectURI := "redirect_uri"
 
-		cred, err := client.Create(context.Background(), authorizationCode, redirectURI)
+		resource, err := client.Create(context.Background(), authorizationCode, redirectURI)
 
-		if cred == nil {
-			t.Error("credential can't be nil")
+		if resource == nil {
+			t.Error("resource can't be nil")
 			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
-		refreshToken := cred.RefreshToken
-		cred, err = client.Refresh(context.Background(), refreshToken)
+		refreshToken := resource.RefreshToken
+		resource, err = client.Refresh(context.Background(), refreshToken)
 
-		if cred == nil {
-			t.Error("credential can't be nil")
+		if resource == nil {
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
