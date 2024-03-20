@@ -30,7 +30,7 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Create payment.
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New()),
@@ -40,9 +40,9 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		pay, err := paymentClient.Create(ctx, req)
-		if pay == nil {
-			t.Error("payment can't be nil")
+		paymentResource, err := paymentClient.Create(ctx, request)
+		if paymentResource == nil {
+			t.Error("paymentResource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -50,9 +50,9 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Create refund.
-		ref, err := refundClient.Create(ctx, pay.ID)
-		if ref == nil {
-			t.Error("refund can't be nil")
+		refundResource, err := refundClient.Create(ctx, paymentResource.ID)
+		if refundResource == nil {
+			t.Error("refundResource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -69,7 +69,7 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Create payment.
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New()),
@@ -79,9 +79,9 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		pay, err := paymentClient.Create(ctx, req)
-		if pay == nil {
-			t.Error("payment can't be nil")
+		paymentResource, err := paymentClient.Create(ctx, request)
+		if paymentResource == nil {
+			t.Error("paymentResource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -89,11 +89,11 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Create partial refund.
-		partialAmount := pay.TransactionAmount - 5.0
+		partialAmount := paymentResource.TransactionAmount - 5.0
 
-		ref, err := refundClient.CreatePartialRefund(ctx, pay.ID, partialAmount)
-		if ref == nil {
-			t.Error("refund can't be nil")
+		refundResource, err := refundClient.CreatePartialRefund(ctx, paymentResource.ID, partialAmount)
+		if refundResource == nil {
+			t.Error("refundResource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -110,7 +110,7 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Create payment.
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New()),
@@ -120,9 +120,9 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		pay, err := paymentClient.Create(ctx, req)
-		if pay == nil {
-			t.Error("payment can't be nil")
+		paymentResource, err := paymentClient.Create(ctx, request)
+		if paymentResource == nil {
+			t.Error("paymentResource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -130,9 +130,9 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Create refund.
-		ref, err := refundClient.Create(ctx, pay.ID)
-		if ref == nil {
-			t.Error("refund can't be nil")
+		refundResource, err := refundClient.Create(ctx, paymentResource.ID)
+		if refundResource == nil {
+			t.Error("refundResource can't be nil")
 			return
 		}
 		if err != nil {
@@ -140,12 +140,12 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Get refund.
-		ref, err = refundClient.Get(ctx, pay.ID, ref.ID)
+		refundResource, err = refundClient.Get(ctx, paymentResource.ID, refundResource.ID)
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
-		if ref.ID == 0 {
+		if refundResource.ID == 0 {
 			t.Error("id can't be nil")
 		}
 	})
@@ -160,7 +160,7 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Create payment.
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New()),
@@ -170,9 +170,9 @@ func TestRefund(t *testing.T) {
 			Capture:      false,
 		}
 
-		pay, err := paymentClient.Create(ctx, req)
-		if pay == nil {
-			t.Error("payment can't be nil")
+		paymentResource, err := paymentClient.Create(ctx, request)
+		if paymentResource == nil {
+			t.Error("paymentResource can't be nil")
 			return
 		}
 		if err != nil {
@@ -180,32 +180,32 @@ func TestRefund(t *testing.T) {
 		}
 
 		// Create partial refund.
-		partialAmount := req.TransactionAmount - 5.0
+		partialAmount := request.TransactionAmount - 5.0
 
-		ref, err := refundClient.CreatePartialRefund(ctx, pay.ID, partialAmount)
-		if ref == nil {
-			t.Error("refund can't be nil")
+		refundResource, err := refundClient.CreatePartialRefund(ctx, paymentResource.ID, partialAmount)
+		if refundResource == nil {
+			t.Error("refundResource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
 		// Create total refund.
-		ref, err = refundClient.Create(ctx, pay.ID)
-		if ref == nil {
-			t.Error("refund can't be nil")
+		refundResource, err = refundClient.Create(ctx, paymentResource.ID)
+		if refundResource == nil {
+			t.Error("refundResource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
 		// List refunds.
-		refunds, err := refundClient.List(ctx, pay.ID)
+		resources, err := refundClient.List(ctx, paymentResource.ID)
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
-		if len(refunds) != 2 {
+		if len(resources) != 2 {
 			t.Error("size can't be different of 2")
 		}
 	})

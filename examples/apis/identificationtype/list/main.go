@@ -18,13 +18,14 @@ func main() {
 	}
 
 	client := identificationtype.NewClient(cfg)
-	identificationTypes, err := client.List(context.Background())
+
+	resources, err := client.List(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, v := range identificationTypes {
+	for _, v := range resources {
 		fmt.Println(v)
 	}
 }

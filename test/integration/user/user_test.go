@@ -17,10 +17,11 @@ func TestUser(t *testing.T) {
 		}
 
 		client := user.NewClient(cfg)
-		result, err := client.Get(context.Background())
 
-		if result == nil {
-			t.Error("result can't be nil")
+		resource, err := client.Get(context.Background())
+
+		if resource == nil {
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())

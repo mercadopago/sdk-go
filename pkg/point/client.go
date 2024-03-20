@@ -66,12 +66,12 @@ func (c *client) Create(ctx context.Context, deviceID string, request Request) (
 		Method:     http.MethodPost,
 		URL:        urlPaymentIntent,
 	}
-	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
+	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }
 
 func (c *client) Get(ctx context.Context, paymentIntentID string) (*Response, error) {
@@ -84,12 +84,12 @@ func (c *client) Get(ctx context.Context, paymentIntentID string) (*Response, er
 		Method:     http.MethodGet,
 		URL:        urlPaymentIntentGet,
 	}
-	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
+	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }
 
 func (c *client) Cancel(ctx context.Context, deviceID string, paymentIntentID string) (*CancelResponse, error) {
@@ -103,12 +103,12 @@ func (c *client) Cancel(ctx context.Context, deviceID string, paymentIntentID st
 		Method:     http.MethodDelete,
 		URL:        urlPaymentIntentCancel,
 	}
-	result, err := httpclient.DoRequest[*CancelResponse](ctx, c.cfg, requestData)
+	resource, err := httpclient.DoRequest[*CancelResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }
 
 func (c *client) ListDevices(ctx context.Context) (*DevicesResponse, error) {
@@ -116,12 +116,12 @@ func (c *client) ListDevices(ctx context.Context) (*DevicesResponse, error) {
 		Method: http.MethodGet,
 		URL:    urlDevices,
 	}
-	result, err := httpclient.DoRequest[*DevicesResponse](ctx, c.cfg, requestData)
+	resource, err := httpclient.DoRequest[*DevicesResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }
 
 func (c *client) UpdateOperatingMode(ctx context.Context, deviceID string, request OperatingModeRequest) (*OperatingModeResponse, error) {
@@ -135,10 +135,10 @@ func (c *client) UpdateOperatingMode(ctx context.Context, deviceID string, reque
 		Method:     http.MethodPatch,
 		URL:        urlDevicesWithID,
 	}
-	result, err := httpclient.DoRequest[*OperatingModeResponse](ctx, c.cfg, requestData)
+	resource, err := httpclient.DoRequest[*OperatingModeResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }

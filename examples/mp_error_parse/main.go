@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
+	"github.com/mercadopago/sdk-go/pkg/mperror"
 	"github.com/mercadopago/sdk-go/pkg/payment"
 )
 
@@ -19,22 +21,15 @@ func main() {
 
 	client := payment.NewClient(cfg)
 
-	request := payment.Request{
-		TransactionAmount: 105.1,
-		PaymentMethodID:   "pix",
-		Payer: &payment.PayerRequest{
-			Email: "{{EMAIL}}",
-		},
-	}
+	invalidRequest := payment.Request{}
 
-	resource, err := client.Create(context.Background(), request)
+	resource, err := client.Create(context.Background(), invalidRequest)
 	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	resource, err = client.Get(context.Background(), resource.ID)
-	if err != nil {
+		var mpErr *mperror.ResponseError
+		if errors.As(err, &mpErr) {
+			fmt.Printf("\nheaders: %s\nmessage: %s\nstatus code: %d", mpErr.Headers, mpErr.Message, mpErr.StatusCode)
+			return
+		}
 		fmt.Println(err)
 		return
 	}

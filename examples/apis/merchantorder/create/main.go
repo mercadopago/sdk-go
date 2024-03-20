@@ -19,8 +19,11 @@ func main() {
 		return
 	}
 
+	preferenceClient := preference.NewClient(cfg)
+	merchantOrderClient := merchantorder.NewClient(cfg)
+
 	// Create preference.
-	prefReq := preference.Request{
+	preferenceRequest := preference.Request{
 		ExternalReference: uuid.New().String(),
 		Items: []preference.ItemRequest{
 			{
@@ -33,40 +36,38 @@ func main() {
 		},
 	}
 
-	preferenceClient := preference.NewClient(cfg)
-	pref, err := preferenceClient.Create(context.Background(), prefReq)
+	preferenceResource, err := preferenceClient.Create(context.Background(), preferenceRequest)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	// Create merchant order.
-	req := merchantorder.Request{
-		ExternalReference: pref.ExternalReference,
-		PreferenceID:      pref.ID,
+	merchantOrderRequest := merchantorder.Request{
+		ExternalReference: preferenceResource.ExternalReference,
+		PreferenceID:      preferenceResource.ID,
 		Collector: &merchantorder.CollectorRequest{
-			ID: pref.CollectorID,
+			ID: preferenceResource.CollectorID,
 		},
-		SiteID: pref.SiteID,
+		SiteID: preferenceResource.SiteID,
 		Items: []merchantorder.ItemRequest{
 			{
-				CategoryID:  pref.Items[0].CategoryID,
-				CurrencyID:  pref.Items[0].CurrencyID,
-				Description: pref.Items[0].Description,
-				PictureURL:  pref.Items[0].PictureURL,
-				Title:       pref.Items[0].Title,
-				Quantity:    pref.Items[0].Quantity,
-				UnitPrice:   pref.Items[0].UnitPrice,
+				CategoryID:  preferenceResource.Items[0].CategoryID,
+				CurrencyID:  preferenceResource.Items[0].CurrencyID,
+				Description: preferenceResource.Items[0].Description,
+				PictureURL:  preferenceResource.Items[0].PictureURL,
+				Title:       preferenceResource.Items[0].Title,
+				Quantity:    preferenceResource.Items[0].Quantity,
+				UnitPrice:   preferenceResource.Items[0].UnitPrice,
 			},
 		},
 	}
 
-	client := merchantorder.NewClient(cfg)
-	order, err := client.Create(context.Background(), req)
+	merchantOrderResource, err := merchantOrderClient.Create(context.Background(), merchantOrderRequest)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(order)
+	fmt.Println(merchantOrderResource)
 }

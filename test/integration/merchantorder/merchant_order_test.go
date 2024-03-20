@@ -18,7 +18,10 @@ func TestMerchantOrder(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		prefReq := preference.Request{
+		preferenceClient := preference.NewClient(cfg)
+		merchantOrderClient := merchantorder.NewClient(cfg)
+
+		preferenceRequest := preference.Request{
 			Items: []preference.ItemRequest{
 				{
 					ID:          "123",
@@ -30,10 +33,9 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		preferenceClient := preference.NewClient(cfg)
-		pref, err := preferenceClient.Create(context.Background(), prefReq)
-		if pref == nil {
-			t.Error("preference can't be nil")
+		preferenceResource, err := preferenceClient.Create(context.Background(), preferenceRequest)
+		if preferenceResource == nil {
+			t.Error("preferenceResource can't be nil")
 			return
 		}
 		if err != nil {
@@ -41,30 +43,29 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		// Create merchant order.
-		req := merchantorder.Request{
-			ExternalReference: pref.ExternalReference,
-			PreferenceID:      pref.ID,
+		merchantOrderRequest := merchantorder.Request{
+			ExternalReference: preferenceResource.ExternalReference,
+			PreferenceID:      preferenceResource.ID,
 			Collector: &merchantorder.CollectorRequest{
-				ID: pref.CollectorID,
+				ID: preferenceResource.CollectorID,
 			},
-			SiteID: pref.SiteID,
+			SiteID: preferenceResource.SiteID,
 			Items: []merchantorder.ItemRequest{
 				{
-					CategoryID:  pref.Items[0].CategoryID,
-					CurrencyID:  pref.Items[0].CurrencyID,
-					Description: pref.Items[0].Description,
-					PictureURL:  pref.Items[0].PictureURL,
-					Title:       pref.Items[0].Title,
-					Quantity:    pref.Items[0].Quantity,
-					UnitPrice:   pref.Items[0].UnitPrice,
+					CategoryID:  preferenceResource.Items[0].CategoryID,
+					CurrencyID:  preferenceResource.Items[0].CurrencyID,
+					Description: preferenceResource.Items[0].Description,
+					PictureURL:  preferenceResource.Items[0].PictureURL,
+					Title:       preferenceResource.Items[0].Title,
+					Quantity:    preferenceResource.Items[0].Quantity,
+					UnitPrice:   preferenceResource.Items[0].UnitPrice,
 				},
 			},
 		}
 
-		client := merchantorder.NewClient(cfg)
-		order, err := client.Create(context.Background(), req)
-		if order == nil {
-			t.Error("merchant order can't be nil")
+		merchantOrderResource, err := merchantOrderClient.Create(context.Background(), merchantOrderRequest)
+		if merchantOrderResource == nil {
+			t.Error("merchantOrderResource can't be nil")
 			return
 		}
 		if err != nil {
@@ -78,7 +79,10 @@ func TestMerchantOrder(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		prefReq := preference.Request{
+		preferenceClient := preference.NewClient(cfg)
+		merchantOrderClient := merchantorder.NewClient(cfg)
+
+		preferenceRequest := preference.Request{
 			Items: []preference.ItemRequest{
 				{
 					ID:          "123",
@@ -90,10 +94,9 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		preferenceClient := preference.NewClient(cfg)
-		pref, err := preferenceClient.Create(context.Background(), prefReq)
-		if pref == nil {
-			t.Error("preference can't be nil")
+		preferenceResource, err := preferenceClient.Create(context.Background(), preferenceRequest)
+		if preferenceResource == nil {
+			t.Error("preferenceResource can't be nil")
 			return
 		}
 		if err != nil {
@@ -101,31 +104,30 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		// Create merchant order.
-		createReq := merchantorder.Request{
-			ExternalReference: pref.ExternalReference,
-			PreferenceID:      pref.ID,
+		createRequest := merchantorder.Request{
+			ExternalReference: preferenceResource.ExternalReference,
+			PreferenceID:      preferenceResource.ID,
 			Collector: &merchantorder.CollectorRequest{
-				ID: pref.CollectorID,
+				ID: preferenceResource.CollectorID,
 			},
-			SiteID: pref.SiteID,
+			SiteID: preferenceResource.SiteID,
 			Items: []merchantorder.ItemRequest{
 				{
-					ID:          pref.Items[0].ID,
-					CategoryID:  pref.Items[0].CategoryID,
-					CurrencyID:  pref.Items[0].CurrencyID,
-					Description: pref.Items[0].Description,
-					PictureURL:  pref.Items[0].PictureURL,
-					Title:       pref.Items[0].Title,
-					Quantity:    pref.Items[0].Quantity,
-					UnitPrice:   pref.Items[0].UnitPrice,
+					ID:          preferenceResource.Items[0].ID,
+					CategoryID:  preferenceResource.Items[0].CategoryID,
+					CurrencyID:  preferenceResource.Items[0].CurrencyID,
+					Description: preferenceResource.Items[0].Description,
+					PictureURL:  preferenceResource.Items[0].PictureURL,
+					Title:       preferenceResource.Items[0].Title,
+					Quantity:    preferenceResource.Items[0].Quantity,
+					UnitPrice:   preferenceResource.Items[0].UnitPrice,
 				},
 			},
 		}
 
-		client := merchantorder.NewClient(cfg)
-		order, err := client.Create(context.Background(), createReq)
-		if order == nil || order.ID == 0 {
-			t.Error("merchant order can't be nil")
+		merchantOrderResource, err := merchantOrderClient.Create(context.Background(), createRequest)
+		if merchantOrderResource == nil || merchantOrderResource.ID == 0 {
+			t.Error("merchantOrderResource can't be nil")
 			return
 		}
 		if err != nil {
@@ -133,21 +135,21 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		// Update merchant order.
-		req := merchantorder.UpdateRequest{
-			PreferenceID: pref.ID,
-			SiteID:       pref.SiteID,
+		updateRequest := merchantorder.UpdateRequest{
+			PreferenceID: preferenceResource.ID,
+			SiteID:       preferenceResource.SiteID,
 			Items: []merchantorder.ItemUpdateRequest{
 				{
-					ID:       order.Items[0].ID,
+					ID:       merchantOrderResource.Items[0].ID,
 					Quantity: 2,
 				},
 			},
 		}
 
-		order, err = client.Update(context.Background(), order.ID, req)
-		if order == nil {
+		merchantOrderResource, err = merchantOrderClient.Update(context.Background(), merchantOrderResource.ID, updateRequest)
+		if merchantOrderResource == nil {
 			fmt.Println(err)
-			t.Error("merchant order can't be nil")
+			t.Error("merchantOrderResource can't be nil")
 			return
 		}
 		if err != nil {
@@ -161,7 +163,10 @@ func TestMerchantOrder(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		prefReq := preference.Request{
+		preferenceClient := preference.NewClient(cfg)
+		merchantOrderClient := merchantorder.NewClient(cfg)
+
+		preferenceRequest := preference.Request{
 			Items: []preference.ItemRequest{
 				{
 					ID:          "123",
@@ -173,10 +178,9 @@ func TestMerchantOrder(t *testing.T) {
 			},
 		}
 
-		preferenceClient := preference.NewClient(cfg)
-		pref, err := preferenceClient.Create(context.Background(), prefReq)
-		if pref == nil {
-			t.Error("preference can't be nil")
+		preferenceResource, err := preferenceClient.Create(context.Background(), preferenceRequest)
+		if preferenceResource == nil {
+			t.Error("preferenceResource can't be nil")
 			return
 		}
 		if err != nil {
@@ -184,45 +188,44 @@ func TestMerchantOrder(t *testing.T) {
 		}
 
 		// Create merchant order.
-		req := merchantorder.Request{
-			ExternalReference: pref.ExternalReference,
-			PreferenceID:      pref.ID,
+		merchantOrderRequest := merchantorder.Request{
+			ExternalReference: preferenceResource.ExternalReference,
+			PreferenceID:      preferenceResource.ID,
 			Collector: &merchantorder.CollectorRequest{
-				ID: pref.CollectorID,
+				ID: preferenceResource.CollectorID,
 			},
-			SiteID: pref.SiteID,
+			SiteID: preferenceResource.SiteID,
 			Items: []merchantorder.ItemRequest{
 				{
-					CategoryID:  pref.Items[0].CategoryID,
-					CurrencyID:  pref.Items[0].CurrencyID,
-					Description: pref.Items[0].Description,
-					PictureURL:  pref.Items[0].PictureURL,
-					Title:       pref.Items[0].Title,
-					Quantity:    pref.Items[0].Quantity,
-					UnitPrice:   pref.Items[0].UnitPrice,
+					CategoryID:  preferenceResource.Items[0].CategoryID,
+					CurrencyID:  preferenceResource.Items[0].CurrencyID,
+					Description: preferenceResource.Items[0].Description,
+					PictureURL:  preferenceResource.Items[0].PictureURL,
+					Title:       preferenceResource.Items[0].Title,
+					Quantity:    preferenceResource.Items[0].Quantity,
+					UnitPrice:   preferenceResource.Items[0].UnitPrice,
 				},
 			},
 		}
 
-		client := merchantorder.NewClient(cfg)
-		order, err := client.Create(context.Background(), req)
-		if order == nil {
-			t.Error("merchant order can't be nil")
+		merchantOrderResource, err := merchantOrderClient.Create(context.Background(), merchantOrderRequest)
+		if merchantOrderResource == nil {
+			t.Error("merchantOrderResource can't be nil")
 			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
 
-		order, err = client.Get(context.Background(), order.ID)
-		if order == nil {
-			t.Error("merchant order can't be nil")
+		merchantOrderResource, err = merchantOrderClient.Get(context.Background(), merchantOrderResource.ID)
+		if merchantOrderResource == nil {
+			t.Error("merchantOrderResource can't be nil")
 			return
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 		}
-		if order.ID == 0 {
+		if merchantOrderResource.ID == 0 {
 			t.Error("id can't be nil")
 		}
 	})
@@ -233,14 +236,15 @@ func TestMerchantOrder(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		req := merchantorder.SearchRequest{
+		client := merchantorder.NewClient(cfg)
+
+		request := merchantorder.SearchRequest{
 			Limit: 5,
 		}
 
-		client := merchantorder.NewClient(cfg)
-		order, err := client.Search(context.Background(), req)
-		if order == nil {
-			t.Error("merchant order can't be nil")
+		resource, err := client.Search(context.Background(), request)
+		if resource == nil {
+			t.Error("resource can't be nil")
 			return
 		}
 		if err != nil {
