@@ -50,7 +50,9 @@ func main() {
 		return
 	}
 
-	req := payment.Request{
+	client := payment.NewClient(cfg)
+
+	request := payment.Request{
 		TransactionAmount: 105.1,
 		Payer: &payment.PayerRequest{
 			Email: "{{EMAIL}}",
@@ -59,14 +61,13 @@ func main() {
 		Installments: 1,
 	}
 
-	client := payment.NewClient(cfg)
-	pay, err := client.Create(context.Background(), req)
+	resource, err := client.Create(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(pay)
+	fmt.Println(resource)
 }
 ```
 
@@ -86,14 +87,14 @@ To make requests to the Mercado Pago APIs, you can use the packages provided by 
 
 ```go
 	client := paymentmethod.NewClient(cfg)
-	paymentMethods, err := client.List(context.Background())
+	resources, err := client.List(context.Background())
 ```
 
 ### Exception throwing handling
 
 Every package methods returns two variables: response (type of the package) and error (type of the std lib), which will contain any error thrown. It is important to handle these errors in the best possible way.
 ```go
-	paymentMethods, err := client.List(context.Background())
+	resources, err := client.List(context.Background())
 	if err != nil {
 		// appropriate treatment
 	}

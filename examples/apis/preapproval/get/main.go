@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/preapproval"
 )
@@ -18,11 +19,11 @@ func main() {
 
 	preApprovalID := "123"
 
-	result, err := client.Get(context.Background(), preApprovalID)
+	resource, err := client.Get(context.Background(), preApprovalID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(result)
+	fmt.Println(resource)
 }

@@ -23,13 +23,13 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 
-	paymentMethods, err := client.List(ctx)
+	resources, err := client.List(ctx)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, v := range paymentMethods {
+	for _, v := range resources {
 		fmt.Println(v)
 	}
 }

@@ -18,13 +18,14 @@ func main() {
 	}
 
 	client := customercard.NewClient(cfg)
-	cards, err := client.List(context.Background(), "{{CUSTOMER_ID}}")
+
+	resources, err := client.List(context.Background(), "{{CUSTOMER_ID}}")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, c := range cards {
-		fmt.Println(c)
+	for _, v := range resources {
+		fmt.Println(v)
 	}
 }

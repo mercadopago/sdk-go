@@ -21,11 +21,11 @@ func main() {
 
 	merchantOrderID := 1234566788
 
-	order, err := client.Get(context.Background(), merchantOrderID)
+	resource, err := client.Get(context.Background(), merchantOrderID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(order)
+	fmt.Println(resource)
 }

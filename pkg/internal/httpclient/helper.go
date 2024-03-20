@@ -37,19 +37,19 @@ type RequestData struct {
 }
 
 func DoRequest[T any](ctx context.Context, cfg *config.Config, requestData RequestData) (T, error) {
-	var result T
+	var resource T
 
 	req, err := createRequest(ctx, cfg, requestData)
 	if err != nil {
-		return result, err
+		return resource, err
 	}
 
 	b, err := Send(cfg.Requester, req)
 	if err != nil {
-		return result, err
+		return resource, err
 	}
 
-	return unmarshal(b, result)
+	return unmarshal(b, resource)
 }
 
 func createRequest(ctx context.Context, cfg *config.Config, requestData RequestData) (*http.Request, error) {

@@ -18,11 +18,12 @@ func main() {
 	}
 
 	client := point.NewClient(cfg)
-	paymentIntent, err := client.Get(context.Background(), "{{PAYMENT_INTENT_ID}}")
+
+	resource, err := client.Get(context.Background(), "{{PAYMENT_INTENT_ID}}")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(paymentIntent)
+	fmt.Println(resource)
 }

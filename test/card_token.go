@@ -7,7 +7,7 @@ import (
 )
 
 func GenerateCardToken(ctx context.Context, client cardtoken.Client) (string, error) {
-	req := cardtoken.Request{
+	request := cardtoken.Request{
 		Cardholder: &cardtoken.CardholderRequest{
 			Identification: &cardtoken.IdentificationRequest{
 				Number: "01234567890",
@@ -22,10 +22,10 @@ func GenerateCardToken(ctx context.Context, client cardtoken.Client) (string, er
 		SecurityCode:    "123",
 	}
 
-	result, err := client.Create(context.Background(), req)
+	resource, err := client.Create(context.Background(), request)
 	if err != nil {
 		return "", err
 	}
 
-	return result.ID, nil
+	return resource.ID, nil
 }

@@ -21,7 +21,7 @@ func TestPayment(t *testing.T) {
 	t.Run("should_create_payment", func(t *testing.T) {
 		ctx := context.Background()
 
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "pix",
 			Payer: &payment.PayerRequest{
@@ -29,8 +29,8 @@ func TestPayment(t *testing.T) {
 			},
 		}
 
-		pay, err := paymentClient.Create(ctx, req)
-		if pay == nil || pay.ID == 0 {
+		resource, err := paymentClient.Create(ctx, request)
+		if resource == nil || resource.ID == 0 {
 			t.Error("payment can't be nil")
 		}
 		if err != nil {
@@ -41,15 +41,15 @@ func TestPayment(t *testing.T) {
 	t.Run("should_search_payment", func(t *testing.T) {
 		ctx := context.Background()
 
-		req := payment.SearchRequest{
+		request := payment.SearchRequest{
 			Filters: map[string]string{
 				"external_reference": "abc_def_ghi_123_456123",
 			},
 		}
 
-		result, err := paymentClient.Search(ctx, req)
-		if result == nil {
-			t.Error("result can't be nil")
+		resource, err := paymentClient.Search(ctx, request)
+		if resource == nil {
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -68,8 +68,8 @@ func TestPayment(t *testing.T) {
 			},
 		}
 
-		pay, err := paymentClient.Create(ctx, paymentRequest)
-		if pay == nil || pay.ID == 0 {
+		resource, err := paymentClient.Create(ctx, paymentRequest)
+		if resource == nil || resource.ID == 0 {
 			t.Error("payment can't be nil")
 		}
 		if err != nil {
@@ -77,8 +77,8 @@ func TestPayment(t *testing.T) {
 		}
 
 		// Get payment.
-		pay, err = paymentClient.Get(ctx, pay.ID)
-		if pay == nil {
+		resource, err = paymentClient.Get(ctx, resource.ID)
+		if resource == nil {
 			t.Error("payment can't be nil")
 		}
 		if err != nil {
@@ -90,7 +90,7 @@ func TestPayment(t *testing.T) {
 		ctx := context.Background()
 
 		// Create payment.
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			PaymentMethodID:   "pix",
 			Payer: &payment.PayerRequest{
@@ -98,8 +98,8 @@ func TestPayment(t *testing.T) {
 			},
 		}
 
-		pay, err := paymentClient.Create(ctx, req)
-		if pay == nil {
+		resource, err := paymentClient.Create(ctx, request)
+		if resource == nil {
 			t.Error("payment can't be nil")
 		}
 		if err != nil {
@@ -108,11 +108,11 @@ func TestPayment(t *testing.T) {
 		}
 
 		// Cancel payment.
-		pay, err = paymentClient.Cancel(ctx, pay.ID)
-		if pay == nil {
+		resource, err = paymentClient.Cancel(ctx, resource.ID)
+		if resource == nil {
 			t.Error("payment can't be nil")
 		}
-		if pay != nil && pay.Status != "cancelled" {
+		if resource != nil && resource.Status != "cancelled" {
 			t.Error("payment should be cancelled, but is wasn't")
 		}
 		if err != nil {
@@ -130,7 +130,7 @@ func TestPayment(t *testing.T) {
 		}
 
 		// Create payment.
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
 				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
@@ -140,8 +140,8 @@ func TestPayment(t *testing.T) {
 			Capture:      false,
 		}
 
-		pay, err := paymentClient.Create(ctx, req)
-		if pay == nil {
+		resource, err := paymentClient.Create(ctx, request)
+		if resource == nil {
 			t.Error("payment can't be nil")
 		}
 		if err != nil {
@@ -150,11 +150,11 @@ func TestPayment(t *testing.T) {
 		}
 
 		// Capture payment.
-		pay, err = paymentClient.Capture(ctx, pay.ID)
-		if pay == nil {
+		resource, err = paymentClient.Capture(ctx, resource.ID)
+		if resource == nil {
 			t.Error("payment can't be nil")
 		}
-		if pay != nil && pay.Status != "approved" {
+		if resource != nil && resource.Status != "approved" {
 			t.Error("payment should be approved, but is wasn't")
 		}
 		if err != nil {
@@ -172,7 +172,7 @@ func TestPayment(t *testing.T) {
 		}
 
 		// Create payment.
-		req := payment.Request{
+		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
 				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
@@ -181,8 +181,8 @@ func TestPayment(t *testing.T) {
 			Installments: 1,
 			Capture:      false,
 		}
-		pay, err := paymentClient.Create(ctx, req)
-		if pay == nil {
+		resource, err := paymentClient.Create(ctx, request)
+		if resource == nil {
 			t.Error("payment can't be nil")
 		}
 		if err != nil {
@@ -191,11 +191,11 @@ func TestPayment(t *testing.T) {
 		}
 
 		// Capture payment.
-		pay, err = paymentClient.CaptureAmount(ctx, pay.ID, 100.1)
-		if pay == nil {
+		resource, err = paymentClient.CaptureAmount(ctx, resource.ID, 100.1)
+		if resource == nil {
 			t.Error("payment can't be nil")
 		}
-		if pay != nil && pay.Status != "approved" {
+		if resource != nil && resource.Status != "approved" {
 			t.Error("payment should be approved, but is wasn't")
 		}
 		if err != nil {

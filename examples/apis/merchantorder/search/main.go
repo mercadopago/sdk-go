@@ -17,20 +17,21 @@ func main() {
 		return
 	}
 
-	filter := make(map[string]string)
-	filter["preference_id"] = "{{PREFERENCE_ID}}"
-	req := merchantorder.SearchRequest{
-		Filters: filter,
+	client := merchantorder.NewClient(cfg)
+
+	filters := make(map[string]string)
+	filters["preference_id"] = "{{PREFERENCE_ID}}"
+	request := merchantorder.SearchRequest{
+		Filters: filters,
 	}
 
-	client := merchantorder.NewClient(cfg)
-	search, err := client.Search(context.Background(), req)
+	resource, err := client.Search(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, order := range search.Elements {
-		fmt.Println(order)
+	for _, v := range resource.Elements {
+		fmt.Println(v)
 	}
 }
