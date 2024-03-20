@@ -19,8 +19,8 @@ const (
 type Client interface {
 	// Create a customer with all its data and can be used after to save the cards used
 	// and simplify the payment process.
-	// It is a post request to the endpoint: https://api.mercadopago.com/v1/customers
-	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers/post/
+	// It is a post request to the endpoint: https://api.mercadopago.com/v1/customers.
+	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers/post/.
 	Create(ctx context.Context, request Request) (*Response, error)
 
 	// Search all customers with the sent filters.
