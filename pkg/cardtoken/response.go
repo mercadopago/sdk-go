@@ -29,7 +29,7 @@ type CardholderResponse struct {
 	Name string `json:"name"`
 }
 
-// IdentificationResponse is a base type that represents identifications, such as customer identification.
+// IdentificationResponse is a base type that represents identifications, such as payer identification.
 type IdentificationResponse struct {
 	Number string `json:"number"`
 	Type   string `json:"type"`
