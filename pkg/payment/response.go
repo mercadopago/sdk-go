@@ -160,7 +160,7 @@ type TransactionDetailsResponse struct {
 	PaymentMethodReferenceID string  `json:"payment_method_reference_id"`
 	AcquirerReference        string  `json:"acquirer_reference"`
 	TransactionID            string  `json:"transaction_id"` // BACEN identification for Pix payments (Brazil)
-	DigitableLine            string  `json:"digitable_line"`
+	DigitableLine            string  `json:"digitable_line"` // boleto digitable line
 	VerificationCode         string  `json:"verification_code"`
 	PayableDeferralPeriod    string  `json:"payable_deferral_period"`
 	BankTransferID           string  `json:"bank_transfer_id"`
@@ -195,9 +195,9 @@ type PointOfInteractionResponse struct {
 	ApplicationData ApplicationDataResponse `json:"application_data"`
 	TransactionData TransactionDataResponse `json:"transaction_data"`
 
-	Type     string `json:"type"`
-	SubType  string `json:"sub_type"`
-	LinkedTo string `json:"linked_to"`
+	Type     string `json:"type"`      // type of the transaction
+	SubType  string `json:"sub_type"`  // subtype of the transaction
+	LinkedTo string `json:"linked_to"` // transaction origin
 }
 
 // ApplicationDataResponse represents application data within PointOfInteractionResponse.
@@ -208,15 +208,15 @@ type ApplicationDataResponse struct {
 
 // TransactionDataResponse represents transaction data within PointOfInteractionResponse.
 type TransactionDataResponse struct {
-	BankInfo             BankInfoResponse             `json:"bank_info"`
+	BankInfo             BankInfoResponse             `json:"bank_info"` // data with transaction details (it is used commonly for bank transfers)
 	SubscriptionSequence SubscriptionSequenceResponse `json:"subscription_sequence"`
 	InvoicePeriod        InvoicePeriodResponse        `json:"invoice_period"`
 	PaymentReference     PaymentReferenceResponse     `json:"payment_reference"`
 
-	QRCode               string `json:"qr_code"`
-	QRCodeBase64         string `json:"qr_code_base64"`
-	TransactionID        string `json:"transaction_id"`
-	TicketURL            string `json:"ticket_url"`
+	QRCode               string `json:"qr_code"`        // QR Code used by some payments methods
+	QRCodeBase64         string `json:"qr_code_base64"` // base 64 of the QR Code, can be rendered in the frontend
+	TransactionID        string `json:"transaction_id"` // transaction identification (BACEN transaction id for Pix payments)
+	TicketURL            string `json:"ticket_url"`     // this url redirect to a page with instructions to realize payment -> for some payments this field is returned, but for the majority cases payment.transaction_details.external_resource_url contains a url with the same purpose
 	SubscriptionID       string `json:"subscription_id"`
 	BillingDate          string `json:"billing_date"`
 	BankTransferID       int    `json:"bank_transfer_id"`
@@ -226,8 +226,8 @@ type TransactionDataResponse struct {
 
 // BankInfoResponse represents bank information.
 type BankInfoResponse struct {
-	Payer     BankInfoPayerResponse     `json:"payer"`
-	Collector BankInfoCollectorResponse `json:"collector"`
+	Payer     BankInfoPayerResponse     `json:"payer"`     // bank transfer payer
+	Collector BankInfoCollectorResponse `json:"collector"` // bank transfer collector
 
 	IsSameBankAccountOwner string `json:"is_same_bank_account_owner"`
 }
@@ -299,8 +299,8 @@ type FeeResponse struct {
 
 // ThreeDSInfoResponse represents 3DS (Three-Domain Secure) information.
 type ThreeDSInfoResponse struct {
-	ExternalResourceURL string `json:"external_resource_url"`
-	Creq                string `json:"creq"`
+	ExternalResourceURL string `json:"external_resource_url"` // challenge url
+	Creq                string `json:"creq"`                  // needed to validate 3DS challenge
 }
 
 // FeeDetailResponse represents payment fee detail information.
@@ -319,26 +319,26 @@ type TaxResponse struct {
 // RefundResponse represents refund information.
 type RefundResponse struct {
 	Source      SourceResponse `json:"source"`
-	DateCreated time.Time      `json:"date_created"`
+	DateCreated time.Time      `json:"date_created"` // date creation of the refund
 
-	Status               string  `json:"status"`
+	Status               string  `json:"status"` // refund status shows if the refund was made successfully
 	RefundMode           string  `json:"refund_mode"`
-	Reason               string  `json:"reason"`
+	Reason               string  `json:"reason"` // refund reason
 	UniqueSequenceNumber string  `json:"unique_sequence_number"`
-	Amount               float64 `json:"amount"`
+	Amount               float64 `json:"amount"` // refund amount
 	AdjustmentAmount     float64 `json:"adjustment_amount"`
-	ID                   int     `json:"id"`
-	PaymentID            int     `json:"payment_id"`
+	ID                   int     `json:"id"`         // refund identification
+	PaymentID            int     `json:"payment_id"` // payment that received refund
 }
 
 // SourceResponse represents source information.
 type SourceResponse struct {
-	ID   string `json:"id"`
+	ID   string `json:"id"` // source identification
 	Name string `json:"name"`
 	Type string `json:"type"`
 }
 
 // BarcodeResponse represents barcode information.
 type BarcodeResponse struct {
-	Content string `json:"content"`
+	Content string `json:"content"` // content used to generate barcode
 }

@@ -47,7 +47,7 @@ type Request struct {
 type AdditionalInfoRequest struct {
 	Payer     *AdditionalInfoPayerRequest   `json:"payer,omitempty"` // payer's payment additional data
 	Shipments *ShipmentsRequest             `json:"shipments,omitempty"`
-	Barcode   *AdditionalInfoBarcodeRequest `json:"barcode,omitempty"`
+	Barcode   *AdditionalInfoBarcodeRequest `json:"barcode,omitempty"` // barcode data
 	Items     []ItemRequest                 `json:"items,omitempty"`
 
 	IPAddress string `json:"ip_address,omitempty"`
@@ -203,10 +203,11 @@ type TransactionDetailsRequest struct {
 type PointOfInteractionRequest struct {
 	TransactionData *TransactionDataRequest `json:"transaction_data,omitempty"`
 
-	LinkedTo string `json:"linked_to,omitempty"`
+	LinkedTo string `json:"linked_to,omitempty"` // used for open finance payments
 	Type     string `json:"type,omitempty"`
 }
 
+// TransactionDataRequest is commonly sent for subscriptions payments
 type TransactionDataRequest struct {
 	SubscriptionSequence *SubscriptionSequenceRequest `json:"subscription_sequence,omitempty"` // subscription sequence is useful for subscriptions feature: https://www.mercadopago.com/developers/en/docs/subscriptions/landing
 	InvoicePeriod        *InvoicePeriodRequest        `json:"invoice_period,omitempty"`
