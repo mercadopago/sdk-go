@@ -22,11 +22,11 @@ func main() {
 	paymentID := 12344555
 	refundID := 12344555
 
-	ref, err := refundClient.Get(context.Background(), paymentID, refundID)
+	resource, err := refundClient.Get(context.Background(), paymentID, refundID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(ref)
+	fmt.Println(resource)
 }

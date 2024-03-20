@@ -60,12 +60,12 @@ func (c *client) Get(ctx context.Context, paymentID, refundID int) (*Response, e
 		Method:     http.MethodGet,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
+	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }
 
 func (c *client) List(ctx context.Context, paymentID int) ([]Response, error) {
@@ -78,12 +78,12 @@ func (c *client) List(ctx context.Context, paymentID int) ([]Response, error) {
 		Method:     http.MethodGet,
 		URL:        urlBase,
 	}
-	result, err := httpclient.DoRequest[[]Response](ctx, c.cfg, requestData)
+	resource, err := httpclient.DoRequest[[]Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }
 
 func (c *client) Create(ctx context.Context, paymentID int) (*Response, error) {
@@ -96,12 +96,12 @@ func (c *client) Create(ctx context.Context, paymentID int) (*Response, error) {
 		Method:     http.MethodPost,
 		URL:        urlBase,
 	}
-	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
+	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }
 
 func (c *client) CreatePartialRefund(ctx context.Context, paymentID int, amount float64) (*Response, error) {
@@ -116,10 +116,10 @@ func (c *client) CreatePartialRefund(ctx context.Context, paymentID int, amount 
 		Method:     http.MethodPost,
 		URL:        urlBase,
 	}
-	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
+	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }

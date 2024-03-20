@@ -19,7 +19,7 @@ func main() {
 
 	client := cardtoken.NewClient(cfg)
 
-	var req = cardtoken.Request{
+	request := cardtoken.Request{
 		SiteID:          "{{SITE_ID}}",
 		CardNumber:      "{{CARD_NUMBER}}",
 		ExpirationMonth: "11",
@@ -34,10 +34,10 @@ func main() {
 		},
 	}
 
-	result, err := client.Create(context.Background(), req)
+	resource, err := client.Create(context.Background(), request)
 	if err != nil {
 		return
 	}
 
-	fmt.Println(result)
+	fmt.Println(resource)
 }

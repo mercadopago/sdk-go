@@ -19,11 +19,11 @@ func main() {
 
 	preferenceID := "123"
 
-	pref, err := client.Get(context.Background(), preferenceID)
+	resource, err := client.Get(context.Background(), preferenceID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(pref)
+	fmt.Println(resource)
 }

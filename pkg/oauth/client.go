@@ -56,12 +56,12 @@ func (c *client) Create(ctx context.Context, authorizationCode, redirectURI stri
 		Method: http.MethodPost,
 		URL:    urlBase,
 	}
-	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
+	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }
 
 func (c *client) GetAuthorizationURL(clientID, redirectURI, state string) string {
@@ -100,10 +100,10 @@ func (c *client) Refresh(ctx context.Context, refreshToken string) (*Response, e
 		Method: http.MethodPost,
 		URL:    urlBase,
 	}
-	result, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
+	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }

@@ -17,20 +17,20 @@ func main() {
 		return
 	}
 
-	req := payment.SearchRequest{
+	request := payment.SearchRequest{
 		Filters: map[string]string{
 			"external_reference": "abc_def_ghi_123_456123",
 		},
 	}
 
 	client := payment.NewClient(cfg)
-	search, err := client.Search(context.Background(), req)
+	resource, err := client.Search(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	for _, pay := range search.Results {
-		fmt.Println(pay)
+	for _, v := range resource.Results {
+		fmt.Println(v)
 	}
 }

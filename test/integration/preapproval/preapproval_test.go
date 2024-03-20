@@ -18,7 +18,7 @@ func TestPreApproval(t *testing.T) {
 
 		client := preapproval.NewClient(cfg)
 
-		req := preapproval.Request{
+		request := preapproval.Request{
 			AutoRecurring: &preapproval.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "months",
@@ -31,9 +31,9 @@ func TestPreApproval(t *testing.T) {
 			Reason:            "Yoga Class",
 		}
 
-		result, err := client.Create(context.Background(), req)
-		if result == nil || result.ID == "" {
-			t.Error("preapproval can't be nil")
+		resource, err := client.Create(context.Background(), request)
+		if resource == nil || resource.ID == "" {
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -48,7 +48,7 @@ func TestPreApproval(t *testing.T) {
 
 		client := preapproval.NewClient(cfg)
 
-		req := preapproval.Request{
+		request := preapproval.Request{
 			AutoRecurring: &preapproval.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "months",
@@ -61,18 +61,18 @@ func TestPreApproval(t *testing.T) {
 			Reason:            "Yoga Class",
 		}
 
-		result, err := client.Create(context.Background(), req)
-		if result == nil {
-			t.Error("preapproval can't be nil")
+		resource, err := client.Create(context.Background(), request)
+		if resource == nil {
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 			return
 		}
 
-		result, err = client.Get(context.Background(), result.ID)
-		if result == nil || result.ID == "" {
-			t.Error("preapproval can't be nil")
+		resource, err = client.Get(context.Background(), resource.ID)
+		if resource == nil || resource.ID == "" {
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -87,7 +87,7 @@ func TestPreApproval(t *testing.T) {
 
 		client := preapproval.NewClient(cfg)
 
-		req := preapproval.Request{
+		request := preapproval.Request{
 			AutoRecurring: &preapproval.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "months",
@@ -100,16 +100,16 @@ func TestPreApproval(t *testing.T) {
 			Reason:            "Yoga Class",
 		}
 
-		result, err := client.Create(context.Background(), req)
-		if result == nil {
-			t.Error("preapproval can't be nil")
+		resource, err := client.Create(context.Background(), request)
+		if resource == nil {
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
 			return
 		}
 
-		update := preapproval.UpdateRequest{
+		updateRequest := preapproval.UpdateRequest{
 			AutoRecurring: &preapproval.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "months",
@@ -118,9 +118,9 @@ func TestPreApproval(t *testing.T) {
 			},
 		}
 
-		result, err = client.Update(context.Background(), result.ID, update)
-		if result == nil {
-			t.Error("preapproval can't be nil")
+		resource, err = client.Update(context.Background(), resource.ID, updateRequest)
+		if resource == nil {
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -135,7 +135,7 @@ func TestPreApproval(t *testing.T) {
 
 		client := preapproval.NewClient(cfg)
 
-		req := preapproval.Request{
+		request := preapproval.Request{
 			AutoRecurring: &preapproval.AutoRecurringRequest{
 				Frequency:         1,
 				FrequencyType:     "months",
@@ -148,9 +148,9 @@ func TestPreApproval(t *testing.T) {
 			Reason:            "Yoga Class",
 		}
 
-		createResult, err := client.Create(context.Background(), req)
-		if createResult == nil {
-			t.Error("preapproval can't be nil")
+		resource, err := client.Create(context.Background(), request)
+		if resource == nil {
+			t.Error("resource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())
@@ -162,9 +162,9 @@ func TestPreApproval(t *testing.T) {
 			Offset: 10,
 		}
 
-		result, err := client.Search(context.Background(), filters)
-		if result == nil {
-			t.Error("result can't be nil")
+		searchResource, err := client.Search(context.Background(), filters)
+		if searchResource == nil {
+			t.Error("searchResource can't be nil")
 		}
 		if err != nil {
 			t.Errorf(err.Error())

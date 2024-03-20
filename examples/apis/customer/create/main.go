@@ -17,14 +17,15 @@ func main() {
 		return
 	}
 
-	req := customer.Request{Email: "{{EMAIL}}"}
-
 	client := customer.NewClient(cfg)
-	cus, err := client.Create(context.Background(), req)
+
+	request := customer.Request{Email: "{{EMAIL}}"}
+
+	resource, err := client.Create(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(cus)
+	fmt.Println(resource)
 }

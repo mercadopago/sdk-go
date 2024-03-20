@@ -17,14 +17,15 @@ func main() {
 		return
 	}
 
-	req := customercard.Request{Token: "{{CARD_TOKEN}}"}
-
 	client := customercard.NewClient(cfg)
-	card, err := client.Create(context.Background(), "{{CUSTOMER_ID}}", req)
+
+	request := customercard.Request{Token: "{{CARD_TOKEN}}"}
+
+	resource, err := client.Create(context.Background(), "{{CUSTOMER_ID}}", request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(card)
+	fmt.Println(resource)
 }

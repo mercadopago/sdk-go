@@ -19,10 +19,11 @@ func main() {
 		return
 	}
 
+	client := payment.NewClient(cfg)
+
 	invalidRequest := payment.Request{}
 
-	client := payment.NewClient(cfg)
-	payment, err := client.Create(context.Background(), invalidRequest)
+	resource, err := client.Create(context.Background(), invalidRequest)
 	if err != nil {
 		var mpErr *mperror.ResponseError
 		if errors.As(err, &mpErr) {
@@ -33,5 +34,5 @@ func main() {
 		return
 	}
 
-	fmt.Println(payment)
+	fmt.Println(resource)
 }

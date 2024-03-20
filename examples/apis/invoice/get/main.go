@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/invoice"
 )
@@ -18,11 +19,11 @@ func main() {
 
 	invoiceID := "123"
 
-	result, err := client.Get(context.Background(), invoiceID)
+	resource, err := client.Get(context.Background(), invoiceID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(result)
+	fmt.Println(resource)
 }

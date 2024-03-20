@@ -64,12 +64,12 @@ func (c *client) Create(ctx context.Context, customerID string, request Request)
 		Method:     http.MethodPost,
 		URL:        urlBase,
 	}
-	result, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
+	resource, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }
 
 func (c *client) Get(ctx context.Context, customerID, cardID string) (*Response, error) {
@@ -83,12 +83,12 @@ func (c *client) Get(ctx context.Context, customerID, cardID string) (*Response,
 		Method:     http.MethodGet,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
+	resource, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }
 
 func (c *client) Update(ctx context.Context, customerID, cardID string, request Request) (*Response, error) {
@@ -103,12 +103,12 @@ func (c *client) Update(ctx context.Context, customerID, cardID string, request 
 		Method:     http.MethodPut,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
+	resource, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }
 
 func (c *client) Delete(ctx context.Context, customerID, cardID string) (*Response, error) {
@@ -122,12 +122,12 @@ func (c *client) Delete(ctx context.Context, customerID, cardID string) (*Respon
 		Method:     http.MethodDelete,
 		URL:        urlWithID,
 	}
-	result, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
+	resource, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }
 
 func (c *client) List(ctx context.Context, customerID string) ([]Response, error) {
@@ -140,10 +140,10 @@ func (c *client) List(ctx context.Context, customerID string) ([]Response, error
 		Method:     http.MethodGet,
 		URL:        urlBase,
 	}
-	result, err := httpclient.DoRequest[[]Response](ctx, c.config, requestData)
+	resource, err := httpclient.DoRequest[[]Response](ctx, c.config, requestData)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	return resource, nil
 }
