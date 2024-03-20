@@ -18,7 +18,7 @@ type CardholderRequest struct {
 	Name string `json:"name,omitempty"`
 }
 
-// IdentificationRequest is a base type that represents identifications, such as customer identification.
+// IdentificationRequest is a base type that represents identifications, such as payer identification.
 type IdentificationRequest struct {
 	Number string `json:"number,omitempty"`
 	Type   string `json:"type,omitempty"`
