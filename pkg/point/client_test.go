@@ -405,7 +405,7 @@ func TestUpdateDeviceOperatingMode(t *testing.T) {
 	type args struct {
 		ctx      context.Context
 		deviceID string
-		request  UpdateDeviceOperatingModeRequest
+		request  OperatingModeRequest
 	}
 	tests := []struct {
 		name    string
@@ -428,7 +428,7 @@ func TestUpdateDeviceOperatingMode(t *testing.T) {
 			args: args{
 				ctx:      context.Background(),
 				deviceID: "any",
-				request:  UpdateDeviceOperatingModeRequest{},
+				request:  OperatingModeRequest{},
 			},
 			want:    nil,
 			wantErr: "transport level error: some error",
@@ -463,17 +463,17 @@ func TestUpdateDeviceOperatingMode(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.cfg,
 			}
-			got, err := c.UpdateDeviceOperatingMode(tt.args.ctx, tt.args.deviceID, tt.args.request)
+			got, err := c.UpdateOperatingMode(tt.args.ctx, tt.args.deviceID, tt.args.request)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("client.UpdateDeviceOperatingMode() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.UpdateOperatingMode() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.UpdateDeviceOperatingMode() = %v, want %v", got, tt.want)
+				t.Errorf("client.UpdateOperatingMode() = %v, want %v", got, tt.want)
 			}
 		})
 	}
