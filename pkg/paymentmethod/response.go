@@ -1,6 +1,6 @@
 package paymentmethod
 
-// Response represents a list of all available payment methods in detail.
+// Response represents a detailed payment method.
 type Response struct {
 	Settings              []SettingsResponse             `json:"settings"`
 	FinancialInstitutions []FinancialInstitutionResponse `json:"financial_institutions"`
