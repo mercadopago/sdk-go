@@ -1,6 +1,6 @@
 package identificationtype
 
-// Response returns a list of available document types by country.
+// Response is the representation of a document type.
 type Response struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`
