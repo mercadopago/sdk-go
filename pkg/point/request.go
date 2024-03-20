@@ -1,7 +1,6 @@
 package point
 
-// Request allows the creation of a payment intention, that is, it represents a call that contains the details of a
-// transaction to be carried out and assigns it to a device.
+// Request is used to create a payment intention, sending the details of a transaction.
 type Request struct {
 	AdditionalInfo *AdditionalInfoRequest `json:"additional_info"`
 	Payment        *PaymentRequest        `json:"payment"`
