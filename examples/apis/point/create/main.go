@@ -17,7 +17,7 @@ func main() {
 		return
 	}
 
-	req := point.CreateRequest{
+	req := point.Request{
 		Amount:      1500,
 		Description: "your payment intent description",
 		AdditionalInfo: &point.AdditionalInfoRequest{

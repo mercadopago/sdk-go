@@ -38,7 +38,7 @@ func TestCreate(t *testing.T) {
 	type args struct {
 		ctx      context.Context
 		deviceID string
-		request  CreateRequest
+		request  Request
 	}
 	tests := []struct {
 		name    string
@@ -61,7 +61,7 @@ func TestCreate(t *testing.T) {
 			args: args{
 				ctx:      context.Background(),
 				deviceID: "any",
-				request:  CreateRequest{},
+				request:  Request{},
 			},
 			want:    nil,
 			wantErr: "transport level error: some error",
@@ -84,7 +84,7 @@ func TestCreate(t *testing.T) {
 			args: args{
 				ctx:      context.Background(),
 				deviceID: "any",
-				request: CreateRequest{
+				request: Request{
 					Amount:      1500,
 					Description: "your payment intent description",
 					AdditionalInfo: &AdditionalInfoRequest{

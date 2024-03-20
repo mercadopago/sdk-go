@@ -1,5 +1,6 @@
 package point
 
+// Response contains the response of a payment intention.
 type Response struct {
 	Payment        PaymentResponse        `json:"payment"`
 	AdditionalInfo AdditionalInfoResponse `json:"additional_info"`

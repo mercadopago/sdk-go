@@ -29,7 +29,7 @@ type SearchResponse struct {
 	ProcessingModes   []string `json:"processing_modes"`
 }
 
-// SearchPageResponse is a search page that contains elements.
+// SearchResponsePage is a search page that contains elements.
 type SearchResponsePage struct {
 	Elements []SearchResponse `json:"elements"`
 
