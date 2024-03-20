@@ -1,3 +1,4 @@
+// This package is useful for customer & cards feature.
 package customer
 
 import (
@@ -16,24 +17,25 @@ const (
 
 // Client contains the methods to interact with the Customers API.
 type Client interface {
-	// Create a customer with all its data and save the cards used to simplify the payment process.
+	// Create a customer with all its data and can be used after to save the cards used
+	// and simplify the payment process.
 	// It is a post request to the endpoint: https://api.mercadopago.com/v1/customers
 	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers/post/
 	Create(ctx context.Context, request Request) (*Response, error)
 
-	// Search find all customer information using specific filters.
-	// It is a get request to the endpoint: https://api.mercadopago.com/v1/customers/search
-	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers_search/get/
+	// Search all customers with the sent filters.
+	// It is a get request to the endpoint: https://api.mercadopago.com/v1/customers/search.
+	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers_search/get/.
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 
-	// Get check all the information of a client created with the client ID of your choice.
-	// It is a get request to the endpoint: https://api.mercadopago.com/v1/customers/{id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers_id/get/
+	// Get return all customer data with the sent id.
+	// It is a get request to the endpoint: https://api.mercadopago.com/v1/customers/{id}.
+	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers_id/get/.
 	Get(ctx context.Context, id string) (*Response, error)
 
-	// Update renew the data of a customer.
-	// It is a put request to the endpoint: https://api.mercadopago.com/v1/customers
-	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers_id/put/
+	// Update customer data with the sent id.
+	// It is a put request to the endpoint: https://api.mercadopago.com/v1/customers.
+	// Reference: https://www.mercadopago.com/developers/en/reference/customers/_customers_id/put/.
 	Update(ctx context.Context, id string, request Request) (*Response, error)
 }
 
