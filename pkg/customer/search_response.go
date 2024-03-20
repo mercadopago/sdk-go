@@ -2,13 +2,13 @@ package customer
 
 // SearchResponse represents the response from the search endpoint.
 type SearchResponse struct {
-	Paging  PagingResponse `json:"paging"`
-	Results []Response     `json:"results"`
+	Paging  PagingResponse `json:"paging"`  // information about search made
+	Results []Response     `json:"results"` // returned items
 }
 
 // PagingResponse represents the paging information within SearchResponse.
 type PagingResponse struct {
-	Total  int `json:"total"`
-	Limit  int `json:"limit"`
-	Offset int `json:"offset"`
+	Total  int `json:"total"`  // total items returned quantity
+	Limit  int `json:"limit"`  // limit sent in the request
+	Offset int `json:"offset"` // current offset
 }
