@@ -1,4 +1,8 @@
-// This package is useful for customer & cards feature.
+// This package is useful for customer & cards feature and has the following features:
+//   - Create customer
+//   - Search customers
+//   - Get customer by id
+//   - Update customer
 package customer
 
 import (
