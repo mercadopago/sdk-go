@@ -405,7 +405,7 @@ func TestUpdateDeviceOperatingMode(t *testing.T) {
 	type args struct {
 		ctx      context.Context
 		deviceID string
-		request  OperatingModeRequest
+		request  string
 	}
 	tests := []struct {
 		name    string
@@ -428,7 +428,7 @@ func TestUpdateDeviceOperatingMode(t *testing.T) {
 			args: args{
 				ctx:      context.Background(),
 				deviceID: "any",
-				request:  OperatingModeRequest{},
+				request:  "PDV",
 			},
 			want:    nil,
 			wantErr: "transport level error: some error",
