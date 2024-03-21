@@ -13,9 +13,9 @@ const url = "https://api.mercadopago.com/v1/identification_types"
 
 // Client contains the methods to interact with the Identification Types API.
 type Client interface {
-	// List Consult all the types of documents available by country and get a list with the id and details of each one.
-	// It is a get request to the endpoint: https://api.mercadopago.com/v1/identification_types
-	// Reference: https://www.mercadopago.com/developers/en/reference/identification_types/_identification_types/get
+	// List all identification types available by country containing details of each one.
+	// It is a get request to the endpoint: https://api.mercadopago.com/v1/identification_types.
+	// Reference: https://www.mercadopago.com/developers/en/reference/identification_types/_identification_types/get.
 	List(ctx context.Context) ([]Response, error)
 }
 
