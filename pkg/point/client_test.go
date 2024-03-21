@@ -403,9 +403,9 @@ func TestUpdateDeviceOperatingMode(t *testing.T) {
 		cfg *config.Config
 	}
 	type args struct {
-		ctx      context.Context
-		deviceID string
-		request  string
+		ctx           context.Context
+		deviceID      string
+		operatingMode string
 	}
 	tests := []struct {
 		name    string
@@ -426,9 +426,9 @@ func TestUpdateDeviceOperatingMode(t *testing.T) {
 				},
 			},
 			args: args{
-				ctx:      context.Background(),
-				deviceID: "any",
-				request:  "PDV",
+				ctx:           context.Background(),
+				deviceID:      "any",
+				operatingMode: "PDV",
 			},
 			want:    nil,
 			wantErr: "transport level error: some error",
@@ -463,7 +463,7 @@ func TestUpdateDeviceOperatingMode(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.cfg,
 			}
-			got, err := c.UpdateOperatingMode(tt.args.ctx, tt.args.deviceID, tt.args.request)
+			got, err := c.UpdateOperatingMode(tt.args.ctx, tt.args.deviceID, tt.args.operatingMode)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()

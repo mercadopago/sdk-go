@@ -47,7 +47,7 @@ type Client interface {
 	// UpdateOperatingMode update operating mode from device.
 	// It is a patch request to the endpoint: https://api.mercadopago.com/point/integration-api/devices/{device-id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api/_point_integration-api_devices_device-id/patch
-	UpdateOperatingMode(ctx context.Context, deviceID string, operatingMode string) (*OperatingModeResponse, error)
+	UpdateOperatingMode(ctx context.Context, deviceID, operatingMode string) (*OperatingModeResponse, error)
 }
 
 // NewClient returns a new Point Client.
@@ -124,8 +124,8 @@ func (c *client) ListDevices(ctx context.Context) (*DevicesResponse, error) {
 	return resource, nil
 }
 
-func (c *client) UpdateOperatingMode(ctx context.Context, deviceID string, operationMode string) (*OperatingModeResponse, error) {
-	request := &OperatingModeRequest{OperatingMode: operationMode}
+func (c *client) UpdateOperatingMode(ctx context.Context, deviceID, operatingMode string) (*OperatingModeResponse, error) {
+	request := &OperatingModeRequest{OperatingMode: operatingMode}
 
 	pathParams := map[string]string{
 		"device_id": deviceID,
