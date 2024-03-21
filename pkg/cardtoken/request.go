@@ -13,9 +13,9 @@ type Request struct {
 
 // CardholderRequest contains cardholder data used to generate card token.
 type CardholderRequest struct {
-	Identification *IdentificationRequest `json:"identification,omitempty"` // cardholder identification
+	Identification *IdentificationRequest `json:"identification,omitempty"` // cardholder's identification
 
-	Name string `json:"name,omitempty"` // cardholder name
+	Name string `json:"name,omitempty"` // cardholder's name
 }
 
 // IdentificationRequest contains cardholder identification data used to generate card token.
