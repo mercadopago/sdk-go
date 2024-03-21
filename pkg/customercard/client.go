@@ -1,3 +1,9 @@
+// This package is useful for customer & cards feature and has the following features:
+//   - Create a customer's card
+//   - Get a customer's card
+//   - Update a customer's card
+//   - Delete a customer's card
+//   - List customer's cards
 package customercard
 
 import (
