@@ -1,4 +1,4 @@
-// This package is useful for customer & cards feature and has the following features:
+// This package is useful for customer & cards feature and has the following services:
 //   - Create a customer's card
 //   - Get a customer's card
 //   - Update a customer's card
