@@ -21,7 +21,7 @@ type Request struct {
 type AddressRequest struct {
 	City *CityRequest `json:"city,omitempty"` // address's city
 
-	ID           string `json:"id,omitempty"`            // address id
+	ID           string `json:"id,omitempty"`            // address's identification
 	ZipCode      string `json:"zip_code,omitempty"`      // zip code
 	StreetName   string `json:"street_name,omitempty"`   // street name
 	StreetNumber int    `json:"street_number,omitempty"` // street number

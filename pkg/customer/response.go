@@ -102,8 +102,8 @@ type CompleteAddressResponse struct {
 	DateCreated  time.Time            `json:"date_created"` // address's date created data
 
 	ID         string `json:"id"`          // address's identification
-	StreetName string `json:"street_name"` // address's street name
-	ZipCode    string `json:"zip_code"`    // address's zip code
+	StreetName string `json:"street_name"` // street name
+	ZipCode    string `json:"zip_code"`    // zip code
 }
 
 // CityResponse represents a response for a city.
