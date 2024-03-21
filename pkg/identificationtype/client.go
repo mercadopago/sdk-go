@@ -1,3 +1,4 @@
+// This package is useful to return identification types.
 package identificationtype
 
 import (
