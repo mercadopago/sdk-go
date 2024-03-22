@@ -1,3 +1,8 @@
+// This package is useful for subscriptions feature. It is possible
+// get informations about subscriptions invoices.
+// This package has the following services:
+//   - Get invoice by id
+//   - Search N invoices by sent filters
 package invoice
 
 import (
@@ -16,14 +21,14 @@ const (
 
 // Client contains the methods to interact with the Invoice API.
 type Client interface {
-	// Get finds an invoice by ID.
-	// It is a get request to the endpoint: https://api.mercadopago.com/authorized_payments/{id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_authorized_payments_id/get
+	// Get an invoice by id.
+	// It is a get request to the endpoint: https://api.mercadopago.com/authorized_payments/{id}.
+	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_authorized_payments_id/get.
 	Get(ctx context.Context, id string) (*Response, error)
 
-	// Search the invoices for a subscriptions by different parameters.
-	// It is a get request to the endpoint: https://api.mercadopago.com/authorized_payments/search
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_authorized_payments_search/get
+	// Search subscriptions invoices by filters.
+	// It is a get request to the endpoint: https://api.mercadopago.com/authorized_payments/search.
+	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_authorized_payments_search/get.
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 }
 
