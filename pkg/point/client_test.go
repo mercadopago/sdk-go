@@ -38,7 +38,7 @@ func TestCreate(t *testing.T) {
 	type args struct {
 		ctx      context.Context
 		deviceID string
-		request  CreateRequest
+		request  Request
 	}
 	tests := []struct {
 		name    string
@@ -61,7 +61,7 @@ func TestCreate(t *testing.T) {
 			args: args{
 				ctx:      context.Background(),
 				deviceID: "any",
-				request:  CreateRequest{},
+				request:  Request{},
 			},
 			want:    nil,
 			wantErr: "transport level error: some error",
@@ -84,7 +84,7 @@ func TestCreate(t *testing.T) {
 			args: args{
 				ctx:      context.Background(),
 				deviceID: "any",
-				request: CreateRequest{
+				request: Request{
 					Amount:      1500,
 					Description: "your payment intent description",
 					AdditionalInfo: &AdditionalInfoRequest{
@@ -403,9 +403,9 @@ func TestUpdateDeviceOperatingMode(t *testing.T) {
 		cfg *config.Config
 	}
 	type args struct {
-		ctx      context.Context
-		deviceID string
-		request  UpdateDeviceOperatingModeRequest
+		ctx           context.Context
+		deviceID      string
+		operatingMode string
 	}
 	tests := []struct {
 		name    string
@@ -426,9 +426,9 @@ func TestUpdateDeviceOperatingMode(t *testing.T) {
 				},
 			},
 			args: args{
-				ctx:      context.Background(),
-				deviceID: "any",
-				request:  UpdateDeviceOperatingModeRequest{},
+				ctx:           context.Background(),
+				deviceID:      "any",
+				operatingMode: "PDV",
 			},
 			want:    nil,
 			wantErr: "transport level error: some error",
@@ -463,17 +463,17 @@ func TestUpdateDeviceOperatingMode(t *testing.T) {
 			c := &client{
 				cfg: tt.fields.cfg,
 			}
-			got, err := c.UpdateDeviceOperatingMode(tt.args.ctx, tt.args.deviceID, tt.args.request)
+			got, err := c.UpdateOperatingMode(tt.args.ctx, tt.args.deviceID, tt.args.operatingMode)
 			gotErr := ""
 			if err != nil {
 				gotErr = err.Error()
 			}
 
 			if gotErr != tt.wantErr {
-				t.Errorf("client.UpdateDeviceOperatingMode() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.UpdateOperatingMode() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.UpdateDeviceOperatingMode() = %v, want %v", got, tt.want)
+				t.Errorf("client.UpdateOperatingMode() = %v, want %v", got, tt.want)
 			}
 		})
 	}

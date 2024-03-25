@@ -33,7 +33,7 @@ func TestRefund(t *testing.T) {
 		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
-				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
+				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New()),
 			},
 			Token:        token,
 			Installments: 1,
@@ -72,7 +72,7 @@ func TestRefund(t *testing.T) {
 		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
-				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
+				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New()),
 			},
 			Token:        token,
 			Installments: 1,
@@ -113,7 +113,7 @@ func TestRefund(t *testing.T) {
 		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
-				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
+				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New()),
 			},
 			Token:        token,
 			Installments: 1,
@@ -163,7 +163,7 @@ func TestRefund(t *testing.T) {
 		request := payment.Request{
 			TransactionAmount: 105.1,
 			Payer: &payment.PayerRequest{
-				Email: fmt.Sprintf("gabs_%s@meli.com", uuid.New()),
+				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New()),
 			},
 			Token:        token,
 			Installments: 1,

@@ -22,7 +22,7 @@ type Client interface {
 	// Reference: https://www.mercadopago.com/developers/en/reference/oauth/_oauth_token/post
 	Create(ctx context.Context, authorizationCode, redirectURI string) (*Response, error)
 
-	// Get url for oauth authorization.
+	// GetAuthorizationURL gets url for oauth authorization.
 	GetAuthorizationURL(clientID, redirectURI, state string) string
 
 	// Refresh token received when you create credentials.
