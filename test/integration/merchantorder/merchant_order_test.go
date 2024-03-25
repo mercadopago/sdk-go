@@ -22,7 +22,7 @@ func TestMerchantOrder(t *testing.T) {
 		merchantOrderClient := merchantorder.NewClient(cfg)
 
 		preferenceRequest := preference.Request{
-			Items: []preference.PreferenceItemRequest{
+			Items: []preference.ItemRequest{
 				{
 					ID:          "123",
 					Title:       "Title",
@@ -74,7 +74,7 @@ func TestMerchantOrder(t *testing.T) {
 	})
 
 	t.Run("should_update_merchant_order", func(t *testing.T) {
-		cfg, err := config.New("TEST-4849723703374061-053108-98d6fdf742a963513320c567195b5cd6-1340175910")
+		cfg, err := config.New(os.Getenv("ACCESS_TOKEN"))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -83,7 +83,7 @@ func TestMerchantOrder(t *testing.T) {
 		merchantOrderClient := merchantorder.NewClient(cfg)
 
 		preferenceRequest := preference.Request{
-			Items: []preference.PreferenceItemRequest{
+			Items: []preference.ItemRequest{
 				{
 					ID:          "123",
 					Title:       "Title",
@@ -167,7 +167,7 @@ func TestMerchantOrder(t *testing.T) {
 		merchantOrderClient := merchantorder.NewClient(cfg)
 
 		preferenceRequest := preference.Request{
-			Items: []preference.PreferenceItemRequest{
+			Items: []preference.ItemRequest{
 				{
 					ID:          "123",
 					Title:       "Title",

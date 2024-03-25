@@ -27,7 +27,7 @@ type Client interface {
 	// Create a point payment intent.
 	// It is a post request to the endpoint: https://api.mercadopago.com/point/integration-api/devices/{device_id}/payment-intents
 	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api_paymentintent_mlb/_point_integration-api_devices_deviceid_payment-intents/post
-	Create(ctx context.Context, deviceID string, request CreateRequest) (*Response, error)
+	Create(ctx context.Context, deviceID string, request Request) (*Response, error)
 
 	// Get a point payment intent.
 	// It is a get request to the endpoint: https://api.mercadopago.com/point/integration-api/payment-intents/{payment_intent_id}
@@ -44,10 +44,10 @@ type Client interface {
 	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api/_point_integration-api_devices/get
 	ListDevices(ctx context.Context) (*DevicesResponse, error)
 
-	// UpdateDeviceOperatingMode update operating mode from device.
+	// UpdateOperatingMode update operating mode from device.
 	// It is a patch request to the endpoint: https://api.mercadopago.com/point/integration-api/devices/{device-id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api/_point_integration-api_devices_device-id/patch
-	UpdateDeviceOperatingMode(ctx context.Context, deviceID string, request UpdateDeviceOperatingModeRequest) (*OperatingModeResponse, error)
+	UpdateOperatingMode(ctx context.Context, deviceID, operatingMode string) (*OperatingModeResponse, error)
 }
 
 // NewClient returns a new Point Client.
@@ -55,7 +55,7 @@ func NewClient(c *config.Config) Client {
 	return &client{cfg: c}
 }
 
-func (c *client) Create(ctx context.Context, deviceID string, request CreateRequest) (*Response, error) {
+func (c *client) Create(ctx context.Context, deviceID string, request Request) (*Response, error) {
 	pathParams := map[string]string{
 		"device_id": deviceID,
 	}
@@ -124,7 +124,9 @@ func (c *client) ListDevices(ctx context.Context) (*DevicesResponse, error) {
 	return resource, nil
 }
 
-func (c *client) UpdateDeviceOperatingMode(ctx context.Context, deviceID string, request UpdateDeviceOperatingModeRequest) (*OperatingModeResponse, error) {
+func (c *client) UpdateOperatingMode(ctx context.Context, deviceID, operatingMode string) (*OperatingModeResponse, error) {
+	request := &OperatingModeRequest{OperatingMode: operatingMode}
+
 	pathParams := map[string]string{
 		"device_id": deviceID,
 	}

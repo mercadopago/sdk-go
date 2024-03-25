@@ -19,7 +19,7 @@ func main() {
 
 	client := point.NewClient(cfg)
 
-	request := point.CreateRequest{
+	request := point.Request{
 		Amount:      1500,
 		Description: "your payment intent description",
 		AdditionalInfo: &point.AdditionalInfoRequest{
