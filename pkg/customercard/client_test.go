@@ -102,8 +102,8 @@ func TestCreate(t *testing.T) {
 				},
 				AdditionalInfo: AdditionalInfoResponse{
 					RequestPublic:        "true",
-					ApiClientApplication: "traffic-layer",
-					ApiClientScope:       "mapi-pci-tl",
+					APIClientApplication: "traffic-layer",
+					APIClientScope:       "mapi-pci-tl",
 				},
 				PaymentMethod: PaymentMethodResponse{
 					ID:              "master",
@@ -220,8 +220,8 @@ func TestUpdate(t *testing.T) {
 				},
 				AdditionalInfo: AdditionalInfoResponse{
 					RequestPublic:        "true",
-					ApiClientApplication: "traffic-layer",
-					ApiClientScope:       "mapi-pci-tl",
+					APIClientApplication: "traffic-layer",
+					APIClientScope:       "mapi-pci-tl",
 				},
 				PaymentMethod: PaymentMethodResponse{
 					ID:              "master",
@@ -335,8 +335,8 @@ func TestGet(t *testing.T) {
 				},
 				AdditionalInfo: AdditionalInfoResponse{
 					RequestPublic:        "true",
-					ApiClientApplication: "traffic-layer",
-					ApiClientScope:       "mapi-pci-tl",
+					APIClientApplication: "traffic-layer",
+					APIClientScope:       "mapi-pci-tl",
 				},
 				PaymentMethod: PaymentMethodResponse{
 					ID:              "master",
@@ -450,8 +450,8 @@ func TestDelete(t *testing.T) {
 				},
 				AdditionalInfo: AdditionalInfoResponse{
 					RequestPublic:        "true",
-					ApiClientApplication: "traffic-layer",
-					ApiClientScope:       "mapi-pci-tl",
+					APIClientApplication: "traffic-layer",
+					APIClientScope:       "mapi-pci-tl",
 				},
 				PaymentMethod: PaymentMethodResponse{
 					ID:              "master",
@@ -564,8 +564,8 @@ func TestList(t *testing.T) {
 					},
 					AdditionalInfo: AdditionalInfoResponse{
 						RequestPublic:        "true",
-						ApiClientApplication: "traffic-layer",
-						ApiClientScope:       "mapi-pci-tl",
+						APIClientApplication: "traffic-layer",
+						APIClientScope:       "mapi-pci-tl",
 					},
 					PaymentMethod: PaymentMethodResponse{
 						ID:              "master",
