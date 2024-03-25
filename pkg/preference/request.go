@@ -23,7 +23,7 @@ type Request struct {
 	ExternalReference   string         `json:"external_reference,omitempty"`
 	Marketplace         string         `json:"marketplace,omitempty"`
 	OperationType       string         `json:"operation_type,omitempty"`
-	NotificationUrl     string         `json:"notification_url,omitempty"`
+	NotificationURL     string         `json:"notification_url,omitempty"`
 	Purpose             string         `json:"purpose,omitempty"`
 	StatementDescriptor string         `json:"statement_descriptor,omitempty"`
 	MarketplaceFee      float64        `json:"marketplace_fee,omitempty"`

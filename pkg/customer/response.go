@@ -52,7 +52,7 @@ type CardResponse struct {
 
 	ID              string `json:"id"`
 	CustomerID      string `json:"customer_id"`
-	UserId          string `json:"user_id"`
+	UserID          string `json:"user_id"`
 	FirstSixDigits  string `json:"first_six_digits"`
 	LastFourDigits  string `json:"last_four_digits"`
 	ExpirationMonth int    `json:"expiration_month"`
@@ -82,7 +82,7 @@ type IssuerResponse struct {
 type PaymentMethodResponse struct {
 	ID              string `json:"id"`
 	Name            string `json:"name"`
-	PaymentTypeId   string `json:"payment_type_id"`
+	PaymentTypeID   string `json:"payment_type_id"`
 	Thumbnail       string `json:"thumbnail"`
 	SecureThumbnail string `json:"secure_thumbnail"`
 }
