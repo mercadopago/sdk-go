@@ -25,7 +25,7 @@ func main() {
 	// Create preference.
 	preferenceRequest := preference.Request{
 		ExternalReference: uuid.New().String(),
-		Items: []preference.PreferenceItemRequest{
+		Items: []preference.ItemRequest{
 			{
 				ID:          uuid.New().String(),
 				Title:       "Title",

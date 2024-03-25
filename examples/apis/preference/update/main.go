@@ -18,7 +18,7 @@ func main() {
 	client := preference.NewClient(cfg)
 
 	request := preference.Request{
-		Items: []preference.PreferenceItemRequest{
+		Items: []preference.ItemRequest{
 			{
 				ID:          "123",
 				Title:       "Title",
@@ -36,7 +36,7 @@ func main() {
 	}
 
 	request = preference.Request{
-		Items: []preference.PreferenceItemRequest{
+		Items: []preference.ItemRequest{
 			{
 				ID:          "123",
 				Title:       "Title",

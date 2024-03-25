@@ -34,7 +34,7 @@ type Client interface {
 	// Search finds all preference information generated through specific filters
 	// It is a get request to the endpoint: https://api.mercadopago.com/checkout/preferences/search
 	// Reference: https://www.mercadopago.com/developers/en/reference/preferences/_checkout_preferences_search/get
-	Search(ctx context.Context, request SearchRequest) (*SearchResponsePage, error)
+	Search(ctx context.Context, request SearchRequest) (*PagingResponse, error)
 }
 
 // client is the implementation of Client.
@@ -100,7 +100,7 @@ func (c *client) Update(ctx context.Context, id string, request Request) (*Respo
 	return resource, nil
 }
 
-func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponsePage, error) {
+func (c *client) Search(ctx context.Context, request SearchRequest) (*PagingResponse, error) {
 	queryParams := request.GetParams()
 
 	requestData := httpclient.RequestData{
@@ -108,7 +108,7 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 		Method:      http.MethodGet,
 		URL:         urlSearch,
 	}
-	resource, err := httpclient.DoRequest[*SearchResponsePage](ctx, c.cfg, requestData)
+	resource, err := httpclient.DoRequest[*PagingResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}

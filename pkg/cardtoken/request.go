@@ -1,5 +1,6 @@
 package cardtoken
 
+// Request contains parameters to create a cardtoken.
 type Request struct {
 	Cardholder *CardholderRequest `json:"cardholder,omitempty"`
 
@@ -10,12 +11,14 @@ type Request struct {
 	SecurityCode    string `json:"security_code,omitempty"`
 }
 
+// CardholderRequest contains cardholder information in the cardtoken.
 type CardholderRequest struct {
 	Identification *IdentificationRequest `json:"identification,omitempty"`
 
 	Name string `json:"name,omitempty"`
 }
 
+// IdentificationRequest is a base type that represents identifications, such as payer identification.
 type IdentificationRequest struct {
 	Number string `json:"number,omitempty"`
 	Type   string `json:"type,omitempty"`

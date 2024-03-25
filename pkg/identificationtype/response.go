@@ -1,5 +1,6 @@
 package identificationtype
 
+// Response is the representation of a document type.
 type Response struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`

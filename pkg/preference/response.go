@@ -4,20 +4,21 @@ import (
 	"time"
 )
 
+// Response represents the response to a preference endpoint.
 type Response struct {
-	Payer               PreferencePayerResponse               `json:"payer"`
-	PaymentMethods      PreferencePaymentMethodsResponse      `json:"payment_methods"`
-	BackURLS            PreferenceBackUrlsResponse            `json:"back_urls"`
-	Shipments           PreferenceShipmentsResponse           `json:"shipments"`
-	DifferentialPricing PreferenceDifferentialPricingResponse `json:"differential_pricing"`
-	DateOfExpiration    time.Time                             `json:"date_of_expiration"`
-	ExpirationDateFrom  time.Time                             `json:"expiration_date_from"`
-	ExpirationDateTo    time.Time                             `json:"expiration_date_to"`
-	LastUpdated         time.Time                             `json:"last_updated"`
-	DateCreated         time.Time                             `json:"date_created"`
-	Taxes               []PreferenceTaxResponse               `json:"taxes"`
-	Tracks              []PreferenceTrackResponse             `json:"tracks"`
-	Items               []PreferenceItemResponse              `json:"items"`
+	Payer               PayerResponse               `json:"payer"`
+	PaymentMethods      PaymentMethodsResponse      `json:"payment_methods"`
+	BackURLs            BackURLsResponse            `json:"back_urls"`
+	Shipments           ShipmentsResponse           `json:"shipments"`
+	DifferentialPricing DifferentialPricingResponse `json:"differential_pricing"`
+	DateOfExpiration    time.Time                   `json:"date_of_expiration"`
+	ExpirationDateFrom  time.Time                   `json:"expiration_date_from"`
+	ExpirationDateTo    time.Time                   `json:"expiration_date_to"`
+	LastUpdated         time.Time                   `json:"last_updated"`
+	DateCreated         time.Time                   `json:"date_created"`
+	Taxes               []TaxResponse               `json:"taxes"`
+	Tracks              []TrackResponse             `json:"tracks"`
+	Items               []ItemResponse              `json:"items"`
 
 	ID                  string         `json:"id"`
 	ClientID            string         `json:"client_id"`
@@ -39,8 +40,8 @@ type Response struct {
 	Metadata            map[string]any `json:"metadata"`
 }
 
-// PreferenceItemResponse represents an item.
-type PreferenceItemResponse struct {
+// ItemResponse represents an item.
+type ItemResponse struct {
 	ID          string  `json:"id"`
 	Title       string  `json:"title"`
 	Description string  `json:"description"`
@@ -51,8 +52,8 @@ type PreferenceItemResponse struct {
 	Quantity    int     `json:"quantity"`
 }
 
-// PreferencePayerResponse contains payer information in the preference.
-type PreferencePayerResponse struct {
+// PayerResponse contains payer information in the preference.
+type PayerResponse struct {
 	Phone          PhoneResponse          `json:"phone"`
 	Identification IdentificationResponse `json:"identification"`
 	Address        AddressResponse        `json:"address"`
@@ -64,37 +65,37 @@ type PreferencePayerResponse struct {
 	Email   string `json:"email"`
 }
 
-// PreferencePaymentMethodsResponse contains information about payment methods in the preference.
-type PreferencePaymentMethodsResponse struct {
-	ExcludedPaymentMethods []PreferencePaymentMethodResponse `json:"excluded_payment_methods"`
-	ExcludedPaymentTypes   []PreferencePaymentTypeResponse   `json:"excluded_payment_types"`
+// PaymentMethodsResponse contains information about payment methods in the preference.
+type PaymentMethodsResponse struct {
+	ExcludedPaymentMethods []PaymentMethodResponse `json:"excluded_payment_methods"`
+	ExcludedPaymentTypes   []PaymentTypeResponse   `json:"excluded_payment_types"`
 
 	DefaultPaymentMethodID string `json:"default_payment_method_id"`
 	Installments           int    `json:"installments"`
 	DefaultInstallments    int    `json:"default_installments"`
 }
 
-// PreferencePaymentMethodResponse contains information about the payment method in the preference.
-type PreferencePaymentMethodResponse struct {
+// PaymentMethodResponse contains information about the payment method in the preference.
+type PaymentMethodResponse struct {
 	ID string `json:"id"`
 }
 
-// PreferencePaymentTypeResponse contains information about the type of payment in the preference.
-type PreferencePaymentTypeResponse struct {
+// PaymentTypeResponse contains information about the type of payment in the preference.
+type PaymentTypeResponse struct {
 	ID string `json:"id"`
 }
 
-// PreferenceBackUrlsResponse contains preference back URLs.
-type PreferenceBackUrlsResponse struct {
+// BackURLsResponse contains preference back URLs.
+type BackURLsResponse struct {
 	Success string `json:"success"`
 	Pending string `json:"pending"`
 	Failure string `json:"failure"`
 }
 
-// PreferenceShipmentsResponse contains preference shipping information.
-type PreferenceShipmentsResponse struct {
-	ReceiverAddress PreferenceReceiverAddressResponse `json:"receiver_address"`
-	FreeMethods     []PreferenceFreeMethodResponse    `json:"free_methods"`
+// ShipmentsResponse contains preference shipping information.
+type ShipmentsResponse struct {
+	ReceiverAddress ReceiverAddressResponse `json:"receiver_address"`
+	FreeMethods     []FreeMethodResponse    `json:"free_methods"`
 
 	Mode                  string  `json:"mode"`
 	Dimensions            string  `json:"dimensions"`
@@ -105,13 +106,13 @@ type PreferenceShipmentsResponse struct {
 	ExpressShipment       bool    `json:"express_shipment"`
 }
 
-// PreferenceFreeMethodResponse contains information about free shipping methods.
-type PreferenceFreeMethodResponse struct {
+// FreeMethodResponse contains information about free shipping methods.
+type FreeMethodResponse struct {
 	ID int `json:"id"`
 }
 
-// PreferenceReceiverAddressResponse represents a sending address.
-type PreferenceReceiverAddressResponse struct {
+// ReceiverAddressResponse represents a sending address.
+type ReceiverAddressResponse struct {
 	Address AddressResponse `json:"address"`
 
 	CountryName string `json:"country_name"`
@@ -121,26 +122,26 @@ type PreferenceReceiverAddressResponse struct {
 	CityName    string `json:"city_name"`
 }
 
-// PreferenceDifferentialPricingResponse contains information about the differential pricing configuration in the preference.
-type PreferenceDifferentialPricingResponse struct {
+// DifferentialPricingResponse contains information about the differential pricing configuration in the preference.
+type DifferentialPricingResponse struct {
 	ID int `json:"id"`
 }
 
-// PreferenceTaxResponse contains information about taxes in the preference.
-type PreferenceTaxResponse struct {
+// TaxResponse contains information about taxes in the preference.
+type TaxResponse struct {
 	Type  string  `json:"type"`
 	Value float64 `json:"value"`
 }
 
-// PreferenceTrackResponse represents a trace to be executed during user interaction in the Checkout flow.
-type PreferenceTrackResponse struct {
-	Values PreferenceTrackValuesResponse `json:"values"`
+// TrackResponse represents a trace to be executed during user interaction in the Checkout flow.
+type TrackResponse struct {
+	Values TrackValuesResponse `json:"values"`
 
 	Type string `json:"type"`
 }
 
-// PreferenceTrackValuesResponse contains the values ​​of the tracks to be executed during user interaction in the Checkout flow.
-type PreferenceTrackValuesResponse struct {
+// TrackValuesResponse contains the values of the tracks to be executed during user interaction in the Checkout flow.
+type TrackValuesResponse struct {
 	ConversionID    string `json:"conversion_id"`
 	ConversionLabel string `json:"conversion_label"`
 	PixelID         string `json:"pixel_id"`

@@ -4,19 +4,19 @@ import (
 	"time"
 )
 
-// PreferenceRequest contains parameters to create/update a preference.
+// Request contains parameters to create/update a preference.
 type Request struct {
-	BackUrls            *PreferenceBackUrlsRequest            `json:"back_urls,omitempty"`
-	DifferentialPricing *PreferenceDifferentialPricingRequest `json:"differential_pricing,omitempty"`
-	Payer               *PreferencePayerRequest               `json:"payer,omitempty"`
-	PaymentMethods      *PreferencePaymentMethodsRequest      `json:"payment_methods,omitempty"`
-	Shipments           *PreferenceShipmentsRequest           `json:"shipments,omitempty"`
-	DateOfExpiration    *time.Time                            `json:"date_of_expiration,omitempty"`
-	ExpirationDateFrom  *time.Time                            `json:"expiration_date_from,omitempty"`
-	ExpirationDateTo    *time.Time                            `json:"expiration_date_to,omitempty"`
-	Items               []PreferenceItemRequest               `json:"items,omitempty"`
-	Taxes               []PreferenceTaxRequest                `json:"taxes,omitempty"`
-	Tracks              []PreferenceTrackRequest              `json:"tracks,omitempty"`
+	BackURLs            *BackURLsRequest            `json:"back_urls,omitempty"`
+	DifferentialPricing *DifferentialPricingRequest `json:"differential_pricing,omitempty"`
+	Payer               *PayerRequest               `json:"payer,omitempty"`
+	PaymentMethods      *PaymentMethodsRequest      `json:"payment_methods,omitempty"`
+	Shipments           *ShipmentsRequest           `json:"shipments,omitempty"`
+	DateOfExpiration    *time.Time                  `json:"date_of_expiration,omitempty"`
+	ExpirationDateFrom  *time.Time                  `json:"expiration_date_from,omitempty"`
+	ExpirationDateTo    *time.Time                  `json:"expiration_date_to,omitempty"`
+	Items               []ItemRequest               `json:"items,omitempty"`
+	Taxes               []TaxRequest                `json:"taxes,omitempty"`
+	Tracks              []TrackRequest              `json:"tracks,omitempty"`
 
 	AdditionalInfo      string         `json:"additional_info,omitempty"`
 	AutoReturn          string         `json:"auto_return,omitempty"`
@@ -33,20 +33,20 @@ type Request struct {
 	Metadata            map[string]any `json:"metadata,omitempty"`
 }
 
-// PreferenceBackUrlsRequest contains callback URLs.
-type PreferenceBackUrlsRequest struct {
+// BackURLsRequest contains callback URLs.
+type BackURLsRequest struct {
 	Success string `json:"success,omitempty"`
 	Pending string `json:"pending,omitempty"`
 	Failure string `json:"failure,omitempty"`
 }
 
-// PreferenceDifferentialPricingRequest contains information about differential pricing configuration.
-type PreferenceDifferentialPricingRequest struct {
+// DifferentialPricingRequest contains information about differential pricing configuration.
+type DifferentialPricingRequest struct {
 	ID int `json:"id,omitempty"`
 }
 
-// PreferenceItemRequest represents a purchased item.
-type PreferenceItemRequest struct {
+// ItemRequest represents a purchased item.
+type ItemRequest struct {
 	ID          string  `json:"id,omitempty"`
 	Title       string  `json:"title,omitempty"`
 	Description string  `json:"description,omitempty"`
@@ -57,8 +57,8 @@ type PreferenceItemRequest struct {
 	Quantity    int     `json:"quantity,omitempty"`
 }
 
-// PreferencePayerRequest contains payer information in the preference.
-type PreferencePayerRequest struct {
+// PayerRequest contains payer information in the preference.
+type PayerRequest struct {
 	Phone          *PhoneRequest          `json:"phone,omitempty"`
 	Identification *IdentificationRequest `json:"identification,omitempty"`
 	Address        *AddressRequest        `json:"address,omitempty"`
@@ -88,30 +88,30 @@ type AddressRequest struct {
 	StreetNumber string `json:"street_number,omitempty"`
 }
 
-// PreferencePaymentMethodsRequest contains information about payment methods in the preference.
-type PreferencePaymentMethodsRequest struct {
-	ExcludedPaymentMethods []PreferencePaymentMethodRequest `json:"excluded_payment_methods,omitempty"`
-	ExcludedPaymentTypes   []PreferencePaymentTypeRequest   `json:"excluded_payment_types,omitempty"`
+// PaymentMethodsRequest contains information about payment methods in the preference.
+type PaymentMethodsRequest struct {
+	ExcludedPaymentMethods []PaymentMethodRequest `json:"excluded_payment_methods,omitempty"`
+	ExcludedPaymentTypes   []PaymentTypeRequest   `json:"excluded_payment_types,omitempty"`
 
 	DefaultPaymentMethodID string `json:"default_payment_method_id,omitempty"`
 	Installments           int    `json:"installments,omitempty"`
 	DefaultInstallments    int    `json:"default_installments,omitempty"`
 }
 
-// PreferencePaymentMethodRequest contains information about the payment method in the preference.
-type PreferencePaymentMethodRequest struct {
+// PaymentMethodRequest contains information about the payment method in the preference.
+type PaymentMethodRequest struct {
 	ID string `json:"id,omitempty"`
 }
 
-// PreferencePaymentTypeRequest contains information about the payment type in the preference.
-type PreferencePaymentTypeRequest struct {
+// PaymentTypeRequest contains information about the payment type in the preference.
+type PaymentTypeRequest struct {
 	ID string `json:"id,omitempty"`
 }
 
-// PreferenceShipmentsRequest contains information about shipments in the preference.
-type PreferenceShipmentsRequest struct {
-	ReceiverAddress *PreferenceReceiverAddressRequest `json:"receiver_address,omitempty"`
-	FreeMethods     []PreferenceFreeMethodRequest     `json:"free_methods,omitempty"`
+// ShipmentsRequest contains information about shipments in the preference.
+type ShipmentsRequest struct {
+	ReceiverAddress *ReceiverAddressRequest `json:"receiver_address,omitempty"`
+	FreeMethods     []FreeMethodRequest     `json:"free_methods,omitempty"`
 
 	Mode                  string  `json:"mode,omitempty"`
 	Dimensions            string  `json:"dimensions,omitempty"`
@@ -122,13 +122,13 @@ type PreferenceShipmentsRequest struct {
 	ExpressShipment       bool    `json:"express_shipment,omitempty"`
 }
 
-// PreferenceFreeMethodRequest contains information about free shipping methods in the preference.
-type PreferenceFreeMethodRequest struct {
+// FreeMethodRequest contains information about free shipping methods in the preference.
+type FreeMethodRequest struct {
 	ID int `json:"id,omitempty"`
 }
 
-// PreferenceReceiverAddressRequest contains information about the send address in the preference.
-type PreferenceReceiverAddressRequest struct {
+// ReceiverAddressRequest contains information about the send address in the preference.
+type ReceiverAddressRequest struct {
 	ZipCode      string `json:"zip_code,omitempty"`
 	StreetName   string `json:"street_name,omitempty"`
 	StreetNumber string `json:"street_number,omitempty"`
@@ -139,21 +139,21 @@ type PreferenceReceiverAddressRequest struct {
 	CityName     string `json:"city_name,omitempty"`
 }
 
-// PreferenceTaxRequest contains information about taxes in the preference.
-type PreferenceTaxRequest struct {
+// TaxRequest contains information about taxes in the preference.
+type TaxRequest struct {
 	Type  string  `json:"type,omitempty"`
 	Value float64 `json:"value,omitempty"`
 }
 
-// PreferenceTrackRequest contains information about the tracking to be performed during user interaction in the Checkout flow.
-type PreferenceTrackRequest struct {
-	Values *PreferenceTrackValuesRequest `json:"values,omitempty"`
+// TrackRequest contains information about the tracking to be performed during user interaction in the Checkout flow.
+type TrackRequest struct {
+	Values *TrackValuesRequest `json:"values,omitempty"`
 
 	Type string `json:"type,omitempty"`
 }
 
-// PreferenceTrackValuesRequest contains the values ​​of the tracks to be executed during user interaction in the Checkout flow.
-type PreferenceTrackValuesRequest struct {
+// TrackValuesRequest contains the values of the tracks to be executed during user interaction in the Checkout flow.
+type TrackValuesRequest struct {
 	ConversionID    string `json:"conversion_id,omitempty"`
 	ConversionLabel string `json:"conversion_label,omitempty"`
 	PixelID         string `json:"pixel_id,omitempty"`
