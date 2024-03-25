@@ -26,8 +26,8 @@ type Response struct {
 // AdditionalInfoResponse represents additional customer card information.
 type AdditionalInfoResponse struct {
 	RequestPublic        string `json:"request_public"`
-	ApiClientApplication string `json:"api_client_application"`
-	ApiClientScope       string `json:"api_client_scope"`
+	APIClientApplication string `json:"api_client_application"`
+	APIClientScope       string `json:"api_client_scope"`
 }
 
 // CardholderResponse represents information about the cardholder.
