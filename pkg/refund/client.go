@@ -26,7 +26,7 @@ type Client interface {
 	// Reference: https://www.mercadopago.com/developers/en/reference/chargebacks/_payments_id_refunds/get
 	List(ctx context.Context, paymentID int) ([]Response, error)
 
-	// Create create a refund by payment id.
+	// Create a refund by payment id.
 	// It is a post request to the endpoint: https://api.mercadopago.com/v1/payments/{id}/refunds
 	// Reference: https://www.mercadopago.com/developers/en/reference/chargebacks/_payments_id_refunds/post
 	Create(ctx context.Context, paymentID int) (*Response, error)
@@ -42,7 +42,7 @@ type client struct {
 	cfg *config.Config
 }
 
-// Client contains the methods to interact with the Refund's API.
+// NewClient contains the methods to interact with the Refund's API.
 func NewClient(c *config.Config) Client {
 	return &client{
 		cfg: c,
@@ -51,8 +51,8 @@ func NewClient(c *config.Config) Client {
 
 func (c *client) Get(ctx context.Context, paymentID, refundID int) (*Response, error) {
 	pathParams := map[string]string{
-		"id":        strconv.Itoa(int(paymentID)),
-		"refund_id": strconv.Itoa(int(refundID)),
+		"id":        strconv.Itoa(paymentID),
+		"refund_id": strconv.Itoa(refundID),
 	}
 
 	requestData := httpclient.RequestData{
@@ -70,7 +70,7 @@ func (c *client) Get(ctx context.Context, paymentID, refundID int) (*Response, e
 
 func (c *client) List(ctx context.Context, paymentID int) ([]Response, error) {
 	pathParams := map[string]string{
-		"id": strconv.Itoa(int(paymentID)),
+		"id": strconv.Itoa(paymentID),
 	}
 
 	requestData := httpclient.RequestData{
@@ -88,7 +88,7 @@ func (c *client) List(ctx context.Context, paymentID int) ([]Response, error) {
 
 func (c *client) Create(ctx context.Context, paymentID int) (*Response, error) {
 	pathParams := map[string]string{
-		"id": strconv.Itoa(int(paymentID)),
+		"id": strconv.Itoa(paymentID),
 	}
 
 	requestData := httpclient.RequestData{
@@ -107,7 +107,7 @@ func (c *client) Create(ctx context.Context, paymentID int) (*Response, error) {
 func (c *client) CreatePartialRefund(ctx context.Context, paymentID int, amount float64) (*Response, error) {
 	request := &Request{Amount: amount}
 	pathParams := map[string]string{
-		"id": strconv.Itoa(int(paymentID)),
+		"id": strconv.Itoa(paymentID),
 	}
 
 	requestData := httpclient.RequestData{

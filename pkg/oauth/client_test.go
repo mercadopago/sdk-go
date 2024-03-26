@@ -210,7 +210,7 @@ func TestGetAuthorizationURL(t *testing.T) {
 				redirectURI: "redirectURI",
 				state:       "state",
 			},
-			want: "https://auth.mercadopago.com/authorization?client_id=323123123&platform_id=mp&redirect_uri=redirectURI&response_type=code",
+			want: "https://auth.mercadopago.com/authorization?client_id=323123123&platform_id=mp&redirect_uri=redirectURI&response_type=code&state=state",
 		},
 	}
 	for _, tt := range tests {
