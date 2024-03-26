@@ -52,7 +52,7 @@ func NewClient(c *config.Config) Client {
 
 func (c *client) Get(ctx context.Context, id int) (*Response, error) {
 	pathParams := map[string]string{
-		"id": strconv.Itoa(int(id)),
+		"id": strconv.Itoa(id),
 	}
 
 	requestData := httpclient.RequestData{
@@ -86,7 +86,7 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 
 func (c *client) Update(ctx context.Context, id int, request UpdateRequest) (*Response, error) {
 	pathParams := map[string]string{
-		"id": strconv.Itoa(int(id)),
+		"id": strconv.Itoa(id),
 	}
 
 	requestData := httpclient.RequestData{
