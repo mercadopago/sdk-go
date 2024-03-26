@@ -144,7 +144,7 @@ func shouldRetry(ctx context.Context, resp *http.Response, err error) (bool, err
 	return false, nil
 }
 
-// Try to read the response body so we can reuse this connection.
+// Try to read the response body, so we can reuse this connection.
 func drainBody(body io.ReadCloser) {
 	// We need to consume response bodies to maintain http connections, but
 	// limit the size we consume to respReadLimit.

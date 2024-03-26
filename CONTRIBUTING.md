@@ -46,7 +46,7 @@ As a general rule, you would have to comment on decisions you made while coding 
 
 In particular, you should always comment on any decision that:
 
-* Departs from common wisdom or convention (The **why's** are necessary).
+* Departs from common wisdom or convention (The **whys** are necessary).
 * Takes a significant amount of time to produce. A good rule of thumb here is that if you spent more than 1 hour thinking about how to produce a fragment of code that took 2 minutes of wrist time to write, you should document your thinking to aid the reader and allow for validation.
 * Needs to preserve properties of the implementation. This is the case of performance-sensitive portions of the codebase, goroutines synchronization, implementations of security primitives, congestion control algorithms, etc.
 

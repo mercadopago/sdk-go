@@ -89,7 +89,7 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 
 func (c *client) Get(ctx context.Context, id int) (*Response, error) {
 	pathParams := map[string]string{
-		"id": strconv.Itoa(int(id)),
+		"id": strconv.Itoa(id),
 	}
 
 	requestData := httpclient.RequestData{
@@ -109,7 +109,7 @@ func (c *client) Cancel(ctx context.Context, id int) (*Response, error) {
 	request := &CancelRequest{Status: "cancelled"}
 
 	pathParams := map[string]string{
-		"id": strconv.Itoa(int(id)),
+		"id": strconv.Itoa(id),
 	}
 
 	requestData := httpclient.RequestData{
@@ -130,7 +130,7 @@ func (c *client) Capture(ctx context.Context, id int) (*Response, error) {
 	request := &CaptureRequest{Capture: true}
 
 	pathParams := map[string]string{
-		"id": strconv.Itoa(int(id)),
+		"id": strconv.Itoa(id),
 	}
 
 	requestData := httpclient.RequestData{
@@ -151,7 +151,7 @@ func (c *client) CaptureAmount(ctx context.Context, id int, amount float64) (*Re
 	request := &CaptureRequest{TransactionAmount: amount, Capture: true}
 
 	pathParams := map[string]string{
-		"id": strconv.Itoa(int(id)),
+		"id": strconv.Itoa(id),
 	}
 
 	requestData := httpclient.RequestData{

@@ -6,7 +6,7 @@ import (
 )
 
 // SearchRequest is the helper structure to build search request.
-// Filters field can receive a lot of paramaters. For details, see:
+// Filters field can receive a lot of parameters. For details, see:
 // https://www.mercadopago.com/developers/en/reference/payments/_payments_search/get.
 type SearchRequest struct {
 	Limit   int

@@ -69,6 +69,7 @@ func (c *client) GetAuthorizationURL(clientID, redirectURI, state string) string
 		"client_id":     clientID,
 		"response_type": "code",
 		"platform_id":   "mp",
+		"state":         state,
 		"redirect_uri":  redirectURI,
 	}
 
