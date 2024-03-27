@@ -63,7 +63,7 @@ func createRequest(ctx context.Context, cfg *config.Config, requestData RequestD
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 
-	setHeaders(req, cfg)
+	setHeaders(req, cfg, requestData)
 	if err = setPathParams(req, requestData.PathParams); err != nil {
 		return nil, err
 	}
@@ -72,15 +72,18 @@ func createRequest(ctx context.Context, cfg *config.Config, requestData RequestD
 	return req, nil
 }
 
-func setHeaders(req *http.Request, cfg *config.Config) {
+func setHeaders(req *http.Request, cfg *config.Config, requestData RequestData) {
 	req.Header.Set("X-Product-Id", productID)
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Content-Type", "application/json; charset=UTF-8")
 	req.Header.Set("User-Agent", userAgent)
 	req.Header.Set("X-Tracking-Id", trackingID)
 	req.Header.Set("Authorization", "Bearer "+cfg.AccessToken)
-	req.Header.Set("X-Idempotency-Key", uuid.New().String())
 	req.Header.Set("X-Request-Id", uuid.New().String())
+
+	if !strings.EqualFold(requestData.Method, http.MethodGet) {
+		req.Header.Set("X-Idempotency-Key", uuid.New().String())
+	}
 
 	if cfg.CorporationID != "" {
 		req.Header.Set("X-Corporation-Id", cfg.CorporationID)
