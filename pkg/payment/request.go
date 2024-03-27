@@ -44,15 +44,15 @@ type Request struct {
 
 // AdditionalInfoRequest represents additional information request within Request.
 type AdditionalInfoRequest struct {
-	Payer     *AdditionalInfoPayerRequest   `json:"payer,omitempty"`
-	Shipments *ShipmentsRequest             `json:"shipments,omitempty"`
-	Barcode   *AdditionalInfoBarcodeRequest `json:"barcode,omitempty"`
-	Items     []ItemRequest                 `json:"items,omitempty"`
+	Payer     *AdditionalInfoPayerRequest `json:"payer,omitempty"`
+	Shipments *ShipmentsRequest           `json:"shipments,omitempty"`
+	Barcode   *BarcodeRequest             `json:"barcode,omitempty"`
+	Items     []ItemRequest               `json:"items,omitempty"`
 
 	IPAddress string `json:"ip_address,omitempty"`
 }
 
-// AdditionalInfoPayerRequest represents payer information request within AdditionalInfoPayerRequest.
+// AdditionalInfoPayerRequest represents payer information request within AdditionalInfoRequest.
 type AdditionalInfoPayerRequest struct {
 	Phone            *AdditionalInfoPayerPhoneRequest   `json:"phone,omitempty"`
 	Address          *AdditionalInfoPayerAddressRequest `json:"address,omitempty"`
@@ -98,8 +98,8 @@ type ReceiverAddressRequest struct {
 	StreetNumber string `json:"street_number,omitempty"`
 }
 
-// AdditionalInfoBarcodeRequest represents barcode request within AdditionalInfoRequest.
-type AdditionalInfoBarcodeRequest struct {
+// BarcodeRequest represents barcode request within AdditionalInfoRequest.
+type BarcodeRequest struct {
 	Type    string  `json:"type,omitempty"`
 	Content string  `json:"content,omitempty"`
 	Width   float64 `json:"width,omitempty"`
@@ -166,8 +166,8 @@ type OrderRequest struct {
 // PayerRequest represents payer request within Request.
 type PayerRequest struct {
 	Identification *IdentificationRequest `json:"identification,omitempty"`
-	Address        *PayerAddressRequest   `json:"address,omitempty"`
-	Phone          *PayerPhoneRequest     `json:"phone,omitempty"`
+	Address        *AddressRequest        `json:"address,omitempty"`
+	Phone          *PhoneRequest          `json:"phone,omitempty"`
 
 	Type       string `json:"type,omitempty"`
 	ID         string `json:"id,omitempty"`
@@ -177,8 +177,8 @@ type PayerRequest struct {
 	EntityType string `json:"entity_type,omitempty"`
 }
 
-// PayerAddressRequest represents payer address request within PayerRequest.
-type PayerAddressRequest struct {
+// AddressRequest represents payer address request within PayerRequest.
+type AddressRequest struct {
 	Neighborhood string `json:"neighborhood,omitempty"`
 	City         string `json:"city,omitempty"`
 	FederalUnit  string `json:"federal_unit,omitempty"`
@@ -187,8 +187,8 @@ type PayerAddressRequest struct {
 	StreetNumber string `json:"street_number,omitempty"`
 }
 
-// PayerPhoneRequest represents payer phone request within PayerRequest.
-type PayerPhoneRequest struct {
+// PhoneRequest represents payer phone request within PayerRequest.
+type PhoneRequest struct {
 	AreaCode string `json:"area_code,omitempty"`
 	Number   string `json:"number,omitempty"`
 }
