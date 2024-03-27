@@ -101,10 +101,10 @@ func TestCreate(t *testing.T) {
 					},
 				},
 				PaymentMethods: PaymentMethodsResponse{
-					ExcludedPaymentMethods: []PaymentMethodResponse{
+					ExcludedPaymentMethods: []ExcludedPaymentMethodResponse{
 						{},
 					},
-					ExcludedPaymentTypes: []PaymentTypeResponse{
+					ExcludedPaymentTypes: []ExcludedPaymentTypeResponse{
 						{},
 					},
 				},
@@ -207,10 +207,10 @@ func TestGet(t *testing.T) {
 				BinaryMode:       false,
 				Expires:          false,
 				PaymentMethods: PaymentMethodsResponse{
-					ExcludedPaymentMethods: []PaymentMethodResponse{
+					ExcludedPaymentMethods: []ExcludedPaymentMethodResponse{
 						{},
 					},
-					ExcludedPaymentTypes: []PaymentTypeResponse{
+					ExcludedPaymentTypes: []ExcludedPaymentTypeResponse{
 						{},
 					},
 				},
@@ -314,10 +314,10 @@ func TestUpdate(t *testing.T) {
 				BinaryMode:       false,
 				Expires:          false,
 				PaymentMethods: PaymentMethodsResponse{
-					ExcludedPaymentMethods: []PaymentMethodResponse{
+					ExcludedPaymentMethods: []ExcludedPaymentMethodResponse{
 						{},
 					},
-					ExcludedPaymentTypes: []PaymentTypeResponse{
+					ExcludedPaymentTypes: []ExcludedPaymentTypeResponse{
 						{},
 					},
 				},

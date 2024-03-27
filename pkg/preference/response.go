@@ -67,21 +67,21 @@ type PayerResponse struct {
 
 // PaymentMethodsResponse contains information about payment methods in the preference.
 type PaymentMethodsResponse struct {
-	ExcludedPaymentMethods []PaymentMethodResponse `json:"excluded_payment_methods"`
-	ExcludedPaymentTypes   []PaymentTypeResponse   `json:"excluded_payment_types"`
+	ExcludedPaymentMethods []ExcludedPaymentMethodResponse `json:"excluded_payment_methods"`
+	ExcludedPaymentTypes   []ExcludedPaymentTypeResponse   `json:"excluded_payment_types"`
 
 	DefaultPaymentMethodID string `json:"default_payment_method_id"`
 	Installments           int    `json:"installments"`
 	DefaultInstallments    int    `json:"default_installments"`
 }
 
-// PaymentMethodResponse contains information about the payment method in the preference.
-type PaymentMethodResponse struct {
+// ExcludedPaymentMethodResponse contains information about the payment method in the preference.
+type ExcludedPaymentMethodResponse struct {
 	ID string `json:"id"`
 }
 
-// PaymentTypeResponse contains information about the type of payment in the preference.
-type PaymentTypeResponse struct {
+// ExcludedPaymentTypeResponse contains information about the type of payment in the preference.
+type ExcludedPaymentTypeResponse struct {
 	ID string `json:"id"`
 }
 
@@ -135,13 +135,13 @@ type TaxResponse struct {
 
 // TrackResponse represents a trace to be executed during user interaction in the Checkout flow.
 type TrackResponse struct {
-	Values TrackValuesResponse `json:"values"`
+	Values ValuesResponse `json:"values"`
 
 	Type string `json:"type"`
 }
 
-// TrackValuesResponse contains the values of the tracks to be executed during user interaction in the Checkout flow.
-type TrackValuesResponse struct {
+// ValuesResponse contains the values of the tracks to be executed during user interaction in the Checkout flow.
+type ValuesResponse struct {
 	ConversionID    string `json:"conversion_id"`
 	ConversionLabel string `json:"conversion_label"`
 	PixelID         string `json:"pixel_id"`

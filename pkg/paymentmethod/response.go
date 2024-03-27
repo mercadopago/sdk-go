@@ -21,26 +21,26 @@ type Response struct {
 
 // SettingResponse represents payment method settings.
 type SettingResponse struct {
-	Bin          SettingsBinResponse          `json:"bin"`
-	CardNumber   SettingsCardNumberResponse   `json:"card_number"`
-	SecurityCode SettingsSecurityCodeResponse `json:"security_code"`
+	Bin          BinResponse          `json:"bin"`
+	CardNumber   CardNumberResponse   `json:"card_number"`
+	SecurityCode SecurityCodeResponse `json:"security_code"`
 }
 
-// SettingsBinResponse represents BIN (Bank Identification Number) settings.
-type SettingsBinResponse struct {
+// BinResponse represents BIN (Bank Identification Number) settings.
+type BinResponse struct {
 	Pattern             string `json:"pattern"`
 	ExclusionPattern    string `json:"exclusion_pattern"`
 	InstallmentsPattern string `json:"installments_pattern"`
 }
 
-// SettingsCardNumberResponse represents card number settings.
-type SettingsCardNumberResponse struct {
+// CardNumberResponse represents card number settings.
+type CardNumberResponse struct {
 	Validation string `json:"validation"`
 	Length     int    `json:"length"`
 }
 
-// SettingsSecurityCodeResponse represents security code settings.
-type SettingsSecurityCodeResponse struct {
+// SecurityCodeResponse represents security code settings.
+type SecurityCodeResponse struct {
 	Mode         string `json:"mode"`
 	CardLocation string `json:"card_location"`
 	Length       int    `json:"length"`
