@@ -110,11 +110,8 @@ func TestPreApproval(t *testing.T) {
 		}
 
 		updateRequest := preapproval.UpdateRequest{
-			AutoRecurring: &preapproval.AutoRecurringRequest{
-				Frequency:         1,
-				FrequencyType:     "months",
+			AutoRecurring: &preapproval.AutoRecurringUpdateRequest{
 				TransactionAmount: 50.0,
-				CurrencyID:        "BRL",
 			},
 		}
 
