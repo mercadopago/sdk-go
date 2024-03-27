@@ -58,12 +58,12 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 }
 
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
-	queryParameters := request.GetParams()
+	queryParams := request.GetParams()
 
 	requestData := httpclient.RequestData{
 		Method:      http.MethodGet,
 		URL:         urlSearch,
-		QueryParams: queryParameters,
+		QueryParams: queryParams,
 	}
 	resource, err := httpclient.DoRequest[*SearchResponse](ctx, c.cfg, requestData)
 	if err != nil {
