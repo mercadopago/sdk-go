@@ -62,9 +62,9 @@ func (c *client) Create(ctx context.Context, deviceID string, request Request) (
 
 	requestData := httpclient.RequestData{
 		Body:       request,
-		PathParams: pathParams,
 		Method:     http.MethodPost,
 		URL:        urlPaymentIntent,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
@@ -80,9 +80,9 @@ func (c *client) Get(ctx context.Context, paymentIntentID string) (*Response, er
 	}
 
 	requestData := httpclient.RequestData{
-		PathParams: pathParams,
 		Method:     http.MethodGet,
 		URL:        urlPaymentIntentGet,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
@@ -99,9 +99,9 @@ func (c *client) Cancel(ctx context.Context, deviceID string, paymentIntentID st
 	}
 
 	requestData := httpclient.RequestData{
-		PathParams: pathParams,
 		Method:     http.MethodDelete,
 		URL:        urlPaymentIntentCancel,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*CancelResponse](ctx, c.cfg, requestData)
 	if err != nil {
@@ -133,9 +133,9 @@ func (c *client) UpdateOperatingMode(ctx context.Context, deviceID, operatingMod
 
 	requestData := httpclient.RequestData{
 		Body:       request,
-		PathParams: pathParams,
 		Method:     http.MethodPatch,
 		URL:        urlDevicesWithID,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*OperatingModeResponse](ctx, c.cfg, requestData)
 	if err != nil {

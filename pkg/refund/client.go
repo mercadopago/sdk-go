@@ -56,9 +56,9 @@ func (c *client) Get(ctx context.Context, paymentID, refundID int) (*Response, e
 	}
 
 	requestData := httpclient.RequestData{
-		PathParams: pathParams,
 		Method:     http.MethodGet,
 		URL:        urlWithID,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
@@ -74,9 +74,9 @@ func (c *client) List(ctx context.Context, paymentID int) ([]Response, error) {
 	}
 
 	requestData := httpclient.RequestData{
-		PathParams: pathParams,
 		Method:     http.MethodGet,
 		URL:        urlBase,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[[]Response](ctx, c.cfg, requestData)
 	if err != nil {
@@ -92,9 +92,9 @@ func (c *client) Create(ctx context.Context, paymentID int) (*Response, error) {
 	}
 
 	requestData := httpclient.RequestData{
-		PathParams: pathParams,
 		Method:     http.MethodPost,
 		URL:        urlBase,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
@@ -112,9 +112,9 @@ func (c *client) CreatePartialRefund(ctx context.Context, paymentID int, amount 
 
 	requestData := httpclient.RequestData{
 		Body:       request,
-		PathParams: pathParams,
 		Method:     http.MethodPost,
 		URL:        urlBase,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
