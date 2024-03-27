@@ -357,8 +357,8 @@ func buildResponseMock() *Response {
 
 func buildSearchResponseMock() *SearchResponse {
 	return &SearchResponse{
-		Elements: []Response{*buildResponseMock()},
-		Total:    1,
-		Offset:   1,
+		Elements:   []Response{*buildResponseMock()},
+		Total:      1,
+		NextOffset: 1,
 	}
 }

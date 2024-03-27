@@ -51,7 +51,6 @@ type PaymentResponse struct {
 	LastModified time.Time `json:"last_modified"`
 
 	Status            string  `json:"status"`
-	StatusDetails     string  `json:"status_details"`
 	OperationType     string  `json:"operation_type"`
 	CurrencyID        string  `json:"currency_id"`
 	TransactionAmount float64 `json:"transaction_amount"`
