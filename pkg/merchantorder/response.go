@@ -94,9 +94,9 @@ type ShipmentResponse struct {
 
 // ReceiverAddressResponse represents receiver address information.
 type ReceiverAddressResponse struct {
-	City    ReceiverAddressCityResponse    `json:"city"`
-	State   ReceiverAddressStateResponse   `json:"state"`
-	Country ReceiverAddressCountryResponse `json:"country"`
+	City    CityResponse    `json:"city"`
+	State   StateResponse   `json:"state"`
+	Country CountryResponse `json:"country"`
 
 	AddressLine  string `json:"address_line"`
 	Apartment    string `json:"apartment"`
@@ -114,8 +114,8 @@ type ReceiverAddressResponse struct {
 
 // ShippingOptionResponse represents shipping option information.
 type ShippingOptionResponse struct {
-	Speed             ShippingSpeedResponse             `json:"speed"`
-	EstimatedDelivery ShippingEstimatedDeliveryResponse `json:"estimated_delivery"`
+	Speed             SpeedResponse             `json:"speed"`
+	EstimatedDelivery EstimatedDeliveryResponse `json:"estimated_delivery"`
 
 	Name             string  `json:"name"`
 	CurrencyID       string  `json:"currency_id"`
@@ -125,34 +125,34 @@ type ShippingOptionResponse struct {
 	ShippingMethodID int     `json:"shipping_method_id"`
 }
 
-// ReceiverAddressCityResponse represents city information.
-type ReceiverAddressCityResponse struct {
+// CityResponse represents city information.
+type CityResponse struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
-// ReceiverAddressStateResponse represents state information.
-type ReceiverAddressStateResponse struct {
+// StateResponse represents state information.
+type StateResponse struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
-// ReceiverAddressCountryResponse represents country information.
-type ReceiverAddressCountryResponse struct {
+// CountryResponse represents country information.
+type CountryResponse struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
-// ShippingEstimatedDeliveryResponse represents estimated delivery information.
-type ShippingEstimatedDeliveryResponse struct {
+// EstimatedDeliveryResponse represents estimated delivery information.
+type EstimatedDeliveryResponse struct {
 	Date time.Time `json:"date"`
 
 	TimeFrom string `json:"time_from"`
 	TimeTo   string `json:"time_to"`
 }
 
-// ShippingSpeedResponse represents shipping speed information.
-type ShippingSpeedResponse struct {
+// SpeedResponse represents shipping speed information.
+type SpeedResponse struct {
 	Handling int `json:"handling"`
 	Shipping int `json:"shipping"`
 }

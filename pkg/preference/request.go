@@ -90,21 +90,21 @@ type AddressRequest struct {
 
 // PaymentMethodsRequest contains information about payment methods in the preference.
 type PaymentMethodsRequest struct {
-	ExcludedPaymentMethods []PaymentMethodRequest `json:"excluded_payment_methods,omitempty"`
-	ExcludedPaymentTypes   []PaymentTypeRequest   `json:"excluded_payment_types,omitempty"`
+	ExcludedPaymentMethods []ExcludedPaymentMethodRequest `json:"excluded_payment_methods,omitempty"`
+	ExcludedPaymentTypes   []ExcludedPaymentTypeRequest   `json:"excluded_payment_types,omitempty"`
 
 	DefaultPaymentMethodID string `json:"default_payment_method_id,omitempty"`
 	Installments           int    `json:"installments,omitempty"`
 	DefaultInstallments    int    `json:"default_installments,omitempty"`
 }
 
-// PaymentMethodRequest contains information about the payment method in the preference.
-type PaymentMethodRequest struct {
+// ExcludedPaymentMethodRequest contains information about the payment method in the preference.
+type ExcludedPaymentMethodRequest struct {
 	ID string `json:"id,omitempty"`
 }
 
-// PaymentTypeRequest contains information about the payment type in the preference.
-type PaymentTypeRequest struct {
+// ExcludedPaymentTypeRequest contains information about the payment type in the preference.
+type ExcludedPaymentTypeRequest struct {
 	ID string `json:"id,omitempty"`
 }
 
@@ -147,13 +147,13 @@ type TaxRequest struct {
 
 // TrackRequest contains information about the tracking to be performed during user interaction in the Checkout flow.
 type TrackRequest struct {
-	Values *TrackValuesRequest `json:"values,omitempty"`
+	Values *ValuesRequest `json:"values,omitempty"`
 
 	Type string `json:"type,omitempty"`
 }
 
-// TrackValuesRequest contains the values of the tracks to be executed during user interaction in the Checkout flow.
-type TrackValuesRequest struct {
+// ValuesRequest contains the values of the tracks to be executed during user interaction in the Checkout flow.
+type ValuesRequest struct {
 	ConversionID    string `json:"conversion_id,omitempty"`
 	ConversionLabel string `json:"conversion_label,omitempty"`
 	PixelID         string `json:"pixel_id,omitempty"`

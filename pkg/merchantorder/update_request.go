@@ -42,9 +42,9 @@ type ShipmentRequest struct {
 
 // ReceiverAddressRequest represents receiver address information.
 type ReceiverAddressRequest struct {
-	City    *ReceiverAddressCityRequest    `json:"city,omitempty"`
-	State   *ReceiverAddressStateRequest   `json:"state,omitempty"`
-	Country *ReceiverAddressCountryRequest `json:"country,omitempty"`
+	City    *CityRequest    `json:"city,omitempty"`
+	State   *StateRequest   `json:"state,omitempty"`
+	Country *CountryRequest `json:"country,omitempty"`
 
 	AddressLine  string `json:"address_line,omitempty"`
 	Apartment    string `json:"apartment,omitempty"`
@@ -62,8 +62,8 @@ type ReceiverAddressRequest struct {
 
 // ShippingOptionRequest represents shipping option information.
 type ShippingOptionRequest struct {
-	EstimatedDelivery *ShippingEstimatedDeliveryRequest `json:"estimated_delivery,omitempty"`
-	Speed             *ShippingSpeedRequest             `json:"speed,omitempty"`
+	EstimatedDelivery *EstimatedDeliveryRequest `json:"estimated_delivery,omitempty"`
+	Speed             *SpeedRequest             `json:"speed,omitempty"`
 
 	Name             string  `json:"name,omitempty"`
 	CurrencyID       string  `json:"currency_id,omitempty"`
@@ -73,34 +73,34 @@ type ShippingOptionRequest struct {
 	ID               int     `json:"id,omitempty"`
 }
 
-// ReceiverAddressCityRequest represents city information.
-type ReceiverAddressCityRequest struct {
+// CityRequest represents city information.
+type CityRequest struct {
 	ID   string `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 }
 
-// ReceiverAddressStateRequest represents state information.
-type ReceiverAddressStateRequest struct {
+// StateRequest represents state information.
+type StateRequest struct {
 	ID   string `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 }
 
-// ReceiverAddressCountryRequest represents country information.
-type ReceiverAddressCountryRequest struct {
+// CountryRequest represents country information.
+type CountryRequest struct {
 	ID   string `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 }
 
-// ShippingEstimatedDeliveryRequest represents estimated delivery information.
-type ShippingEstimatedDeliveryRequest struct {
+// EstimatedDeliveryRequest represents estimated delivery information.
+type EstimatedDeliveryRequest struct {
 	Date *time.Time `json:"date,omitempty"`
 
 	TimeFrom string `json:"time_from,omitempty"`
 	TimeTo   string `json:"time_to,omitempty"`
 }
 
-// ShippingSpeedRequest represents shipping speed information.
-type ShippingSpeedRequest struct {
+// SpeedRequest   represents shipping speed information.
+type SpeedRequest struct {
 	Handling int `json:"handling,omitempty"`
 	Shipping int `json:"shipping,omitempty"`
 }
