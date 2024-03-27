@@ -2,7 +2,7 @@ package paymentmethod
 
 // Response represents a detailed payment method.
 type Response struct {
-	Settings              []SettingsResponse             `json:"settings"`
+	Settings              []SettingResponse              `json:"settings"`
 	FinancialInstitutions []FinancialInstitutionResponse `json:"financial_institutions"`
 
 	ID                   string   `json:"id"`
@@ -19,8 +19,8 @@ type Response struct {
 	ProcessingModes      []string `json:"processing_modes"`
 }
 
-// SettingsResponse represents payment method settings.
-type SettingsResponse struct {
+// SettingResponse represents payment method settings.
+type SettingResponse struct {
 	Bin          SettingsBinResponse          `json:"bin"`
 	CardNumber   SettingsCardNumberResponse   `json:"card_number"`
 	SecurityCode SettingsSecurityCodeResponse `json:"security_code"`
