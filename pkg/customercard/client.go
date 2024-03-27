@@ -60,9 +60,9 @@ func (c *client) Create(ctx context.Context, customerID string, request Request)
 
 	requestData := httpclient.RequestData{
 		Body:       request,
-		PathParams: pathParams,
 		Method:     http.MethodPost,
 		URL:        urlBase,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
@@ -79,9 +79,9 @@ func (c *client) Get(ctx context.Context, customerID, cardID string) (*Response,
 	}
 
 	requestData := httpclient.RequestData{
-		PathParams: pathParams,
 		Method:     http.MethodGet,
 		URL:        urlWithID,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
@@ -99,9 +99,9 @@ func (c *client) Update(ctx context.Context, customerID, cardID string, request 
 
 	requestData := httpclient.RequestData{
 		Body:       request,
-		PathParams: pathParams,
 		Method:     http.MethodPut,
 		URL:        urlWithID,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
@@ -118,9 +118,9 @@ func (c *client) Delete(ctx context.Context, customerID, cardID string) (*Respon
 	}
 
 	requestData := httpclient.RequestData{
-		PathParams: pathParams,
 		Method:     http.MethodDelete,
 		URL:        urlWithID,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*Response](ctx, c.config, requestData)
 	if err != nil {
@@ -136,9 +136,9 @@ func (c *client) List(ctx context.Context, customerID string) ([]Response, error
 	}
 
 	requestData := httpclient.RequestData{
-		PathParams: pathParams,
 		Method:     http.MethodGet,
 		URL:        urlBase,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[[]Response](ctx, c.config, requestData)
 	if err != nil {
