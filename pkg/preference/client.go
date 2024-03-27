@@ -69,9 +69,9 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 	}
 
 	requestData := httpclient.RequestData{
-		PathParams: pathParams,
 		Method:     http.MethodGet,
 		URL:        urlWithID,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
@@ -88,9 +88,9 @@ func (c *client) Update(ctx context.Context, id string, request Request) (*Respo
 
 	requestData := httpclient.RequestData{
 		Body:       request,
-		PathParams: pathParams,
 		Method:     http.MethodPut,
 		URL:        urlWithID,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
@@ -104,9 +104,9 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*PagingResp
 	queryParams := request.GetParams()
 
 	requestData := httpclient.RequestData{
-		QueryParams: queryParams,
 		Method:      http.MethodGet,
 		URL:         urlSearch,
+		QueryParams: queryParams,
 	}
 	resource, err := httpclient.DoRequest[*PagingResponse](ctx, c.cfg, requestData)
 	if err != nil {
