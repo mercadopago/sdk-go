@@ -45,9 +45,9 @@ func (c *client) Get(ctx context.Context, id string) (*Response, error) {
 	}
 
 	requestData := httpclient.RequestData{
-		PathParams: pathParams,
 		Method:     http.MethodGet,
 		URL:        urlWithID,
+		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
 	if err != nil {
@@ -61,9 +61,9 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 	queryParameters := request.GetParams()
 
 	requestData := httpclient.RequestData{
-		QueryParams: queryParameters,
 		Method:      http.MethodGet,
 		URL:         urlSearch,
+		QueryParams: queryParameters,
 	}
 	resource, err := httpclient.DoRequest[*SearchResponse](ctx, c.cfg, requestData)
 	if err != nil {

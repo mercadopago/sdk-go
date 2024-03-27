@@ -28,12 +28,12 @@ var (
 )
 
 type RequestData struct {
-	Body        any
+	Body any
+
+	Method      string
+	URL         string
 	PathParams  map[string]string
 	QueryParams map[string]string
-
-	Method string
-	URL    string
 }
 
 func DoRequest[T any](ctx context.Context, cfg *config.Config, requestData RequestData) (T, error) {
