@@ -16,7 +16,8 @@ type UpdateRequest struct {
 
 // AutoRecurringUpdateRequest represents the recurrence settings.
 type AutoRecurringUpdateRequest struct {
-	StartDate         *time.Time `json:"start_date,omitempty"`
-	EndDate           *time.Time `json:"end_date,omitempty"`
-	TransactionAmount float64    `json:"transaction_amount,omitempty"`
+	StartDate *time.Time `json:"start_date,omitempty"`
+	EndDate   *time.Time `json:"end_date,omitempty"`
+
+	TransactionAmount float64 `json:"transaction_amount,omitempty"`
 }
