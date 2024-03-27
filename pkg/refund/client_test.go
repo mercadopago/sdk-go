@@ -327,7 +327,7 @@ func buildResponseMock() *Response {
 		PaymentID: 7186040733,
 		Status:    "approved",
 		Amount:    1.5,
-		Source: Source{
+		Source: SourceResponse{
 			Name: "Test Test",
 			ID:   "7186040733",
 			Type: "collector",
