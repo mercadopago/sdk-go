@@ -4,7 +4,7 @@ import "time"
 
 // UpdateRequest represents a request for updating a pre approval.
 type UpdateRequest struct {
-	AutoRecurring *AutoRecurringRequest `json:"auto_recurring,omitempty"`
+	AutoRecurring *AutoRecurringUpdateRequest `json:"auto_recurring,omitempty"`
 
 	CardTokenID       string `json:"card_token_id,omitempty"`
 	PayerEmail        string `json:"payer_email,omitempty"`
@@ -14,10 +14,10 @@ type UpdateRequest struct {
 	Status            string `json:"status,omitempty"`
 }
 
-// UpdateAutoRecurringRequest represents the recurrence settings.
-type UpdateAutoRecurringRequest struct {
+// AutoRecurringUpdateRequest represents the recurrence settings.
+type AutoRecurringUpdateRequest struct {
 	StartDate *time.Time `json:"start_date,omitempty"`
+	EndDate   *time.Time `json:"end_date,omitempty"`
 
-	CurrencyID        string  `json:"currency_id,omitempty"`
 	TransactionAmount float64 `json:"transaction_amount,omitempty"`
 }
