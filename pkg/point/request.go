@@ -2,11 +2,11 @@ package point
 
 // Request is used to create a payment intention, sending the details of a transaction.
 type Request struct {
-	AdditionalInfo *AdditionalInfoRequest `json:"additional_info"`
-	Payment        *PaymentRequest        `json:"payment"`
+	AdditionalInfo *AdditionalInfoRequest `json:"additional_info,omitempty"`
+	Payment        *PaymentRequest        `json:"payment,omitempty"`
 
-	Description string `json:"description"`
-	Amount      int    `json:"amount"`
+	Description string `json:"description,omitempty"`
+	Amount      int    `json:"amount,omitempty"`
 }
 
 // AdditionalInfoRequest contains the additional payment intent information.
