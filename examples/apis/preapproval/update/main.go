@@ -37,11 +37,8 @@ func main() {
 	}
 
 	updateRequest := preapproval.UpdateRequest{
-		AutoRecurring: &preapproval.AutoRecurringRequest{
-			Frequency:         1,
-			FrequencyType:     "months",
+		AutoRecurring: &preapproval.AutoRecurringUpdateRequest{
 			TransactionAmount: 100,
-			CurrencyID:        "BRL",
 		},
 		BackURL:           "https://www.yoursite.com",
 		ExternalReference: "Ref-123",
