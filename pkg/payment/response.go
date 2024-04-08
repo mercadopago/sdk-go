@@ -163,7 +163,7 @@ type TransactionDetailsResponse struct {
 	DigitableLine            string  `json:"digitable_line"`
 	VerificationCode         string  `json:"verification_code"`
 	PayableDeferralPeriod    string  `json:"payable_deferral_period"`
-	BankTransferID           string  `json:"bank_transfer_id"`
+	BankTransferID           int     `json:"bank_transfer_id"`
 	NetReceivedAmount        float64 `json:"net_received_amount"`
 	TotalPaidAmount          float64 `json:"total_paid_amount"`
 	InstallmentAmount        float64 `json:"installment_amount"`
