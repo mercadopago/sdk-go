@@ -23,7 +23,7 @@ type Response struct {
 	Taxes              []TaxResponse              `json:"taxes"`
 	Refunds            []RefundResponse           `json:"refunds"`
 
-	DifferentialPricingID     string         `json:"differential_pricing_id"`
+	DifferentialPricingID     int            `json:"differential_pricing_id"`
 	MoneyReleaseSchema        string         `json:"money_release_schema"`
 	OperationType             string         `json:"operation_type"`
 	IssuerID                  string         `json:"issuer_id"`
