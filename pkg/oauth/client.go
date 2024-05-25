@@ -20,7 +20,7 @@ type Client interface {
 	// Create oauth credentials to operate on behalf of a seller
 	// It is a post request to the endpoint: "https://api.mercadopago.com/oauth/token"
 	// Reference: https://www.mercadopago.com/developers/en/reference/oauth/_oauth_token/post
-	Create(ctx context.Context, authorizationCode, redirectURI string) (*Response, error)
+	Create(ctx context.Context, clientID, authorizationCode, redirectURI string) (*Response, error)
 
 	// GetAuthorizationURL gets url for oauth authorization.
 	GetAuthorizationURL(clientID, redirectURI, state string) string
@@ -43,8 +43,9 @@ func NewClient(c *config.Config) Client {
 	}
 }
 
-func (c *client) Create(ctx context.Context, authorizationCode, redirectURI string) (*Response, error) {
+func (c *client) Create(ctx context.Context, clientID, authorizationCode, redirectURI string) (*Response, error) {
 	request := &Request{
+		ClientID:     clientID,
 		ClientSecret: c.cfg.AccessToken,
 		Code:         authorizationCode,
 		RedirectURI:  redirectURI,

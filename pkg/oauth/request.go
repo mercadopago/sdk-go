@@ -3,6 +3,7 @@ package oauth
 // Request represents credential information to perform a create credential request.
 type Request struct {
 	GrantType    string `json:"grant_type,omitempty"`
+	ClientID     string `json:"client_id,omitempty"`
 	ClientSecret string `json:"client_secret,omitempty"`
 	Code         string `json:"code,omitempty"`
 	RedirectURI  string `json:"redirect_uri,omitempty"`
