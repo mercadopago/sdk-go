@@ -10,6 +10,7 @@ type Request struct {
 	MerchantServices   *MerchantServicesRequest   `json:"merchant_services,omitempty"`
 	Order              *OrderRequest              `json:"order,omitempty"`
 	Payer              *PayerRequest              `json:"payer,omitempty"`
+	ForwardData        *ForwardDataRequest        `json:"forward_data,omitempty"`
 	TransactionDetails *TransactionDetailsRequest `json:"transaction_details,omitempty"`
 	PointOfInteraction *PointOfInteractionRequest `json:"point_of_interaction,omitempty"`
 	PaymentMethod      *PaymentMethodRequest      `json:"payment_method,omitempty"`
@@ -175,6 +176,29 @@ type PayerRequest struct {
 	FirstName  string `json:"first_name,omitempty"`
 	LastName   string `json:"last_name,omitempty"`
 	EntityType string `json:"entity_type,omitempty"`
+}
+
+// ForwardData represents data used in special conditions for the payment.
+type ForwardDataRequest struct {
+	SubMerchant *SubMerchantRequest `json:"sub_merchant,omitempty"`
+}
+
+// SubMerchantRequest represents sub merchant request within ForwardDataRequest.
+type SubMerchantRequest struct {
+	SubMerchantId     string `json:"sub_merchant_id,omitempty"`
+	MCC               string `json:"mcc,omitempty"`
+	Country           string `json:"country,omitempty"`
+	AddressDoorNumber string `json:"address_door_number,omitempty"`
+	ZIP               string `json:"zip,omitempty"`
+	DocumentNumber    string `json:"document_number,omitempty"`
+	City              string `json:"city,omitempty"`
+	AddressStreet     string `json:"address_street,omitempty"`
+	LegalName         string `json:"legal_name,omitempty"`
+	RegionCodeIso     string `json:"region_code_iso,omitempty"`
+	RegionCode        string `json:"region_code,omitempty"`
+	DocumentType      string `json:"document_type,omitempty"`
+	Phone             string `json:"phone,omitempty"`
+	URL               string `json:"url,omitempty"`
 }
 
 // AddressRequest represents payer address request within PayerRequest.
