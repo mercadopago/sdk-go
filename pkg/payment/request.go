@@ -188,7 +188,7 @@ type SubMerchantRequest struct {
 	SubMerchantId     string `json:"sub_merchant_id,omitempty"`
 	MCC               string `json:"mcc,omitempty"`
 	Country           string `json:"country,omitempty"`
-	AddressDoorNumber string `json:"address_door_number,omitempty"`
+	AddressDoorNumber int    `json:"address_door_number,omitempty"`
 	ZIP               string `json:"zip,omitempty"`
 	DocumentNumber    string `json:"document_number,omitempty"`
 	City              string `json:"city,omitempty"`
