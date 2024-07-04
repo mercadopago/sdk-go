@@ -87,16 +87,16 @@ type ForwardDataResponse struct {
 }
 
 type SubMerchantResponse struct {
-	SubMerchantId     string `json:"sub_merchant_id,omitempty"`
+	SubMerchantID     string `json:"sub_merchant_id,omitempty"`
 	MCC               string `json:"mcc,omitempty"`
 	Country           string `json:"country,omitempty"`
-	AddressDoorNumber string `json:"address_door_number,omitempty"`
+	AddressDoorNumber int    `json:"address_door_number,omitempty"`
 	ZIP               string `json:"zip,omitempty"`
 	DocumentNumber    string `json:"document_number,omitempty"`
 	City              string `json:"city,omitempty"`
 	AddressStreet     string `json:"address_street,omitempty"`
 	LegalName         string `json:"legal_name,omitempty"`
-	RegionCodeIso     string `json:"region_code_iso,omitempty"`
+	RegionCodeISO     string `json:"region_code_iso,omitempty"`
 	RegionCode        string `json:"region_code,omitempty"`
 	DocumentType      string `json:"document_type,omitempty"`
 	Phone             string `json:"phone,omitempty"`
