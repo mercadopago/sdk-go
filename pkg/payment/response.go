@@ -7,6 +7,7 @@ import (
 // Response is the response from the Payments API.
 type Response struct {
 	Payer              PayerResponse              `json:"payer"`
+	ForwardData        ForwardDataResponse        `json:"forward_data,omitempty"`
 	AdditionalInfo     AdditionalInfoResponse     `json:"additional_info"`
 	Order              OrderResponse              `json:"order"`
 	TransactionDetails TransactionDetailsResponse `json:"transaction_details"`
@@ -79,6 +80,28 @@ type PayerResponse struct {
 	FirstName  string `json:"first_name"`
 	LastName   string `json:"last_name"`
 	EntityType string `json:"entity_type"`
+}
+
+// ForwardData represents data used in special conditions for the payment.
+type ForwardDataResponse struct {
+	SubMerchant SubMerchantResponse `json:"sub_merchant,omitempty"`
+}
+
+type SubMerchantResponse struct {
+	SubMerchantID     string `json:"sub_merchant_id,omitempty"`
+	MCC               string `json:"mcc,omitempty"`
+	Country           string `json:"country,omitempty"`
+	ZIP               string `json:"zip,omitempty"`
+	DocumentNumber    string `json:"document_number,omitempty"`
+	City              string `json:"city,omitempty"`
+	AddressStreet     string `json:"address_street,omitempty"`
+	LegalName         string `json:"legal_name,omitempty"`
+	RegionCodeISO     string `json:"region_code_iso,omitempty"`
+	RegionCode        string `json:"region_code,omitempty"`
+	DocumentType      string `json:"document_type,omitempty"`
+	Phone             string `json:"phone,omitempty"`
+	URL               string `json:"url,omitempty"`
+	AddressDoorNumber int    `json:"address_door_number,omitempty"`
 }
 
 // IdentificationResponse represents payer's personal identification.
