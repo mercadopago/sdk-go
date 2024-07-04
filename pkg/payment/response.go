@@ -82,6 +82,7 @@ type PayerResponse struct {
 	EntityType string `json:"entity_type"`
 }
 
+// ForwardData represents data used in special conditions for the payment.
 type ForwardDataResponse struct {
 	SubMerchant SubMerchantResponse `json:"sub_merchant,omitempty"`
 }
