@@ -188,7 +188,6 @@ type SubMerchantRequest struct {
 	SubMerchantID     string `json:"sub_merchant_id,omitempty"`
 	MCC               string `json:"mcc,omitempty"`
 	Country           string `json:"country,omitempty"`
-	AddressDoorNumber int    `json:"address_door_number,omitempty"`
 	ZIP               string `json:"zip,omitempty"`
 	DocumentNumber    string `json:"document_number,omitempty"`
 	City              string `json:"city,omitempty"`
@@ -199,6 +198,7 @@ type SubMerchantRequest struct {
 	DocumentType      string `json:"document_type,omitempty"`
 	Phone             string `json:"phone,omitempty"`
 	URL               string `json:"url,omitempty"`
+	AddressDoorNumber int    `json:"address_door_number,omitempty"`
 }
 
 // AddressRequest represents payer address request within PayerRequest.
