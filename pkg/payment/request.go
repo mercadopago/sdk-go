@@ -228,6 +228,7 @@ type PointOfInteractionRequest struct {
 
 	LinkedTo string `json:"linked_to,omitempty"`
 	Type     string `json:"type,omitempty"`
+	SubType  string `json:"sub_type,omitempty"`
 }
 
 type TransactionDataRequest struct {

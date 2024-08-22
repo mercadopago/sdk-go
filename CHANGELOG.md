@@ -11,3 +11,7 @@ Fix `differential_pricing_id` type. Now it is `int` instead of `string`.
 ## VERSION 1.0.3
 
 Include `sub_merchant` in `ForwardData` in `Payment`.
+
+## VERSION 1.0.4
+
+Include `sub_type` in `PointOfInteractionRequest` in `Payment`.
