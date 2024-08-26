@@ -252,7 +252,7 @@ type BankInfoResponse struct {
 	Payer     BankInfoPayerResponse     `json:"payer"`
 	Collector BankInfoCollectorResponse `json:"collector"`
 
-	IsSameBankAccountOwner string `json:"is_same_bank_account_owner"`
+	IsSameBankAccountOwner bool `json:"is_same_bank_account_owner"`
 }
 
 // SubscriptionSequenceResponse represents subscription sequence.
