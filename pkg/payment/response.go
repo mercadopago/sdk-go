@@ -296,7 +296,8 @@ type PaymentMethodResponse struct {
 
 // DataResponse represents data within PaymentMethodResponse.
 type DataResponse struct {
-	Rules RulesResponse `json:"rules"`
+	Rules               RulesResponse `json:"rules"`
+	ExternalReferenceID string        `json:"external_reference_id"`
 }
 
 // RulesResponse represents payment rules.
