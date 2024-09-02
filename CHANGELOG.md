@@ -1,9 +1,3 @@
-## VERSION 1.0.6
-
-Include `reference_id` in `DataResponse` in `PaymentMethodResponse` in `Payment`.
-Include `external_reference_id` in `DataResponse` in `PaymentMethodResponse` in `Payment`.
-Include `external_resource_url` in `DataResponse` in `PaymentMethodResponse` in `Payment`.
-
 ## VERSION 1.0.5
 
 Fix `is_same_bank_account_owner` type. Now it is `bool` instead of `string`.
