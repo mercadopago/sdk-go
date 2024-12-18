@@ -15,7 +15,7 @@ type Response struct {
 	Reason        string `json:"reason"`
 	Status        string `json:"status"`
 	InitPoint     string `json:"init_point"`
-	CollectorID   int    `json:"collector_id"`
+	CollectorID   int64  `json:"collector_id"`
 	ApplicationID int    `json:"application_id"`
 }
 
