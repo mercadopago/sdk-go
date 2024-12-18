@@ -37,5 +37,5 @@ type ItemRequest struct {
 
 // CollectorRequest represents seller information.
 type CollectorRequest struct {
-	ID int `json:"id,omitempty"`
+	ID int64 `json:"id,omitempty"`
 }
