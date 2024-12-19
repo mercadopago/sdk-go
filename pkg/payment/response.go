@@ -62,7 +62,7 @@ type Response struct {
 	Installments              int            `json:"installments"`
 	ID                        int            `json:"id"`
 	SponsorID                 int            `json:"sponsor_id"`
-	CollectorID               int            `json:"collector_id"`
+	CollectorID               int64          `json:"collector_id"`
 	LiveMode                  bool           `json:"live_mode"`
 	Captured                  bool           `json:"captured"`
 	BinaryMode                bool           `json:"binary_mode"`
@@ -297,7 +297,6 @@ type PaymentMethodResponse struct {
 // DataResponse represents data within PaymentMethodResponse.
 type DataResponse struct {
 	Rules               RulesResponse `json:"rules"`
-	
 	ReferenceID         string        `json:"reference_id"`
 	ExternalReferenceID string        `json:"external_reference_id"`
 	ExternalResourceURL string        `json:"external_resource_url"`

@@ -21,7 +21,7 @@ type Response struct {
 	DefaultCard    string `json:"default_card"`
 	DefaultAddress string `json:"default_address"`
 	Status         string `json:"status"`
-	UserID         int    `json:"user_id"`
+	UserID         int64  `json:"user_id"`
 	MerchantID     int    `json:"merchant_id"`
 	ClientID       int    `json:"client_id"`
 	LiveMode       bool   `json:"live_mode"`

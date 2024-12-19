@@ -33,7 +33,7 @@ type Response struct {
 	SandboxInitPoint    string         `json:"sandbox_init_point"`
 	SiteID              string         `json:"site_id"`
 	MarketplaceFee      float64        `json:"marketplace_fee"`
-	CollectorID         int            `json:"collector_id"`
+	CollectorID         int64          `json:"collector_id"`
 	Expires             bool           `json:"expires"`
 	BinaryMode          bool           `json:"binary_mode"`
 	ProcessingModes     []string       `json:"processing_modes"`
