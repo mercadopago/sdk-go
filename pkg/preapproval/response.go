@@ -23,10 +23,10 @@ type Response struct {
 	PreapprovalPlanID  string `json:"preapproval_plan_id"`
 	PayerFirstName     string `json:"payer_first_name"`
 	PayerLastName      string `json:"payer_last_name"`
-	CardID             int    `json:"card_id"`
+	CardID             string `json:"card_id"`
 	Version            int    `json:"version"`
-	PayerID            int    `json:"payer_id"`
-	CollectorID        int    `json:"collector_id"`
+	PayerID            int64  `json:"payer_id"`
+	CollectorID        int64  `json:"collector_id"`
 	ApplicationID      int    `json:"application_id"`
 }
 
