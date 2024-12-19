@@ -1,3 +1,9 @@
+## VERSION 1.0.7
+
+Fix `CardID` to string in `Response` from the `pre-approval flow` 
+
+Fix `UserID` to int64
+
 ## VERSION 1.0.6
 
 Include `reference_id` in `DataResponse` in `PaymentMethodResponse` in `Payment`.
