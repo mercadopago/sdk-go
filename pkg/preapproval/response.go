@@ -52,7 +52,7 @@ type FreeTrialResponse struct {
 // SummarizedResponse contains summary information about invoices and subscription charges.
 type SummarizedResponse struct {
 	LastChargedDate   time.Time `json:"last_charged_date"`
-	LastChargedAmount time.Time `json:"last_charged_amount"`
+	LastChargedAmount float64   `json:"last_charged_amount"`
 
 	Semaphore             string  `json:"semaphore"`
 	PendingChargeAmount   float64 `json:"pending_charge_amount"`
