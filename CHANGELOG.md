@@ -1,3 +1,7 @@
+## VERSION 1.0.8
+
+Fix `LastChargedAmount` to float64 in `Response`
+
 ## VERSION 1.0.7
 
 Fix `CardID` to string in `Response` from the `pre-approval flow` 
