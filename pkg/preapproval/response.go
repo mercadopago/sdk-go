@@ -18,7 +18,7 @@ type Response struct {
 	InitPoint          string `json:"init_point"`
 	SandboxInitPoint   string `json:"sandbox_init_point"`
 	PaymentMethodID    string `json:"payment_method_id"`
-	FirstInvoiceOffset string `json:"first_invoice_offset"`
+	FirstInvoiceOffset int `json:"first_invoice_offset"`
 	BackURL            string `json:"back_url"`
 	PreapprovalPlanID  string `json:"preapproval_plan_id"`
 	PayerFirstName     string `json:"payer_first_name"`
