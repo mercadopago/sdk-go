@@ -1,0 +1,62 @@
+{
+  "id": "01HRYFWNYRE1MR1E60MW3X0T2P",
+  "type": "online",
+  "total_amount": "1000.00",
+  "external_reference": "ext_ref_1234",
+  "country_code": "ARG",
+  "status": "processed",
+  "status_detail": "accredited",
+  "capture_mode": "automatic",
+  "transactions": {
+    "payments": [
+      {
+        "id": "01HRYFXQ53Q3JPEC48MYWMR0TE",
+        "reference_id": "123456789",
+        "status": "processed",
+        "amount": "1000.00",
+        "payment_method": {
+          "id": "master",
+          "type": "credit_card",
+          "token": "677859ef5f18ea7e3a87c41d02c3fbe3",
+          "installments": 1,
+          "statement_descriptor": "LOJA X"
+        }
+      }
+    ],
+    "refunds": []
+  },
+  "processing_mode": "automatic",
+  "description": "some description",
+  "payer": {
+    "email": "{email}",
+    "first_name": "John",
+    "last_name": "Doe",
+    "identification": {
+      "type": "CPF",
+      "number": "00000000000"
+    },
+    "phone": {
+      "area_code": "55",
+      "number": "99999999999"
+    },
+    "address": {
+      "street_name": "Av. das Nações Unidas",
+      "street_number": "99"
+    }
+  },
+  "marketplace": "NONE",
+  "marketplace_fee": "10.00",
+  "items": [
+    {
+      "title": "Some item title",
+      "unit_price": "1000.00",
+      "quantity": 1,
+      "description": "Some item description",
+      "id": "item_id",
+      "category_id": "category_id",
+      "type": "item_type",
+      "picture_url": "https://mysite.com/img/item.jpg"
+    }
+  ],
+  "expiration_time": "P3D"
+}
