@@ -1,0 +1,55 @@
+{
+  "id": "01J6TC8BYRR0T4ZKY0QR39WGYE",
+  "processing_mode": "automatic",
+  "external_reference": "ext_ref_1234",
+  "marketplace": "NONE",
+  "total_amount": "200.00",
+  "country_code": "MEX",
+  "client_id": "4599991948843755",
+  "collector_id": "1245621468",
+  "created_date": "2024-09-02T22:04:01.880469Z",
+  "last_updated_date": "2024-09-02T22:04:04.429289Z",
+  "type": "online",
+  "status": "processed",
+  "status_detail": "accredited",
+  "capture_mode": "automatic",
+  "payer": {
+    "customer_id": "1234567890"
+  },
+  "transactions": {
+    "payments": [
+      {
+        "id": "pay_01J6TC8BYRR0T4ZKY0QRTZ0E24",
+        "reference_id": "74e9f7137a3246d3a3ad607c82da9880",
+        "amount": "200.00",
+        "status": "processed",
+        "status_detail": "accredited",
+        "payment_method": {
+          "id": "master",
+          "card_id": "9514636140",
+          "type": "credit_card",
+          "installments": 1,
+          "token": "677859ef5f18ea7e3a87c41d02c3fbe3"
+        },
+        "automatic_payments": {
+          "payment_profile_id": "035979dc46c645c4ae12554835b07943"
+        },
+        "stored_credential": {
+          "payment_initiator": "customer"
+        },
+        "subscription_data": {
+          "subscription_sequence": {
+            "number": 1,
+            "total": 12
+          },
+          "invoice_id": "00000000000",
+          "invoice_period": {
+            "period": 1,
+            "type": "month"
+          },
+          "billing_date": "2024-09-02"
+        }
+      }
+    ]
+  }
+}
