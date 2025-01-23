@@ -115,6 +115,7 @@ type PhoneResponse struct {
 type AddressResponse struct {
 	StreetName   string `json:"street_name"`
 	StreetNumber string `json:"street_number"`
+	ZipCode      string `json:"zip_code"`
 }
 
 type ItemsResponse struct {
