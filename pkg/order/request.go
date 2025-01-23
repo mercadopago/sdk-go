@@ -89,6 +89,7 @@ type PhoneRequest struct {
 type AddressRequest struct {
 	StreetName   string `json:"street_name"`
 	StreetNumber string `json:"street_number"`
+	ZipCode      string `json:"zip_code"`
 }
 
 type ItemsRequest struct {
