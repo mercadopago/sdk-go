@@ -118,21 +118,9 @@ func TestTransaction(t *testing.T) {
 		}
 		request := order.Request{
 			Type:              "online",
+			ProcessingMode:    "manual",
 			TotalAmount:       "1000.00",
 			ExternalReference: "ext_ref_12345",
-			Transactions: order.TransactionRequest{
-				Payments: []order.PaymentRequest{
-					{
-						Amount: "1000.00",
-						PaymentMethod: order.PaymentMethodRequest{
-							ID:           "master",
-							Token:        token,
-							Type:         "credit_card",
-							Installments: 1,
-						},
-					},
-				},
-			},
 			Payer: order.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
 			},
@@ -161,9 +149,9 @@ func TestTransaction(t *testing.T) {
 			},
 		}
 
-		resp, err := orderClient.CreateTransaction(ctx, resource.ID, request)
-		if resp == nil || resp.ID == "" {
-			t.Error("order can't be nil")
+		resp, err := orderClient.CreateTransaction(ctx, resource.ID, requestTransaction)
+		if resp == nil || resp.Payments[0].ID == "" {
+			t.Error("transaction can't be nil")
 		}
 
 		if err != nil {
