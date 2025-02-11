@@ -317,17 +317,63 @@ func TestGet(t *testing.T) {
 		{
 			name: "should_fail_to_get_request",
 			fields: fields{
-				cfg: &httpclient..Mock{
-					DoMock: func(req *http.Request) (*http.Response, error){
-						return nil, fmt.Error("error")
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("error")
+						},
+					},
+				},
 			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "invalidOrderID",
 			},
-			},
+			want:    nil,
+			wantErr: true,
 		},
-		args: args{
-			ctx: context.Background(),
-			
+		{
+			name: "should_succeed_to_get_request",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{"id": "validOrderID", "status": "processed"}`
+							resp := &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}
+							return resp, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "validOrderID",
+			},
+			want: &Response{
+				ID:     "validOrderID",
+				Status: "processed",
+			},
+			wantErr: false,
 		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			got, err := c.Get(tt.args.ctx, tt.args.orderID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Get() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Get() got = %v, want = %v", got, tt.want)
+			}
+		})
 	}
 }
 
