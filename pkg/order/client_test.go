@@ -298,3 +298,41 @@ func TestCreate(t *testing.T) {
 		})
 	}
 }
+
+func TestGet(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx     context.Context
+		orderID string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *Response
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_get_request",
+			fields: fields{
+				cfg: &httpclient..Mock{
+					DoMock: func(req *http.Request) (*http.Response, error){
+						return nil, fmt.Error("error")
+			},
+			},
+			},
+		},
+		args: args{
+			ctx: context.Background(),
+			
+		},
+	}
+}
+
+func TestProcess(t *testing.T) {}
+
+func TestCreateTransaction(t *testing.T) {}
+
+func TestUpdateTransaction(t *testing.T) {}
