@@ -377,7 +377,70 @@ func TestGet(t *testing.T) {
 	}
 }
 
-func TestProcess(t *testing.T) {}
+func TestProcess(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx     context.Context
+		orderID string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *Response
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_process_order",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("error processing order")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "invalidOrderID",
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "should_succeed_to_process_order",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+						body := `{
+							"id": "ORD01JKV9XT88XQJ7H5W83C2MA5EP"
+							"status": "processed",
+							"status_detail": "accredited",
+						}`
+						}
+					}
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			got, err := c.Process(tt.args.ctx, tt.args.orderID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Process() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Process() got = %v, want = %v", got, tt.want)
+			}
+		})
+	}
+}
 
 func TestCreateTransaction(t *testing.T) {}
 
