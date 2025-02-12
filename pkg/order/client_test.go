@@ -579,4 +579,57 @@ func TestCreateTransaction(t *testing.T) {
 	}
 }
 
-func TestUpdateTransaction(t *testing.T) {}
+func TestUpdateTransaction(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx           context.Context
+		orderID       string
+		transactionID string
+		request       TransactionRequest
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *TransactionResponse
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_update_transaction",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("error updating transaction")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:           context.Background(),
+				orderID:       "Order123",
+				transactionID: "Pay_Order123",
+				request:       TransactionRequest{},
+			},
+			want:    nil,
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			got, err := c.UpdateTransaction(tt.args.ctx, tt.args.orderID, tt.args.transactionID, tt.args.request)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Update Transaction() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Update Transaction() got = %v, want = %v", got, tt.want)
+			}
+		})
+	}
+}
