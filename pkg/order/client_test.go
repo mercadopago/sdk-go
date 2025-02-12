@@ -416,13 +416,30 @@ func TestProcess(t *testing.T) {
 				cfg: &config.Config{
 					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
-						body := `{
-							"id": "ORD01JKV9XT88XQJ7H5W83C2MA5EP"
-							"status": "processed",
-							"status_detail": "accredited",
-						}`
-						}
-					}
+							body := `{
+						"id": "ORD01JKV9XT88XQJ7H5W83C2MA5EP",
+						"status": "processed",
+						"status_detail": "accredited"
+					}` // Removi a vírgula extra aqui
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "validOrderID",
+			},
+			want: &Response{
+				ID:           "ORD01JKV9XT88XQJ7H5W83C2MA5EP",
+				Status:       "processed",
+				StatusDetail: "accredited",
+			},
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
