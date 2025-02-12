@@ -459,6 +459,124 @@ func TestProcess(t *testing.T) {
 	}
 }
 
-func TestCreateTransaction(t *testing.T) {}
+func TestCreateTransaction(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx     context.Context
+		orderID string
+		request TransactionRequest
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *TransactionResponse
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_create_transaction",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("error creating transaction")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "Order123",
+				request: TransactionRequest{},
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "should_succeed_to_create_transaction",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{
+                                "payments": [
+                                    {
+                                        "id": "payment_12345",
+                                        "amount": "100.00",
+                                        "currency": "BRL",
+                                        "payment_method": {
+                                            "id": "master",
+                                            "type": "credit_card",
+                                            "token": "token_1234",
+                                            "installments": 1,
+                                            "statement_descriptor": "statement"
+                                        }
+                                    }
+                                ]
+                            }`
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "validOrderID",
+				request: TransactionRequest{
+					Payments: []PaymentRequest{
+						{
+							Amount:   "100.00",
+							Currency: "BRL",
+							PaymentMethod: PaymentMethodRequest{
+								ID:                  "master",
+								Type:                "credit_card",
+								Token:               "token_1234",
+								Installments:        1,
+								StatementDescriptor: "statement",
+							},
+						},
+					},
+				},
+			},
+			want: &TransactionResponse{
+				Payments: []PaymentResponse{
+					{
+						ID:     "payment_12345",
+						Amount: "100.00",
+						PaymentMethod: PaymentMethodResponse{
+							ID:                  "master",
+							Type:                "credit_card",
+							Token:               "token_1234",
+							Installments:        1,
+							StatementDescriptor: "statement",
+						},
+					},
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			got, err := c.CreateTransaction(tt.args.ctx, tt.args.orderID, tt.args.request)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Create Transaction() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Create Transaction() got = %v, want = %v", got, tt.want)
+			}
+		})
+	}
+}
 
 func TestUpdateTransaction(t *testing.T) {}
