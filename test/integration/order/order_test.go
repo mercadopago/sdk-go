@@ -256,17 +256,17 @@ func TestUpdateTransaction(t *testing.T) {
 		transactionID := resource.Transactions.Payments[0].ID
 		fmt.Println("transaction: ", transactionID)
 
-		updateRequest := order.PaymentMethodRequest{
-			Installments: 12,
+		updateRequest := order.PaymentRequest{
+			PaymentMethod: &order.PaymentMethodRequest{Installments: 12},
 		}
 		fmt.Printf("updateRequest: %+v\n", updateRequest)
 
-		/*updateResp, err := orderClient.UpdateTransaction(ctx, orderID, transactionID, updateRequest)
+		updateResp, err := orderClient.UpdateTransaction(ctx, orderID, transactionID, updateRequest)
 		if err != nil {
 			t.Fatalf("failed to update transaction: %v", err)
 		}
-		if updateResp == nil || updateResp.Installments != 12 {
-			t.Fatalf("expected installments to be updated to 12, got %v", updateResp.Installments)
-		}*/
+		if updateResp == nil || updateResp.PaymentMethod.Installments != 12 {
+			t.Fatalf("expected installments to be updated to 12, got %v", updateResp.PaymentMethod.Installments)
+		}
 	})
 }
