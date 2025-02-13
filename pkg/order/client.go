@@ -24,7 +24,7 @@ type Client interface {
 	Get(ctx context.Context, orderID string) (*Response, error)
 	CreateTransaction(ctx context.Context, orderID string, request TransactionRequest) (*TransactionResponse, error)
 	Process(ctx context.Context, orderID string) (*Response, error)
-	UpdateTransaction(ctx context.Context, orderID string, transactionID string, request PaymentMethodRequest) (*PaymentMethodResponse, error)
+	UpdateTransaction(ctx context.Context, orderID string, transactionID string, request PaymentRequest) (*PaymentResponse, error)
 }
 
 // client is the implementation of Client.
@@ -110,7 +110,7 @@ func (c *client) CreateTransaction(ctx context.Context, orderID string, request 
 
 }
 
-func (c *client) UpdateTransaction(ctx context.Context, orderID string, transactionID string, request PaymentMethodRequest) (*PaymentMethodResponse, error) {
+func (c *client) UpdateTransaction(ctx context.Context, orderID string, transactionID string, request PaymentRequest) (*PaymentResponse, error) {
 	pathParams := map[string]string{
 		"orderID":       orderID,
 		"transactionID": transactionID,
@@ -122,7 +122,7 @@ func (c *client) UpdateTransaction(ctx context.Context, orderID string, transact
 		PathParams: pathParams,
 	}
 
-	resource, err := httpclient.DoRequest[*PaymentMethodResponse](ctx, c.cfg, requestData)
+	resource, err := httpclient.DoRequest[*PaymentResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
