@@ -299,7 +299,7 @@ func TestCreate(t *testing.T) {
 	}
 }
 
-func TestGet(t *testing.T) {
+func TestGetOrder(t *testing.T) {
 	type fields struct {
 		cfg *config.Config
 	}
@@ -377,7 +377,7 @@ func TestGet(t *testing.T) {
 	}
 }
 
-func TestProcess(t *testing.T) {
+func TestProcessOrder(t *testing.T) {
 	type fields struct {
 		cfg *config.Config
 	}
@@ -672,6 +672,83 @@ func TestUpdateTransaction(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Update Transaction() got = %v, want = %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestCancelOrder(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx     context.Context
+		orderID string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *Response
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_cancel_order",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("error canceling order")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "invalidOrderID",
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "should_succeed_to_cancel_order",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{"id": "validOrderID", "status": "cancelled"}`
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "validOrderID",
+			},
+			want: &Response{
+				ID:     "validOrderID",
+				Status: "cancelled",
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			got, err := c.Cancel(tt.args.ctx, tt.args.orderID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Cancel() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Cancel() got = %v, want = %v", got, tt.want)
 			}
 		})
 	}
