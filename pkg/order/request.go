@@ -1,18 +1,18 @@
 package order
 
 type Request struct {
-	Type              string             `json:"type"`
-	TotalAmount       string             `json:"total_amount"`
-	ExternalReference string             `json:"external_reference"`
-	CaptureMode       string             `json:"capture_mode,omitempty"`
-	ProcessingMode    string             `json:"processing_mode,omitempty"`
-	Description       string             `json:"description,omitempty"`
-	Marketplace       string             `json:"marketplace,omitempty"`
-	MarketPlaceFee    string             `json:"marketplace_fee,omitempty"`
-	ExpirationTime    string             `json:"expiration_time,omitempty"`
-	Transactions      TransactionRequest `json:"transactions"`
-	Payer             PayerRequest       `json:"payer"`
-	Items             []ItemsRequest     `json:"items,omitempty"`
+	Type              string              `json:"type"`
+	TotalAmount       string              `json:"total_amount"`
+	ExternalReference string              `json:"external_reference"`
+	CaptureMode       string              `json:"capture_mode,omitempty"`
+	ProcessingMode    string              `json:"processing_mode,omitempty"`
+	Description       string              `json:"description,omitempty"`
+	Marketplace       string              `json:"marketplace,omitempty"`
+	MarketPlaceFee    string              `json:"marketplace_fee,omitempty"`
+	ExpirationTime    string              `json:"expiration_time,omitempty"`
+	Transactions      *TransactionRequest `json:"transactions,omitempty"`
+	Payer             PayerRequest        `json:"payer"`
+	Items             []ItemsRequest      `json:"items,omitempty"`
 }
 
 type TransactionRequest struct {

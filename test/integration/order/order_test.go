@@ -29,7 +29,7 @@ func TestOrder(t *testing.T) {
 			Type:              "online",
 			TotalAmount:       "1000.00",
 			ExternalReference: "ext_ref_1234",
-			Transactions: order.TransactionRequest{
+			Transactions: &order.TransactionRequest{
 				Payments: []order.PaymentRequest{
 					{
 						Amount: "1000.00",
@@ -70,7 +70,7 @@ func TestGetOrder(t *testing.T) {
 			Type:              "online",
 			TotalAmount:       "1000.00",
 			ExternalReference: "ext_ref_12345",
-			Transactions: order.TransactionRequest{
+			Transactions: &order.TransactionRequest{
 				Payments: []order.PaymentRequest{
 					{
 						Amount: "1000.00",
@@ -120,7 +120,7 @@ func TestTransaction(t *testing.T) {
 			Type:              "online",
 			ProcessingMode:    "manual",
 			TotalAmount:       "1000.00",
-			ExternalReference: "ext_ref_12345",
+			ExternalReference: "ext_1234",
 			Payer: order.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
 			},
