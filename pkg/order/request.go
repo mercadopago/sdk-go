@@ -21,7 +21,6 @@ type TransactionRequest struct {
 
 type PaymentRequest struct {
 	Amount            string                   `json:"amount"`
-	Currency          string                   `json:"currency"`
 	PaymentMethod     PaymentMethodRequest     `json:"payment_method"`
 	AutomaticPayments *AutomaticPaymentRequest `json:"automatic_payments,omitempty"`
 	StoredCredential  *StoredCredentialRequest `json:"stored_credential,omitempty"`
