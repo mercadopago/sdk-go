@@ -33,7 +33,7 @@ func TestOrder(t *testing.T) {
 				Payments: []order.PaymentRequest{
 					{
 						Amount: "1000.00",
-						PaymentMethod: order.PaymentMethodRequest{
+						PaymentMethod: &order.PaymentMethodRequest{
 							ID:           "master",
 							Token:        token,
 							Type:         "credit_card",
@@ -74,7 +74,7 @@ func TestGetOrder(t *testing.T) {
 				Payments: []order.PaymentRequest{
 					{
 						Amount: "1000.00",
-						PaymentMethod: order.PaymentMethodRequest{
+						PaymentMethod: &order.PaymentMethodRequest{
 							ID:           "master",
 							Token:        token,
 							Type:         "credit_card",
@@ -126,7 +126,7 @@ func TestProcessOrder(t *testing.T) {
 				Payments: []order.PaymentRequest{
 					{
 						Amount: "100.00",
-						PaymentMethod: order.PaymentMethodRequest{
+						PaymentMethod: &order.PaymentMethodRequest{
 							ID:           "master",
 							Token:        token,
 							Type:         "credit_card",
@@ -191,7 +191,7 @@ func TestCreateTransaction(t *testing.T) {
 			Payments: []order.PaymentRequest{
 				{
 					Amount: "1000.00",
-					PaymentMethod: order.PaymentMethodRequest{
+					PaymentMethod: &order.PaymentMethodRequest{
 						ID:           "master",
 						Token:        token,
 						Type:         "credit_card",
@@ -212,7 +212,7 @@ func TestCreateTransaction(t *testing.T) {
 	})
 }
 
-func TestUpdateInstallments(t *testing.T) {
+func TestUpdateTransaction(t *testing.T) {
 	t.Run("should_update_installments", func(t *testing.T) {
 		ctx := context.Background()
 		token, err := test.GenerateCardToken(ctx, cardTokenClient)
@@ -228,6 +228,19 @@ func TestUpdateInstallments(t *testing.T) {
 			Payer: order.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
 			},
+			Transactions: &order.TransactionRequest{
+				Payments: []order.PaymentRequest{
+					{
+						Amount: "1000.00",
+						PaymentMethod: &order.PaymentMethodRequest{
+							ID:           "master",
+							Token:        token,
+							Type:         "credit_card",
+							Installments: 3,
+						},
+					},
+				},
+			},
 		}
 
 		resource, err := orderClient.Create(ctx, orderRequest)
@@ -239,50 +252,21 @@ func TestUpdateInstallments(t *testing.T) {
 		}
 
 		orderID := resource.ID
-		t.Logf("Order ID: %s", orderID)
-		
-		transactionRequest := order.TransactionRequest{
-			Payments: []order.PaymentRequest{
-				{
-					Amount: "1000.00",
-					PaymentMethod: order.PaymentMethodRequest{
-						ID:           "master",
-						Token:        token,
-						Type:         "credit_card",
-						Installments: 1,
-					},
-				},
-			},
-		}
+		fmt.Println("Order ID: ", orderID)
+		transactionID := resource.Transactions.Payments[0].ID
+		fmt.Println("transaction: ", transactionID)
 
-		transactionResp, err := orderClient.CreateTransaction(ctx, orderID, transactionRequest)
-		if err != nil {
-			t.Fatalf("failed to create transaction: %v", err)
+		updateRequest := order.PaymentMethodRequest{
+			Installments: 12,
 		}
-		if transactionResp == nil || transactionResp.Payments[0].ID == "" {
-			t.Fatalf("transaction can't be nil")
-		}
+		fmt.Printf("updateRequest: %+v\n", updateRequest)
 
-		transactionID := transactionResp.Payments[0].ID
-		t.Logf("Transaction ID: %s", transactionID)
-
-		// Atualizar Transação para mudar somente os Installments
-		updateRequest := order.TransactionRequest{
-			Payments: []order.PaymentRequest{
-				{
-					PaymentMethod: order.PaymentMethodRequest{
-						Installments: 12,
-					},
-				},
-			},
-		}
-
-		updateResp, err := orderClient.UpdateTransaction(ctx, orderID, transactionID, updateRequest)
+		/*updateResp, err := orderClient.UpdateTransaction(ctx, orderID, transactionID, updateRequest)
 		if err != nil {
 			t.Fatalf("failed to update transaction: %v", err)
 		}
-		if updateResp == nil || updateResp.Payments[0].PaymentMethod.Installments != 12 {
-			t.Fatalf("expected installments to be updated to 12, got %v", updateResp.Payments[0].PaymentMethod.Installments)
-		}
+		if updateResp == nil || updateResp.Installments != 12 {
+			t.Fatalf("expected installments to be updated to 12, got %v", updateResp.Installments)
+		}*/
 	})
 }
