@@ -93,7 +93,7 @@ func TestCreate(t *testing.T) {
 							ReferenceID: "123456789",
 							Status:      "processed",
 							Amount:      "1000.00",
-							PaymentMethod: PaymentMethodResponse{
+							PaymentMethod: &PaymentMethodResponse{
 								ID:                  "master",
 								Type:                "credit_card",
 								Token:               "677859ef5f18ea7e3a87c41d02c3fbe3",
@@ -178,7 +178,7 @@ func TestCreate(t *testing.T) {
 							Amount:       "200.00",
 							Status:       "processed",
 							StatusDetail: "accredited",
-							PaymentMethod: PaymentMethodResponse{
+							PaymentMethod: &PaymentMethodResponse{
 								ID:           "master",
 								CardID:       "9514636140",
 								Type:         "credit_card",
@@ -532,7 +532,7 @@ func TestCreateTransaction(t *testing.T) {
 					Payments: []PaymentRequest{
 						{
 							Amount: "100.00",
-							PaymentMethod: PaymentMethodRequest{
+							PaymentMethod: &PaymentMethodRequest{
 								ID:                  "master",
 								Type:                "credit_card",
 								Token:               "token_1234",
@@ -548,7 +548,7 @@ func TestCreateTransaction(t *testing.T) {
 					{
 						ID:     "payment_12345",
 						Amount: "100.00",
-						PaymentMethod: PaymentMethodResponse{
+						PaymentMethod: &PaymentMethodResponse{
 							ID:                  "master",
 							Type:                "credit_card",
 							Token:               "token_1234",
@@ -586,13 +586,13 @@ func TestUpdateTransaction(t *testing.T) {
 		ctx           context.Context
 		orderID       string
 		transactionID string
-		request       TransactionRequest
+		request       PaymentRequest
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    *TransactionResponse
+		want    *PaymentResponse
 		wantErr bool
 	}{
 		{
@@ -610,7 +610,7 @@ func TestUpdateTransaction(t *testing.T) {
 				ctx:           context.Background(),
 				orderID:       "Order123",
 				transactionID: "Pay_Order123",
-				request:       TransactionRequest{},
+				request:       PaymentRequest{},
 			},
 			want:    nil,
 			wantErr: true,
@@ -622,20 +622,12 @@ func TestUpdateTransaction(t *testing.T) {
 					Requester: &httpclient.Mock{
 						DoMock: func(req *http.Request) (*http.Response, error) {
 							body := `{
-								"payments": [
-									{
-										"id": "payment_12345_updated",
-										"amount": "150.00",
 										"payment_method": {
-											"id": "visa",
 											"type": "credit_card",
-											"token": "updated_token",
 											"installments": 2,
 											"statement_descriptor": "updated statement"
 										}
-									}
-								]
-							}`
+									}`
 							return &http.Response{
 								StatusCode: http.StatusOK,
 								Body:       io.NopCloser(strings.NewReader(body)),
@@ -649,34 +641,20 @@ func TestUpdateTransaction(t *testing.T) {
 				ctx:           context.Background(),
 				orderID:       "Order123",
 				transactionID: "Pay_Order123",
-				request: TransactionRequest{
-					Payments: []PaymentRequest{
-						{
-							Amount: "150.00",
-							PaymentMethod: PaymentMethodRequest{
-								ID:                  "visa",
-								Type:                "credit_card",
-								Token:               "updated_token",
-								Installments:        2,
-								StatementDescriptor: "updated statement",
-							},
-						},
+				request: PaymentRequest{
+
+					PaymentMethod: &PaymentMethodRequest{
+						Type:                "credit_card",
+						Installments:        2,
+						StatementDescriptor: "updated statement",
 					},
 				},
 			},
-			want: &TransactionResponse{
-				Payments: []PaymentResponse{
-					{
-						ID:     "payment_12345_updated",
-						Amount: "150.00",
-						PaymentMethod: PaymentMethodResponse{
-							ID:                  "visa",
-							Type:                "credit_card",
-							Token:               "updated_token",
-							Installments:        2,
-							StatementDescriptor: "updated statement",
-						},
-					},
+			want: &PaymentResponse{
+				PaymentMethod: &PaymentMethodResponse{
+					Type:                "credit_card",
+					Installments:        2,
+					StatementDescriptor: "updated statement",
 				},
 			},
 			wantErr: false,

@@ -40,7 +40,7 @@ func main() {
 		Payments: []order.PaymentRequest{
 			{
 				Amount: "100.00",
-				PaymentMethod: order.PaymentMethodRequest{
+				PaymentMethod: &order.PaymentMethodRequest{
 					ID:           "master",
 					Token:        "{{CARD_TOKEN}}",
 					Type:         "credit_card",
