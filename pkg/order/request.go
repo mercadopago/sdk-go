@@ -20,19 +20,19 @@ type TransactionRequest struct {
 }
 
 type PaymentRequest struct {
-	Amount            string                   `json:"amount"`
-	PaymentMethod     PaymentMethodRequest     `json:"payment_method"`
+	Amount            string                   `json:"amount,omitempty"`
+	PaymentMethod     *PaymentMethodRequest    `json:"payment_method,omitempty"`
 	AutomaticPayments *AutomaticPaymentRequest `json:"automatic_payments,omitempty"`
 	StoredCredential  *StoredCredentialRequest `json:"stored_credential,omitempty"`
 	SubscriptionData  *SubscriptionDataRequest `json:"subscription_data,omitempty"`
 }
 
 type PaymentMethodRequest struct {
-	ID                  string `json:"id"`
-	Type                string `json:"type"`
-	Token               string `json:"token"`
+	ID                  string `json:"id,omitempty"`
+	Type                string `json:"type,omitempty"`
+	Token               string `json:"token,omitempty"`
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
-	Installments        int    `json:"installments"`
+	Installments        int    `json:"installments,omitempty"`
 }
 
 type AutomaticPaymentRequest struct {
