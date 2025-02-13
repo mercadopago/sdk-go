@@ -531,8 +531,7 @@ func TestCreateTransaction(t *testing.T) {
 				request: TransactionRequest{
 					Payments: []PaymentRequest{
 						{
-							Amount:   "100.00",
-							Currency: "BRL",
+							Amount: "100.00",
 							PaymentMethod: PaymentMethodRequest{
 								ID:                  "master",
 								Type:                "credit_card",
@@ -615,6 +614,72 @@ func TestUpdateTransaction(t *testing.T) {
 			},
 			want:    nil,
 			wantErr: true,
+		},
+		{
+			name: "should_succeed_to_update_transaction",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{
+								"payments": [
+									{
+										"id": "payment_12345_updated",
+										"amount": "150.00",
+										"payment_method": {
+											"id": "visa",
+											"type": "credit_card",
+											"token": "updated_token",
+											"installments": 2,
+											"statement_descriptor": "updated statement"
+										}
+									}
+								]
+							}`
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:           context.Background(),
+				orderID:       "Order123",
+				transactionID: "Pay_Order123",
+				request: TransactionRequest{
+					Payments: []PaymentRequest{
+						{
+							Amount: "150.00",
+							PaymentMethod: PaymentMethodRequest{
+								ID:                  "visa",
+								Type:                "credit_card",
+								Token:               "updated_token",
+								Installments:        2,
+								StatementDescriptor: "updated statement",
+							},
+						},
+					},
+				},
+			},
+			want: &TransactionResponse{
+				Payments: []PaymentResponse{
+					{
+						ID:     "payment_12345_updated",
+						Amount: "150.00",
+						PaymentMethod: PaymentMethodResponse{
+							ID:                  "visa",
+							Type:                "credit_card",
+							Token:               "updated_token",
+							Installments:        2,
+							StatementDescriptor: "updated statement",
+						},
+					},
+				},
+			},
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
