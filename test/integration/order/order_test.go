@@ -109,7 +109,59 @@ func TestGetOrder(t *testing.T) {
 	})
 }
 
-func TestTransaction(t *testing.T) {
+func TestProcessOrder(t *testing.T) {
+	t.Run("should_create_and_get_order", func(t *testing.T) {
+		ctx := context.Background()
+		token, err := test.GenerateCardToken(ctx, cardTokenClient)
+		if err != nil {
+			t.Error("fail to generate card token", err)
+		}
+
+		request := order.Request{
+			Type:              "online",
+			ProcessingMode:    "manual",
+			TotalAmount:       "100.00",
+			ExternalReference: "ext_ref_12345",
+			Transactions: &order.TransactionRequest{
+				Payments: []order.PaymentRequest{
+					{
+						Amount: "100.00",
+						PaymentMethod: order.PaymentMethodRequest{
+							ID:           "master",
+							Token:        token,
+							Type:         "credit_card",
+							Installments: 1,
+						},
+					},
+				},
+			},
+			Payer: order.PayerRequest{
+				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
+			},
+		}
+
+		resource, err := orderClient.Create(ctx, request)
+		if resource == nil || resource.ID == "" {
+			t.Error("order can't be nil")
+		}
+
+		if err != nil {
+			t.Errorf(err.Error())
+		}
+
+		resource, err = orderClient.Process(ctx, resource.ID)
+		if resource == nil || resource.ID == "" {
+			t.Errorf("error processing order: %v", err)
+		}
+
+		if resource.Status != "processed" {
+			t.Errorf("expected order status to be 'processed', got %v", resource.Status)
+		}
+
+	})
+}
+
+func TestCreateTransaction(t *testing.T) {
 	t.Run("should_create_transaction", func(t *testing.T) {
 		ctx := context.Background()
 		token, err := test.GenerateCardToken(ctx, cardTokenClient)
@@ -156,6 +208,81 @@ func TestTransaction(t *testing.T) {
 
 		if err != nil {
 			t.Errorf(err.Error())
+		}
+	})
+}
+
+func TestUpdateInstallments(t *testing.T) {
+	t.Run("should_update_installments", func(t *testing.T) {
+		ctx := context.Background()
+		token, err := test.GenerateCardToken(ctx, cardTokenClient)
+		if err != nil {
+			t.Fatalf("fail to generate card token: %v", err)
+		}
+
+		orderRequest := order.Request{
+			Type:              "online",
+			ProcessingMode:    "manual",
+			TotalAmount:       "1000.00",
+			ExternalReference: "ext_1234",
+			Payer: order.PayerRequest{
+				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
+			},
+		}
+
+		resource, err := orderClient.Create(ctx, orderRequest)
+		if err != nil {
+			t.Fatalf("failed to create order: %v", err)
+		}
+		if resource == nil || resource.ID == "" {
+			t.Fatalf("order can't be nil")
+		}
+
+		orderID := resource.ID
+		t.Logf("Order ID: %s", orderID)
+		
+		transactionRequest := order.TransactionRequest{
+			Payments: []order.PaymentRequest{
+				{
+					Amount: "1000.00",
+					PaymentMethod: order.PaymentMethodRequest{
+						ID:           "master",
+						Token:        token,
+						Type:         "credit_card",
+						Installments: 1,
+					},
+				},
+			},
+		}
+
+		transactionResp, err := orderClient.CreateTransaction(ctx, orderID, transactionRequest)
+		if err != nil {
+			t.Fatalf("failed to create transaction: %v", err)
+		}
+		if transactionResp == nil || transactionResp.Payments[0].ID == "" {
+			t.Fatalf("transaction can't be nil")
+		}
+
+		transactionID := transactionResp.Payments[0].ID
+		t.Logf("Transaction ID: %s", transactionID)
+
+		// Atualizar Transação para mudar somente os Installments
+		updateRequest := order.TransactionRequest{
+			Payments: []order.PaymentRequest{
+				{
+					PaymentMethod: order.PaymentMethodRequest{
+						Installments: 12,
+					},
+				},
+			},
+		}
+
+		updateResp, err := orderClient.UpdateTransaction(ctx, orderID, transactionID, updateRequest)
+		if err != nil {
+			t.Fatalf("failed to update transaction: %v", err)
+		}
+		if updateResp == nil || updateResp.Payments[0].PaymentMethod.Installments != 12 {
+			t.Fatalf("expected installments to be updated to 12, got %v", updateResp.Payments[0].PaymentMethod.Installments)
 		}
 	})
 }
