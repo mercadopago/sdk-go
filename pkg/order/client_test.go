@@ -910,3 +910,50 @@ func TestRefund(t *testing.T) {
 		})
 	}
 }
+
+func TestDeleteTransaction(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx           context.Context
+		orderID       string
+		transactionID string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_delete_transaction",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("error deleting transaction")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:           context.Background(),
+				orderID:       "Order123",
+				transactionID: "invalidTransactionID",
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			err := c.DeleteTransaction(tt.args.ctx, tt.args.orderID, tt.args.transactionID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DeleteTransaction() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
