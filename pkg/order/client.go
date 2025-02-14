@@ -27,12 +27,8 @@ type Client interface {
 	Create(ctx context.Context, request Request) (*Response, error)
 	Get(ctx context.Context, orderID string) (*Response, error)
 	Process(ctx context.Context, orderID string) (*Response, error)
-	Cancel(ctx context.Context, orderID string) (*Response, error)
-	Capture(ctx context.Context, orderID string) (*Response, error)
-	Refund(ctx context.Context, orderID string, request TransactionRequest) (*Response, error)
 	CreateTransaction(ctx context.Context, orderID string, request TransactionRequest) (*TransactionResponse, error)
 	UpdateTransaction(ctx context.Context, orderID string, transactionID string, request PaymentRequest) (*PaymentResponse, error)
-	DeleteTransaction(ctx context.Context, orderID string, transactionID string) error
 }
 
 // client is the implementation of Client.
@@ -136,78 +132,4 @@ func (c *client) UpdateTransaction(ctx context.Context, orderID string, transact
 	}
 
 	return resource, nil
-}
-
-func (c *client) Cancel(ctx context.Context, orderID string) (*Response, error) {
-	pathParam := map[string]string{
-		"orderID": orderID,
-	}
-	requestData := httpclient.RequestData{
-		Method:     http.MethodPost,
-		URL:        urlCancel,
-		PathParams: pathParam,
-	}
-
-	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
-	if err != nil {
-		return nil, err
-	}
-
-	return resource, nil
-}
-
-func (c *client) Capture(ctx context.Context, orderID string) (*Response, error) {
-	pathParam := map[string]string{
-		"orderID": orderID,
-	}
-	requestData := httpclient.RequestData{
-		Method:     http.MethodPost,
-		URL:        urlCapture,
-		PathParams: pathParam,
-	}
-
-	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
-	if err != nil {
-		return nil, err
-	}
-
-	return resource, nil
-}
-
-func (c *client) Refund(ctx context.Context, orderID string, request TransactionRequest) (*Response, error) {
-	pathParam := map[string]string{
-		"orderID": orderID,
-	}
-	requestData := httpclient.RequestData{
-		Method:     http.MethodPost,
-		URL:        urlRefund,
-		PathParams: pathParam,
-		Body:       request,
-	}
-
-	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
-	if err != nil {
-		return nil, err
-	}
-
-	return resource, nil
-}
-
-func (c *client) DeleteTransaction(ctx context.Context, orderID string, transactionID string) error {
-	pathParam := map[string]string{
-		"orderID":       orderID,
-		"transactionID": transactionID,
-	}
-	requestData := httpclient.RequestData{
-		Method:     http.MethodDelete,
-		URL:        urlDeleteTransaction,
-		PathParams: pathParam,
-	}
-
-	// No response (body) expected
-	_, err := httpclient.DoRequest[interface{}](ctx, c.cfg, requestData)
-	if err != nil {
-		return err
-	}
-	return nil
 }
