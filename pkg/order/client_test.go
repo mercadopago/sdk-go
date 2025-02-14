@@ -944,6 +944,28 @@ func TestDeleteTransaction(t *testing.T) {
 			},
 			wantErr: true,
 		},
+		/*		{
+				name: "should_succeed_to_delete_transaction",
+				fields: fields{
+					cfg: &config.Config{
+						Requester: &httpclient.Mock{
+							DoMock: func(req *http.Request) (*http.Response, error) {
+								return &http.Response{
+									StatusCode: http.StatusNoContent,
+									Body:       http.NoBody,
+									Header:     make(http.Header),
+								}, nil
+							},
+						},
+					},
+				},
+				args: args{
+					ctx:           context.Background(),
+					orderID:       "validOrderID",
+					transactionID: "validTransactionID",
+				},
+				wantErr: false,
+			},*/
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
