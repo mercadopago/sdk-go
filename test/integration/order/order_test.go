@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/mercadopago/sdk-go/pkg/cardtoken"
@@ -313,6 +314,8 @@ func TestCaptureOrder(t *testing.T) {
 			t.Fatal("order can't be nil")
 		}
 
+		time.Sleep(3 * time.Second)
+
 		// Capture an order
 		captureResp, err := orderClient.Capture(ctx, resource.ID)
 		if err != nil {
@@ -321,6 +324,62 @@ func TestCaptureOrder(t *testing.T) {
 
 		if captureResp == nil || captureResp.Status != "processed" {
 			t.Fatalf("expected order status to be 'processed', got %v", captureResp.Status)
+		}
+	})
+}
+
+func TestCancelOrder(t *testing.T) {
+	t.Run("should_create_and_get_order", func(t *testing.T) {
+		ctx := context.Background()
+		token, err := test.GenerateCardToken(ctx, cardTokenClient)
+		if err != nil {
+			t.Error("fail to generate card token", err)
+		}
+
+		// Create order with capture_mode = manual
+		request := order.Request{
+			Type:              "online",
+			ProcessingMode:    "automatic",
+			CaptureMode:       "manual",
+			TotalAmount:       "200.00",
+			ExternalReference: "ext_ref_12345",
+			Payer: order.PayerRequest{
+				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
+			},
+			Transactions: &order.TransactionRequest{
+				Payments: []order.PaymentRequest{
+					{
+						Amount: "200.00",
+						PaymentMethod: &order.PaymentMethodRequest{
+							ID:           "master",
+							Token:        token,
+							Type:         "credit_card",
+							Installments: 1,
+						},
+					},
+				},
+			},
+		}
+
+		// Create an order
+		resource, err := orderClient.Create(ctx, request)
+		if err != nil {
+			t.Fatal("failed to create order", err)
+		}
+		if resource == nil || resource.ID == "" {
+			t.Fatal("order can't be nil")
+		}
+
+		time.Sleep(3 * time.Second)
+
+		// Capture an order
+		captureResp, err := orderClient.Cancel(ctx, resource.ID)
+		if err != nil {
+			t.Fatalf("failed to capture order: %v", err)
+		}
+
+		if captureResp == nil || captureResp.Status != "canceled" {
+			t.Fatalf("expected order status to be 'canceled', got %v", captureResp.Status)
 		}
 	})
 }
