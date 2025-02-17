@@ -202,10 +202,10 @@ func (c *client) DeleteTransaction(ctx context.Context, orderID string, transact
 		Method:     http.MethodDelete,
 		URL:        urlDeleteTransaction,
 		PathParams: pathParam,
+		Body:       nil,
 	}
 
-	// No response (body) expected
-	_, err := httpclient.DoRequest[struct{}](ctx, c.cfg, requestData)
+	_, err := httpclient.DoRequest[any](ctx, c.cfg, requestData)
 	if err != nil {
 		return err
 	}
