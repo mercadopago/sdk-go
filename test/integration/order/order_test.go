@@ -314,7 +314,7 @@ func TestCaptureOrder(t *testing.T) {
 			t.Fatal("order can't be nil")
 		}
 
-		time.Sleep(3 * time.Second)
+		time.Sleep(2 * time.Second)
 
 		// Capture an order
 		captureResp, err := orderClient.Capture(ctx, resource.ID)
@@ -336,7 +336,7 @@ func TestCancelOrder(t *testing.T) {
 			t.Error("fail to generate card token", err)
 		}
 
-		// Create order with capture_mode = manual
+		// Create order
 		request := order.Request{
 			Type:              "online",
 			ProcessingMode:    "automatic",
@@ -370,7 +370,7 @@ func TestCancelOrder(t *testing.T) {
 			t.Fatal("order can't be nil")
 		}
 
-		time.Sleep(3 * time.Second)
+		time.Sleep(2 * time.Second)
 
 		// Capture an order
 		captureResp, err := orderClient.Cancel(ctx, resource.ID)
@@ -383,3 +383,177 @@ func TestCancelOrder(t *testing.T) {
 		}
 	})
 }
+
+/*func TestDeleteOrder(t *testing.T) {
+	t.Run("should_create_and_get_order", func(t *testing.T) {
+		ctx := context.Background()
+		token, err := test.GenerateCardToken(ctx, cardTokenClient)
+		if err != nil {
+			t.Error("fail to generate card token", err)
+		}
+
+		request := order.Request{
+			Type:              "online",
+			ProcessingMode:    "manual",
+			TotalAmount:       "100.00",
+			ExternalReference: "ext_ref_12345",
+			Transactions: &order.TransactionRequest{
+				Payments: []order.PaymentRequest{
+					{
+						Amount: "100.00",
+						PaymentMethod: &order.PaymentMethodRequest{
+							ID:           "master",
+							Token:        token,
+							Type:         "credit_card",
+							Installments: 1,
+						},
+					},
+				},
+			},
+			Payer: order.PayerRequest{
+				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
+			},
+		}
+
+		resource, err := orderClient.Create(ctx, request)
+		if resource == nil || resource.ID == "" {
+			t.Error("order can't be nil")
+		}
+
+		if err != nil {
+			t.Errorf(err.Error())
+		}
+
+		orderID := resource.ID
+		transactionID := resource.Transactions.Payments[0].ID
+
+		time.Sleep(3 * time.Second)
+
+		err = orderClient.DeleteTransaction(ctx, orderID, transactionID)
+		if err != nil {
+			if err != nil {
+				t.Fatalf("failed to delete transaction: %v", err)
+			}
+		}
+	})
+}*/
+
+/*func TestRefundOrder(t *testing.T) {
+	t.Run("should_create_order", func(t *testing.T) {
+		ctx := context.Background()
+		token, err := test.GenerateCardToken(ctx, cardTokenClient)
+		if err != nil {
+			t.Error("fail to generate card token", err)
+		}
+
+		request := order.Request{
+			Type:              "online",
+			TotalAmount:       "1000.00",
+			ProcessingMode:    "automatic",
+			ExternalReference: "ext_ref_1234",
+			Transactions: &order.TransactionRequest{
+				Payments: []order.PaymentRequest{
+					{
+						Amount: "1000.00",
+						PaymentMethod: &order.PaymentMethodRequest{
+							ID:           "master",
+							Token:        token,
+							Type:         "credit_card",
+							Installments: 1,
+						},
+					},
+				},
+			},
+			Payer: order.PayerRequest{
+				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
+			},
+		}
+
+		resource, err := orderClient.Create(ctx, request)
+		if err != nil {
+			t.Fatalf("failed to create order: %v", err)
+		}
+		if resource == nil || resource.ID == "" {
+			t.Fatalf("order can't be nil")
+		}
+
+		time.Sleep(3 * time.Second)
+
+		// Refund an order
+		refundRequest := map[string]interface{}{
+			"transactions": []map[string]interface{}{}, // gambiarra e ainda da errado
+		}
+		refundResp, err := orderClient.Refund(ctx, resource.ID, refundRequest)
+		if err != nil {
+			t.Fatalf("failed to refund order: %v", err)
+		}
+
+		if refundResp == nil || refundResp.Status != "refunded" {
+			t.Fatalf("expected order status to be 'refunded', got %v", refundResp.Status)
+		}
+	})
+}*/
+
+/*func TestRefundPartialOrder(t *testing.T) {
+	t.Run("should_create_order", func(t *testing.T) {
+		ctx := context.Background()
+		token, err := test.GenerateCardToken(ctx, cardTokenClient)
+		if err != nil {
+			t.Error("fail to generate card token", err)
+		}
+
+		request := order.Request{
+			Type:              "online",
+			TotalAmount:       "1000.00",
+			ProcessingMode:    "automatic",
+			ExternalReference: "ext_ref_1234",
+			Transactions: &order.TransactionRequest{
+				Payments: []order.PaymentRequest{
+					{
+						Amount: "1000.00",
+						PaymentMethod: &order.PaymentMethodRequest{
+							ID:           "master",
+							Token:        token,
+							Type:         "credit_card",
+							Installments: 1,
+						},
+					},
+				},
+			},
+			Payer: order.PayerRequest{
+				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
+			},
+		}
+
+		resource, err := orderClient.Create(ctx, request)
+		if err != nil {
+			t.Fatalf("failed to create order: %v", err)
+		}
+		if resource == nil || resource.ID == "" {
+			t.Fatalf("order can't be nil")
+		}
+
+		time.Sleep(2 * time.Second)
+
+		// Refund an order
+		transactionIDs := []map[string]interface{}{
+			{
+				"id":     resource.Transactions.Payments[0].ID,
+				"amount": "25.00",
+			},
+		}
+
+		refundRequest := map[string]interface{}{
+			"transactions": transactionIDs,
+		}
+
+		refundResp, err := orderClient.Refund(ctx, resource.ID, refundRequest)
+		if err != nil {
+			t.Fatalf("failed to refund order: %v", err)
+		}
+
+		if refundResp == nil || refundResp.Status != "partially_refunded" {
+			t.Fatalf("expected order status to be `partially_refunded`, got %v", refundResp.StatusDetail)
+		}
+	})
+}*/
