@@ -20,7 +20,7 @@ func main() {
 	orderID := "{{EXISTING_ORDER_ID}}"
 	transactionID := "{{EXISTING_TRANSACTION_ID}}"
 
-	// // Updating the transaction to change the number of installments
+	// Updating the transaction to change the number of installments
 	updateRequest := order.PaymentRequest{
 		PaymentMethod: &order.PaymentMethodRequest{Installments: 12},
 	}

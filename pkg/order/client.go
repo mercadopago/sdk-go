@@ -12,11 +12,7 @@ const (
 	urlWithOrderID       = urlBase + "/" + "{orderID}"
 	urlTransaction       = urlWithOrderID + "/transactions"
 	urlProcess           = urlWithOrderID + "/process"
-	urlPutTransaction    = urlTransaction + "/{transactionID}"
-	urlCapture           = urlWithOrderID + "/capture"
-	urlCancel            = urlWithOrderID + "/cancel"
-	urlRefund            = urlWithOrderID + "/refund"
-	urlDeleteTransaction = urlTransaction + "/{transactionID}"
+	urlUpdateTransaction = urlTransaction + "/{transactionID}"
 )
 
 // Client contains the methods to interact with the Order API.
@@ -122,7 +118,7 @@ func (c *client) UpdateTransaction(ctx context.Context, orderID string, transact
 	requestData := httpclient.RequestData{
 		Body:       request,
 		Method:     http.MethodPut,
-		URL:        urlPutTransaction,
+		URL:        urlUpdateTransaction,
 		PathParams: pathParams,
 	}
 
