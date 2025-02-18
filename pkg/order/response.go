@@ -1,5 +1,6 @@
 package order
 
+// API version: 5d077b6f-61b2-4b3a-8333-7a64ee547448
 type Response struct {
 	ID                string              `json:"id"`
 	Type              string              `json:"type"`
