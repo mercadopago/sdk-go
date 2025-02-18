@@ -27,7 +27,5 @@ func main() {
 
 	if cancelResp.Status == "canceled" {
 		fmt.Printf("Order %s canceled successfully.\n", orderID)
-	} else {
-		fmt.Printf("Expected status 'canceled', but got: %s\n", cancelResp.Status)
 	}
 }
