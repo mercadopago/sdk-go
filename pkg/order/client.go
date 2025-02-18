@@ -30,7 +30,6 @@ type Client interface {
 	Cancel(ctx context.Context, orderID string) (*Response, error)
 	Capture(ctx context.Context, orderID string) (*Response, error)
 	Refund(ctx context.Context, orderID string, request *TransactionRequest) (*Response, error)
-	//RefundTotal(ctx context.Context, orderID string) (*Response, error)
 	CreateTransaction(ctx context.Context, orderID string, request TransactionRequest) (*TransactionResponse, error)
 	UpdateTransaction(ctx context.Context, orderID string, transactionID string, request PaymentRequest) (*PaymentResponse, error)
 	DeleteTransaction(ctx context.Context, orderID string, transactionID string) error
