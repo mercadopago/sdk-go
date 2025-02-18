@@ -33,7 +33,7 @@ func main() {
 		return
 	}
 	orderID := orderResource.ID
-	fmt.Println("Order created with success. Order IDL: ", orderID)
+	fmt.Println("Order created with success. Order ID: ", orderID)
 
 	//create a transaction:
 	transactionRequest := order.TransactionRequest{
