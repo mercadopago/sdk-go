@@ -838,7 +838,7 @@ func TestRefund(t *testing.T) {
 	type args struct {
 		ctx     context.Context
 		orderID string
-		request *TransactionRequest
+		request *RefundRequest
 	}
 	tests := []struct {
 		name    string
@@ -861,7 +861,7 @@ func TestRefund(t *testing.T) {
 			args: args{
 				ctx:     context.Background(),
 				orderID: "invalidOrderID",
-				request: &TransactionRequest{},
+				request: &RefundRequest{},
 			},
 			want:    nil,
 			wantErr: true,
