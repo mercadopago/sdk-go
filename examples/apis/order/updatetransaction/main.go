@@ -17,43 +17,22 @@ func main() {
 	}
 
 	client := order.NewClient(c)
-	orderRequest := order.Request{
-		Type:              "online",
-		ProcessingMode:    "manual",
-		TotalAmount:       "100.00",
-		ExternalReference: "ext_ref_1234",
-		Payer: order.PayerRequest{
-			Email: "{{EMAIL}}",
-		},
+	orderID := "{{EXISTING_ORDER_ID}}"
+	transactionID := "{{EXISTING_TRANSACTION_ID}}"
+
+	// Updating the transaction to change the number of installments
+	updateRequest := order.PaymentRequest{
+		PaymentMethod: &order.PaymentMethodRequest{Installments: 12},
 	}
 
-	orderResource, err := client.Create(context.Background(), orderRequest)
+	ctx := context.Background()
+	updatedTransaction, err := client.UpdateTransaction(ctx, orderID, transactionID, updateRequest)
 	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	orderID := orderResource.ID
-	fmt.Println("Order created with success. Order IDL: ", orderID)
-
-	//create a transaction:
-	transactionRequest := order.TransactionRequest{
-		Payments: []order.PaymentRequest{
-			{
-				Amount: "100.00",
-				PaymentMethod: &order.PaymentMethodRequest{
-					ID:           "master",
-					Token:        "{{CARD_TOKEN}}",
-					Type:         "credit_card",
-					Installments: 1,
-				},
-			},
-		},
-	}
-	transactionCreated, err := client.CreateTransaction(context.Background(), orderID, transactionRequest)
-	if err != nil {
-		fmt.Println("Error in create transaction", err)
+		fmt.Printf("Failed to update transaction: %v\n", err)
 		return
 	}
 
-	fmt.Println("Success in create a Transaction", transactionCreated)
+	if updatedTransaction != nil {
+		fmt.Printf("Transaction updated successfully! New installments: %v\n", updatedTransaction.PaymentMethod.Installments)
+	}
 }
