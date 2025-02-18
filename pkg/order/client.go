@@ -12,7 +12,7 @@ const (
 	urlWithOrderID       = urlBase + "/" + "{orderID}"
 	urlTransaction       = urlWithOrderID + "/transactions"
 	urlProcess           = urlWithOrderID + "/process"
-	urlPutTransaction    = urlTransaction + "/{transactionID}"
+	urlUpdateTransaction = urlTransaction + "/{transactionID}"
 	urlCapture           = urlWithOrderID + "/capture"
 	urlCancel            = urlWithOrderID + "/cancel"
 	urlRefund            = urlWithOrderID + "/refund"
@@ -29,7 +29,8 @@ type Client interface {
 	Process(ctx context.Context, orderID string) (*Response, error)
 	Cancel(ctx context.Context, orderID string) (*Response, error)
 	Capture(ctx context.Context, orderID string) (*Response, error)
-	Refund(ctx context.Context, orderID string, request interface{}) (*Response, error)
+	Refund(ctx context.Context, orderID string, request *TransactionRequest) (*Response, error)
+	//RefundTotal(ctx context.Context, orderID string) (*Response, error)
 	CreateTransaction(ctx context.Context, orderID string, request TransactionRequest) (*TransactionResponse, error)
 	UpdateTransaction(ctx context.Context, orderID string, transactionID string, request PaymentRequest) (*PaymentResponse, error)
 	DeleteTransaction(ctx context.Context, orderID string, transactionID string) error
@@ -126,7 +127,7 @@ func (c *client) UpdateTransaction(ctx context.Context, orderID string, transact
 	requestData := httpclient.RequestData{
 		Body:       request,
 		Method:     http.MethodPut,
-		URL:        urlPutTransaction,
+		URL:        urlUpdateTransaction,
 		PathParams: pathParams,
 	}
 
@@ -174,15 +175,21 @@ func (c *client) Capture(ctx context.Context, orderID string) (*Response, error)
 	return resource, nil
 }
 
-func (c *client) Refund(ctx context.Context, orderID string, request interface{}) (*Response, error) {
+func (c *client) Refund(ctx context.Context, orderID string, request *TransactionRequest) (*Response, error) {
 	pathParam := map[string]string{
 		"orderID": orderID,
 	}
+
+	var requestBody any = nil
+	if request != nil {
+		requestBody = request
+	}
+
 	requestData := httpclient.RequestData{
 		Method:     http.MethodPost,
 		URL:        urlRefund,
 		PathParams: pathParam,
-		Body:       request,
+		Body:       requestBody,
 	}
 
 	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
