@@ -375,7 +375,7 @@ func TestCancelOrder(t *testing.T) {
 		// Capture an order
 		captureResp, err := orderClient.Cancel(ctx, resource.ID)
 		if err != nil {
-			t.Fatalf("failed to capture order: %v", err)
+			t.Fatalf("failed to cancel order: %v", err)
 		}
 
 		if captureResp == nil || captureResp.Status != "canceled" {
