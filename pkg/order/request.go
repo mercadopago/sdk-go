@@ -104,3 +104,12 @@ type ItemsRequest struct {
 	PictureUrl  string `json:"picture_url"`
 	Quantity    int    `json:"quantity"`
 }
+
+type RefundRequest struct {
+	Transactions []RefundTransaction `json:"transactions"`
+}
+
+type RefundTransaction struct {
+	ID     string `json:"id"`
+	Amount string `json:"amount"`
+}

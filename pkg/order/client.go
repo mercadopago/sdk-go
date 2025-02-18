@@ -29,7 +29,7 @@ type Client interface {
 	Process(ctx context.Context, orderID string) (*Response, error)
 	Cancel(ctx context.Context, orderID string) (*Response, error)
 	Capture(ctx context.Context, orderID string) (*Response, error)
-	Refund(ctx context.Context, orderID string, request *TransactionRequest) (*Response, error)
+	Refund(ctx context.Context, orderID string, request *RefundRequest) (*Response, error)
 	CreateTransaction(ctx context.Context, orderID string, request TransactionRequest) (*TransactionResponse, error)
 	UpdateTransaction(ctx context.Context, orderID string, transactionID string, request PaymentRequest) (*PaymentResponse, error)
 	DeleteTransaction(ctx context.Context, orderID string, transactionID string) error
@@ -174,7 +174,7 @@ func (c *client) Capture(ctx context.Context, orderID string) (*Response, error)
 	return resource, nil
 }
 
-func (c *client) Refund(ctx context.Context, orderID string, request *TransactionRequest) (*Response, error) {
+func (c *client) Refund(ctx context.Context, orderID string, request *RefundRequest) (*Response, error) {
 	pathParam := map[string]string{
 		"orderID": orderID,
 	}
