@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	accessToken := "{{Access_token}}"
+	accessToken := "{{ACCESS_TOKEN}}"
 	c, err := config.New(accessToken)
 	if err != nil {
 		fmt.Println(err)
