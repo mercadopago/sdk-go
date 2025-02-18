@@ -27,7 +27,5 @@ func main() {
 
 	if captureResp.Status == "processed" {
 		fmt.Printf("Order %s captured successfully.\n", orderID)
-	} else {
-		fmt.Printf("Expected status 'processed', but got: %s\n", captureResp.Status)
 	}
 }

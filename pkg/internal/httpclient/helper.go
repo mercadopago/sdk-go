@@ -143,7 +143,6 @@ func marshal(body any) (io.Reader, error) {
 }
 
 func unmarshal[T any](b []byte, response T) (T, error) {
-	// qdo array de byte for nulo/vazio, não tentar fazer conversão
 	if err := json.Unmarshal(b, &response); err != nil {
 		return response, err
 	}
