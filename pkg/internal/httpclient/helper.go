@@ -44,12 +44,16 @@ func DoRequest[T any](ctx context.Context, cfg *config.Config, requestData Reque
 		return resource, err
 	}
 
-	b, err := Send(cfg.Requester, req)
+	response, err := Send(cfg.Requester, req)
 	if err != nil {
 		return resource, err
 	}
 
-	return unmarshal(b, resource)
+	if response == nil || len(response) == 0 {
+		return resource, nil
+	}
+
+	return unmarshal(response, resource)
 }
 
 func createRequest(ctx context.Context, cfg *config.Config, requestData RequestData) (*http.Request, error) {

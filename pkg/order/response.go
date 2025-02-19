@@ -1,5 +1,6 @@
 package order
 
+// API version: 5d077b6f-61b2-4b3a-8333-7a64ee547448
 type Response struct {
 	ID                string              `json:"id"`
 	Type              string              `json:"type"`
@@ -34,19 +35,19 @@ type PaymentResponse struct {
 	Status            string                    `json:"status"`
 	StatusDetail      string                    `json:"status_detail,omitempty"`
 	Amount            string                    `json:"amount"`
-	PaymentMethod     PaymentMethodResponse     `json:"payment_method"`
+	PaymentMethod     *PaymentMethodResponse    `json:"payment_method,omitempty"`
 	AutomaticPayments *AutomaticPaymentResponse `json:"automatic_payments,omitempty"`
 	StoredCredential  *StoredCredentialResponse `json:"stored_credential,omitempty"`
 	SubscriptionData  *SubscriptionDataResponse `json:"subscription_data,omitempty"`
 }
 
 type PaymentMethodResponse struct {
-	ID                  string `json:"id"`
+	ID                  string `json:"id,omitempty"`
 	CardID              string `json:"card_id,omitempty"`
-	Type                string `json:"type"`
-	Token               string `json:"token"`
+	Type                string `json:"type,omitempty"`
+	Token               string `json:"token,omitempty"`
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
-	Installments        int    `json:"installments"`
+	Installments        int    `json:"installments,omitempty"`
 }
 
 type AutomaticPaymentResponse struct {

@@ -21,11 +21,11 @@ func main() {
 		Type:              "online",
 		TotalAmount:       "1000.00",
 		ExternalReference: "ext_ref_1234",
-		Transactions: order.TransactionRequest{
+		Transactions: &order.TransactionRequest{
 			Payments: []order.PaymentRequest{
 				{
 					Amount: "1000.00",
-					PaymentMethod: order.PaymentMethodRequest{
+					PaymentMethod: &order.PaymentMethodRequest{
 						ID:           "master",
 						Token:        "{{CARD_TOKEN}}",
 						Type:         "credit_card",

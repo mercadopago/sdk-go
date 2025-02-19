@@ -93,7 +93,7 @@ func TestCreate(t *testing.T) {
 							ReferenceID: "123456789",
 							Status:      "processed",
 							Amount:      "1000.00",
-							PaymentMethod: PaymentMethodResponse{
+							PaymentMethod: &PaymentMethodResponse{
 								ID:                  "master",
 								Type:                "credit_card",
 								Token:               "677859ef5f18ea7e3a87c41d02c3fbe3",
@@ -178,7 +178,7 @@ func TestCreate(t *testing.T) {
 							Amount:       "200.00",
 							Status:       "processed",
 							StatusDetail: "accredited",
-							PaymentMethod: PaymentMethodResponse{
+							PaymentMethod: &PaymentMethodResponse{
 								ID:           "master",
 								CardID:       "9514636140",
 								Type:         "credit_card",
@@ -294,6 +294,687 @@ func TestCreate(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Create() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGetOrder(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx     context.Context
+		orderID string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *Response
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_get_request",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("error")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "invalidOrderID",
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "should_succeed_to_get_request",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{"id": "validOrderID", "status": "processed"}`
+							resp := &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}
+							return resp, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "validOrderID",
+			},
+			want: &Response{
+				ID:     "validOrderID",
+				Status: "processed",
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			got, err := c.Get(tt.args.ctx, tt.args.orderID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Get() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Get() got = %v, want = %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestProcessOrder(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx     context.Context
+		orderID string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *Response
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_process_order",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("error processing order")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "invalidOrderID",
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "should_succeed_to_process_order",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{
+						"id": "ORD01JKV9XT88XQJ7H5W83C2MA5EP",
+						"status": "processed",
+						"status_detail": "accredited"
+					}` // Removi a vírgula extra aqui
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "validOrderID",
+			},
+			want: &Response{
+				ID:           "ORD01JKV9XT88XQJ7H5W83C2MA5EP",
+				Status:       "processed",
+				StatusDetail: "accredited",
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			got, err := c.Process(tt.args.ctx, tt.args.orderID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Process() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Process() got = %v, want = %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestCreateTransaction(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx     context.Context
+		orderID string
+		request TransactionRequest
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *TransactionResponse
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_create_transaction",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("error creating transaction")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "Order123",
+				request: TransactionRequest{},
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "should_succeed_to_create_transaction",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{
+                                "payments": [
+                                    {
+                                        "id": "payment_12345",
+                                        "amount": "100.00",
+                                        "currency": "BRL",
+                                        "payment_method": {
+                                            "id": "master",
+                                            "type": "credit_card",
+                                            "token": "token_1234",
+                                            "installments": 1,
+                                            "statement_descriptor": "statement"
+                                        }
+                                    }
+                                ]
+                            }`
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "validOrderID",
+				request: TransactionRequest{
+					Payments: []PaymentRequest{
+						{
+							Amount: "100.00",
+							PaymentMethod: &PaymentMethodRequest{
+								ID:                  "master",
+								Type:                "credit_card",
+								Token:               "token_1234",
+								Installments:        1,
+								StatementDescriptor: "statement",
+							},
+						},
+					},
+				},
+			},
+			want: &TransactionResponse{
+				Payments: []PaymentResponse{
+					{
+						ID:     "payment_12345",
+						Amount: "100.00",
+						PaymentMethod: &PaymentMethodResponse{
+							ID:                  "master",
+							Type:                "credit_card",
+							Token:               "token_1234",
+							Installments:        1,
+							StatementDescriptor: "statement",
+						},
+					},
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			got, err := c.CreateTransaction(tt.args.ctx, tt.args.orderID, tt.args.request)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Create Transaction() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Create Transaction() got = %v, want = %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestUpdateTransaction(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx           context.Context
+		orderID       string
+		transactionID string
+		request       PaymentRequest
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *PaymentResponse
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_update_transaction",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("error updating transaction")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:           context.Background(),
+				orderID:       "Order123",
+				transactionID: "Pay_Order123",
+				request:       PaymentRequest{},
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "should_succeed_to_update_transaction",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{
+										"payment_method": {
+											"type": "credit_card",
+											"installments": 2,
+											"statement_descriptor": "updated statement"
+										}
+									}`
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:           context.Background(),
+				orderID:       "Order123",
+				transactionID: "Pay_Order123",
+				request: PaymentRequest{
+
+					PaymentMethod: &PaymentMethodRequest{
+						Type:                "credit_card",
+						Installments:        2,
+						StatementDescriptor: "updated statement",
+					},
+				},
+			},
+			want: &PaymentResponse{
+				PaymentMethod: &PaymentMethodResponse{
+					Type:                "credit_card",
+					Installments:        2,
+					StatementDescriptor: "updated statement",
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			got, err := c.UpdateTransaction(tt.args.ctx, tt.args.orderID, tt.args.transactionID, tt.args.request)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Update Transaction() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Update Transaction() got = %v, want = %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestCancelOrder(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx     context.Context
+		orderID string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *Response
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_cancel_order",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("error canceling order")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "invalidOrderID",
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "should_succeed_to_cancel_order",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{"id": "validOrderID", "status": "cancelled"}`
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "validOrderID",
+			},
+			want: &Response{
+				ID:     "validOrderID",
+				Status: "cancelled",
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			got, err := c.Cancel(tt.args.ctx, tt.args.orderID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Cancel() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Cancel() got = %v, want = %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestCapture(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx     context.Context
+		orderID string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *Response
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_capture_order",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("error capturing order")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "invalidOrderID",
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "should_succeed_to_capture_order",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{"id": "validOrderID", "status": "captured"}`
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "validOrderID",
+			},
+			want: &Response{
+				ID:     "validOrderID",
+				Status: "captured",
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			got, err := c.Capture(tt.args.ctx, tt.args.orderID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Capture() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Capture() got = %v, want = %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestRefund(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx     context.Context
+		orderID string
+		request *RefundRequest
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *Response
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_refund_order",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("error refunding order")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "invalidOrderID",
+				request: &RefundRequest{},
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "should_succeed_to_refund_order",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{"id": "validOrderID", "status": "refunded"}`
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				orderID: "validOrderID",
+				request: nil,
+			},
+			want: &Response{
+				ID:     "validOrderID",
+				Status: "refunded",
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			got, err := c.Refund(tt.args.ctx, tt.args.orderID, tt.args.request)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Refund() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Refund() got = %v, want = %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDeleteTransaction(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx           context.Context
+		orderID       string
+		transactionID string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_delete_transaction",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("error deleting transaction")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:           context.Background(),
+				orderID:       "Order123",
+				transactionID: "invalidTransactionID",
+			},
+			wantErr: true,
+		},
+		{
+			name: "should_succeed_to_delete_transaction",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return &http.Response{
+								StatusCode: http.StatusNoContent,
+								Body:       http.NoBody,
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:           context.Background(),
+				orderID:       "validOrderID",
+				transactionID: "validTransactionID",
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			err := c.DeleteTransaction(tt.args.ctx, tt.args.orderID, tt.args.transactionID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DeleteTransaction() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
