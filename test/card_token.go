@@ -17,7 +17,7 @@ func GenerateCardToken(ctx context.Context, client cardtoken.Client) (string, er
 		},
 		SiteID:          "MLB",
 		CardNumber:      "5031433215406351",
-		ExpirationYear:  "2025",
+		ExpirationYear:  "2030",
 		ExpirationMonth: "11",
 		SecurityCode:    "123",
 	}
