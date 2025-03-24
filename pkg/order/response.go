@@ -2,26 +2,26 @@ package order
 
 // API version: 5d077b6f-61b2-4b3a-8333-7a64ee547448
 type Response struct {
-	ID                string              `json:"id"`
-	Type              string              `json:"type"`
-	TotalAmount       string              `json:"total_amount"`
-	ExternalReference string              `json:"external_reference"`
-	CountryCode       string              `json:"country_code"`
-	Status            string              `json:"status"`
-	StatusDetail      string              `json:"status_detail"`
-	CaptureMode       string              `json:"capture_mode"`
-	ProcessingMode    string              `json:"processing_mode"`
-	Description       string              `json:"description,omitempty"`
-	Marketplace       string              `json:"marketplace,omitempty"`
-	MarketplaceFee    string              `json:"marketplace_fee,omitempty"`
-	ExpirationTime    string              `json:"expiration_time,omitempty"`
-	CreatedDate       string              `json:"created_date"`
-	LastUpdatedDate   string              `json:"last_updated_date"`
-	ClientID          string              `json:"client_id,omitempty"`
-	CollectorID       string              `json:"collector_id,omitempty"`
-	Transactions      TransactionResponse `json:"transactions"`
-	Payer             PayerResponse       `json:"payer"`
-	Items             []ItemsResponse     `json:"items,omitempty"`
+	ID                  string              `json:"id"`
+	Type                string              `json:"type"`
+	ExternalReference   string              `json:"external_reference"`
+	CountryCode         string              `json:"country_code"`
+	Status              string              `json:"status"`
+	StatusDetail        string              `json:"status_detail"`
+	CaptureMode         string              `json:"capture_mode"`
+	UserID              string              `json:"user_id,omitempty"`
+	ClientToken         string              `json:"client_token,omitempty"`
+	TotalAmount         string              `json:"total_amount"`
+	ProcessingMode      string              `json:"processing_mode"`
+	Description         string              `json:"description,omitempty"`
+	Marketplace         string              `json:"marketplace,omitempty"`
+	MarketplaceFee      string              `json:"marketplace_fee,omitempty"`
+	CheckoutAvailableAt string              `json:"checkout_available_at,omitempty"`
+	ExpirationTime      string              `json:"expiration_time,omitempty"`
+	Transactions        TransactionResponse `json:"transactions"`
+	Items               []ItemsResponse     `json:"items,omitempty"`
+	IntegrationData     IntegrationData     `json:"integration_data,omitempty"`
+	Config              ConfigResponse      `json:"config,omitempty"`
 }
 
 type TransactionResponse struct {
@@ -42,12 +42,25 @@ type PaymentResponse struct {
 }
 
 type PaymentMethodResponse struct {
-	ID                  string `json:"id,omitempty"`
-	CardID              string `json:"card_id,omitempty"`
-	Type                string `json:"type,omitempty"`
-	Token               string `json:"token,omitempty"`
-	StatementDescriptor string `json:"statement_descriptor,omitempty"`
-	Installments        int    `json:"installments,omitempty"`
+	ID                   string `json:"id,omitempty"`
+	CardID               string `json:"card_id,omitempty"`
+	Type                 string `json:"type,omitempty"`
+	Token                string `json:"token,omitempty"`
+	StatementDescriptor  string `json:"statement_descriptor,omitempty"`
+	Installments         int    `json:"installments,omitempty"`
+	TicketUrl            string `json:"ticket_url,omitempty"`
+	BarcodeContent       string `json:"barcode_content,omitempty"`
+	Reference            string `json:"reference,omitempty"`
+	VerificationCode     string `json:"verification_code,omitempty"`
+	FinancialInstitution string `json:"financial_institution,omitempty"`
+	QrCode               string `json:"qr_code,omitempty"`
+	QrCodeBase64         string `json:"qr_code_base64,omitempty"`
+	DigitableLine        string `json:"digitable_line,omitempty"`
+	NotAllowedIds        string `json:"not_allowed_ids,omitempty"`
+	NotAllowedTypes      string `json:"not_allowed_types,omitempty"`
+	DefaultId            string `json:"default_id,omitempty"`
+	MaxInstallments      int    `json:"max_installments,omitempty"`
+	DefaultInstallments  int    `json:"default_installments,omitempty"`
 }
 
 type AutomaticPaymentResponse struct {
@@ -84,6 +97,7 @@ type InvoicePeriodResponse struct {
 type RefundResponse struct {
 	ID            string `json:"id"`
 	TransactionID string `json:"transaction_id"`
+	ReferenceId   string `json:"reference_id"`
 	Status        string `json:"status"`
 	Amount        string `json:"amount"`
 }
@@ -93,39 +107,28 @@ type RefundReferenceResponse struct {
 	SourceID string `json:"source_id"`
 }
 
-type PayerResponse struct {
-	Email          string                  `json:"email"`
-	FirstName      string                  `json:"first_name,omitempty"`
-	LastName       string                  `json:"last_name,omitempty"`
-	CustomerID     *string                 `json:"customer_id,omitempty"`
-	Identification *IdentificationResponse `json:"identification,omitempty"`
-	Phone          *PhoneResponse          `json:"phone,omitempty"`
-	Address        *AddressResponse        `json:"address,omitempty"`
-}
-
-type IdentificationResponse struct {
-	Type   string `json:"type"`
-	Number string `json:"number"`
-}
-
-type PhoneResponse struct {
-	AreaCode string `json:"area_code"`
-	Number   string `json:"number"`
-}
-
-type AddressResponse struct {
-	StreetName   string `json:"street_name"`
-	StreetNumber string `json:"street_number"`
-	ZipCode      string `json:"zip_code"`
-}
-
 type ItemsResponse struct {
-	ID          string `json:"id"`
-	Title       string `json:"title"`
-	UnitPrice   string `json:"unit_price"`
-	Description string `json:"description"`
-	CategoryID  string `json:"category_id"`
-	Type        string `json:"type"`
-	PictureUrl  string `json:"picture_url"`
-	Quantity    int    `json:"quantity"`
+	Title        string `json:"title"`
+	UnitPrice    string `json:"unit_price"`
+	ExternalCode string `json:"external_code"`
+	Description  string `json:"description"`
+	CategoryID   string `json:"category_id"`
+	PictureUrl   string `json:"picture_url"`
+	Quantity     int    `json:"quantity"`
+}
+
+type IntegrationData struct {
+	CorporationId string  `json:"corporation_id"`
+	ApplicationId string  `json:"application_id"`
+	IntegratorId  string  `json:"integrator_id"`
+	PlatformId    string  `json:"platform_id"`
+	Sponsor       Sponsor `json:"sponsor"`
+}
+
+type Sponsor struct {
+	ID string `json:"id"`
+}
+type ConfigResponse struct {
+	PaymentMethodResponse PaymentMethodResponse `json:"payment_method"`
+	Online                Online                `json:"online"`
 }

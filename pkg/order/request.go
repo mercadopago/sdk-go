@@ -3,18 +3,20 @@ package order
 // API version: 5d077b6f-61b2-4b3a-8333-7a64ee547448
 
 type Request struct {
-	Type              string              `json:"type"`
-	TotalAmount       string              `json:"total_amount"`
-	ExternalReference string              `json:"external_reference"`
-	CaptureMode       string              `json:"capture_mode,omitempty"`
-	ProcessingMode    string              `json:"processing_mode,omitempty"`
-	Description       string              `json:"description,omitempty"`
-	Marketplace       string              `json:"marketplace,omitempty"`
-	MarketPlaceFee    string              `json:"marketplace_fee,omitempty"`
-	ExpirationTime    string              `json:"expiration_time,omitempty"`
-	Transactions      *TransactionRequest `json:"transactions,omitempty"`
-	Payer             PayerRequest        `json:"payer"`
-	Items             []ItemsRequest      `json:"items,omitempty"`
+	Type                string              `json:"type"`
+	ExternalReference   string              `json:"external_reference"`
+	TotalAmount         string              `json:"total_amount"`
+	CaptureMode         string              `json:"capture_mode,omitempty"`
+	ProcessingMode      string              `json:"processing_mode,omitempty"`
+	Description         string              `json:"description,omitempty"`
+	Marketplace         string              `json:"marketplace,omitempty"`
+	MarketPlaceFee      string              `json:"marketplace_fee,omitempty"`
+	ExpirationTime      string              `json:"expiration_time,omitempty"`
+	CheckoutAvailableAt string              `json:"checkout_available_at,omitempty"`
+	Transactions        *TransactionRequest `json:"transactions,omitempty"`
+	Payer               PayerRequest        `json:"payer"`
+	Items               []ItemsRequest      `json:"items,omitempty"`
+	Config              ConfigRequest       `json:"config,omitempty"`
 }
 
 type TransactionRequest struct {
@@ -34,7 +36,12 @@ type PaymentMethodRequest struct {
 	Type                string `json:"type,omitempty"`
 	Token               string `json:"token,omitempty"`
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
+	NotAllowedIds       string `json:"not_allowed_ids,omitempty"`
+	NotAllowedTypes     string `json:"not_allowed_types,omitempty"`
+	DefaultId           string `json:"default_id,omitempty"`
 	Installments        int    `json:"installments,omitempty"`
+	MaxInstallments     int    `json:"max_installments,omitempty"`
+	DefaultInstallments int    `json:"default_installments,omitempty"`
 }
 
 type AutomaticPaymentRequest struct {
@@ -92,17 +99,21 @@ type AddressRequest struct {
 	StreetName   string `json:"street_name"`
 	StreetNumber string `json:"street_number"`
 	ZipCode      string `json:"zip_code"`
+	Neighborhood string `json:"neighborhood"`
+	State        string `json:"state"`
+	City         string `json:"city"`
+	Complement   string `json:"complement"`
+	Floor        string `json:"floor"`
 }
 
 type ItemsRequest struct {
-	ID          string `json:"id"`
-	Title       string `json:"title"`
-	UnitPrice   string `json:"unit_price"`
-	Description string `json:"description"`
-	CategoryID  string `json:"category_id"`
-	Type        string `json:"type"`
-	PictureUrl  string `json:"picture_url"`
-	Quantity    int    `json:"quantity"`
+	Title        string `json:"title"`
+	UnitPrice    string `json:"unit_price"`
+	ExternalCode string `json:"external_code"`
+	CategoryID   string `json:"category_id"`
+	Description  string `json:"description"`
+	PictureUrl   string `json:"picture_url"`
+	Quantity     int    `json:"quantity"`
 }
 
 type RefundRequest struct {
@@ -112,4 +123,22 @@ type RefundRequest struct {
 type RefundTransaction struct {
 	ID     string `json:"id"`
 	Amount string `json:"amount"`
+}
+
+type ConfigRequest struct {
+	PaymentMethodRequest *PaymentMethodRequest `json:"payment_method_request"`
+	Online               Online                `json:"online"`
+}
+
+type Online struct {
+	CallbackUrl         string                     `json:"callback_url"`
+	SuccessUrl          string                     `json:"success_url"`
+	PendingUrl          string                     `json:"pending_url"`
+	FailureUrl          string                     `json:"failure_url"`
+	AutoReturnUrl       string                     `json:"auto_return_url"`
+	DifferentialPricing DifferentialPricingRequest `json:"differential_pricing"`
+}
+
+type DifferentialPricingRequest struct {
+	Id int `json:"id"`
 }

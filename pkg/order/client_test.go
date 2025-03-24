@@ -104,33 +104,16 @@ func TestCreate(t *testing.T) {
 					},
 					Refunds: []RefundResponse{},
 				},
-				Payer: PayerResponse{
-					Email:     "{email}",
-					FirstName: "John",
-					LastName:  "Doe",
-					Identification: &IdentificationResponse{
-						Type:   "CPF",
-						Number: "00000000000",
-					},
-					Phone: &PhoneResponse{
-						AreaCode: "55",
-						Number:   "99999999999",
-					},
-					Address: &AddressResponse{
-						StreetName:   "Av. das Nações Unidas",
-						StreetNumber: "99",
-					},
-				},
 				Items: []ItemsResponse{
 					{
-						ID:          "item_id",
+
 						Title:       "Some item title",
 						UnitPrice:   "1000.00",
 						Description: "Some item description",
 						CategoryID:  "category_id",
-						Type:        "item_type",
-						PictureUrl:  "https://mysite.com/img/item.jpg",
-						Quantity:    1,
+
+						PictureUrl: "https://mysite.com/img/item.jpg",
+						Quantity:   1,
 					},
 				},
 			},
@@ -159,17 +142,10 @@ func TestCreate(t *testing.T) {
 				Marketplace:       "NONE",
 				TotalAmount:       "200.00",
 				CountryCode:       "MEX",
-				ClientID:          "4599991948843755",
-				CollectorID:       "1245621468",
-				CreatedDate:       "2024-09-02T22:04:01.880469Z",
-				LastUpdatedDate:   "2024-09-02T22:04:04.429289Z",
 				Type:              "online",
 				Status:            "processed",
 				StatusDetail:      "accredited",
 				CaptureMode:       "automatic",
-				Payer: PayerResponse{
-					CustomerID: &customerID,
-				},
 				Transactions: TransactionResponse{
 					Payments: []PaymentResponse{
 						{
@@ -232,17 +208,10 @@ func TestCreate(t *testing.T) {
 				Marketplace:       "NONE",
 				TotalAmount:       "200.00",
 				CountryCode:       "MEX",
-				ClientID:          "4599991948843755",
-				CollectorID:       "1245621468",
-				CreatedDate:       "2024-09-02T22:04:01.880469Z",
-				LastUpdatedDate:   "2024-09-02T22:04:04.429289Z",
 				Type:              "online",
 				Status:            "processing",
 				StatusDetail:      "processing",
 				CaptureMode:       "automatic",
-				Payer: PayerResponse{
-					CustomerID: &customerID,
-				},
 				Transactions: TransactionResponse{
 					Payments: []PaymentResponse{
 						{
