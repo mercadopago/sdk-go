@@ -3,19 +3,19 @@ package order
 // API version: 5d077b6f-61b2-4b3a-8333-7a64ee547448
 
 type Request struct {
-	Type                string              `json:"type"`
-	ExternalReference   string              `json:"external_reference"`
-	TotalAmount         string              `json:"total_amount"`
-	CaptureMode         string              `json:"capture_mode,omitempty"`
-	ProcessingMode      string              `json:"processing_mode,omitempty"`
-	Description         string              `json:"description,omitempty"`
-	Marketplace         string              `json:"marketplace,omitempty"`
-	MarketPlaceFee      string              `json:"marketplace_fee,omitempty"`
-	ExpirationTime      string              `json:"expiration_time,omitempty"`
+	Type              string              `json:"type"`
+	TotalAmount       string              `json:"total_amount"`
+	ExternalReference string              `json:"external_reference"`
+	CaptureMode       string              `json:"capture_mode,omitempty"`
+	ProcessingMode    string              `json:"processing_mode,omitempty"`
+	Description       string              `json:"description,omitempty"`
+	Marketplace       string              `json:"marketplace,omitempty"`
+	MarketPlaceFee    string              `json:"marketplace_fee,omitempty"`
+	ExpirationTime    string              `json:"expiration_time,omitempty"`
+	Transactions      *TransactionRequest `json:"transactions,omitempty"`
+	Payer             PayerRequest        `json:"payer"`
+	Items             []ItemsRequest      `json:"items,omitempty"`
 	CheckoutAvailableAt string              `json:"checkout_available_at,omitempty"`
-	Transactions        *TransactionRequest `json:"transactions,omitempty"`
-	Payer               PayerRequest        `json:"payer"`
-	Items               []ItemsRequest      `json:"items,omitempty"`
 	Config              ConfigRequest       `json:"config,omitempty"`
 }
 

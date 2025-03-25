@@ -35,7 +35,7 @@ type PaymentResponse struct {
 	Status            string                    `json:"status"`
 	StatusDetail      string                    `json:"status_detail,omitempty"`
 	Amount            string                    `json:"amount"`
-	PaymentMethod     *PaymentMethodResponse    `json:"payment_method,omitempty"`
+	PaymentMethod     PaymentMethodResponse     `json:"payment_method"`
 	AutomaticPayments *AutomaticPaymentResponse `json:"automatic_payments,omitempty"`
 	StoredCredential  *StoredCredentialResponse `json:"stored_credential,omitempty"`
 	SubscriptionData  *SubscriptionDataResponse `json:"subscription_data,omitempty"`
