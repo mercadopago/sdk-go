@@ -18,10 +18,13 @@ type Response struct {
 	MarketplaceFee      string              `json:"marketplace_fee,omitempty"`
 	CheckoutAvailableAt string              `json:"checkout_available_at,omitempty"`
 	ExpirationTime      string              `json:"expiration_time,omitempty"`
+	CreatedDate         string              `json:"date_created,omitempty"`
+	LastUpdatedDate     string              `json:"last_updated,omitempty"`
 	Transactions        TransactionResponse `json:"transactions"`
 	Items               []ItemsResponse     `json:"items,omitempty"`
 	IntegrationData     IntegrationData     `json:"integration_data,omitempty"`
 	Config              ConfigResponse      `json:"config,omitempty"`
+	Payer               PayerResponse       `json:"payer"`
 }
 
 type TransactionResponse struct {
@@ -131,4 +134,8 @@ type Sponsor struct {
 type ConfigResponse struct {
 	PaymentMethodResponse PaymentMethodResponse `json:"payment_method"`
 	Online                Online                `json:"online"`
+}
+
+type PayerResponse struct {
+	CustomerID string `json:"customer_id"`
 }
