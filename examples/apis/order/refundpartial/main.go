@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	accessToken := "{{ACESS_TOKEN}}"
+	accessToken := "{{ACCESS_TOKEN}}"
 	orderID := "{{ORDER_ID}}"
 
 	c, err := config.New(accessToken)
@@ -28,7 +28,6 @@ func main() {
 		},
 	}
 
-	// Correctly pass refundRequest to Refund method
 	orderRefunded, err := client.Refund(context.Background(), orderID, &refundRequest)
 	if err != nil {
 		fmt.Println("Error in refund transaction:", err)
