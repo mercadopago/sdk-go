@@ -23,7 +23,7 @@ func main() {
 		TotalAmount:       "100.00",
 		ExternalReference: "ext_ref_1234",
 		Payer: order.PayerRequest{
-			Email: "{{EMAIL}}",
+			Email: "{{PAYER_EMAIL}}",
 		},
 	}
 
