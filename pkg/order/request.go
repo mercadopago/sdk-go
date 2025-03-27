@@ -126,19 +126,19 @@ type RefundTransaction struct {
 }
 
 type ConfigRequest struct {
-	PaymentMethodRequest *PaymentMethodRequest `json:"payment_method_request"`
-	Online               Online                `json:"online"`
+	PaymentMethodRequest *PaymentMethodRequest `json:"payment_method_request,omitempty"`
+	Online               Online                `json:"online,omitempty"`
 }
 
 type Online struct {
-	CallbackUrl         string                     `json:"callback_url"`
-	SuccessUrl          string                     `json:"success_url"`
-	PendingUrl          string                     `json:"pending_url"`
-	FailureUrl          string                     `json:"failure_url"`
-	AutoReturnUrl       string                     `json:"auto_return_url"`
-	DifferentialPricing DifferentialPricingRequest `json:"differential_pricing"`
+	CallbackUrl         string                     `json:"callback_url,omitempty"`
+	SuccessUrl          string                     `json:"success_url,omitempty"`
+	PendingUrl          string                     `json:"pending_url,omitempty"`
+	FailureUrl          string                     `json:"failure_url,omitempty"`
+	AutoReturnUrl       string                     `json:"auto_return_url,omitempty"`
+	DifferentialPricing DifferentialPricingRequest `json:"differential_pricing,omitempty"`
 }
 
 type DifferentialPricingRequest struct {
-	Id int `json:"id"`
+	Id int `json:"id,omitempty"`
 }
