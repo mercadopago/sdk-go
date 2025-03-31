@@ -162,13 +162,13 @@ func TestCreate(t *testing.T) {
 								Installments: 1,
 								Token:        "677859ef5f18ea7e3a87c41d02c3fbe3",
 							},
-							AutomaticPayments: &AutomaticPaymentResponse{
+							AutomaticPayments: AutomaticPaymentResponse{
 								PaymentProfileID: "035979dc46c645c4ae12554835b07943",
 							},
-							StoredCredential: &StoredCredentialResponse{
+							StoredCredential: StoredCredentialResponse{
 								PaymentInitiator: "customer",
 							},
-							SubscriptionData: &SubscriptionDataResponse{
+							SubscriptionData: SubscriptionDataResponse{
 								SubscriptionSequence: SubscriptionSequenceResponse{
 									Number: 1,
 									Total:  12,
@@ -224,19 +224,19 @@ func TestCreate(t *testing.T) {
 							Amount:       "200.00",
 							Status:       "processing",
 							StatusDetail: "processing",
-							AutomaticPayments: &AutomaticPaymentResponse{
+							AutomaticPayments: AutomaticPaymentResponse{
 								PaymentProfileID: "035979dc46c645c4ae12554835b07943",
 								Retries:          3,
 								ScheduleDate:     "2024-09-02T22:04:01.880469Z",
 								DueDate:          "2024-09-02T22:04:01.880469Z",
 							},
-							StoredCredential: &StoredCredentialResponse{
+							StoredCredential: StoredCredentialResponse{
 								PaymentInitiator:   "customer",
 								Reason:             "card_on_file",
 								StorePaymentMethod: true,
 								FirstPayment:       false,
 							},
-							SubscriptionData: &SubscriptionDataResponse{
+							SubscriptionData: SubscriptionDataResponse{
 								SubscriptionSequence: SubscriptionSequenceResponse{
 									Number: 1,
 									Total:  12,
