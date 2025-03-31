@@ -79,7 +79,7 @@ func TestCreate(t *testing.T) {
 				CountryCode:       "ARG",
 				Status:            "processed",
 				StatusDetail:      "accredited",
-				CaptureMode:       "automatic",
+				CaptureMode:       "automatic_async",
 				ProcessingMode:    "automatic",
 				Description:       "some description",
 				Marketplace:       "NONE",
@@ -143,7 +143,7 @@ func TestCreate(t *testing.T) {
 				Type:              "online",
 				Status:            "processed",
 				StatusDetail:      "accredited",
-				CaptureMode:       "automatic",
+				CaptureMode:       "automatic_async",
 				CreatedDate:       "2024-09-02T22:04:01.880469Z",
 				LastUpdatedDate:   "2024-09-02T22:04:04.429289Z",
 				Payer: PayerResponse{
@@ -214,7 +214,7 @@ func TestCreate(t *testing.T) {
 				Type:              "online",
 				Status:            "processing",
 				StatusDetail:      "processing",
-				CaptureMode:       "automatic",
+				CaptureMode:       "automatic_async",
 				CreatedDate:       "2024-09-02T22:04:01.880469Z",
 				LastUpdatedDate:   "2024-09-02T22:04:04.429289Z",
 				Payer: PayerResponse{
