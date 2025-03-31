@@ -106,7 +106,6 @@ func TestGetOrder(t *testing.T) {
 		if err != nil {
 			t.Errorf(err.Error())
 		}
-
 	})
 }
 
@@ -158,7 +157,6 @@ func TestProcessOrder(t *testing.T) {
 		if resource.Status != "processed" {
 			t.Errorf("expected order status to be 'processed', got %v", resource.Status)
 		}
-
 	})
 }
 
@@ -431,9 +429,7 @@ func TestDeleteOrder(t *testing.T) {
 
 		err = orderClient.DeleteTransaction(ctx, orderID, transactionID)
 		if err != nil {
-			if err != nil {
-				t.Fatalf("failed to delete transaction: %v", err)
-			}
+			t.Fatalf("failed to delete transaction: %v", err)
 		}
 	})
 }

@@ -51,7 +51,7 @@ type PaymentMethodResponse struct {
 	Token                string `json:"token,omitempty"`
 	StatementDescriptor  string `json:"statement_descriptor,omitempty"`
 	Installments         int    `json:"installments,omitempty"`
-	TicketUrl            string `json:"ticket_url,omitempty"`
+	TicketURL            string `json:"ticket_url,omitempty"`
 	BarcodeContent       string `json:"barcode_content,omitempty"`
 	Reference            string `json:"reference,omitempty"`
 	VerificationCode     string `json:"verification_code,omitempty"`
@@ -59,9 +59,9 @@ type PaymentMethodResponse struct {
 	QrCode               string `json:"qr_code,omitempty"`
 	QrCodeBase64         string `json:"qr_code_base64,omitempty"`
 	DigitableLine        string `json:"digitable_line,omitempty"`
-	NotAllowedIds        string `json:"not_allowed_ids,omitempty"`
+	NotAllowedIDs        string `json:"not_allowed_ids,omitempty"`
 	NotAllowedTypes      string `json:"not_allowed_types,omitempty"`
-	DefaultId            string `json:"default_id,omitempty"`
+	DefaultID            string `json:"default_id,omitempty"`
 	MaxInstallments      int    `json:"max_installments,omitempty"`
 	DefaultInstallments  int    `json:"default_installments,omitempty"`
 }
@@ -100,7 +100,7 @@ type InvoicePeriodResponse struct {
 type RefundResponse struct {
 	ID            string `json:"id"`
 	TransactionID string `json:"transaction_id"`
-	ReferenceId   string `json:"reference_id"`
+	ReferenceID   string `json:"reference_id"`
 	Status        string `json:"status"`
 	Amount        string `json:"amount"`
 }
@@ -116,7 +116,7 @@ type ItemsResponse struct {
 	ExternalCode string `json:"external_code"`
 	Description  string `json:"description"`
 	CategoryID   string `json:"category_id"`
-	PictureUrl   string `json:"picture_url"`
+	PictureURL   string `json:"picture_url"`
 	Quantity     int    `json:"quantity"`
 }
 
