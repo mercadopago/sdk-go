@@ -36,9 +36,9 @@ type PaymentMethodRequest struct {
 	Type                string `json:"type,omitempty"`
 	Token               string `json:"token,omitempty"`
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
-	NotAllowedIds       string `json:"not_allowed_ids,omitempty"`
+	NotAllowedIDs       string `json:"not_allowed_ids,omitempty"`
 	NotAllowedTypes     string `json:"not_allowed_types,omitempty"`
-	DefaultId           string `json:"default_id,omitempty"`
+	DefaultID           string `json:"default_id,omitempty"`
 	Installments        int    `json:"installments,omitempty"`
 	MaxInstallments     int    `json:"max_installments,omitempty"`
 	DefaultInstallments int    `json:"default_installments,omitempty"`
@@ -112,7 +112,7 @@ type ItemsRequest struct {
 	ExternalCode string `json:"external_code"`
 	CategoryID   string `json:"category_id"`
 	Description  string `json:"description"`
-	PictureUrl   string `json:"picture_url"`
+	PictureURL   string `json:"picture_url"`
 	Quantity     int    `json:"quantity"`
 }
 
