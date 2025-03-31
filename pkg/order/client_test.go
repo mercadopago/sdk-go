@@ -144,6 +144,8 @@ func TestCreate(t *testing.T) {
 				Status:            "processed",
 				StatusDetail:      "accredited",
 				CaptureMode:       "automatic",
+				CreatedDate:       "2024-09-02T22:04:01.880469Z",
+				LastUpdatedDate:   "2024-09-02T22:04:04.429289Z",
 				Payer: PayerResponse{
 					CustomerID: "1234567890",
 				},
@@ -213,6 +215,8 @@ func TestCreate(t *testing.T) {
 				Status:            "processing",
 				StatusDetail:      "processing",
 				CaptureMode:       "automatic",
+				CreatedDate:       "2024-09-02T22:04:01.880469Z",
+				LastUpdatedDate:   "2024-09-02T22:04:04.429289Z",
 				Payer: PayerResponse{
 					CustomerID: "1234567890",
 				},
