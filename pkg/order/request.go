@@ -3,9 +3,9 @@ package order
 // API version: d0494f1c-8d81-4c76-ae1d-0c65bb8ef6de
 
 type Request struct {
-	Type                string              `json:"type"`
-	TotalAmount         string              `json:"total_amount"`
-	ExternalReference   string              `json:"external_reference"`
+	Type                string              `json:"type,omitempty"`
+	TotalAmount         string              `json:"total_amount,omitempty"`
+	ExternalReference   string              `json:"external_reference,omitempty"`
 	CaptureMode         string              `json:"capture_mode,omitempty"`
 	ProcessingMode      string              `json:"processing_mode,omitempty"`
 	Description         string              `json:"description,omitempty"`
@@ -14,13 +14,13 @@ type Request struct {
 	ExpirationTime      string              `json:"expiration_time,omitempty"`
 	CheckoutAvailableAt string              `json:"checkout_available_at,omitempty"`
 	Transactions        *TransactionRequest `json:"transactions,omitempty"`
-	Payer               *PayerRequest       `json:"payer"`
+	Payer               *PayerRequest       `json:"payer,omitempty"`
 	Items               []ItemsRequest      `json:"items,omitempty"`
 	Config              *ConfigRequest      `json:"config,omitempty"`
 }
 
 type TransactionRequest struct {
-	Payments []PaymentRequest `json:"payments"`
+	Payments []PaymentRequest `json:"payments,omitempty"`
 }
 
 type PaymentRequest struct {
@@ -41,38 +41,38 @@ type PaymentMethodRequest struct {
 }
 
 type AutomaticPaymentsRequest struct {
-	PaymentProfileID string `json:"payment_profile_id"`
-	ScheduleDate     string `json:"schedule_date"`
-	DueDate          string `json:"due_date"`
-	Retries          int    `json:"retries"`
+	PaymentProfileID string `json:"payment_profile_id,omitempty"`
+	ScheduleDate     string `json:"schedule_date,omitempty"`
+	DueDate          string `json:"due_date,omitempty"`
+	Retries          int    `json:"retries,omitempty"`
 }
 
 type StoredCredentialRequest struct {
-	PaymentInitiator   string `json:"payment_initiator"`
-	Reason             string `json:"reason"`
-	StorePaymentMethod bool   `json:"store_payment_method"`
-	FirstPayment       bool   `json:"first_payment"`
+	PaymentInitiator   string `json:"payment_initiator,omitempty"`
+	Reason             string `json:"reason,omitempty"`
+	StorePaymentMethod bool   `json:"store_payment_method,omitempty"`
+	FirstPayment       bool   `json:"first_payment,omitempty"`
 }
 
 type SubscriptionDataRequest struct {
-	InvoiceID            string                       `json:"invoice_id"`
-	BillingDate          string                       `json:"billing_date"`
+	InvoiceID            string                       `json:"invoice_id,omitempty"`
+	BillingDate          string                       `json:"billing_date,omitempty"`
 	SubscriptionSequence *SubscriptionSequenceRequest `json:"subscription_sequence,omitempty"`
 	InvoicePeriod        *InvoicePeriodRequest        `json:"invoice_period,omitempty"`
 }
 
 type SubscriptionSequenceRequest struct {
-	Number int `json:"number"`
-	Total  int `json:"total"`
+	Number int `json:"number,omitempty"`
+	Total  int `json:"total,omitempty"`
 }
 
 type InvoicePeriodRequest struct {
-	Type   string `json:"type"`
-	Period int    `json:"period"`
+	Type   string `json:"type,omitempty"`
+	Period int    `json:"period,omitempty"`
 }
 
 type PayerRequest struct {
-	Email          string                 `json:"email"`
+	Email          string                 `json:"email,omitempty"`
 	FirstName      string                 `json:"first_name,omitempty"`
 	LastName       string                 `json:"last_name,omitempty"`
 	CustomerID     string                 `json:"customer_id,omitempty"`
@@ -82,43 +82,43 @@ type PayerRequest struct {
 }
 
 type IdentificationRequest struct {
-	Type   string `json:"type"`
-	Number string `json:"number"`
+	Type   string `json:"type,omitempty"`
+	Number string `json:"number,omitempty"`
 }
 
 type PhoneRequest struct {
-	AreaCode string `json:"area_code"`
-	Number   string `json:"number"`
+	AreaCode string `json:"area_code,omitempty"`
+	Number   string `json:"number,omitempty"`
 }
 
 type AddressRequest struct {
-	StreetName   string `json:"street_name"`
-	StreetNumber string `json:"street_number"`
-	ZipCode      string `json:"zip_code"`
-	Neighborhood string `json:"neighborhood"`
-	State        string `json:"state"`
-	City         string `json:"city"`
-	Complement   string `json:"complement"`
-	Floor        string `json:"floor"`
+	StreetName   string `json:"street_name,omitempty"`
+	StreetNumber string `json:"street_number,omitempty"`
+	ZipCode      string `json:"zip_code,omitempty"`
+	Neighborhood string `json:"neighborhood,omitempty"`
+	State        string `json:"state,omitempty"`
+	City         string `json:"city,omitempty"`
+	Complement   string `json:"complement,omitempty"`
+	Floor        string `json:"floor,omitempty"`
 }
 
 type ItemsRequest struct {
-	Title        string `json:"title"`
-	UnitPrice    string `json:"unit_price"`
-	ExternalCode string `json:"external_code"`
-	CategoryID   string `json:"category_id"`
-	Description  string `json:"description"`
-	PictureURL   string `json:"picture_url"`
-	Quantity     int    `json:"quantity"`
+	Title        string `json:"title,omitempty"`
+	UnitPrice    string `json:"unit_price,omitempty"`
+	ExternalCode string `json:"external_code,omitempty"`
+	CategoryID   string `json:"category_id,omitempty"`
+	Description  string `json:"description,omitempty"`
+	PictureURL   string `json:"picture_url,omitempty"`
+	Quantity     int    `json:"quantity,omitempty"`
 }
 
 type RefundRequest struct {
-	Transactions []RefundTransaction `json:"transactions"`
+	Transactions []RefundTransaction `json:"transactions,omitempty"`
 }
 
 type RefundTransaction struct {
-	ID     string `json:"id"`
-	Amount string `json:"amount"`
+	ID     string `json:"id,omitempty"`
+	Amount string `json:"amount,omitempty"`
 }
 
 type ConfigRequest struct {
