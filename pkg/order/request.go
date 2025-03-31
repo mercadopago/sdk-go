@@ -59,10 +59,10 @@ type StoredCredentialRequest struct {
 }
 
 type SubscriptionDataRequest struct {
-	InvoiceID            string                      `json:"invoice_id"`
-	BillingDate          string                      `json:"billing_date"`
-	SubscriptionSequence SubscriptionSequenceRequest `json:"subscription_sequence"`
-	InvoicePeriod        InvoicePeriodRequest        `json:"invoice_period"`
+	InvoiceID            string                       `json:"invoice_id"`
+	BillingDate          string                       `json:"billing_date"`
+	SubscriptionSequence *SubscriptionSequenceRequest `json:"subscription_sequence,omitempty"`
+	InvoicePeriod        *InvoicePeriodRequest        `json:"invoice_period,omitempty"`
 }
 
 type SubscriptionSequenceRequest struct {
