@@ -17,6 +17,7 @@ The SDK requires Go 1.18 or higher.
 First time using Mercado Pago? Create your [Mercado Pago account](https://www.mercadopago.com), if you don't have one already.
 
 Install the Mercado Pago SDK for Go:
+
 ```sh
 $ go install github.com/mercadopago/sdk-go
 ```
@@ -35,27 +36,38 @@ import (
 	"fmt"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/payment"
+	"github.com/mercadopago/sdk-go/pkg/order"
 )
 
 func main() {
 	accessToken := "{{ACCESS_TOKEN}}"
-
-	cfg, err := config.New(accessToken)
+	c, err := config.New(accessToken)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	client := payment.NewClient(cfg)
-
-	request := payment.Request{
-		TransactionAmount: 105.1,
-		Payer: &payment.PayerRequest{
-			Email: "{{EMAIL}}",
+	client := order.NewClient(c)
+	request := order.Request{
+		Type:              "online",
+		TotalAmount:       "1000.00",
+		ExternalReference: "ext_ref_1234",
+		Transactions: &order.TransactionRequest{
+			Payments: []order.PaymentRequest{
+				{
+					Amount: "1000.00",
+					PaymentMethod: &order.PaymentMethodRequest{
+						ID:           "master",
+						Token:        "{{CARD_TOKEN}}",
+						Type:         "credit_card",
+						Installments: 1,
+					},
+				},
+			},
 		},
-		Token:        "{{CARD_TOKEN}}",
-		Installments: 1,
+		Payer: &order.PayerRequest{
+			Email: "{{PAYER_EMAIL}}",
+		},
 	}
 
 	resource, err := client.Create(context.Background(), request)
@@ -63,7 +75,6 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-
 	fmt.Println(resource)
 }
 ```
@@ -90,6 +101,7 @@ To make requests to the Mercado Pago APIs, you can use the packages provided by 
 ### Exception throwing handling
 
 Every package methods returns two variables: response (type of the package) and error (type of the std lib), which will contain any error thrown. It is important to handle these errors in the best possible way.
+
 ```go
 	resources, err := client.List(context.Background())
 	if err != nil {
