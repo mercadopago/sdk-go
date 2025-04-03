@@ -6,7 +6,7 @@
   "country_code": "ARG",
   "status": "processed",
   "status_detail": "accredited",
-  "capture_mode": "automatic",
+  "capture_mode": "automatic_async",
   "transactions": {
     "payments": [
       {

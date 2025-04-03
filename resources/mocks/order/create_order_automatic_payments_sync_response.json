@@ -12,7 +12,7 @@
   "type": "online",
   "status": "processed",
   "status_detail": "accredited",
-  "capture_mode": "automatic",
+  "capture_mode": "automatic_async",
   "payer": {
     "customer_id": "1234567890"
   },

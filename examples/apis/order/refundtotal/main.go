@@ -19,11 +19,11 @@ func main() {
 
 	client := order.NewClient(c)
 
-	_, err = client.Refund(context.Background(), orderID, nil)
+	orderRefunded, err := client.Refund(context.Background(), orderID, nil)
 	if err != nil {
 		fmt.Println("Error in refund transaction:", err)
 		return
 	}
 
-	fmt.Println("Refunded ")
+	fmt.Println("Refunded", orderRefunded)
 }
