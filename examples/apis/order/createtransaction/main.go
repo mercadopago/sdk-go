@@ -22,8 +22,8 @@ func main() {
 		ProcessingMode:    "manual",
 		TotalAmount:       "100.00",
 		ExternalReference: "ext_ref_1234",
-		Payer: order.PayerRequest{
-			Email: "{{EMAIL}}",
+		Payer: &order.PayerRequest{
+			Email: "{{PAYER_EMAIL}}",
 		},
 	}
 
@@ -35,7 +35,7 @@ func main() {
 	orderID := orderResource.ID
 	fmt.Println("Order created with success. Order ID: ", orderID)
 
-	//create a transaction:
+	// create a transaction:
 	transactionRequest := order.TransactionRequest{
 		Payments: []order.PaymentRequest{
 			{

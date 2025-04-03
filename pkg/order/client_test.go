@@ -21,7 +21,6 @@ var (
 	createAutomaticPaymentsSyncResponse, _                 = io.ReadAll(createAutomaticPaymentsSyncResponseJSON)
 	createAutomaticPaymentsWithProfileAsyncResponseJSON, _ = os.Open("../../resources/mocks/order/create_order_automatic_payments_with_profile_async_response.json")
 	createAutomaticPaymentsWithProfileAsyncResponse, _     = io.ReadAll(createAutomaticPaymentsWithProfileAsyncResponseJSON)
-	customerID                                             = "1234567890"
 )
 
 func TestCreate(t *testing.T) {
@@ -80,7 +79,7 @@ func TestCreate(t *testing.T) {
 				CountryCode:       "ARG",
 				Status:            "processed",
 				StatusDetail:      "accredited",
-				CaptureMode:       "automatic",
+				CaptureMode:       "automatic_async",
 				ProcessingMode:    "automatic",
 				Description:       "some description",
 				Marketplace:       "NONE",
@@ -93,7 +92,7 @@ func TestCreate(t *testing.T) {
 							ReferenceID: "123456789",
 							Status:      "processed",
 							Amount:      "1000.00",
-							PaymentMethod: &PaymentMethodResponse{
+							PaymentMethod: PaymentMethodResponse{
 								ID:                  "master",
 								Type:                "credit_card",
 								Token:               "677859ef5f18ea7e3a87c41d02c3fbe3",
@@ -104,33 +103,15 @@ func TestCreate(t *testing.T) {
 					},
 					Refunds: []RefundResponse{},
 				},
-				Payer: PayerResponse{
-					Email:     "{email}",
-					FirstName: "John",
-					LastName:  "Doe",
-					Identification: &IdentificationResponse{
-						Type:   "CPF",
-						Number: "00000000000",
-					},
-					Phone: &PhoneResponse{
-						AreaCode: "55",
-						Number:   "99999999999",
-					},
-					Address: &AddressResponse{
-						StreetName:   "Av. das Nações Unidas",
-						StreetNumber: "99",
-					},
-				},
 				Items: []ItemsResponse{
 					{
-						ID:          "item_id",
 						Title:       "Some item title",
 						UnitPrice:   "1000.00",
 						Description: "Some item description",
 						CategoryID:  "category_id",
-						Type:        "item_type",
-						PictureUrl:  "https://mysite.com/img/item.jpg",
-						Quantity:    1,
+
+						PictureURL: "https://mysite.com/img/item.jpg",
+						Quantity:   1,
 					},
 				},
 			},
@@ -159,16 +140,14 @@ func TestCreate(t *testing.T) {
 				Marketplace:       "NONE",
 				TotalAmount:       "200.00",
 				CountryCode:       "MEX",
-				ClientID:          "4599991948843755",
-				CollectorID:       "1245621468",
-				CreatedDate:       "2024-09-02T22:04:01.880469Z",
-				LastUpdatedDate:   "2024-09-02T22:04:04.429289Z",
 				Type:              "online",
 				Status:            "processed",
 				StatusDetail:      "accredited",
-				CaptureMode:       "automatic",
+				CaptureMode:       "automatic_async",
+				CreatedDate:       "2024-09-02T22:04:01.880469Z",
+				LastUpdatedDate:   "2024-09-02T22:04:04.429289Z",
 				Payer: PayerResponse{
-					CustomerID: &customerID,
+					CustomerID: "1234567890",
 				},
 				Transactions: TransactionResponse{
 					Payments: []PaymentResponse{
@@ -178,20 +157,20 @@ func TestCreate(t *testing.T) {
 							Amount:       "200.00",
 							Status:       "processed",
 							StatusDetail: "accredited",
-							PaymentMethod: &PaymentMethodResponse{
+							PaymentMethod: PaymentMethodResponse{
 								ID:           "master",
 								CardID:       "9514636140",
 								Type:         "credit_card",
 								Installments: 1,
 								Token:        "677859ef5f18ea7e3a87c41d02c3fbe3",
 							},
-							AutomaticPayments: &AutomaticPaymentResponse{
+							AutomaticPayments: AutomaticPaymentResponse{
 								PaymentProfileID: "035979dc46c645c4ae12554835b07943",
 							},
-							StoredCredential: &StoredCredentialResponse{
+							StoredCredential: StoredCredentialResponse{
 								PaymentInitiator: "customer",
 							},
-							SubscriptionData: &SubscriptionDataResponse{
+							SubscriptionData: SubscriptionDataResponse{
 								SubscriptionSequence: SubscriptionSequenceResponse{
 									Number: 1,
 									Total:  12,
@@ -232,16 +211,14 @@ func TestCreate(t *testing.T) {
 				Marketplace:       "NONE",
 				TotalAmount:       "200.00",
 				CountryCode:       "MEX",
-				ClientID:          "4599991948843755",
-				CollectorID:       "1245621468",
-				CreatedDate:       "2024-09-02T22:04:01.880469Z",
-				LastUpdatedDate:   "2024-09-02T22:04:04.429289Z",
 				Type:              "online",
 				Status:            "processing",
 				StatusDetail:      "processing",
-				CaptureMode:       "automatic",
+				CaptureMode:       "automatic_async",
+				CreatedDate:       "2024-09-02T22:04:01.880469Z",
+				LastUpdatedDate:   "2024-09-02T22:04:04.429289Z",
 				Payer: PayerResponse{
-					CustomerID: &customerID,
+					CustomerID: "1234567890",
 				},
 				Transactions: TransactionResponse{
 					Payments: []PaymentResponse{
@@ -251,19 +228,19 @@ func TestCreate(t *testing.T) {
 							Amount:       "200.00",
 							Status:       "processing",
 							StatusDetail: "processing",
-							AutomaticPayments: &AutomaticPaymentResponse{
+							AutomaticPayments: AutomaticPaymentResponse{
 								PaymentProfileID: "035979dc46c645c4ae12554835b07943",
 								Retries:          3,
 								ScheduleDate:     "2024-09-02T22:04:01.880469Z",
 								DueDate:          "2024-09-02T22:04:01.880469Z",
 							},
-							StoredCredential: &StoredCredentialResponse{
+							StoredCredential: StoredCredentialResponse{
 								PaymentInitiator:   "customer",
 								Reason:             "card_on_file",
 								StorePaymentMethod: true,
 								FirstPayment:       false,
 							},
-							SubscriptionData: &SubscriptionDataResponse{
+							SubscriptionData: SubscriptionDataResponse{
 								SubscriptionSequence: SubscriptionSequenceResponse{
 									Number: 1,
 									Total:  12,
@@ -548,7 +525,7 @@ func TestCreateTransaction(t *testing.T) {
 					{
 						ID:     "payment_12345",
 						Amount: "100.00",
-						PaymentMethod: &PaymentMethodResponse{
+						PaymentMethod: PaymentMethodResponse{
 							ID:                  "master",
 							Type:                "credit_card",
 							Token:               "token_1234",
@@ -642,7 +619,6 @@ func TestUpdateTransaction(t *testing.T) {
 				orderID:       "Order123",
 				transactionID: "Pay_Order123",
 				request: PaymentRequest{
-
 					PaymentMethod: &PaymentMethodRequest{
 						Type:                "credit_card",
 						Installments:        2,
@@ -651,7 +627,7 @@ func TestUpdateTransaction(t *testing.T) {
 				},
 			},
 			want: &PaymentResponse{
-				PaymentMethod: &PaymentMethodResponse{
+				PaymentMethod: PaymentMethodResponse{
 					Type:                "credit_card",
 					Installments:        2,
 					StatementDescriptor: "updated statement",
@@ -975,6 +951,39 @@ func TestDeleteTransaction(t *testing.T) {
 			err := c.DeleteTransaction(tt.args.ctx, tt.args.orderID, tt.args.transactionID)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DeleteTransaction() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestNewClient(t *testing.T) {
+	type args struct {
+		cfg *config.Config
+	}
+	tests := []struct {
+		name string
+		args args
+		want Client
+	}{
+		{
+			name: "should_create_new_client_with_valid_config",
+			args: args{
+				cfg: &config.Config{
+					AccessToken: "test_access_token",
+				},
+			},
+			want: &client{
+				cfg: &config.Config{
+					AccessToken: "test_access_token",
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := NewClient(tt.args.cfg)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NewClient() = %v, want %v", got, tt.want)
 			}
 		})
 	}
