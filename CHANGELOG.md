@@ -1,3 +1,7 @@
+## VERSION 1.0.9
+
+Fix `FirstInvoiceOffset` to int in `Response`
+
 ## VERSION 1.0.8
 
 Fix `LastChargedAmount` to float64 in `Response`
