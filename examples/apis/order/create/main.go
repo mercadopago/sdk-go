@@ -34,8 +34,8 @@ func main() {
 				},
 			},
 		},
-		Payer: order.PayerRequest{
-			Email: "{{EMAIL}}",
+		Payer: &order.PayerRequest{
+			Email: "{{PAYER_EMAIL}}",
 		},
 	}
 

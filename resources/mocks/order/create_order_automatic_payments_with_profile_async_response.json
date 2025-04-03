@@ -12,7 +12,7 @@
   "type": "online",
   "status": "processing",
   "status_detail": "processing",
-  "capture_mode": "automatic",
+  "capture_mode": "automatic_async",
   "payer": {
     "customer_id": "1234567890"
   },

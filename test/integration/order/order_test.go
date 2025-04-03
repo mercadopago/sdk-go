@@ -43,7 +43,7 @@ func TestOrder(t *testing.T) {
 					},
 				},
 			},
-			Payer: order.PayerRequest{
+			Payer: &order.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
 			},
 		}
@@ -84,7 +84,7 @@ func TestGetOrder(t *testing.T) {
 					},
 				},
 			},
-			Payer: order.PayerRequest{
+			Payer: &order.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
 			},
 		}
@@ -106,7 +106,6 @@ func TestGetOrder(t *testing.T) {
 		if err != nil {
 			t.Errorf(err.Error())
 		}
-
 	})
 }
 
@@ -136,7 +135,7 @@ func TestProcessOrder(t *testing.T) {
 					},
 				},
 			},
-			Payer: order.PayerRequest{
+			Payer: &order.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
 			},
 		}
@@ -158,7 +157,6 @@ func TestProcessOrder(t *testing.T) {
 		if resource.Status != "processed" {
 			t.Errorf("expected order status to be 'processed', got %v", resource.Status)
 		}
-
 	})
 }
 
@@ -174,7 +172,7 @@ func TestCreateTransaction(t *testing.T) {
 			ProcessingMode:    "manual",
 			TotalAmount:       "1000.00",
 			ExternalReference: "ext_1234",
-			Payer: order.PayerRequest{
+			Payer: &order.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
 			},
 		}
@@ -226,7 +224,7 @@ func TestUpdateTransaction(t *testing.T) {
 			ProcessingMode:    "manual",
 			TotalAmount:       "1000.00",
 			ExternalReference: "ext_1234",
-			Payer: order.PayerRequest{
+			Payer: &order.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
 			},
 			Transactions: &order.TransactionRequest{
@@ -287,7 +285,7 @@ func TestCaptureOrder(t *testing.T) {
 			CaptureMode:       "manual",
 			TotalAmount:       "200.00",
 			ExternalReference: "ext_ref_12345",
-			Payer: order.PayerRequest{
+			Payer: &order.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
 			},
 			Transactions: &order.TransactionRequest{
@@ -343,7 +341,7 @@ func TestCancelOrder(t *testing.T) {
 			CaptureMode:       "manual",
 			TotalAmount:       "200.00",
 			ExternalReference: "ext_ref_12345",
-			Payer: order.PayerRequest{
+			Payer: &order.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
 			},
 			Transactions: &order.TransactionRequest{
@@ -410,7 +408,7 @@ func TestDeleteOrder(t *testing.T) {
 					},
 				},
 			},
-			Payer: order.PayerRequest{
+			Payer: &order.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
 			},
 		}
@@ -431,9 +429,7 @@ func TestDeleteOrder(t *testing.T) {
 
 		err = orderClient.DeleteTransaction(ctx, orderID, transactionID)
 		if err != nil {
-			if err != nil {
-				t.Fatalf("failed to delete transaction: %v", err)
-			}
+			t.Fatalf("failed to delete transaction: %v", err)
 		}
 	})
 }
@@ -464,7 +460,7 @@ func TestRefundOrder(t *testing.T) {
 					},
 				},
 			},
-			Payer: order.PayerRequest{
+			Payer: &order.PayerRequest{
 				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
 			},
 		}
