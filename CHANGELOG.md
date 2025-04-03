@@ -1,3 +1,7 @@
+## VERSION 1.1.0
+
+Include Order feature
+
 ## VERSION 1.0.9
 
 Fix `FirstInvoiceOffset` to int in `Response`
@@ -8,7 +12,7 @@ Fix `LastChargedAmount` to float64 in `Response`
 
 ## VERSION 1.0.7
 
-Fix `CardID` to string in `Response` from the `pre-approval flow` 
+Fix `CardID` to string in `Response` from the `pre-approval flow`
 
 Fix `UserID` to int64
 
