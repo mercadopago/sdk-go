@@ -12,37 +12,36 @@ func main() {
 	accessToken := "APP_USR-874202490252970-100714-e890db6519b0dceb4ef24ef41ed816e4-2021490138"
 	cfg, err := config.New(accessToken)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Config error:", err)
 		return
 	}
 
 	client := payment.NewClient(cfg)
 
 	request := payment.Request{
-		TransactionAmount: 150.00,
-		Description:       "Teste dados da industria",
-		PaymentMethodID:   "master",
-		Token:             "a6128c0cf436ea872dac5687fae12c97",
-		Installments:      1,
-		BinaryMode:        false,
-		Capture:           true,
-		ExternalReference: "Pedido01",
-		Metadata: map[string]any{
-			"order_number": "order_01",
-		},
-		NotificationURL: "http://requestbin.fullcontact.com/1ogudgk1",
-		//SponsorID: null,
+		TransactionAmount:   150.00,
+		Description:         "Teste dados da industria",
+		PaymentMethodID:     "master",
+		Token:               "1b7821136a3a321512fec7defea47f89",
+		Installments:        1,
+		BinaryMode:          false,
+		Capture:             true,
+		ExternalReference:   "Pedido01",
+		NotificationURL:     "http://requestbin.fullcontact.com/1ogudgk1",
 		StatementDescriptor: "LOJA 123",
 		Payer: &payment.PayerRequest{
 			FirstName: "Guilherme",
 			LastName:  "Santos",
 			Email:     "teste_dados_industria@testuser.com",
 			Identification: &payment.IdentificationRequest{
-				Number: "12345678909",
 				Type:   "CPF",
+				Number: "12345678909",
 			},
 		},
-		ForwardData: &payment.ForwardDataRequest{
+		Metadata: map[string]interface{}{
+			"order_number": "order_01",
+		},
+		/*ForwardData: &payment.ForwardDataRequest{
 			SubMerchant: &payment.SubMerchantRequest{
 				SubMerchantID:     "1234183712",
 				MCC:               "5462",
@@ -59,8 +58,8 @@ func main() {
 				Phone:             "123123123",
 				URL:               "www.rappi.com.br",
 			},
-		},
-		AdditionalInfo: &payment.AdditionalInfoRequest{
+		},*/
+		/*AdditionalInfo: &payment.AdditionalInfoRequest{
 			Items: []payment.ItemRequest{
 				{
 					ID:          "1941",
@@ -98,39 +97,39 @@ func main() {
 				IsPrimeUser:           true,
 				IsFirstPurchaseOnline: true,
 				LastPurchase:          "2019-10-25T19:30:00.000-03:00",
-				Phone: (*payment.AdditionalInfoPayerPhoneRequest)(&payment.PhoneRequest{
+				Phone: &payment.AdditionalInfoPayerPhoneRequest{
 					AreaCode: "11",
 					Number:   "987654321",
-				}),
-			//	Address: (&payment.AddressRequest{
-			//		StreetName:   "Av. das Nações Unidas",
-			//		StreetNumber: "3003",
-			//		ZipCode:      "206233-2002",
-			//	}),
-			//	RegistrationDate:   "2020-08-06T09:25:04.000-03:00",
-			//	AuthenticationType: "Gmail",
-			//},
-			//Shipments: &payment.ShipmentRequest{
-			//	LocalPickup:     "1",
-			//	ExpressShipment: true,
-			//	ReceiverAddress: &payment.AddressRequest{
-			//		ZipCode:      "306233-2003",
-			//		StreetName:   "Av. das Nações Unidas",
-			//		StreetNumber: "3003",
-			//		Floor:        "5",
-			//		Apartment:    "502",
-			//		StateName:    "DF",
-			//		CityName:     "Bogota",
+				},
+				Address: &payment.AdditionalInfoPayerAddressRequest{
+					StreetName:   "Av. das Nações Unidas",
+					StreetNumber: "3003",
+					ZipCode:      "206233-2002",
+				},
+				RegistrationDate:   "2020-08-06T09:25:04.000-03:00",
+				AuthenticationType: "Gmail",
+			},
+			Shipments: &payment.ShipmentsRequest{
+				LocalPickup:     true,
+				ExpressShipment: true,
+				ReceiverAddress: &payment.ReceiverAddressRequest{
+					ZipCode:      "306233-2003",
+					StreetName:   "Av. das Nações Unidas",
+					StreetNumber: "3003",
+					Floor:        "5",
+					Apartment:    "502",
+					StateName:    "DF",
+					CityName:     "Bogota",
 				},
 			},
-		},
+		},*/
 	}
 
-	////resource, err := client.Create(context.Background(), request)
-	//if err != nil {
-	//	fmt.Println(err)
-	//	return
-	//}
-	//
-	//fmt.Println(resource.ID)
+	resource, err := client.Create(context.Background(), request)
+	if err != nil {
+		fmt.Println("Payment error:", err)
+		return
+	}
+
+	fmt.Println("Payment ID:", resource.ID)
 }
