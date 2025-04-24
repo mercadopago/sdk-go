@@ -19,7 +19,7 @@ func main() {
 	client := payment.NewClient(cfg)
 
 	request := payment.Request{
-		TransactionAmount:   150.00,
+		TransactionAmount:   190.00,
 		Description:         "Teste dados da industria",
 		PaymentMethodID:     "master",
 		Token:               "{{card_token}}",
