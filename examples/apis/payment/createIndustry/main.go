@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	accessToken := "APP_USR-874202490252970-100714-e890db6519b0dceb4ef24ef41ed816e4-2021490138"
+	accessToken := "{{Access_Token}}"
 	cfg, err := config.New(accessToken)
 	if err != nil {
 		fmt.Println("Config error:", err)
