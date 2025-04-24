@@ -43,10 +43,8 @@ type Request struct {
 	Metadata              map[string]any `json:"metadata,omitempty"`
 	DeviceID              string         `json:"device_id,omitempty"`
 	BackURLs              []string       `json:"back_urls,omitempty"`
-	//Application_fee       interface{}
 }
 
-// AdditionalInfoRequest representa uma solicitação de informações adicionais dentro da Solicitação.
 // AdditionalInfoRequest represents additional information request within Request.
 type AdditionalInfoRequest struct {
 	Payer     *AdditionalInfoPayerRequest `json:"payer,omitempty"`
@@ -128,7 +126,6 @@ type ItemRequest struct {
 	Warranty           bool    `json:"warranty,omitempty"`
 
 	CategoryDescriptor CategoryDescriptorRequest `json:"category_descriptor"`
-	//Category_Descriptor *CategoryDescriptorRequest
 }
 
 // CategoryDescriptorRequest represents category descriptor request within ItemRequest.
@@ -194,8 +191,6 @@ type PayerRequest struct {
 	Identification *IdentificationRequest `json:"identification,omitempty"`
 	Phone          *PhoneRequest          `json:"phone,omitempty"`
 	Address        *AddressRequest        `json:"address,omitempty"`
-	//ForwardData    *ForwardDataRequest
-	//AdditionalInfo *AdditionalInfoRequest
 }
 
 // ForwardData represents data used in special conditions for the payment.
@@ -219,7 +214,6 @@ type SubMerchantRequest struct {
 	Phone             string `json:"phone,omitempty"`
 	URL               string `json:"url,omitempty"`
 	AddressDoorNumber int    `json:"address_door_number,omitempty"`
-	Zip               string
 }
 
 // AddressRequest represents payer address request within PayerRequest.
