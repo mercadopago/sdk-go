@@ -56,7 +56,14 @@ type ItemResponse struct {
 }
 
 type CategoryDescriptorResponse struct {
-	Passenger PassengerRequest `json:"passenger"`
+	Passenger PassengerResponse `json:"passenger"`
+}
+
+type PassengerResponse struct {
+	FirstName            string `json:"first_name"`
+	LastName             string `json:"last_name"`
+	IdentificationType   string `json:"identification_type"`
+	IdentificationNumber string `json:"identification_number"`
 }
 
 // PayerResponse contains payer information in the preference.
@@ -67,8 +74,8 @@ type PayerResponse struct {
 	Surname               string    `json:"surname"`
 	Email                 string    `json:"email"`
 	AuthenticationType    string    `json:"authentication_type"`
-	IsPrimerUser          bool      `json:"is_primer_user"`
-	IsFirstPurchaseOnLine bool      `json:"is_first_purchase_on_line"`
+	IsPrimerUser          bool      `json:"is_prime_user"`
+	IsFirstPurchaseOnLine bool      `json:"is_first_purchase_online"`
 	RegistrationDate      time.Time `json:"registration_date"`
 	LastPurchaseDate      time.Time `json:"last_purchase_date"`
 

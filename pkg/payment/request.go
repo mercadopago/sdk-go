@@ -59,8 +59,8 @@ type AdditionalInfoRequest struct {
 type AdditionalInfoPayerRequest struct {
 	Phone            *AdditionalInfoPayerPhoneRequest   `json:"phone,omitempty"`
 	Address          *AdditionalInfoPayerAddressRequest `json:"address,omitempty"`
-	RegistrationDate string                             `json:"registration_date,omitempty"`
-	LastPurchase     string                             `json:"last_purchase,omitempty"`
+	RegistrationDate *time.Time                         `json:"registration_date,omitempty"`
+	LastPurchase     *time.Time                         `json:"last_purchase,omitempty"`
 
 	FirstName             string `json:"first_name,omitempty"`
 	LastName              string `json:"last_name,omitempty"`
@@ -125,7 +125,7 @@ type ItemRequest struct {
 	Quantity           int     `json:"quantity,omitempty"`
 	Warranty           bool    `json:"warranty,omitempty"`
 
-	CategoryDescriptor CategoryDescriptorRequest `json:"category_descriptor"`
+	CategoryDescriptor CategoryDescriptorRequest `json:"category_descriptor,omitempty"`
 }
 
 // CategoryDescriptorRequest represents category descriptor request within ItemRequest.
@@ -184,7 +184,7 @@ type PayerRequest struct {
 	EntityType            string `json:"entity_type,omitempty"`
 	AuthenticationType    string `json:"authentication_type,omitempty"`
 	IsPrimeUser           bool   `json:"is_prime_user,omitempty"`
-	IsFirstPurchaseOnLine bool   `json:"is_first_purchase_online,omitempty"`
+	IsFirstPurchaseOnline bool   `json:"is_first_purchase_online,omitempty"`
 	RegistrationDate      string `json:"registration_date,omitempty"`
 	LastPurchase          string `json:"last_purchase,omitempty"`
 

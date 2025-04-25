@@ -15,6 +15,7 @@ type Response struct {
 	PointOfInteraction PointOfInteractionResponse `json:"point_of_interaction"`
 	PaymentMethod      PaymentMethodResponse      `json:"payment_method"`
 	ThreeDSInfo        ThreeDSInfoResponse        `json:"three_ds_info"`
+	BackURLs           BackURLsResponse           `json:"back_urls,omitempty"`
 	DateCreated        time.Time                  `json:"date_created"`
 	DateApproved       time.Time                  `json:"date_approved"`
 	DateLastUpdated    time.Time                  `json:"date_last_updated"`
@@ -70,8 +71,6 @@ type Response struct {
 	InternalMetadata          map[string]any `json:"internal_metadata"`
 	DeviceIdentifier          string         `json:"device_identifier"`
 	DeviceID                  string         `json:"device_id,omitempty"`
-	//BackURLs                  *BackURLsResponse `json:"back_urls,omitempty"` // Adicionado
-
 }
 
 // PayerResponse represents the payer of the payment.
@@ -84,12 +83,11 @@ type PayerResponse struct {
 	EntityType            string `json:"entity_type"`
 	AuthenticationType    string `json:"authentication_type"`
 	IsPrimeUser           bool   `json:"is_prime_user"`
-	IsFirstPurchaseOnLine bool   `json:"is_first_purchase_online"`
+	IsFirstPurchaseOnline bool   `json:"is_first_purchase_online"`
 	RegistrationDate      string `json:"registration_date"`
 	LastPurchaseDate      string `json:"last_purchase_date"`
 	DateCreated           string `json:"date_created"`
 
-	//objetos
 	Identification IdentificationResponse `json:"identification"`
 	Phone          PhoneResponse          `json:"phone"`
 	Address        AddressResponse        `json:"address"`
@@ -132,7 +130,7 @@ type AdditionalInfoResponse struct {
 	IPAddress string `json:"ip_address"`
 }
 
-// ItemResponse represents an item.a
+// ItemResponse represents an item
 type ItemResponse struct {
 	ID          string `json:"id"`
 	Title       string `json:"title"`
@@ -412,4 +410,10 @@ type SourceResponse struct {
 // BarcodeResponse represents barcode information.
 type BarcodeResponse struct {
 	Content string `json:"content"`
+}
+
+type BackURLsResponse struct {
+	Success string `json:"success,omitempty"`
+	Pending string `json:"pending,omitempty"`
+	Failure string `json:"failure,omitempty"`
 }

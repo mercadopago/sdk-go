@@ -71,7 +71,7 @@ type CategoryDescriptorRequest struct {
 
 // ItemRequest represents a purchased item.
 type ItemRequest struct {
-	ID          int     `json:"id,omitempty"`
+	ID          string  `json:"id,omitempty"`
 	Title       string  `json:"title,omitempty"`
 	Type        string  `json:"type,omitempty"`
 	Description string  `json:"description,omitempty"`
@@ -82,24 +82,24 @@ type ItemRequest struct {
 	Quantity    int     `json:"quantity,omitempty"`
 	Warranty    string  `json:"warranty,omitempty"`
 
-	CategoryDescriptor CategoryDescriptorRequest `json:"category_descriptor"`
+	CategoryDescriptor CategoryDescriptorRequest `json:"category_descriptor,omitempty"`
 }
 
 // PayerRequest contains payer information in the preference.
 type PayerRequest struct {
-	DateCreated           *time.Time `json:"date_created,omitempty" :"date_created"`
-	Name                  string     `json:"name,omitempty" :"name"`
-	Surname               string     `json:"surname,omitempty" :"surname"`
-	Email                 string     `json:"email,omitempty" :"email"`
-	AuthenticationType    string     `json:"authentication_type,omitempty" :"authentication_type"`
-	IsPrimeUser           bool       `json:"is_prime,omitempty" :"is_prime"`
-	IsFirstPurchaseOnline bool       `json:"is_first_purchase,omitempty" :"is_first_purchase"`
-	RegistrationDate      *time.Time `json:"registration_date,omitempty" :"registration_date"`
-	LastPurchaseDate      *time.Time `json:"last_purchase_date,omitempty" :"last_purchase_date"`
+	DateCreated           *time.Time `json:"date_created,omitempty"`
+	Name                  string     `json:"name,omitempty"`
+	Surname               string     `json:"surname,omitempty"`
+	Email                 string     `json:"email,omitempty"`
+	AuthenticationType    string     `json:"authentication_type,omitempty"`
+	IsPrimeUser           bool       `json:"is_prime_user,omitempty"`
+	IsFirstPurchaseOnline bool       `json:"is_first_purchase_online,omitempty"`
+	RegistrationDate      *time.Time `json:"registration_date,omitempty"`
+	LastPurchaseDate      *time.Time `json:"last_purchase_date,omitempty"`
 
-	Identification *IdentificationRequest `json:"identification,omitempty" :"identification"`
-	Phone          *PhoneRequest          `json:"phone,omitempty" :"phone"`
-	Address        *AddressRequest        `json:"address,omitempty" :"address"`
+	Identification *IdentificationRequest `json:"identification,omitempty"`
+	Phone          *PhoneRequest          `json:"phone,omitempty"`
+	Address        *AddressRequest        `json:"address,omitempty"`
 }
 
 // PhoneRequest represents a telephone number.

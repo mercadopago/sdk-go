@@ -108,7 +108,6 @@ func main() {
 				LastName:              "Sobrenome",
 				IsPrimeUser:           true,
 				IsFirstPurchaseOnline: true,
-				LastPurchase:          "2019-10-25T19:30:00.000-03:00",
 				Phone: &payment.AdditionalInfoPayerPhoneRequest{
 					AreaCode: "{{DDD}}",
 					Number:   "{{Phone_number}}",
@@ -118,7 +117,6 @@ func main() {
 					StreetNumber: "3003",
 					ZipCode:      "206233-2002",
 				},
-				RegistrationDate:   "2020-08-06T09:25:04.000-03:00",
 				AuthenticationType: "Gmail",
 			},
 			Shipments: &payment.ShipmentsRequest{
