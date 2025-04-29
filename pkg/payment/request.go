@@ -41,6 +41,8 @@ type Request struct {
 	BinaryMode            bool           `json:"binary_mode,omitempty"`
 	Capture               bool           `json:"capture,omitempty"`
 	Metadata              map[string]any `json:"metadata,omitempty"`
+	DeviceID              string         `json:"device_id,omitempty"`
+	BackURLs              []string       `json:"back_urls,omitempty"`
 }
 
 // AdditionalInfoRequest represents additional information request within Request.
@@ -90,13 +92,15 @@ type ShipmentsRequest struct {
 
 // ReceiverAddressRequest represents receiver address request within ShipmentsRequest.
 type ReceiverAddressRequest struct {
-	StateName    string `json:"state_name,omitempty"`
-	CityName     string `json:"city_name,omitempty"`
-	Floor        string `json:"floor,omitempty"`
-	Apartment    string `json:"apartment,omitempty"`
-	ZipCode      string `json:"zip_code,omitempty"`
-	StreetName   string `json:"street_name,omitempty"`
-	StreetNumber string `json:"street_number,omitempty"`
+	StateName       string `json:"state_name,omitempty"`
+	CityName        string `json:"city_name,omitempty"`
+	Floor           string `json:"floor,omitempty"`
+	Apartment       string `json:"apartment,omitempty"`
+	ZipCode         string `json:"zip_code,omitempty"`
+	StreetName      string `json:"street_name,omitempty"`
+	StreetNumber    string `json:"street_number,omitempty"`
+	LocalPickup     bool   `json:"local_pickup,omitempty"`
+	ExpressShipment bool   `json:"express_shipment,omitempty"`
 }
 
 // BarcodeRequest represents barcode request within AdditionalInfoRequest.
@@ -109,21 +113,26 @@ type BarcodeRequest struct {
 
 // ItemRequest represents an item request within AdditionalInfoRequest.
 type ItemRequest struct {
-	CategoryDescriptor *CategoryDescriptorRequest `json:"category_descriptor,omitempty"`
-	EventDate          *time.Time                 `json:"event_date,omitempty"`
+	EventDate          string  `json:"event_date,omitempty"`
+	ID                 string  `json:"id,omitempty"`
+	Type               string  `json:"type,omitempty"`
+	Title              string  `json:"title,omitempty"`
+	Description        string  `json:"description,omitempty"`
+	PictureURL         string  `json:"picture_url,omitempty"`
+	CategoryID         string  `json:"category_id,omitempty"`
+	CurrencyIdentifier string  `json:"currency_identifier,omitempty"`
+	UnitPrice          float64 `json:"unit_price,omitempty"`
+	Quantity           int     `json:"quantity,omitempty"`
+	Warranty           bool    `json:"warranty,omitempty"`
 
-	ID          string  `json:"id,omitempty"`
-	Title       string  `json:"title,omitempty"`
-	Description string  `json:"description,omitempty"`
-	PictureURL  string  `json:"picture_url,omitempty"`
-	CategoryID  string  `json:"category_id,omitempty"`
-	UnitPrice   float64 `json:"unit_price,omitempty"`
-	Quantity    int     `json:"quantity,omitempty"`
-	Warranty    bool    `json:"warranty,omitempty"`
+	CategoryDescriptor CategoryDescriptorRequest `json:"category_descriptor,omitempty"`
 }
 
 // CategoryDescriptorRequest represents category descriptor request within ItemRequest.
 type CategoryDescriptorRequest struct {
+	EventDate *time.Time `json:"event_date,omitempty"`
+	Type      string     `json:"type,omitempty"`
+
 	Passenger *PassengerRequest `json:"passenger,omitempty"`
 	Route     *RouteRequest     `json:"route,omitempty"`
 }
@@ -132,8 +141,10 @@ type CategoryDescriptorRequest struct {
 type PassengerRequest struct {
 	Identification *IdentificationRequest `json:"identification,omitempty"`
 
-	FirstName string `json:"first_name,omitempty"`
-	LastName  string `json:"last_name,omitempty"`
+	FirstName            string `json:"first_name,omitempty"`
+	LastName             string `json:"last_name,omitempty"`
+	IdentificationType   string `json:"identification_type,omitempty"`
+	IdentificationNumber string `json:"identification_number,omitempty"`
 }
 
 // IdentificationRequest represents identification request within PaymentPassengerRequest.
@@ -144,12 +155,11 @@ type IdentificationRequest struct {
 
 // RouteRequest represents route request within CategoryDescriptorRequest.
 type RouteRequest struct {
-	DepartureDateTime *time.Time `json:"departure_date_time,omitempty"`
-	ArrivalDateTime   *time.Time `json:"arrival_date_time,omitempty"`
-
-	Departure   string `json:"departure,omitempty"`
-	Destination string `json:"destination,omitempty"`
-	Company     string `json:"company,omitempty"`
+	Departure         string `json:"departure,omitempty"`
+	Destination       string `json:"destination,omitempty"`
+	DepartureDateTime string `json:"departure_date_time,omitempty"`
+	ArrivalDateTime   string `json:"arrival_date_time,omitempty"`
+	Company           string `json:"company,omitempty"`
 }
 
 // MerchantServicesRequest represents merchant services request within Request.
@@ -166,16 +176,21 @@ type OrderRequest struct {
 
 // PayerRequest represents payer request within Request.
 type PayerRequest struct {
-	Identification *IdentificationRequest `json:"identification,omitempty"`
-	Address        *AddressRequest        `json:"address,omitempty"`
-	Phone          *PhoneRequest          `json:"phone,omitempty"`
+	Type                  string `json:"type,omitempty"`
+	ID                    string `json:"id,omitempty"`
+	Email                 string `json:"email,omitempty"`
+	FirstName             string `json:"first_name,omitempty"`
+	LastName              string `json:"last_name,omitempty"`
+	EntityType            string `json:"entity_type,omitempty"`
+	AuthenticationType    string `json:"authentication_type,omitempty"`
+	IsPrimeUser           bool   `json:"is_prime_user,omitempty"`
+	IsFirstPurchaseOnline bool   `json:"is_first_purchase_online,omitempty"`
+	RegistrationDate      string `json:"registration_date,omitempty"`
+	LastPurchase          string `json:"last_purchase,omitempty"`
 
-	Type       string `json:"type,omitempty"`
-	ID         string `json:"id,omitempty"`
-	Email      string `json:"email,omitempty"`
-	FirstName  string `json:"first_name,omitempty"`
-	LastName   string `json:"last_name,omitempty"`
-	EntityType string `json:"entity_type,omitempty"`
+	Identification *IdentificationRequest `json:"identification,omitempty"`
+	Phone          *PhoneRequest          `json:"phone,omitempty"`
+	Address        *AddressRequest        `json:"address,omitempty"`
 }
 
 // ForwardData represents data used in special conditions for the payment.

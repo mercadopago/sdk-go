@@ -15,6 +15,7 @@ type Response struct {
 	PointOfInteraction PointOfInteractionResponse `json:"point_of_interaction"`
 	PaymentMethod      PaymentMethodResponse      `json:"payment_method"`
 	ThreeDSInfo        ThreeDSInfoResponse        `json:"three_ds_info"`
+	BackURLs           BackURLsResponse           `json:"back_urls,omitempty"`
 	DateCreated        time.Time                  `json:"date_created"`
 	DateApproved       time.Time                  `json:"date_approved"`
 	DateLastUpdated    time.Time                  `json:"date_last_updated"`
@@ -68,18 +69,28 @@ type Response struct {
 	BinaryMode                bool           `json:"binary_mode"`
 	Metadata                  map[string]any `json:"metadata"`
 	InternalMetadata          map[string]any `json:"internal_metadata"`
+	DeviceIdentifier          string         `json:"device_identifier"`
+	DeviceID                  string         `json:"device_id,omitempty"`
 }
 
 // PayerResponse represents the payer of the payment.
 type PayerResponse struct {
-	Identification IdentificationResponse `json:"identification"`
+	Type                  string `json:"type"`
+	ID                    string `json:"id"`
+	Email                 string `json:"email"`
+	FirstName             string `json:"first_name"`
+	LastName              string `json:"last_name"`
+	EntityType            string `json:"entity_type"`
+	AuthenticationType    string `json:"authentication_type"`
+	IsPrimeUser           bool   `json:"is_prime_user"`
+	IsFirstPurchaseOnline bool   `json:"is_first_purchase_online"`
+	RegistrationDate      string `json:"registration_date"`
+	LastPurchaseDate      string `json:"last_purchase_date"`
+	DateCreated           string `json:"date_created"`
 
-	Type       string `json:"type"`
-	ID         string `json:"id"`
-	Email      string `json:"email"`
-	FirstName  string `json:"first_name"`
-	LastName   string `json:"last_name"`
-	EntityType string `json:"entity_type"`
+	Identification IdentificationResponse `json:"identification"`
+	Phone          PhoneResponse          `json:"phone"`
+	Address        AddressResponse        `json:"address"`
 }
 
 // ForwardData represents data used in special conditions for the payment.
@@ -119,15 +130,42 @@ type AdditionalInfoResponse struct {
 	IPAddress string `json:"ip_address"`
 }
 
-// ItemResponse represents an item.
+// ItemResponse represents an item
 type ItemResponse struct {
 	ID          string `json:"id"`
 	Title       string `json:"title"`
+	Type        string `json:"type"`
 	Description string `json:"description"`
 	PictureURL  string `json:"picture_url"`
 	CategoryID  string `json:"category_id"`
+	CurrencyID  string `json:"currency_id"`
 	Quantity    string `json:"quantity"`
 	UnitPrice   string `json:"unit_price"`
+	Warranty    string `json:"warranty"`
+
+	CategoryDescriptor CategoryDescriptorResponse `json:"category_descriptor"`
+}
+
+type CategoryDescriptorResponse struct {
+	Passenger PassengerResponse `json:"passenger"`
+	Route     RouteResponse     `json:"route"`
+	EventDate string            `json:"event_date"`
+	Type      string            `json:"type"`
+}
+
+type PassengerResponse struct {
+	FirstName            string `json:"first_name"`
+	LastName             string `json:"last_name"`
+	IdentificationType   string `json:"identification_type"`
+	IdentificationNumber string `json:"identification_number"`
+}
+
+type RouteResponse struct {
+	Departure         string    `json:"departure"`
+	Destination       string    `json:"destination"`
+	DepartureDataTime time.Time `json:"departure_data_time"`
+	ArrivalDateTime   time.Time `json:"arrival_date_time"`
+	Company           string    `json:"company"`
 }
 
 // AdditionalInfoPayerResponse represents payer's additional information.
@@ -135,9 +173,8 @@ type AdditionalInfoPayerResponse struct {
 	Phone            PhoneResponse   `json:"phone"`
 	Address          AddressResponse `json:"address"`
 	RegistrationDate time.Time       `json:"registration_date"`
-
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
+	FirstName        string          `json:"first_name"`
+	LastName         string          `json:"last_name"`
 }
 
 // PhoneResponse represents phone information.
@@ -162,10 +199,16 @@ type ShipmentsResponse struct {
 type ReceiverAddressResponse struct {
 	Address AddressResponse `json:"address"`
 
-	StateName string `json:"state_name"`
-	CityName  string `json:"city_name"`
-	Floor     string `json:"floor"`
-	Apartment string `json:"apartment"`
+	ZipCode           string `json:"zip_code"`
+	StateName         string `json:"state_name"`
+	CityName          string `json:"city_name"`
+	StreetName        string `json:"street_name"`
+	StreetNumber      string `json:"street_number"`
+	CountryName       string `json:"country_name"`
+	Floor             string `json:"floor"`
+	Apartment         string `json:"apartment"`
+	LocalPicURL       string `json:"local_pic_url"`
+	ExpressShipmentID string `json:"express_shipment_id"`
 }
 
 // OrderResponse represents order information.
@@ -367,4 +410,10 @@ type SourceResponse struct {
 // BarcodeResponse represents barcode information.
 type BarcodeResponse struct {
 	Content string `json:"content"`
+}
+
+type BackURLsResponse struct {
+	Success string `json:"success,omitempty"`
+	Pending string `json:"pending,omitempty"`
+	Failure string `json:"failure,omitempty"`
 }
