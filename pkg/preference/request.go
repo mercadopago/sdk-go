@@ -31,6 +31,7 @@ type Request struct {
 	Expires             bool           `json:"expires,omitempty"`
 	ProcessingModes     []string       `json:"processing_modes,omitempty"`
 	Metadata            map[string]any `json:"metadata,omitempty"`
+	DeviceID            string         `json:"device_id,omitempty"`
 }
 
 // BackURLsRequest contains callback URLs.
@@ -45,28 +46,60 @@ type DifferentialPricingRequest struct {
 	ID int `json:"id,omitempty"`
 }
 
+type PassengerRequest struct {
+	FirstName            string `json:"first_name,omitempty"`
+	LastName             string `json:"last_name,omitempty"`
+	IdentificationType   string `json:"identification_type,omitempty"`
+	IdentificationNumber string `json:"identification_number,omitempty"`
+}
+
+type RouteRequest struct {
+	Departure         string     `json:"departure,omitempty"`
+	Destination       string     `json:"destination,omitempty"`
+	DepartureDateTime *time.Time `json:"departure_date_time,omitempty"`
+	ArrivalDateTime   *time.Time `json:"arrival_date_time,omitempty"`
+	Company           string     `json:"company,omitempty"`
+}
+
+type CategoryDescriptorRequest struct {
+	EventDate *time.Time `json:"event_date,omitempty"`
+	Type      string     `json:"type,omitempty"`
+
+	Passenger *PassengerRequest `json:"passenger,omitempty"`
+	Route     *RouteRequest     `json:"route,omitempty"`
+}
+
 // ItemRequest represents a purchased item.
 type ItemRequest struct {
 	ID          string  `json:"id,omitempty"`
 	Title       string  `json:"title,omitempty"`
+	Type        string  `json:"type,omitempty"`
 	Description string  `json:"description,omitempty"`
 	PictureURL  string  `json:"picture_url,omitempty"`
 	CategoryID  string  `json:"category_id,omitempty"`
 	CurrencyID  string  `json:"currency_id,omitempty"`
 	UnitPrice   float64 `json:"unit_price,omitempty"`
 	Quantity    int     `json:"quantity,omitempty"`
+	Warranty    string  `json:"warranty,omitempty"`
+
+	CategoryDescriptor CategoryDescriptorRequest `json:"category_descriptor,omitempty"`
 }
 
 // PayerRequest contains payer information in the preference.
 type PayerRequest struct {
-	Phone          *PhoneRequest          `json:"phone,omitempty"`
-	Identification *IdentificationRequest `json:"identification,omitempty"`
-	Address        *AddressRequest        `json:"address,omitempty"`
-	DateCreated    *time.Time             `json:"date_created,omitempty"`
+	DateCreated           *time.Time `json:"date_created,omitempty"`
+	Name                  string     `json:"name,omitempty"`
+	Surname               string     `json:"surname,omitempty"`
+	Email                 string     `json:"email,omitempty"`
+	AuthenticationType    string     `json:"authentication_type,omitempty"`
+	IsPrimeUser           bool       `json:"is_prime_user,omitempty"`
+	IsFirstPurchaseOnline bool       `json:"is_first_purchase_online,omitempty"`
+	RegistrationDate      *time.Time `json:"registration_date,omitempty"`
+	LastPurchaseDate      *time.Time `json:"last_purchase_date,omitempty"`
 
-	Name    string `json:"name,omitempty"`
-	Surname string `json:"surname,omitempty"`
-	Email   string `json:"email,omitempty"`
+	Identification *IdentificationRequest `json:"identification,omitempty"`
+	Phone          *PhoneRequest          `json:"phone,omitempty"`
+	Address        *AddressRequest        `json:"address,omitempty"`
 }
 
 // PhoneRequest represents a telephone number.
@@ -129,14 +162,16 @@ type FreeMethodRequest struct {
 
 // ReceiverAddressRequest contains information about the send address in the preference.
 type ReceiverAddressRequest struct {
-	ZipCode      string `json:"zip_code,omitempty"`
-	StreetName   string `json:"street_name,omitempty"`
-	StreetNumber string `json:"street_number,omitempty"`
-	CountryName  string `json:"country_name,omitempty"`
-	StateName    string `json:"state_name,omitempty"`
-	Floor        string `json:"floor,omitempty"`
-	Apartment    string `json:"apartment,omitempty"`
-	CityName     string `json:"city_name,omitempty"`
+	ZipCode         string `json:"zip_code,omitempty"`
+	StreetName      string `json:"street_name,omitempty"`
+	StreetNumber    string `json:"street_number,omitempty"`
+	CountryName     string `json:"country_name,omitempty"`
+	StateName       string `json:"state_name,omitempty"`
+	Floor           string `json:"floor,omitempty"`
+	Apartment       string `json:"apartment,omitempty"`
+	CityName        string `json:"city_name,omitempty"`
+	LocalPickup     bool   `json:"local_pickup,omitempty"`
+	ExpressShipment bool   `json:"express_shipment,omitempty"`
 }
 
 // TaxRequest contains information about taxes in the preference.

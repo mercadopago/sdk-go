@@ -50,19 +50,38 @@ type ItemResponse struct {
 	CategoryID  string  `json:"category_id"`
 	UnitPrice   float64 `json:"unit_price"`
 	Quantity    int     `json:"quantity"`
+	Warranty    string  `json:"warranty"`
+
+	CategoryDescriptor CategoryDescriptorResponse `json:"category_descriptor"`
+}
+
+type CategoryDescriptorResponse struct {
+	Passenger PassengerResponse `json:"passenger"`
+}
+
+type PassengerResponse struct {
+	FirstName            string `json:"first_name"`
+	LastName             string `json:"last_name"`
+	IdentificationType   string `json:"identification_type"`
+	IdentificationNumber string `json:"identification_number"`
 }
 
 // PayerResponse contains payer information in the preference.
 type PayerResponse struct {
-	Phone          PhoneResponse          `json:"phone"`
-	Identification IdentificationResponse `json:"identification"`
-	Address        AddressResponse        `json:"address"`
-	DateCreated    time.Time              `json:"date_created"`
-	LastPurchase   time.Time              `json:"last_purchase"`
+	DateCreated           time.Time `json:"date_created"`
+	LastPurchase          time.Time `json:"last_purchase"`
+	Name                  string    `json:"name"`
+	Surname               string    `json:"surname"`
+	Email                 string    `json:"email"`
+	AuthenticationType    string    `json:"authentication_type"`
+	IsPrimerUser          bool      `json:"is_prime_user"`
+	IsFirstPurchaseOnLine bool      `json:"is_first_purchase_online"`
+	RegistrationDate      time.Time `json:"registration_date"`
+	LastPurchaseDate      time.Time `json:"last_purchase_date"`
 
-	Name    string `json:"name"`
-	Surname string `json:"surname"`
-	Email   string `json:"email"`
+	Identification IdentificationResponse `json:"identification"`
+	Phone          PhoneResponse          `json:"phone"`
+	Address        AddressResponse        `json:"address"`
 }
 
 // PaymentMethodsResponse contains information about payment methods in the preference.
