@@ -3,22 +3,82 @@ package order
 // API version: d0494f1c-8d81-4c76-ae1d-0c65bb8ef6de
 
 type Request struct {
-	Type                string              `json:"type,omitempty"`
-	TotalAmount         string              `json:"total_amount,omitempty"`
-	ExternalReference   string              `json:"external_reference,omitempty"`
-	CaptureMode         string              `json:"capture_mode,omitempty"`
-	ProcessingMode      string              `json:"processing_mode,omitempty"`
-	Description         string              `json:"description,omitempty"`
-	Marketplace         string              `json:"marketplace,omitempty"`
-	MarketPlaceFee      string              `json:"marketplace_fee,omitempty"`
-	ExpirationTime      string              `json:"expiration_time,omitempty"`
-	CheckoutAvailableAt string              `json:"checkout_available_at,omitempty"`
-	Transactions        *TransactionRequest `json:"transactions,omitempty"`
-	Payer               *PayerRequest       `json:"payer,omitempty"`
-	Items               []ItemsRequest      `json:"items,omitempty"`
-	Config              *ConfigRequest      `json:"config,omitempty"`
+	Type                string                `json:"type,omitempty"`
+	TotalAmount         string                `json:"total_amount,omitempty"`
+	ExternalReference   string                `json:"external_reference,omitempty"`
+	CaptureMode         string                `json:"capture_mode,omitempty"`
+	ProcessingMode      string                `json:"processing_mode,omitempty"`
+	Description         string                `json:"description,omitempty"`
+	Marketplace         string                `json:"marketplace,omitempty"`
+	MarketPlaceFee      string                `json:"marketplace_fee,omitempty"`
+	ExpirationTime      string                `json:"expiration_time,omitempty"`
+	CheckoutAvailableAt string                `json:"checkout_available_at,omitempty"`
+	Transactions        *TransactionRequest   `json:"transactions,omitempty"`
+	Payer               *PayerRequest         `json:"payer,omitempty"`
+	Items               []ItemsRequest        `json:"items,omitempty"`
+	Config              *ConfigRequest        `json:"config,omitempty"`
+	Address             []AddressRequest      `json:"adresses,omitempty"`
+	AdditionalInfo      AdditionalInfoRequest `json:"additional_info,omitempty"`
 }
 
+type AdditionalInfoRequest struct {
+	Payer    *AdditionalInfoPayer    `json:"payer,omitempty"`
+	Shipment *AdditionalInfoShipment `json:"shipment,omitempty"`
+	Platform *AdditionalInfoPlatform `json:"platform,omitempty"`
+	Travel   *AdditionalInfoTravel   `json:"travel,omitempty"`
+}
+
+type AdditionalInfoPayer struct {
+	AuthenticationType    string        `json:"authentication_type,omitempty"`
+	RegistrationDate      string        `json:"registration_date,omitempty"`
+	IsPrimeUser           bool          `json:"is_prime_user,omitempty"`
+	IsFirstPurchaseOnline bool          `json:"is_first_purchase_online,omitempty"`
+	LastPurchase          string        `json:"last_purchase,omitempty"`
+	Address               *PayerAddress `json:"address,omitempty"`
+}
+
+type AdditionalInfoShipment struct {
+	Express     bool `json:"express,omitempty"`
+	LocalPickup bool `json:"local_pickup,omitempty"`
+}
+
+type AdditionalInfoPlatform struct {
+	Shipment       *AdditionalInfoPlatformShipment `json:"shipment,omitempty"`
+	Seller         *AdditionalInfoPlatformSeller   `json:"seller,omitempty"`
+	Authentication string                          `json:"authentication,omitempty"`
+}
+
+type AdditionalInfoPlatformShipment struct {
+	DeliveryPromise string                          `json:"delivery_promise,omitempty"`
+	DropShipping    bool                            `json:"drop_shipping,omitempty"`
+	Safety          string                          `json:"safety,omitempty"`
+	Tracking        *AdditionalInfoPlatformTracking `json:"tracking,omitempty"`
+	Withdrawn       bool                            `json:"withdrawn,omitempty"`
+}
+
+type AdditionalInfoPlatformTracking struct {
+	Code   string `json:"code,omitempty"`
+	Status string `json:"status,omitempty"`
+}
+
+type AdditionalInfoPlatformSeller struct {
+	ID                 string                 `json:"id,omitempty"`
+	Name               string                 `json:"name,omitempty"`
+	Email              string                 `json:"email,omitempty"`
+	Status             string                 `json:"status,omitempty"`
+	ReferralURL        string                 `json:"referral_url,omitempty"`
+	RegistrationDate   string                 `json:"registration_date,omitempty"`
+	HiredPlan          string                 `json:"hired_plan,omitempty"`
+	BusinessType       string                 `json:"business_type,omitempty"`
+	Address            *AddressRequest        `json:"address,omitempty"`
+	IdentificationType *IdentificationRequest `json:"identification,omitempty"`
+	Phone              *PhoneRequest          `json:"phone,omitempty"`
+}
+
+type AdditionalInfoTravel struct {
+	Passengers []string `json:"passengers,omitempty"`
+	Routes     []string `json:"routes,omitempty"`
+}
 type TransactionRequest struct {
 	Payments []PaymentRequest `json:"payments,omitempty"`
 }
@@ -78,7 +138,16 @@ type PayerRequest struct {
 	CustomerID     string                 `json:"customer_id,omitempty"`
 	Identification *IdentificationRequest `json:"identification,omitempty"`
 	Phone          *PhoneRequest          `json:"phone,omitempty"`
-	Address        *AddressRequest        `json:"address,omitempty"`
+	Address        *PayerAddress          `json:"address,omitempty"`
+}
+type PayerAddress struct {
+	ZipCode      string `json:"zip_code,omitempty"`
+	StreetName   string `json:"street_name,omitempty"`
+	StreetNumber string `json:"street_number,omitempty"`
+	City         string `json:"city,omitempty"`
+	State        string `json:"state,omitempty"`
+	Complement   string `json:"complement,omitempty"`
+	Neighborhood string `json:"neighborhood,omitempty"`
 }
 
 type IdentificationRequest struct {
@@ -99,11 +168,13 @@ type AddressRequest struct {
 	State        string `json:"state,omitempty"`
 	City         string `json:"city,omitempty"`
 	Complement   string `json:"complement,omitempty"`
-	Floor        string `json:"floor,omitempty"`
 }
 
 type ItemsRequest struct {
 	Title        string `json:"title,omitempty"`
+	Type         string `json:"type,omitempty"`
+	Warranty     string `json:"warranty,omitempty"`
+	Event_date   string `json:"event_date,omitempty"`
 	UnitPrice    string `json:"unit_price,omitempty"`
 	ExternalCode string `json:"external_code,omitempty"`
 	CategoryID   string `json:"category_id,omitempty"`
