@@ -15,9 +15,7 @@ type Request struct {
 	Payer               *PayerRequest          `json:"payer,omitempty"`
 	Items               []ItemsRequest         `json:"items,omitempty"`
 	Config              *ConfigRequest         `json:"config,omitempty"`
-	Address             []AddressRequest       `json:"adresses,omitempty"`
 	AdditionalInfo      *AdditionalInfoRequest `json:"additional_info,omitempty"`
-	Shipment            *ShipmentRequest       `json:"shipment,omitempty"`
 }
 
 type TravelPassengerRequest struct {
@@ -48,11 +46,11 @@ type AdditionalInfoRequest struct {
 	PlatformShipmentTrackingCode       string                    `json:"platform.shipment.tracking.code,omitempty"`
 	PlatformShipmentTrackingStatus     string                    `json:"platform.shipment.tracking.status,omitempty"`
 	PlatformShipmentWithdrawn          bool                      `json:"platform.shipment.withdrawn,omitempty"`
-	PlatformSellerId                   string                    `json:"platform.seller.id,omitempty"`
+	PlatformSellerID                   string                    `json:"platform.seller.id,omitempty"`
 	PlatformSellerName                 string                    `json:"platform.seller.name,omitempty"`
 	PlatformSellerEmail                string                    `json:"platform.seller.email,omitempty"`
 	PlatformSellerStatus               string                    `json:"platform.seller.status,omitempty"`
-	PlatformSellerReferralUrl          string                    `json:"platform.seller.referral_url,omitempty"`
+	PlatformSellerReferralURL          string                    `json:"platform.seller.referral_url,omitempty"`
 	PlatformSellerRegistrationDate     string                    `json:"platform.seller.registration_date,omitempty"`
 	PlatformSellerHiredPlan            string                    `json:"platform.seller.hired_plan,omitempty"`
 	PlatformSellerBusinessType         string                    `json:"platform.seller.business_type,omitempty"`
@@ -151,11 +149,12 @@ type PayerRequest struct {
 	FirstName      string                 `json:"first_name,omitempty"`
 	LastName       string                 `json:"last_name,omitempty"`
 	CustomerID     string                 `json:"customer_id,omitempty"`
+	EntityType     string                 `json:"entity_type,omitempty"`
 	Identification *IdentificationRequest `json:"identification,omitempty"`
 	Phone          *PhoneRequest          `json:"phone,omitempty"`
 	Address        *PayerAddressRequest   `json:"address,omitempty"`
-	EntityType     string                 `json:"entity_type,omitempty"`
 }
+
 type PayerAddress struct {
 	ZipCode      string `json:"zip_code,omitempty"`
 	StreetName   string `json:"street_name,omitempty"`
