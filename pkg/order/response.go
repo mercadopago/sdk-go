@@ -27,7 +27,6 @@ type Response struct {
 	IntegrationData     IntegrationDataResponse `json:"integration_data,omitempty"`
 	Config              ConfigResponse          `json:"config,omitempty"`
 	Payer               PayerResponse           `json:"payer,omitempty"`
-	AddressRequest      AddressRequest          `json:"address_request,omitempty"`
 }
 
 type TransactionResponse struct {
@@ -168,7 +167,6 @@ type DifferentialPricingResponse struct {
 
 type PayerResponse struct {
 	CustomerID string `json:"customer_id,omitempty"`
-	EntityType string `json:"entity_type,omitempty"`
 }
 
 type AttemptResponse struct {
