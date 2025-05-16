@@ -109,9 +109,9 @@ func TestCreate(t *testing.T) {
 						UnitPrice:   "1000.00",
 						Description: "Some item description",
 						CategoryID:  "category_id",
-
-						PictureURL: "https://mysite.com/img/item.jpg",
-						Quantity:   1,
+						Type:        "item_type",
+						PictureURL:  "https://mysite.com/img/item.jpg",
+						Quantity:    1,
 					},
 				},
 			},
