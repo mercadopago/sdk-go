@@ -69,7 +69,7 @@ func main() {
 				Type:         "travel",
 				UnitPrice:    "1000.00",
 				Warranty:     true,
-				Event_date:   "2023-10-10T00:00:00Z",
+				EventDate:    "2023-10-10T00:00:00Z",
 			},
 		},
 		Shipment: &order.ShipmentRequest{
