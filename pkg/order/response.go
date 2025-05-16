@@ -122,6 +122,9 @@ type ItemsResponse struct {
 	CategoryID   string `json:"category_id,omitempty"`
 	PictureURL   string `json:"picture_url,omitempty"`
 	Quantity     int    `json:"quantity,omitempty"`
+	Type         string `json:"type,omitempty"`
+	Warranty     string `json:"warranty,omitempty"`
+	EventDate    string `json:"event_date,omitempty"`
 }
 
 type IntegrationDataResponse struct {
