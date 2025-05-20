@@ -25,6 +25,7 @@ func main() {
 				Description: "Description",
 			},
 		},
+		NotificationURL: "https://webhook.site/your-test-url",
 	}
 
 	client := preference.NewClient(cfg)
