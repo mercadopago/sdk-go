@@ -16,6 +16,7 @@ type Response struct {
 	PaymentMethod      PaymentMethodResponse      `json:"payment_method"`
 	ThreeDSInfo        ThreeDSInfoResponse        `json:"three_ds_info"`
 	BackURLs           BackURLsResponse           `json:"back_urls,omitempty"`
+	Expanded           *ExpandedResponse          `json:"expanded,omitempty"`
 	DateCreated        time.Time                  `json:"date_created"`
 	DateApproved       time.Time                  `json:"date_approved"`
 	DateLastUpdated    time.Time                  `json:"date_last_updated"`
@@ -416,4 +417,14 @@ type BackURLsResponse struct {
 	Success string `json:"success,omitempty"`
 	Pending string `json:"pending,omitempty"`
 	Failure string `json:"failure,omitempty"`
+}
+
+type ExpandedResponse struct {
+	Gateway *GatewayResponse `json:"gateway,omitempty"`
+}
+type GatewayResponse struct {
+	Reference *ReferenceResponse `json:"reference,omitempty"`
+}
+type ReferenceResponse struct {
+	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
 }
