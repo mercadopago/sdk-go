@@ -42,3 +42,11 @@ func WithPlatformID(p string) Option {
 		return nil
 	}
 }
+
+// WithExpandNodes send nodes to be expanded in the response.
+func WithExpandNodes(nodes string) Option {
+	return func(c *Config) error {
+		c.ExpandNodes = nodes
+		return nil
+	}
+}
