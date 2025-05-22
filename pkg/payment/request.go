@@ -195,7 +195,11 @@ type PayerRequest struct {
 
 // ForwardData represents data used in special conditions for the payment.
 type ForwardDataRequest struct {
-	SubMerchant *SubMerchantRequest `json:"sub_merchant,omitempty"`
+	SubMerchant            *SubMerchantRequest            `json:"sub_merchant,omitempty"`
+	NetworkTransactionData *NetworkTransactionDataRequest `json:"network_transaction_data,omitempty"`
+}
+type NetworkTransactionDataRequest struct {
+	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
 }
 
 // SubMerchantRequest represents sub merchant request within ForwardDataRequest.
