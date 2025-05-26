@@ -99,7 +99,7 @@ func setHeaders(req *http.Request, cfg *config.Config, requestData RequestData) 
 		req.Header.Set("X-Platform-Id", cfg.PlatformID)
 	}
 	if cfg.ExpandNodes != "" {
-		req.Header.Set("X-Expand-Response-Nodes", cfg.ExpandNodes)
+		req.Header.Set("X-Expand-Responde-Nodes", cfg.ExpandNodes)
 	}
 }
 
