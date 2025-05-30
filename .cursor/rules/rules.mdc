@@ -1,0 +1,408 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Mercado Pago Go SDK - Cursor Rules
+
+## Visão Geral do Projeto
+Este é o SDK oficial do Mercado Pago para Go, uma biblioteca de processamento de pagamentos que segue as melhores práticas Go e convenções da comunidade. O SDK é distribuído como um módulo Go e segue uma arquitetura modular com clara separação de responsabilidades.
+
+## Estrutura e Organização do Projeto
+
+### Estrutura de Diretórios Principal
+```
+.
+├── pkg/                         # Código fonte principal
+│   ├── client/                 # Clientes de API
+│   │   ├── base.go            # Cliente base
+│   │   └── payment.go         # Cliente de pagamento
+│   ├── config/                # Configuração
+│   │   └── config.go         # Configurações do SDK
+│   ├── internal/              # Código interno
+│   │   ├── http/             # Cliente HTTP
+│   │   └── validation/       # Validação
+│   ├── models/               # Modelos de dados
+│   │   ├── payment.go       # Modelo de pagamento
+│   │   └── common.go        # Tipos comuns
+│   └── errors/              # Erros personalizados
+├── test/                    # Testes
+│   └── integration/        # Testes de integração
+├── examples/               # Exemplos de uso
+└── docs/                  # Documentação
+```
+
+## Convenções de Nomenclatura
+
+### Pacotes e Tipos
+- **Pacotes**: Nomes curtos, minúsculos (ex: `client`, `models`)
+- **Interfaces**: Nomes concisos, sem prefixo I (ex: `Client`, `Service`)
+- **Structs**: PascalCase para exportação (ex: `Payment`, `Config`)
+- **Erros**: Sufixo Error (ex: `ValidationError`, `APIError`)
+
+### Métodos e Funções
+- Nomes em camelCase para privados
+- PascalCase para exportados
+- Nomes descritivos e concisos
+- Evitar redundância com o receptor
+
+### Variáveis e Constantes
+- camelCase para variáveis locais
+- PascalCase para exportadas
+- SCREAMING_SNAKE_CASE para constantes
+- Nomes curtos para escopos curtos
+
+## Padrões de Código
+
+### Estilo Go
+```go
+package client
+
+import (
+    "context"
+    "net/http"
+    
+    "github.com/mercadopago/sdk-go/pkg/config"
+    "github.com/mercadopago/sdk-go/pkg/models"
+)
+
+type PaymentClient struct {
+    baseURL string
+    config  *config.Config
+    http    *http.Client
+}
+
+func NewPaymentClient(cfg *config.Config) *PaymentClient {
+    return &PaymentClient{
+        baseURL: "https://api.mercadopago.com/v1",
+        config:  cfg,
+        http:    &http.Client{},
+    }
+}
+
+func (c *PaymentClient) Create(ctx context.Context, payment *models.Payment) (*models.Payment, error) {
+    resp, err := c.post(ctx, "/payments", payment)
+    if err != nil {
+        return nil, fmt.Errorf("creating payment: %w", err)
+    }
+    return resp, nil
+}
+```
+
+### Modelos
+```go
+package models
+
+import "time"
+
+type Payment struct {
+    ID              string                 `json:"id"`
+    Amount          float64                `json:"amount"`
+    Status          string                 `json:"status"`
+    DateCreated     time.Time             `json:"date_created"`
+    ExternalRef     string                `json:"external_reference"`
+    Metadata        map[string]interface{} `json:"metadata,omitempty"`
+}
+
+func (p *Payment) IsApproved() bool {
+    return p.Status == "approved"
+}
+```
+
+### Configuração
+```go
+package config
+
+type Config struct {
+    AccessToken string
+    Timeout     time.Duration
+    BaseURL     string
+}
+
+func NewConfig(accessToken string) *Config {
+    return &Config{
+        AccessToken: accessToken,
+        Timeout:    5 * time.Second,
+        BaseURL:    "https://api.mercadopago.com",
+    }
+}
+```
+
+## Práticas de Desenvolvimento
+
+### Geral
+- Seguir "Go Proverbs"
+- Usar interfaces pequenas
+- Preferir composição sobre herança
+- Tratar erros explicitamente
+- Documentar código exportado
+
+### Tratamento de Erros
+```go
+package errors
+
+type MPError struct {
+    Message string
+    Code    string
+    Status  int
+    Details map[string]interface{}
+}
+
+func (e *MPError) Error() string {
+    return fmt.Sprintf("%s (code: %s, status: %d)", e.Message, e.Code, e.Status)
+}
+
+func NewError(message, code string, status int) *MPError {
+    return &MPError{
+        Message: message,
+        Code:    code,
+        Status:  status,
+        Details: make(map[string]interface{}),
+    }
+}
+```
+
+### Logging
+```go
+package client
+
+import "log"
+
+func (c *PaymentClient) processPayment(ctx context.Context, payment *models.Payment) error {
+    log.Printf("Processing payment: %s", payment.ID)
+    
+    result, err := c.Create(ctx, payment)
+    if err != nil {
+        log.Printf("Error processing payment %s: %v", payment.ID, err)
+        return fmt.Errorf("processing payment: %w", err)
+    }
+    
+    log.Printf("Payment processed successfully: %s", result.ID)
+    return nil
+}
+```
+
+## Testes
+
+### Padrões de Teste
+```go
+package client
+
+import (
+    "context"
+    "testing"
+    
+    "github.com/stretchr/testify/assert"
+)
+
+func TestPaymentClient_Create(t *testing.T) {
+    // Arrange
+    cfg := config.NewConfig("test-token")
+    client := NewPaymentClient(cfg)
+    payment := &models.Payment{
+        Amount: 100.0,
+        Status: "pending",
+    }
+    
+    // Act
+    result, err := client.Create(context.Background(), payment)
+    
+    // Assert
+    assert.NoError(t, err)
+    assert.NotNil(t, result)
+    assert.NotEmpty(t, result.ID)
+}
+```
+
+### Testes de Tabela
+```go
+func TestPayment_Validation(t *testing.T) {
+    tests := []struct {
+        name    string
+        payment *models.Payment
+        wantErr bool
+    }{
+        {
+            name: "valid payment",
+            payment: &models.Payment{
+                Amount: 100.0,
+                Status: "pending",
+            },
+            wantErr: false,
+        },
+        {
+            name: "invalid amount",
+            payment: &models.Payment{
+                Amount: -100.0,
+                Status: "pending",
+            },
+            wantErr: true,
+        },
+    }
+    
+    for _, tt := range tests {
+        t.Run(tt.name, func(t *testing.T) {
+            err := tt.payment.Validate()
+            if tt.wantErr {
+                assert.Error(t, err)
+            } else {
+                assert.NoError(t, err)
+            }
+        })
+    }
+}
+```
+
+## Documentação
+
+### Godoc
+```go
+// Package client provides the Mercado Pago API client implementation.
+package client
+
+// PaymentClient handles all payment-related operations.
+type PaymentClient struct {
+    // ... campos privados ...
+}
+
+// Create creates a new payment using the Mercado Pago API.
+// It returns the created payment or an error if the operation fails.
+func (c *PaymentClient) Create(ctx context.Context, payment *models.Payment) (*models.Payment, error) {
+    // ... implementação ...
+}
+```
+
+## Gerenciamento de Dependências
+
+### go.mod
+```go
+module github.com/mercadopago/sdk-go
+
+go 1.16
+
+require (
+    github.com/stretchr/testify v1.7.0
+    github.com/pkg/errors v0.9.1
+    golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
+)
+```
+
+## Segurança
+
+### Práticas
+- Validar todas as entradas
+- Usar HTTPS sempre
+- Implementar rate limiting
+- Seguir boas práticas de segurança
+
+### Validação
+```go
+package models
+
+import "github.com/go-playground/validator/v10"
+
+type PaymentRequest struct {
+    Amount      float64 `json:"amount" validate:"required,gt=0"`
+    Description string  `json:"description" validate:"required,max=255"`
+    Payer       *Payer `json:"payer" validate:"required"`
+}
+
+func (p *PaymentRequest) Validate() error {
+    validate := validator.New()
+    return validate.Struct(p)
+}
+```
+
+## Performance
+
+### Otimizações
+- Usar connection pooling
+- Implementar caching
+- Configurar timeouts
+- Usar goroutines apropriadamente
+
+### Concorrência
+```go
+func ProcessPayments(ctx context.Context, payments []*models.Payment) error {
+    errChan := make(chan error, len(payments))
+    sem := make(chan struct{}, 5) // limitar concorrência
+    
+    var wg sync.WaitGroup
+    for _, p := range payments {
+        wg.Add(1)
+        go func(payment *models.Payment) {
+            defer wg.Done()
+            sem <- struct{}{} // adquirir semáforo
+            defer func() { <-sem }() // liberar semáforo
+            
+            if err := processPayment(ctx, payment); err != nil {
+                errChan <- err
+            }
+        }(p)
+    }
+    
+    go func() {
+        wg.Wait()
+        close(errChan)
+    }()
+    
+    for err := range errChan {
+        if err != nil {
+            return err
+        }
+    }
+    
+    return nil
+}
+```
+
+## Qualidade de Código
+
+### Ferramentas
+- golangci-lint para linting
+- go vet para análise estática
+- gofmt para formatação
+- go test para testes
+
+### CI/CD
+- GitHub Actions
+- Go build/test
+- Testes automatizados
+- Release automático
+
+## Configuração do Editor
+
+### VSCode
+```json
+{
+    "go.lintTool": "golangci-lint",
+    "go.formatTool": "gofmt",
+    "go.useLanguageServer": true,
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    }
+}
+```
+
+## Makefile
+
+### Makefile
+```makefile
+.PHONY: build test lint clean
+
+build:
+    go build ./...
+
+test:
+    go test -v -race -cover ./...
+
+lint:
+    golangci-lint run
+
+clean:
+    go clean
+    rm -rf dist/
+``` 
