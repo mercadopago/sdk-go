@@ -1,9 +1,8 @@
 ## VERSION 1.4.0
 
 
-Include `network-transaction-id`
 
- 
+Include `network-transaction-id`
 
 ## VERSION 1.3.0
 
