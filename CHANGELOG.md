@@ -1,3 +1,7 @@
+## VERSION 1.4.1
+
+Fix `store_id` in `DeviceResponse` to accept string values.
+
 ## VERSION 1.4.0
 
 Include `network-transaction-id`
