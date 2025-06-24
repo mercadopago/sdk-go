@@ -40,7 +40,7 @@ type DeviceResponse struct {
 	ExternalPosID string `json:"external_pos_id"`
 	OperatingMode string `json:"operating_mode"`
 	PosID         int    `json:"pos_id"`
-	StoreID       int    `json:"store_id"`
+	StoreID       string `json:"store_id"`
 }
 
 type PagingResponse struct {
