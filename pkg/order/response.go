@@ -3,30 +3,33 @@ package order
 // API version: d0494f1c-8d81-4c76-ae1d-0c65bb8ef6de
 
 type Response struct {
-	ID                  string                  `json:"id,omitempty"`
-	Type                string                  `json:"type,omitempty"`
-	ExternalReference   string                  `json:"external_reference,omitempty"`
-	CountryCode         string                  `json:"country_code,omitempty"`
-	Status              string                  `json:"status,omitempty"`
-	StatusDetail        string                  `json:"status_detail,omitempty"`
-	CaptureMode         string                  `json:"capture_mode,omitempty"`
-	UserID              string                  `json:"user_id,omitempty"`
-	ClientToken         string                  `json:"client_token,omitempty"`
-	TotalAmount         string                  `json:"total_amount,omitempty"`
-	TotalPaidAmount     string                  `json:"total_paid_amount,omitempty"`
-	ProcessingMode      string                  `json:"processing_mode,omitempty"`
-	Description         string                  `json:"description,omitempty"`
-	Marketplace         string                  `json:"marketplace,omitempty"`
-	MarketplaceFee      string                  `json:"marketplace_fee,omitempty"`
-	CheckoutAvailableAt string                  `json:"checkout_available_at,omitempty"`
-	ExpirationTime      string                  `json:"expiration_time,omitempty"`
-	CreatedDate         string                  `json:"created_date,omitempty"`
-	LastUpdatedDate     string                  `json:"last_updated_date,omitempty"`
-	Transactions        TransactionResponse     `json:"transactions,omitempty"`
-	Items               []ItemsResponse         `json:"items,omitempty"`
-	IntegrationData     IntegrationDataResponse `json:"integration_data,omitempty"`
-	Config              ConfigResponse          `json:"config,omitempty"`
-	Payer               PayerResponse           `json:"payer,omitempty"`
+	ID                string `json:"id,omitempty"`
+	Type              string `json:"type,omitempty"`
+	ExternalReference string `json:"external_reference,omitempty"`
+	CountryCode       string `json:"country_code,omitempty"`
+	Status            string `json:"status,omitempty"`
+	StatusDetail      string `json:"status_detail,omitempty"`
+	CaptureMode       string `json:"capture_mode,omitempty"`
+	UserID            string `json:"user_id,omitempty"`
+	// Deprecated: campo não mais utilizado pela API
+	ClientToken     string `json:"client_token,omitempty"`
+	TotalAmount     string `json:"total_amount,omitempty"`
+	TotalPaidAmount string `json:"total_paid_amount,omitempty"`
+	ProcessingMode  string `json:"processing_mode,omitempty"`
+	Description     string `json:"description,omitempty"`
+	Marketplace     string `json:"marketplace,omitempty"`
+	MarketplaceFee  string `json:"marketplace_fee,omitempty"`
+	// Deprecated: campo não mais utilizado pela API
+	CheckoutAvailableAt string `json:"checkout_available_at,omitempty"`
+	// Deprecated: campo não mais utilizado pela API
+	ExpirationTime  string                  `json:"expiration_time,omitempty"`
+	CreatedDate     string                  `json:"created_date,omitempty"`
+	LastUpdatedDate string                  `json:"last_updated_date,omitempty"`
+	Transactions    TransactionResponse     `json:"transactions,omitempty"`
+	Items           []ItemsResponse         `json:"items,omitempty"`
+	IntegrationData IntegrationDataResponse `json:"integration_data,omitempty"`
+	Config          ConfigResponse          `json:"config,omitempty"`
+	Payer           PayerResponse           `json:"payer,omitempty"`
 }
 
 type TransactionResponse struct {

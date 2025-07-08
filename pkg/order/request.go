@@ -1,21 +1,24 @@
 package order
 
 type Request struct {
-	Type                string                 `json:"type,omitempty"`
-	TotalAmount         string                 `json:"total_amount,omitempty"`
-	ExternalReference   string                 `json:"external_reference,omitempty"`
-	CaptureMode         string                 `json:"capture_mode,omitempty"`
-	ProcessingMode      string                 `json:"processing_mode,omitempty"`
-	Description         string                 `json:"description,omitempty"`
-	Marketplace         string                 `json:"marketplace,omitempty"`
-	MarketPlaceFee      string                 `json:"marketplace_fee,omitempty"`
-	ExpirationTime      string                 `json:"expiration_time,omitempty"`
-	CheckoutAvailableAt string                 `json:"checkout_available_at,omitempty"`
-	Transactions        *TransactionRequest    `json:"transactions,omitempty"`
-	Payer               *PayerRequest          `json:"payer,omitempty"`
-	Items               []ItemsRequest         `json:"items,omitempty"`
-	Config              *ConfigRequest         `json:"config,omitempty"`
-	AdditionalInfo      *AdditionalInfoRequest `json:"additional_info,omitempty"`
+	Type              string `json:"type,omitempty"`
+	TotalAmount       string `json:"total_amount,omitempty"`
+	ExternalReference string `json:"external_reference,omitempty"`
+	CaptureMode       string `json:"capture_mode,omitempty"`
+	ProcessingMode    string `json:"processing_mode,omitempty"`
+	Description       string `json:"description,omitempty"`
+	Marketplace       string `json:"marketplace,omitempty"`
+	MarketplaceFee    string `json:"marketplace_fee,omitempty"`
+	ExpirationTime    string `json:"expiration_time,omitempty"`
+	// Deprecated: campo não mais utilizado pela API
+	CheckoutAvailableAt string              `json:"checkout_available_at,omitempty"`
+	Transactions        *TransactionRequest `json:"transactions,omitempty"`
+	Payer               *PayerRequest       `json:"payer,omitempty"`
+	Items               []ItemsRequest      `json:"items,omitempty"`
+	// Deprecated: campo não mais utilizado pela API
+	Config *ConfigRequest `json:"config,omitempty"`
+	// Deprecated: campo não mais utilizado pela API
+	AdditionalInfo *AdditionalInfoRequest `json:"additional_info,omitempty"`
 }
 
 type TravelPassengerRequest struct {
@@ -78,7 +81,7 @@ type TravelRouterRequest struct {
 	Company           string `json:"company,omitempty"`
 }
 type PayerAddressRequest struct {
-	Zipcode      string `json:"zipcode,omitempty"`
+	ZipCode      string `json:"zip_code,omitempty"`
 	StreetName   string `json:"street_name,omitempty"`
 	StreetNumber string `json:"street_number,omitempty"`
 	Neighborhood string `json:"neighborhood,omitempty"`
