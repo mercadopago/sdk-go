@@ -56,6 +56,178 @@ func TestCreate(t *testing.T) {
 			wantErr: true,
 		},
 		{
+			name: "should_accept_payment_method_id_bolbradesco",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{"status": "processed"}`
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+				request: Request{
+					Type:        "ticket",
+					TotalAmount: "84.00",
+					Transactions: &TransactionRequest{
+						Payments: []PaymentRequest{
+							{
+								Amount: "84.00",
+								PaymentMethod: &PaymentMethodRequest{
+									Type: "ticket",
+									ID:   "bolbradesco",
+								},
+							},
+						},
+					},
+				},
+			},
+			want: &Response{
+				Status: "processed",
+			},
+			wantErr: false,
+		},
+		{
+			name: "should_accept_payment_method_id_boleto",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{"status": "processed"}`
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+				request: Request{
+					Type:        "ticket",
+					TotalAmount: "42.00",
+					Transactions: &TransactionRequest{
+						Payments: []PaymentRequest{
+							{
+								Amount: "42.00",
+								PaymentMethod: &PaymentMethodRequest{
+									Type: "ticket",
+									ID:   "boleto",
+								},
+							},
+						},
+					},
+				},
+			},
+			want: &Response{
+				Status: "processed",
+			},
+			wantErr: false,
+		},
+		{
+			name: "should_accept_additional_info_with_multiple_fields",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{"status": "processed"}`
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+				request: Request{
+					CaptureMode: "automatic_async",
+					Type:        "online",
+					TotalAmount: "150.00",
+					AdditionalInfo: &AdditionalInfoRequest{
+						PayerAuthenticationType: "app",
+						PlatformSellerID:        "seller-1234",
+						ShipmentExpress:         true,
+						PlatformSellerEmail:     "seller@mail.com",
+					},
+				},
+			},
+			want: &Response{
+				Status: "processed",
+			},
+			wantErr: false,
+		},
+		{
+			name: "should_accept_capture_mode_automatic_async",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							body := `{"status": "processed"}`
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+				request: Request{
+					CaptureMode: "automatic_async",
+					Type:        "online",
+					TotalAmount: "100.00",
+				},
+			},
+			want: &Response{
+				Status: "processed",
+			},
+			wantErr: false,
+		},
+		{
+			name: "should_accept_capture_mode_manual",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							// Simula um response simples só indicando sucesso
+							body := `{"status": "processed"}`
+							return &http.Response{
+								StatusCode: http.StatusOK,
+								Body:       io.NopCloser(strings.NewReader(body)),
+								Header:     make(http.Header),
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+				request: Request{
+					CaptureMode: "manual",
+					Type:        "online",
+					TotalAmount: "100.00",
+				},
+			},
+			want: &Response{
+				Status: "processed",
+			},
+			wantErr: false,
+		},
+		{
 			name: "should_return_full_order_response",
 			fields: fields{
 				cfg: &config.Config{
