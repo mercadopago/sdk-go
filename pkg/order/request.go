@@ -78,7 +78,7 @@ type TravelRouterRequest struct {
 	Company           string `json:"company,omitempty"`
 }
 type PayerAddressRequest struct {
-	Zipcode      string `json:"zipcode,omitempty"`
+	ZipCode      string `json:"zip_code,omitempty"`
 	StreetName   string `json:"street_name,omitempty"`
 	StreetNumber string `json:"street_number,omitempty"`
 	Neighborhood string `json:"neighborhood,omitempty"`
