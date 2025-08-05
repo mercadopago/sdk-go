@@ -41,9 +41,6 @@ type PaymentResponse struct {
 	StatusDetail string `json:"status_detail,omitempty"`
 	Amount       string `json:"amount,omitempty"`
 	PaidAmount   string `json:"paid_amount,omitempty"`
-	// DateOfExpiration: apenas atualização na descrição, sem alteração no valor do campo ou no fluxo da request/response.
-	// DateOfExpiration: alteração apenas na descrição
-	// Campo utilizado para informar a data de expiração do pagamento.
 	DateOfExpiration string `json:"date_of_expiration,omitempty"`
 
 	ExpirationTime    string                   `json:"expiration_time,omitempty"`
