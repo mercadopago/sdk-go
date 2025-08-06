@@ -17,6 +17,8 @@ type Request struct {
 	Items               []ItemRequest               `json:"items,omitempty"`
 	Taxes               []TaxRequest                `json:"taxes,omitempty"`
 	Tracks              []TrackRequest              `json:"tracks,omitempty"`
+	Amounts             *AmountsRequest             `json:"amounts,omitempty"`
+	CounterCurrency     *CounterCurrencyRequest     `json:"counter_currency,omitempty"`
 
 	AdditionalInfo      string         `json:"additional_info,omitempty"`
 	AutoReturn          string         `json:"auto_return,omitempty"`
@@ -192,4 +194,21 @@ type ValuesRequest struct {
 	ConversionID    string `json:"conversion_id,omitempty"`
 	ConversionLabel string `json:"conversion_label,omitempty"`
 	PixelID         string `json:"pixel_id,omitempty"`
+}
+
+// AmountsRequest represents amounts request within Request.
+type AmountsRequest struct {
+	Collector UserAmountsRequest `json:"collector,omitempty"`
+	Payer     UserAmountsRequest `json:"payer,omitempty"`
+}
+
+// UserAmountsRequest represents user amounts request within AmountsRequest.
+type UserAmountsRequest struct {
+	CurrencyID  string  `json:"currency_id,omitempty"`
+	Transaction float64 `json:"transaction,omitempty"`
+}
+
+// CounterCurrencyRequest represents counter currency request within Request.
+type CounterCurrencyRequest struct {
+	CurrencyID string `json:"currency_id,omitempty"`
 }

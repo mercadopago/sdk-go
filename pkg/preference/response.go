@@ -19,6 +19,8 @@ type Response struct {
 	Taxes               []TaxResponse               `json:"taxes"`
 	Tracks              []TrackResponse             `json:"tracks"`
 	Items               []ItemResponse              `json:"items"`
+	Amounts             *AmountsResponse            `json:"amounts,omitempty"`
+	CounterCurrency     *CounterCurrencyResponse    `json:"counter_currency,omitempty"`
 
 	ID                  string         `json:"id"`
 	ClientID            string         `json:"client_id"`
@@ -183,4 +185,21 @@ type AddressResponse struct {
 	ZipCode      string `json:"zip_code"`
 	StreetName   string `json:"street_name"`
 	StreetNumber string `json:"street_number"`
+}
+
+// AmountsResponse represents amounts response.
+type AmountsResponse struct {
+	Collector UserAmountsResponse `json:"collector,omitempty"`
+	Payer     UserAmountsResponse `json:"payer,omitempty"`
+}
+
+// UserAmountsResponse represents user amounts response.
+type UserAmountsResponse struct {
+	CurrencyID  string  `json:"currency_id,omitempty"`
+	Transaction float64 `json:"transaction,omitempty"`
+}
+
+// CounterCurrencyResponse represents counter currency response.
+type CounterCurrencyResponse struct {
+	CurrencyID string `json:"currency_id,omitempty"`
 }
