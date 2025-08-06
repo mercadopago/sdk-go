@@ -1,0 +1,25 @@
+# Funcionalidades SDK GO
+
+Listagem das funcionalidades implementadas e pendentes no SDK do Mercado Pago para GO.
+
+<Funcionalidades>
+        <Ativas>
+            <Funcionalidade>Card Token</Funcionalidade>
+            <Funcionalidade>Customer</Funcionalidade>
+            <Funcionalidade>Identification Type</Funcionalidade>
+            <Funcionalidade>Invoices</Funcionalidade>
+            <Funcionalidade>Merchant Order</Funcionalidade>
+            <Funcionalidade>OAuth</Funcionalidade>
+            <Funcionalidade>Payment</Funcionalidade>
+            <Funcionalidade>Payment Method</Funcionalidade>
+            <Funcionalidade>Point</Funcionalidade>
+            <Funcionalidade>Pre Approval</Funcionalidade>
+            <Funcionalidade>Pre Approval Plan</Funcionalidade>
+            <Funcionalidade>Preference</Funcionalidade>
+            <Funcionalidade>User</Funcionalidade>
+        </Ativas>
+        <Pendentes>
+            <Funcionalidade>Advanced Payment</Funcionalidade>
+            <Funcionalidade>Chargeback</Funcionalidade>
+        </Pendentes>
+</Funcionalidades>
