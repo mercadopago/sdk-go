@@ -1,3 +1,7 @@
+## VERSION 1.5.0
+
+Update release version to 1.5.0
+
 ## VERSION 1.3.0
 
 Include Order Industry Data Fields and Example
