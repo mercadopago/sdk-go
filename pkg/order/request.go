@@ -11,6 +11,7 @@ type Request struct {
 	MarketPlaceFee      string                 `json:"marketplace_fee,omitempty"`
 	ExpirationTime      string                 `json:"expiration_time,omitempty"`
 	CheckoutAvailableAt string                 `json:"checkout_available_at,omitempty"`
+	Currency            string                 `json:"currency,omitempty"`
 	Transactions        *TransactionRequest    `json:"transactions,omitempty"`
 	Payer               *PayerRequest          `json:"payer,omitempty"`
 	Items               []ItemsRequest         `json:"items,omitempty"`
@@ -36,7 +37,7 @@ type AdditionalInfoRequest struct {
 	PayerAuthenticationType            string                    `json:"payer.authentication_type,omitempty"`
 	PayerRegistrationDate              string                    `json:"payer.registration_date,omitempty"`
 	PayerIsPrimeUser                   bool                      `json:"payer.is_prime_user,omitempty"`
-	PayerIsFirstPurchaseOnLine         bool                      `json:"payer.is_first_purchase_onLine,omitempty"`
+	PayerIsFirstPurchaseOnLine         bool                      `json:"payer.is_first_purchase_online,omitempty"`
 	PayerLastPurchase                  string                    `json:"payer.last_purchase,omitempty"`
 	ShipmentExpress                    bool                      `json:"shipment.express,omitempty"`
 	ShipmentLocalPickup                bool                      `json:"shipment.local_pickup,omitempty"`
@@ -78,7 +79,7 @@ type TravelRouterRequest struct {
 	Company           string `json:"company,omitempty"`
 }
 type PayerAddressRequest struct {
-	Zipcode      string `json:"zipcode,omitempty"`
+	ZipCode      string `json:"zip_code,omitempty"`
 	StreetName   string `json:"street_name,omitempty"`
 	StreetNumber string `json:"street_number,omitempty"`
 	Neighborhood string `json:"neighborhood,omitempty"`
