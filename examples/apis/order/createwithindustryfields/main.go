@@ -24,16 +24,16 @@ func main() {
 		ExternalReference: "ext_ref_1234",
 		Currency:          "BRL",
 		Payer: &order.PayerRequest{
-			Email:     "test_123@testuser.com",
+			Email:     "<PAYER_EMAIL>",
 			FirstName: "John",
 			LastName:  "Doe",
 			Identification: &order.IdentificationRequest{
 				Type:   "CPF",
-				Number: "15635614680",
+				Number: "<NUMBER>",
 			},
 			Phone: &order.PhoneRequest{
 				AreaCode: "55",
-				Number:   "987654321",
+				Number:   "<NUMBER>",
 			},
 			Address: &order.PayerAddressRequest{
 				StreetName:   "R. Ângelo Piva",
@@ -91,7 +91,7 @@ func main() {
 					LastName:  "ferreira",
 					Identification: &order.IdentificationRequest{
 						Type:   "CPF",
-						Number: "11111111111",
+						Number: "<NUMBER>",
 					},
 				},
 			},
