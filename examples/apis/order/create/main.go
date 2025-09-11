@@ -21,6 +21,7 @@ func main() {
 		Type:              "online",
 		TotalAmount:       "1000.00",
 		ExternalReference: "ext_ref_1234",
+		Currency:          "BRL",
 		Transactions: &order.TransactionRequest{
 			Payments: []order.PaymentRequest{
 				{
