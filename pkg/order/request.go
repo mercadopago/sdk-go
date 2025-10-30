@@ -141,8 +141,14 @@ type OnlineConfigRequest struct {
 	FailureURL          string                      `json:"failure_url,omitempty"`
 	AutoReturnURL       string                      `json:"auto_return_url,omitempty"`
 	DifferentialPricing *DifferentialPricingRequest `json:"differential_pricing,omitempty"`
+	TransactionSecurity *TransactionSecurityRequest `json:"transaction_security,omitempty"`
 }
 
 type DifferentialPricingRequest struct {
 	ID int `json:"id,omitempty"`
+}
+
+type TransactionSecurityRequest struct {
+	Validation     string `json:"validation,omitempty"`
+	LiabilityShift string `json:"liability_shift,omitempty"`
 }
