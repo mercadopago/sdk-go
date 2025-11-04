@@ -486,3 +486,52 @@ func TestRefundOrder(t *testing.T) {
 		}
 	})
 }
+
+func TestOrderTransactionSecurity(t *testing.T) {
+	t.Run("should_create_order_with_transaction_security", func(t *testing.T) {
+		ctx := context.Background()
+		token, err := test.GenerateCardToken(ctx, cardTokenClient)
+		if err != nil {
+			t.Error("fail to generate card token", err)
+		}
+
+		request := order.Request{
+			Type:              "online",
+			ProcessingMode:    "automatic",
+			TotalAmount:       "100.00",
+			ExternalReference: fmt.Sprintf("ext_ref_ts_%s", uuid.New().String()[:7]),
+			Payer: &order.PayerRequest{
+				Email: fmt.Sprintf("test_user_%s@testuser.com", uuid.New().String()[:7]),
+			},
+			Config: &order.ConfigRequest{
+				Online: &order.OnlineConfigRequest{
+					TransactionSecurity: &order.TransactionSecurityRequest{
+						Validation:     "always",
+						LiabilityShift: "preferred",
+					},
+				},
+			},
+			Transactions: &order.TransactionRequest{
+				Payments: []order.PaymentRequest{
+					{
+						Amount: "100.00",
+						PaymentMethod: &order.PaymentMethodRequest{
+							ID:           "master",
+							Token:        token,
+							Type:         "credit_card",
+							Installments: 1,
+						},
+					},
+				},
+			},
+		}
+
+		resource, err := orderClient.Create(ctx, request)
+		if resource == nil || resource.ID == "" {
+			t.Error("order can't be nil")
+		}
+		if err != nil {
+			t.Errorf(err.Error())
+		}
+	})
+}
