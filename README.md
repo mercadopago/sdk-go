@@ -116,6 +116,8 @@ For more details on the available methods and request parameters, please refer t
 See our documentation for more details.
 
 - Mercado Pago API Reference: [English](https://www.mercadopago.com/developers/en/guides) | [Portuguese](https://www.mercadopago.com/developers/pt/guides) | [Spanish](https://www.mercadopago.com/developers/es/guides)
+ - 3DS em Orders (SDK Go): `docs/orders_3ds.md`
+ - Exemplo de criação com 3DS: `examples/apis/order/create3ds/main.go`
 
 ## 🤝 Contributing
 
