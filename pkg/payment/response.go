@@ -16,6 +16,7 @@ type Response struct {
 	PaymentMethod      PaymentMethodResponse      `json:"payment_method"`
 	ThreeDSInfo        ThreeDSInfoResponse        `json:"three_ds_info"`
 	BackURLs           BackURLsResponse           `json:"back_urls,omitempty"`
+	Expanded           *ExpandedResponse          `json:"expanded,omitempty"`
 	DateCreated        time.Time                  `json:"date_created"`
 	DateApproved       time.Time                  `json:"date_approved"`
 	DateLastUpdated    time.Time                  `json:"date_last_updated"`
@@ -24,6 +25,8 @@ type Response struct {
 	FeeDetails         []FeeDetailResponse        `json:"fee_details"`
 	Taxes              []TaxResponse              `json:"taxes"`
 	Refunds            []RefundResponse           `json:"refunds"`
+	Amounts            *AmountsResponse           `json:"amounts,omitempty"`
+	CounterCurrency    *CounterCurrencyResponse   `json:"counter_currency,omitempty"`
 
 	DifferentialPricingID     int            `json:"differential_pricing_id"`
 	MoneyReleaseSchema        string         `json:"money_release_schema"`
@@ -50,7 +53,6 @@ type Response struct {
 	PosID                     string         `json:"pos_id"`
 	StoreID                   string         `json:"store_id"`
 	DeductionSchema           string         `json:"deduction_schema"`
-	CounterCurrency           string         `json:"counter_currency"`
 	CallForAuthorizeID        string         `json:"call_for_authorize_id"`
 	StatementDescriptor       string         `json:"statement_descriptor"`
 	MoneyReleaseStatus        string         `json:"money_release_status"`
@@ -416,4 +418,42 @@ type BackURLsResponse struct {
 	Success string `json:"success,omitempty"`
 	Pending string `json:"pending,omitempty"`
 	Failure string `json:"failure,omitempty"`
+}
+
+type ExpandedResponse struct {
+	Gateway *GatewayResponse `json:"gateway,omitempty"`
+}
+type GatewayResponse struct {
+	Reference *ReferenceResponse `json:"reference,omitempty"`
+}
+type ReferenceResponse struct {
+	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
+}
+
+// AmountsResponse represents amounts response.
+type AmountsResponse struct {
+	Collector CollectorAmountResponse `json:"collector,omitempty"`
+	Payer     PayerAmountResponse     `json:"payer,omitempty"`
+}
+
+// PayerAmountResponse represents payer amounts response.
+type PayerAmountResponse struct {
+	CurrencyID  string  `json:"currency_id,omitempty"`
+	Transaction float64 `json:"transaction,omitempty"`
+	TotalPaid   float64 `json:"total_paid,omitempty"`
+}
+
+// CollectorAmountResponse represents collector amounts response.
+type CollectorAmountResponse struct {
+	CurrencyID  string  `json:"currency_id,omitempty"`
+	Transaction float64 `json:"transaction,omitempty"`
+	NetReceived float64 `json:"net_received,omitempty"`
+}
+
+// CounterCurrencyResponse represents counter currency response.
+type CounterCurrencyResponse struct {
+	CurrencyID     string  `json:"currency_id,omitempty"`
+	Rate           float64 `json:"rate,omitempty"`
+	Amount         float64 `json:"amount,omitempty"`
+	AmountRefunded float64 `json:"amount_refunded,omitempty"`
 }

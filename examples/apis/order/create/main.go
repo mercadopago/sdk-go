@@ -21,6 +21,7 @@ func main() {
 		Type:              "{{TYPE}}",
 		TotalAmount:       "{{TOTAL_AMOUNT}}",
 		ExternalReference: "{{EXTERNAL_REFERENCE}}",
+    Currency:          "BRL",
 		Transactions: &order.TransactionRequest{
 			Payments: []order.PaymentRequest{
 				{

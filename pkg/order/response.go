@@ -35,13 +35,14 @@ type TransactionResponse struct {
 }
 
 type PaymentResponse struct {
-	ID                string                   `json:"id,omitempty"`
-	ReferenceID       string                   `json:"reference_id,omitempty"`
-	Status            string                   `json:"status,omitempty"`
-	StatusDetail      string                   `json:"status_detail,omitempty"`
-	Amount            string                   `json:"amount,omitempty"`
-	PaidAmount        string                   `json:"paid_amount,omitempty"`
-	DateOfExpiration  string                   `json:"date_of_expiration,omitempty"`
+	ID           string `json:"id,omitempty"`
+	ReferenceID  string `json:"reference_id,omitempty"`
+	Status       string `json:"status,omitempty"`
+	StatusDetail string `json:"status_detail,omitempty"`
+	Amount       string `json:"amount,omitempty"`
+	PaidAmount   string `json:"paid_amount,omitempty"`
+	DateOfExpiration string `json:"date_of_expiration,omitempty"`
+
 	ExpirationTime    string                   `json:"expiration_time,omitempty"`
 	AttemptNumber     int                      `json:"attempt_number,omitempty"`
 	PaymentMethod     PaymentMethodResponse    `json:"payment_method,omitempty"`
@@ -133,6 +134,9 @@ type ItemsResponse struct {
 	CategoryID   string `json:"category_id,omitempty"`
 	PictureURL   string `json:"picture_url,omitempty"`
 	Quantity     int    `json:"quantity,omitempty"`
+	Type         string `json:"type,omitempty"`
+	Warranty     string `json:"warranty,omitempty"`
+	EventDate    string `json:"event_date,omitempty"`
 }
 
 type IntegrationDataResponse struct {

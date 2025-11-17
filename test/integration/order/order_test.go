@@ -282,7 +282,7 @@ func TestCaptureOrder(t *testing.T) {
 		request := order.Request{
 			Type:              "online",
 			ProcessingMode:    "automatic",
-			CaptureMode:       "manual",
+			CaptureMode:       "automatic_async",
 			TotalAmount:       "200.00",
 			ExternalReference: "ext_ref_12345",
 			Payer: &order.PayerRequest{
@@ -338,7 +338,7 @@ func TestCancelOrder(t *testing.T) {
 		request := order.Request{
 			Type:              "online",
 			ProcessingMode:    "automatic",
-			CaptureMode:       "manual",
+			CaptureMode:       "automatic_async",
 			TotalAmount:       "200.00",
 			ExternalReference: "ext_ref_12345",
 			Payer: &order.PayerRequest{
