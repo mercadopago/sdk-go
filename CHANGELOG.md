@@ -1,3 +1,7 @@
+## VERSION 1.3.0
+
+Include Orders 3DS support
+
 ## VERSION 1.2.0
 
 Include Industry Data Fields and Example
