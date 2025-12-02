@@ -16,6 +16,7 @@ import (
 )
 
 const (
+
 	currentSDKVersion string = "1.3.0"
 	productID         string = "CNITR48HSRV0CRPT3NI0"
 )
@@ -97,6 +98,9 @@ func setHeaders(req *http.Request, cfg *config.Config, requestData RequestData) 
 	}
 	if cfg.PlatformID != "" {
 		req.Header.Set("X-Platform-Id", cfg.PlatformID)
+	}
+	if cfg.ExpandNodes != "" {
+		req.Header.Set("X-Expand-Responde-Nodes", cfg.ExpandNodes)
 	}
 }
 

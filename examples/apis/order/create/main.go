@@ -18,9 +18,11 @@ func main() {
 
 	client := order.NewClient(c)
 	request := order.Request{
+
 		Type:              "{{TYPE}}",
 		TotalAmount:       "{{TOTAL_AMOUNT}}",
-		ExternalReference: "{{EXTERNAL_REFERENCE}}",
+		Currency:          "{{CURRENCY}}",
+
 		Transactions: &order.TransactionRequest{
 			Payments: []order.PaymentRequest{
 				{

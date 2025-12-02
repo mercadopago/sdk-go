@@ -16,6 +16,8 @@ type Request struct {
 	PaymentMethod      *PaymentMethodRequest      `json:"payment_method,omitempty"`
 	DateOfExpiration   *time.Time                 `json:"date_of_expiration,omitempty"`
 	Taxes              []TaxRequest               `json:"taxes,omitempty"`
+	Amounts            *AmountsRequest            `json:"amounts,omitempty"`
+	CounterCurrency    *CounterCurrencyRequest    `json:"counter_currency,omitempty"`
 
 	CallbackURL           string         `json:"callback_url,omitempty"`
 	CouponCode            string         `json:"coupon_code,omitempty"`
@@ -195,7 +197,11 @@ type PayerRequest struct {
 
 // ForwardData represents data used in special conditions for the payment.
 type ForwardDataRequest struct {
-	SubMerchant *SubMerchantRequest `json:"sub_merchant,omitempty"`
+	SubMerchant            *SubMerchantRequest            `json:"sub_merchant,omitempty"`
+	NetworkTransactionData *NetworkTransactionDataRequest `json:"network_transaction_data,omitempty"`
+}
+type NetworkTransactionDataRequest struct {
+	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
 }
 
 // SubMerchantRequest represents sub merchant request within ForwardDataRequest.
@@ -321,4 +327,21 @@ type TaxRequest struct {
 	Type       string  `json:"type,omitempty"`
 	Value      float64 `json:"value,omitempty"`
 	Percentage bool    `json:"percentage,omitempty"`
+}
+
+// AmountsRequest represents amounts request within Request.
+type AmountsRequest struct {
+	Collector UserAmountsRequest `json:"collector,omitempty"`
+	Payer     UserAmountsRequest `json:"payer,omitempty"`
+}
+
+// UserAmountsRequest represents user amounts request within AmountsRequest.
+type UserAmountsRequest struct {
+	CurrencyID  string  `json:"currency_id,omitempty"`
+	Transaction float64 `json:"transaction,omitempty"`
+}
+
+// CounterCurrencyRequest represents counter currency request within Request.
+type CounterCurrencyRequest struct {
+	CurrencyID string `json:"currency_id,omitempty"`
 }

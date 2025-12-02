@@ -363,7 +363,7 @@ func TestListDevices(t *testing.T) {
 					{
 						ID:            "PAX_A910__SMARTPOS1234345545",
 						PosID:         47792476,
-						StoreID:       47792478,
+						StoreID:       "47792478",
 						ExternalPosID: "SUC0101POS",
 						OperatingMode: "PDV",
 					},
