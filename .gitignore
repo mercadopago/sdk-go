@@ -20,3 +20,6 @@ go.work
 # IDE
 .idea
 .vscode
+ 
+# Local tooling/temp
+tmp-mcp-installer/

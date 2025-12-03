@@ -38,14 +38,6 @@ func main() {
 		Payer: &order.PayerRequest{
 			Email: "{{EMAIL}}",
 		},
-		Config: &order.ConfigRequest{
-			Online: &order.OnlineConfigRequest{
-				TransactionSecurity: &order.TransactionSecurityRequest{
-					Validation:     "always",
-					LiabilityShift: "preferred",
-				},
-			},
-		},
 	}
 
 	resource, err := client.Create(context.Background(), request)
