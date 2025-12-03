@@ -1,3 +1,7 @@
+## VERSION 1.3.0
+
+Include Order Industry Data Fields and Example
+
 ## VERSION 1.2.0
 
 Include Industry Data Fields and Example
