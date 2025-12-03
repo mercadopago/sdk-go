@@ -2,6 +2,7 @@ package order
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -1158,5 +1159,45 @@ func TestNewClient(t *testing.T) {
 				t.Errorf("NewClient() = %v, want %v", got, tt.want)
 			}
 		})
+	}
+}
+
+func TestCreate_TransactionSecurity_Simple(t *testing.T) {
+	reqBody := Request{
+		Config: &ConfigRequest{
+			Online: &OnlineConfigRequest{
+				TransactionSecurity: &TransactionSecurityRequest{
+					Validation:     "always",
+					LiabilityShift: "preferred",
+				},
+			},
+		},
+	}
+
+	cfg := &config.Config{
+		Requester: &httpclient.Mock{
+			DoMock: func(req *http.Request) (*http.Response, error) {
+				var got struct {
+					Config *ConfigRequest `json:"config,omitempty"`
+				}
+				if err := json.NewDecoder(req.Body).Decode(&got); err != nil {
+					return nil, err
+				}
+				expected := struct {
+					Config *ConfigRequest `json:"config,omitempty"`
+				}{
+					Config: reqBody.Config,
+				}
+				if !reflect.DeepEqual(got, expected) {
+					return nil, fmt.Errorf("body mismatch: got=%+v want=%+v", got, expected)
+				}
+				return &http.Response{Body: io.NopCloser(strings.NewReader(`{"id":"ord","status":"processing"}`))}, nil
+			},
+		},
+	}
+
+	c := &client{cfg: cfg}
+	if _, err := c.Create(context.Background(), reqBody); err != nil {
+		t.Fatalf("Create() error: %v", err)
 	}
 }
