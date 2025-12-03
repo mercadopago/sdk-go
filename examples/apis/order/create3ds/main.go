@@ -21,7 +21,6 @@ func main() {
 		Type:              "{{TYPE}}",
 		TotalAmount:       "{{TOTAL_AMOUNT}}",
 		ExternalReference: "{{EXTERNAL_REFERENCE}}",
-    Currency:          "BRL",
 		Transactions: &order.TransactionRequest{
 			Payments: []order.PaymentRequest{
 				{
@@ -38,6 +37,14 @@ func main() {
 		Payer: &order.PayerRequest{
 			Email: "{{EMAIL}}",
 		},
+		Config: &order.ConfigRequest{
+			Online: &order.OnlineConfigRequest{
+				TransactionSecurity: &order.TransactionSecurityRequest{
+					Validation:     "always",
+					LiabilityShift: "preferred",
+				},
+			},
+		},
 	}
 
 	resource, err := client.Create(context.Background(), request)
@@ -48,3 +55,5 @@ func main() {
 
 	fmt.Println(resource)
 }
+
+
