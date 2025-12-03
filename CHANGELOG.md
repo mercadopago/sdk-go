@@ -1,10 +1,32 @@
+
+## VERSION 1.7.0
+
+Added Orders fields
+
+## VERSION 1.6.0
+
+Added CBP fields
+
+## VERSION 1.5.0
+
+Update release version to 1.5.0
+
+## VERSION 1.4.1
+
+Fix `store_id` in `DeviceResponse` to accept string values.
+
+## VERSION 1.4.0
+
+Include `network-transaction-id`
+
+
 ## VERSION 1.3.0
 
 Include Order Industry Data Fields and Example
 
 ## VERSION 1.2.0
 
-Include Industry Data Fields and Example
+Include Payment Industry Data Fields and Example
 
 ## VERSION 1.1.0
 

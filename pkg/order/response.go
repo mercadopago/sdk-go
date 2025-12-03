@@ -35,13 +35,14 @@ type TransactionResponse struct {
 }
 
 type PaymentResponse struct {
-	ID                string                   `json:"id,omitempty"`
-	ReferenceID       string                   `json:"reference_id,omitempty"`
-	Status            string                   `json:"status,omitempty"`
-	StatusDetail      string                   `json:"status_detail,omitempty"`
-	Amount            string                   `json:"amount,omitempty"`
-	PaidAmount        string                   `json:"paid_amount,omitempty"`
-	DateOfExpiration  string                   `json:"date_of_expiration,omitempty"`
+	ID           string `json:"id,omitempty"`
+	ReferenceID  string `json:"reference_id,omitempty"`
+	Status       string `json:"status,omitempty"`
+	StatusDetail string `json:"status_detail,omitempty"`
+	Amount       string `json:"amount,omitempty"`
+	PaidAmount   string `json:"paid_amount,omitempty"`
+	DateOfExpiration string `json:"date_of_expiration,omitempty"`
+
 	ExpirationTime    string                   `json:"expiration_time,omitempty"`
 	AttemptNumber     int                      `json:"attempt_number,omitempty"`
 	PaymentMethod     PaymentMethodResponse    `json:"payment_method,omitempty"`
@@ -52,21 +53,32 @@ type PaymentResponse struct {
 }
 
 type PaymentMethodResponse struct {
-	ID                   string `json:"id,omitempty"`
-	CardID               string `json:"card_id,omitempty"`
-	Type                 string `json:"type,omitempty"`
-	Token                string `json:"token,omitempty"`
-	StatementDescriptor  string `json:"statement_descriptor,omitempty"`
-	Installments         int    `json:"installments,omitempty"`
-	TicketURL            string `json:"ticket_url,omitempty"`
-	BarcodeContent       string `json:"barcode_content,omitempty"`
-	Reference            string `json:"reference,omitempty"`
-	ReferenceID          string `json:"reference_id,omitempty"`
-	VerificationCode     string `json:"verification_code,omitempty"`
-	FinancialInstitution string `json:"financial_institution,omitempty"`
-	QrCode               string `json:"qr_code,omitempty"`
-	QrCodeBase64         string `json:"qr_code_base64,omitempty"`
-	DigitableLine        string `json:"digitable_line,omitempty"`
+	ID                   string                       `json:"id,omitempty"`
+	CardID               string                       `json:"card_id,omitempty"`
+	Type                 string                       `json:"type,omitempty"`
+	Token                string                       `json:"token,omitempty"`
+	StatementDescriptor  string                       `json:"statement_descriptor,omitempty"`
+	Installments         int                          `json:"installments,omitempty"`
+	TicketURL            string                       `json:"ticket_url,omitempty"`
+	BarcodeContent       string                       `json:"barcode_content,omitempty"`
+	Reference            string                       `json:"reference,omitempty"`
+	ReferenceID          string                       `json:"reference_id,omitempty"`
+	VerificationCode     string                       `json:"verification_code,omitempty"`
+	FinancialInstitution string                       `json:"financial_institution,omitempty"`
+	QrCode               string                       `json:"qr_code,omitempty"`
+	QrCodeBase64         string                       `json:"qr_code_base64,omitempty"`
+	DigitableLine        string                       `json:"digitable_line,omitempty"`
+	TransactionSecurity  *TransactionSecurityResponse `json:"transaction_security,omitempty"`
+}
+
+// TransactionSecurityResponse represents 3DS-related information returned by the API
+// for a payment method when a challenge may be required.
+type TransactionSecurityResponse struct {
+	URL            string `json:"url,omitempty"`
+	Validation     string `json:"validation,omitempty"`
+	LiabilityShift string `json:"liability_shift,omitempty"`
+	Type           string `json:"type,omitempty"`
+	Status         string `json:"status,omitempty"`
 }
 
 type AutomaticPaymentResponse struct {
@@ -122,6 +134,9 @@ type ItemsResponse struct {
 	CategoryID   string `json:"category_id,omitempty"`
 	PictureURL   string `json:"picture_url,omitempty"`
 	Quantity     int    `json:"quantity,omitempty"`
+	Type         string `json:"type,omitempty"`
+	Warranty     string `json:"warranty,omitempty"`
+	EventDate    string `json:"event_date,omitempty"`
 }
 
 type IntegrationDataResponse struct {

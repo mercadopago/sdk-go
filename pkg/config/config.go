@@ -15,6 +15,7 @@ type Config struct {
 	CorporationID string
 	IntegratorID  string
 	PlatformID    string
+	ExpandNodes   string
 }
 
 // New returns a new Config.
