@@ -18,25 +18,25 @@ func main() {
 
 	client := order.NewClient(c)
 	request := order.Request{
-		Type:              "online",
-		TotalAmount:       "1000.00",
-		ExternalReference: "ext_ref_1234",
-		Currency:          "BRL",
+		Type:              "{{TYPE}}",
+		TotalAmount:       "{{TOTAL_AMOUNT}}",
+		ExternalReference: "{{EXTERNAL_REFERENCE}}",
+    Currency:          "BRL",
 		Transactions: &order.TransactionRequest{
 			Payments: []order.PaymentRequest{
 				{
-					Amount: "1000.00",
+					Amount: "{{AMOUNT}}",
 					PaymentMethod: &order.PaymentMethodRequest{
-						ID:           "master",
+						ID:           "{{PAYMENT_METHOD_ID}}",
 						Token:        "{{CARD_TOKEN}}",
-						Type:         "credit_card",
+						Type:         "{{TYPE}}",
 						Installments: 1,
 					},
 				},
 			},
 		},
 		Payer: &order.PayerRequest{
-			Email: "{{PAYER_EMAIL}}",
+			Email: "{{EMAIL}}",
 		},
 	}
 
@@ -45,5 +45,6 @@ func main() {
 		fmt.Println(err)
 		return
 	}
+
 	fmt.Println(resource)
 }
