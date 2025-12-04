@@ -1,3 +1,7 @@
+## VERSION 1.8.0
+
+Added support for 3DS (3D Secure) in Orders.
+
 ## VERSION 1.7.0
 
 Added Orders fields
