@@ -1,3 +1,7 @@
+## VERSION 1.8.0
+
+- Bump SDK version to 1.8.0
+
 ## VERSION 1.2.0
 
 Include Industry Data Fields and Example
