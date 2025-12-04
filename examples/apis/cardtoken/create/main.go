@@ -22,15 +22,15 @@ func main() {
 	request := cardtoken.Request{
 		SiteID:          "{{SITE_ID}}",
 		CardNumber:      "{{CARD_NUMBER}}",
-		ExpirationMonth: "11",
-		ExpirationYear:  "2025",
-		SecurityCode:    "123",
+		ExpirationMonth: "{{EXPIRATION_MONTH}}",
+		ExpirationYear:  "{{EXPIRATION_YEAR}}",
+		SecurityCode:    "{{SECURITY_CODE}}",
 		Cardholder: &cardtoken.CardholderRequest{
 			Identification: &cardtoken.IdentificationRequest{
 				Type:   "CPF",
-				Number: "{{CPF_NUMBER}}",
+				Number: "{{NUMBER_CPF}}",
 			},
-			Name: "{{PAYMENT_METHOD}}",
+			Name: "{{NAME}}",
 		},
 	}
 

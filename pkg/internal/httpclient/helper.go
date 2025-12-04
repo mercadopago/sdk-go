@@ -98,6 +98,9 @@ func setHeaders(req *http.Request, cfg *config.Config, requestData RequestData) 
 	if cfg.PlatformID != "" {
 		req.Header.Set("X-Platform-Id", cfg.PlatformID)
 	}
+	if cfg.ExpandNodes != "" {
+		req.Header.Set("X-Expand-Responde-Nodes", cfg.ExpandNodes)
+	}
 }
 
 func setPathParams(req *http.Request, params map[string]string) error {
