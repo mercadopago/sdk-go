@@ -33,6 +33,7 @@ type Client interface {
 	CreateTransaction(ctx context.Context, orderID string, request TransactionRequest) (*TransactionResponse, error)
 	UpdateTransaction(ctx context.Context, orderID string, transactionID string, request PaymentRequest) (*PaymentResponse, error)
 	DeleteTransaction(ctx context.Context, orderID string, transactionID string) error
+	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 }
 
 // client is the implementation of Client.
@@ -216,4 +217,51 @@ func (c *client) DeleteTransaction(ctx context.Context, orderID string, transact
 		return err
 	}
 	return nil
+}
+
+func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
+	queryParams := map[string]string{}
+	if request.BeginDate != "" {
+		queryParams["begin_date"] = request.BeginDate
+	}
+	if request.EndDate != "" {
+		queryParams["end_date"] = request.EndDate
+	}
+	if request.ExternalReference != "" {
+		queryParams["external_reference"] = request.ExternalReference
+	}
+	if request.Type != "" {
+		queryParams["type"] = request.Type
+	}
+	if request.Status != "" {
+		queryParams["status"] = request.Status
+	}
+	if request.StatusDetail != "" {
+		queryParams["status_detail"] = request.StatusDetail
+	}
+	if request.PaymentMethodID != "" {
+		queryParams["payment_method_id"] = request.PaymentMethodID
+	}
+	if request.PaymentMethodType != "" {
+		queryParams["payment_method_type"] = request.PaymentMethodType
+	}
+	if request.SortBy != "" {
+		queryParams["sort_by"] = request.SortBy
+	}
+	if request.SortOrder != "" {
+		queryParams["sort_order"] = request.SortOrder
+	}
+
+	requestData := httpclient.RequestData{
+		Method:      http.MethodGet,
+		URL:         urlBase,
+		QueryParams: queryParams,
+	}
+
+	resource, err := httpclient.DoRequest[*SearchResponse](ctx, c.cfg, requestData)
+	if err != nil {
+		return nil, err
+	}
+
+	return resource, nil
 }
