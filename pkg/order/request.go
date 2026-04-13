@@ -16,6 +16,7 @@ type Request struct {
 	Payer               *PayerRequest          `json:"payer,omitempty"`
 	Items               []ItemsRequest         `json:"items,omitempty"`
 	Config              *ConfigRequest         `json:"config,omitempty"`
+	Shipment            *ShipmentRequest       `json:"shipment,omitempty"`
 	AdditionalInfo      *AdditionalInfoRequest `json:"additional_info,omitempty"`
 }
 
@@ -238,4 +239,20 @@ type DifferentialPricingRequest struct {
 type TransactionSecurityRequest struct {
 	Validation     string `json:"validation,omitempty"`
 	LiabilityShift string `json:"liability_shift,omitempty"`
+}
+
+// SearchRequest contains parameters for searching orders.
+type SearchRequest struct {
+	BeginDate         string `json:"begin_date"`
+	EndDate           string `json:"end_date"`
+	ExternalReference string `json:"external_reference,omitempty"`
+	Type              string `json:"type,omitempty"`
+	Status            string `json:"status,omitempty"`
+	StatusDetail      string `json:"status_detail,omitempty"`
+	PaymentMethodID   string `json:"payment_method_id,omitempty"`
+	PaymentMethodType string `json:"payment_method_type,omitempty"`
+	Page              int    `json:"page,omitempty"`
+	PageSize          int    `json:"page_size,omitempty"`
+	SortBy            string `json:"sort_by,omitempty"`
+	SortOrder         string `json:"sort_order,omitempty"`
 }
