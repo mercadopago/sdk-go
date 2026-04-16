@@ -45,7 +45,7 @@ func TestRefund(t *testing.T) {
 			t.Error("paymentResource can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 			return
 		}
 
@@ -55,7 +55,7 @@ func TestRefund(t *testing.T) {
 			t.Error("refundResource can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 
@@ -84,7 +84,7 @@ func TestRefund(t *testing.T) {
 			t.Error("paymentResource can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 			return
 		}
 
@@ -96,7 +96,7 @@ func TestRefund(t *testing.T) {
 			t.Error("refundResource can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 
@@ -125,7 +125,7 @@ func TestRefund(t *testing.T) {
 			t.Error("paymentResource can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 			return
 		}
 
@@ -136,13 +136,13 @@ func TestRefund(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		// Get refund.
 		refundResource, err = refundClient.Get(ctx, paymentResource.ID, refundResource.ID)
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		if refundResource.ID == 0 {
@@ -176,7 +176,7 @@ func TestRefund(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		// Create partial refund.
@@ -187,7 +187,7 @@ func TestRefund(t *testing.T) {
 			t.Error("refundResource can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		// Create total refund.
@@ -196,13 +196,13 @@ func TestRefund(t *testing.T) {
 			t.Error("refundResource can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		// List refunds.
 		resources, err := refundClient.List(ctx, paymentResource.ID)
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		if len(resources) != 2 {

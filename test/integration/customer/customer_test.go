@@ -30,7 +30,7 @@ func TestCustomer(t *testing.T) {
 			t.Error("id can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 
@@ -52,7 +52,7 @@ func TestCustomer(t *testing.T) {
 			t.Error("customerSearch can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 
@@ -71,7 +71,7 @@ func TestCustomer(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		resource, err = client.Get(context.Background(), resource.ID)
@@ -83,7 +83,7 @@ func TestCustomer(t *testing.T) {
 			t.Error("id can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 
@@ -102,7 +102,7 @@ func TestCustomer(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		uReq := customer.Request{Description: "Description updated."}
@@ -115,7 +115,7 @@ func TestCustomer(t *testing.T) {
 			t.Error("update failed")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 }

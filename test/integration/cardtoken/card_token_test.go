@@ -39,7 +39,7 @@ func TestCardToken(t *testing.T) {
 			t.Error("cardToken can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 }

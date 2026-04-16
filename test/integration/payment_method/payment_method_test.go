@@ -24,7 +24,7 @@ func TestPaymentMethod(t *testing.T) {
 			t.Error("resource can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 }
