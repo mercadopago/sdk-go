@@ -33,6 +33,7 @@ type Client interface {
 	CreateTransaction(ctx context.Context, orderID string, request TransactionRequest) (*TransactionResponse, error)
 	UpdateTransaction(ctx context.Context, orderID string, transactionID string, request PaymentRequest) (*PaymentResponse, error)
 	DeleteTransaction(ctx context.Context, orderID string, transactionID string) error
+	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 }
 
 // client is the implementation of Client.
@@ -216,4 +217,21 @@ func (c *client) DeleteTransaction(ctx context.Context, orderID string, transact
 		return err
 	}
 	return nil
+}
+
+func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
+	queryParams := request.GetParams()
+
+	requestData := httpclient.RequestData{
+		Method:      http.MethodGet,
+		URL:         urlBase,
+		QueryParams: queryParams,
+	}
+
+	resource, err := httpclient.DoRequest[*SearchResponse](ctx, c.cfg, requestData)
+	if err != nil {
+		return nil, err
+	}
+
+	return resource, nil
 }
