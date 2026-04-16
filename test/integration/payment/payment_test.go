@@ -34,7 +34,7 @@ func TestPayment(t *testing.T) {
 			t.Error("payment can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 
@@ -52,7 +52,7 @@ func TestPayment(t *testing.T) {
 			t.Error("resource can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 
@@ -73,7 +73,7 @@ func TestPayment(t *testing.T) {
 			t.Error("payment can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		// Get payment.
@@ -82,7 +82,7 @@ func TestPayment(t *testing.T) {
 			t.Error("payment can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 
@@ -103,7 +103,7 @@ func TestPayment(t *testing.T) {
 			t.Error("payment can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 			return
 		}
 
@@ -116,7 +116,7 @@ func TestPayment(t *testing.T) {
 			t.Error("payment should be cancelled, but is wasn't")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 
@@ -145,7 +145,7 @@ func TestPayment(t *testing.T) {
 			t.Error("payment can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 			return
 		}
 
@@ -158,7 +158,7 @@ func TestPayment(t *testing.T) {
 			t.Error("payment should be approved, but is wasn't")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 
@@ -186,7 +186,7 @@ func TestPayment(t *testing.T) {
 			t.Error("payment can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 			return
 		}
 
@@ -199,7 +199,7 @@ func TestPayment(t *testing.T) {
 			t.Error("payment should be approved, but is wasn't")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 }

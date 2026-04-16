@@ -35,7 +35,7 @@ func TestPreference(t *testing.T) {
 			t.Error("preference can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 
@@ -65,7 +65,7 @@ func TestPreference(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		resource, err = client.Get(context.Background(), resource.ID)
@@ -74,7 +74,7 @@ func TestPreference(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 		if resource.ID == "" {
 			t.Error("id can't be nil")
@@ -107,7 +107,7 @@ func TestPreference(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		request = preference.Request{
@@ -127,7 +127,7 @@ func TestPreference(t *testing.T) {
 			t.Error("preference can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 
@@ -150,7 +150,7 @@ func TestPreference(t *testing.T) {
 			t.Error("preference can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 }
