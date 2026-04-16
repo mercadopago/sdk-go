@@ -49,7 +49,7 @@ func DoRequest[T any](ctx context.Context, cfg *config.Config, requestData Reque
 		return resource, err
 	}
 
-	if response == nil || len(response) == 0 {
+	if len(response) == 0 {
 		return resource, nil
 	}
 

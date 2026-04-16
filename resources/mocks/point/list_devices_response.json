@@ -3,7 +3,7 @@
     {
       "id": "PAX_A910__SMARTPOS1234345545",
       "pos_id": 47792476,
-      "store_id": 47792478,
+      "store_id": "47792478",
       "external_pos_id": "SUC0101POS",
       "operating_mode": "PDV"
     }
