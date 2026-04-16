@@ -1,5 +1,10 @@
 package order
 
+import (
+	"strconv"
+	"strings"
+)
+
 type Request struct {
 	Type                string                 `json:"type,omitempty"`
 	TotalAmount         string                 `json:"total_amount,omitempty"`
@@ -243,16 +248,24 @@ type TransactionSecurityRequest struct {
 
 // SearchRequest contains parameters for searching orders.
 type SearchRequest struct {
-	BeginDate         string `json:"begin_date"`
-	EndDate           string `json:"end_date"`
-	ExternalReference string `json:"external_reference,omitempty"`
-	Type              string `json:"type,omitempty"`
-	Status            string `json:"status,omitempty"`
-	StatusDetail      string `json:"status_detail,omitempty"`
-	PaymentMethodID   string `json:"payment_method_id,omitempty"`
-	PaymentMethodType string `json:"payment_method_type,omitempty"`
-	Page              int    `json:"page,omitempty"`
-	PageSize          int    `json:"page_size,omitempty"`
-	SortBy            string `json:"sort_by,omitempty"`
-	SortOrder         string `json:"sort_order,omitempty"`
+	Limit   int
+	Offset  int
+	Filters map[string]string
+}
+
+// GetParams creates map to build query parameters. Keys will be changed to lower case.
+func (sr *SearchRequest) GetParams() map[string]string {
+	params := map[string]string{}
+	for k, v := range sr.Filters {
+		key := strings.ToLower(k)
+		params[key] = v
+	}
+
+	if sr.Limit == 0 {
+		sr.Limit = 30
+	}
+	params["limit"] = strconv.Itoa(sr.Limit)
+	params["offset"] = strconv.Itoa(sr.Offset)
+
+	return params
 }

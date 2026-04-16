@@ -1,0 +1,17 @@
+{
+    "data": [
+        {
+            "id": "01JDNPJ7XJSV1YS2W3JXEJNQ8",
+            "status": "processed",
+            "status_detail": "accredited",
+            "total_amount": "100.00",
+            "currency": "BRL"
+        }
+    ],
+    "paging": {
+        "total": "1",
+        "total_pages": "1",
+        "offset": "0",
+        "limit": "30"
+    }
+}
