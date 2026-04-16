@@ -220,37 +220,7 @@ func (c *client) DeleteTransaction(ctx context.Context, orderID string, transact
 }
 
 func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
-	queryParams := map[string]string{}
-	if request.BeginDate != "" {
-		queryParams["begin_date"] = request.BeginDate
-	}
-	if request.EndDate != "" {
-		queryParams["end_date"] = request.EndDate
-	}
-	if request.ExternalReference != "" {
-		queryParams["external_reference"] = request.ExternalReference
-	}
-	if request.Type != "" {
-		queryParams["type"] = request.Type
-	}
-	if request.Status != "" {
-		queryParams["status"] = request.Status
-	}
-	if request.StatusDetail != "" {
-		queryParams["status_detail"] = request.StatusDetail
-	}
-	if request.PaymentMethodID != "" {
-		queryParams["payment_method_id"] = request.PaymentMethodID
-	}
-	if request.PaymentMethodType != "" {
-		queryParams["payment_method_type"] = request.PaymentMethodType
-	}
-	if request.SortBy != "" {
-		queryParams["sort_by"] = request.SortBy
-	}
-	if request.SortOrder != "" {
-		queryParams["sort_order"] = request.SortOrder
-	}
+	queryParams := request.GetParams()
 
 	requestData := httpclient.RequestData{
 		Method:      http.MethodGet,

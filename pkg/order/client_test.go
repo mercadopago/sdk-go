@@ -22,7 +22,104 @@ var (
 	createAutomaticPaymentsSyncResponse, _                 = io.ReadAll(createAutomaticPaymentsSyncResponseJSON)
 	createAutomaticPaymentsWithProfileAsyncResponseJSON, _ = os.Open("../../resources/mocks/order/create_order_automatic_payments_with_profile_async_response.json")
 	createAutomaticPaymentsWithProfileAsyncResponse, _     = io.ReadAll(createAutomaticPaymentsWithProfileAsyncResponseJSON)
+	searchResponseJSON, _                                  = os.Open("../../resources/mocks/order/search_response.json")
+	searchResponse, _                                      = io.ReadAll(searchResponseJSON)
 )
+
+func TestSearch(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx     context.Context
+		request SearchRequest
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *SearchResponse
+		wantErr bool
+	}{
+		{
+			name: "should_fail_to_send_request",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("some error")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				request: SearchRequest{},
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "should_return_response",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							stringReader := strings.NewReader(string(searchResponse))
+							stringReadCloser := io.NopCloser(stringReader)
+							return &http.Response{
+								Body: stringReadCloser,
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+				request: SearchRequest{
+					Limit:  30,
+					Offset: 0,
+					Filters: map[string]string{
+						"begin_date": "2024-01-01T00:00:00Z",
+						"end_date":   "2024-12-31T23:59:59Z",
+						"status":     "processed",
+					},
+				},
+			},
+			want: &SearchResponse{
+				Data: []Response{
+					{
+						ID:          "01JDNPJ7XJSV1YS2W3JXEJNQ8",
+						Status:      "processed",
+						StatusDetail: "accredited",
+						TotalAmount: "100.00",
+						Currency:    "BRL",
+					},
+				},
+				Paging: &PagingResponse{
+					Total:      "1",
+					TotalPages: "1",
+					Offset:     "0",
+					Limit:      "30",
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{cfg: tt.fields.cfg}
+			got, err := c.Search(tt.args.ctx, tt.args.request)
+
+			if (err != nil) != tt.wantErr {
+				t.Errorf("client.Search() error = %v, wantErr %v", err, tt.wantErr)
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("client.Search() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
 
 func TestCreate(t *testing.T) {
 	type fields struct {
