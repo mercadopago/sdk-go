@@ -39,7 +39,7 @@ func TestMerchantOrder(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		// Create merchant order.
@@ -69,7 +69,7 @@ func TestMerchantOrder(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 
@@ -100,7 +100,7 @@ func TestMerchantOrder(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		// Create merchant order.
@@ -131,7 +131,7 @@ func TestMerchantOrder(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		// Update merchant order.
@@ -153,7 +153,7 @@ func TestMerchantOrder(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 
@@ -184,7 +184,7 @@ func TestMerchantOrder(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		// Create merchant order.
@@ -214,7 +214,7 @@ func TestMerchantOrder(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		merchantOrderResource, err = merchantOrderClient.Get(context.Background(), merchantOrderResource.ID)
@@ -223,7 +223,7 @@ func TestMerchantOrder(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 		if merchantOrderResource.ID == 0 {
 			t.Error("id can't be nil")
@@ -248,7 +248,7 @@ func TestMerchantOrder(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 }

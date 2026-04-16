@@ -54,7 +54,7 @@ func TestOrder(t *testing.T) {
 		}
 
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 }
@@ -95,7 +95,7 @@ func TestGetOrder(t *testing.T) {
 		}
 
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		resource, err = orderClient.Get(ctx, resource.ID)
@@ -104,7 +104,7 @@ func TestGetOrder(t *testing.T) {
 		}
 
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 }
@@ -146,7 +146,7 @@ func TestProcessOrder(t *testing.T) {
 		}
 
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		resource, err = orderClient.Process(ctx, resource.ID)
@@ -183,7 +183,7 @@ func TestCreateTransaction(t *testing.T) {
 		}
 
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		requestTransaction := order.TransactionRequest{
@@ -206,7 +206,7 @@ func TestCreateTransaction(t *testing.T) {
 		}
 
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 }
@@ -419,7 +419,7 @@ func TestDeleteOrder(t *testing.T) {
 		}
 
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 
 		orderID := resource.ID
@@ -531,7 +531,7 @@ func TestOrderTransactionSecurity(t *testing.T) {
 			t.Error("order can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 	})
 }

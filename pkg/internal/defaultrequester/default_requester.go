@@ -150,7 +150,7 @@ func drainBody(body io.ReadCloser) {
 	// limit the size we consume to respReadLimit.
 	const respReadLimit = int64(4096)
 
-	defer body.Close()
+	defer func() { _ = body.Close() }()
 	_, _ = io.Copy(io.Discard, io.LimitReader(body, respReadLimit))
 }
 

@@ -168,7 +168,7 @@ func TestCloseResponseBody(t *testing.T) {
 			args: args{
 				req: req,
 				close: func(r *http.Response) {
-					r.Body.Close()
+					_ = r.Body.Close()
 				},
 			},
 			wantErr: "http: read on closed response body",
