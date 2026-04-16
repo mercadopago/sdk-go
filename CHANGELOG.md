@@ -1,3 +1,7 @@
+## VERSION 1.8.1
+
+Added search orders
+
 ## VERSION 1.8.0
 
 Added support for 3DS (3D Secure) in Orders.
