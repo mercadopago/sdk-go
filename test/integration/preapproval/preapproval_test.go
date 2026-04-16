@@ -36,7 +36,7 @@ func TestPreApproval(t *testing.T) {
 			t.Error("resource can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 		}
 	})
 
@@ -66,7 +66,7 @@ func TestPreApproval(t *testing.T) {
 			t.Error("resource can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 			return
 		}
 
@@ -75,7 +75,7 @@ func TestPreApproval(t *testing.T) {
 			t.Error("resource can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 		}
 	})
 
@@ -105,7 +105,7 @@ func TestPreApproval(t *testing.T) {
 			t.Error("resource can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 			return
 		}
 
@@ -120,7 +120,7 @@ func TestPreApproval(t *testing.T) {
 			t.Error("resource can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 		}
 	})
 
@@ -150,7 +150,7 @@ func TestPreApproval(t *testing.T) {
 			t.Error("resource can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 			return
 		}
 
@@ -164,7 +164,7 @@ func TestPreApproval(t *testing.T) {
 			t.Error("searchResource can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 		}
 	})
 }

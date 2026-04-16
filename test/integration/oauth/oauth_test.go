@@ -27,7 +27,7 @@ func TestOauth(t *testing.T) {
 			t.Error("resource can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 		}
 	})
 
@@ -49,7 +49,7 @@ func TestOauth(t *testing.T) {
 			return
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 		}
 
 		refreshToken := resource.RefreshToken
@@ -59,7 +59,7 @@ func TestOauth(t *testing.T) {
 			t.Error("resource can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 		}
 	})
 }
