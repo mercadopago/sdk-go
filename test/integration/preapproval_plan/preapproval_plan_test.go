@@ -46,7 +46,7 @@ func TestPreApprovalPlan(t *testing.T) {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 		}
 	})
 
@@ -86,7 +86,7 @@ func TestPreApprovalPlan(t *testing.T) {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 			return
 		}
 
@@ -95,7 +95,7 @@ func TestPreApprovalPlan(t *testing.T) {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 		}
 	})
 
@@ -135,7 +135,7 @@ func TestPreApprovalPlan(t *testing.T) {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 			return
 		}
 
@@ -155,7 +155,7 @@ func TestPreApprovalPlan(t *testing.T) {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 		}
 	})
 
@@ -178,7 +178,7 @@ func TestPreApprovalPlan(t *testing.T) {
 			t.Error("preapproval_plan can't be nil")
 		}
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf(err.Error())
 		}
 	})
 }
