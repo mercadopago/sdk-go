@@ -5,6 +5,9 @@ import (
 	"strings"
 )
 
+// Request represents the body sent to the MercadoPago Orders API when creating a new order.
+// It contains all the information needed to describe the order, including total amount,
+// payment transactions, payer details, line items, and checkout configuration.
 type Request struct {
 	Type                string                 `json:"type,omitempty"`
 	TotalAmount         string                 `json:"total_amount,omitempty"`
@@ -25,12 +28,17 @@ type Request struct {
 	AdditionalInfo      *AdditionalInfoRequest `json:"additional_info,omitempty"`
 }
 
+// TravelPassengerRequest represents a passenger in a travel-related order.
+// It is used within [AdditionalInfoRequest] to provide fraud-prevention data
+// for airline or bus ticket purchases.
 type TravelPassengerRequest struct {
 	FirstName      string                 `json:"first_name,omitempty"`
 	LastName       string                 `json:"last_name,omitempty"`
 	Identification *IdentificationRequest `json:"identification,omitempty"`
 }
 
+// TravelRouteRequest represents a travel route segment for airline or bus ticket orders.
+// It is used within [AdditionalInfoRequest] to supply itinerary details for risk analysis.
 type TravelRouteRequest struct {
 	Departure         string `json:"departure,omitempty"`
 	Destination       string `json:"destination,omitempty"`
@@ -39,6 +47,10 @@ type TravelRouteRequest struct {
 	Company           string `json:"company,omitempty"`
 }
 
+// AdditionalInfoRequest represents supplementary data sent with an order to improve
+// fraud analysis and risk scoring. It includes payer behavior details, shipment metadata,
+// platform seller information, and travel itinerary data. The flat JSON key structure
+// (e.g., "payer.authentication_type") matches the MercadoPago API's dot-notation format.
 type AdditionalInfoRequest struct {
 	PayerAuthenticationType            string                    `json:"payer.authentication_type,omitempty"`
 	PayerRegistrationDate              string                    `json:"payer.registration_date,omitempty"`
@@ -77,6 +89,8 @@ type AdditionalInfoRequest struct {
 	TravelRoutes                       *[]TravelRouterRequest    `json:"travel.routes,omitempty"`
 }
 
+// TravelRouterRequest represents a travel route segment used within [AdditionalInfoRequest].
+// It captures departure and destination details for travel-related orders.
 type TravelRouterRequest struct {
 	Departure         string `json:"departure,omitempty"`
 	Destination       string `json:"destination,omitempty"`
@@ -84,6 +98,9 @@ type TravelRouterRequest struct {
 	ArrivalDateTime   string `json:"arrival_date_time,omitempty"`
 	Company           string `json:"company,omitempty"`
 }
+
+// PayerAddressRequest represents the payer's address when creating or updating an order.
+// It is used within [PayerRequest] to provide the payer's billing or residential address.
 type PayerAddressRequest struct {
 	ZipCode      string `json:"zip_code,omitempty"`
 	StreetName   string `json:"street_name,omitempty"`
@@ -95,14 +112,20 @@ type PayerAddressRequest struct {
 	Country      string `json:"country,omitempty"`
 }
 
+// ShipmentRequest represents shipping information for an order, including the delivery address.
 type ShipmentRequest struct {
 	Address *AddressRequest `json:"address,omitempty"`
 }
 
+// TransactionRequest represents the collection of payment transactions to associate with an order.
+// Each order may contain one or more payments, enabling split-payment scenarios.
 type TransactionRequest struct {
 	Payments []PaymentRequest `json:"payments,omitempty"`
 }
 
+// PaymentRequest represents an individual payment transaction within an order.
+// It specifies the amount, payment method, and optional configuration for automatic
+// payments, stored credentials, and subscription billing.
 type PaymentRequest struct {
 	Amount            string                    `json:"amount,omitempty"`
 	ExpirationTime    string                    `json:"expiration_time,omitempty"`
@@ -112,6 +135,9 @@ type PaymentRequest struct {
 	SubscriptionData  *SubscriptionDataRequest  `json:"subscription_data,omitempty"`
 }
 
+// PaymentMethodRequest represents the payment method details for a transaction.
+// It identifies how the payer intends to pay (e.g., credit card, debit card, boleto)
+// and includes tokenized card data when applicable.
 type PaymentMethodRequest struct {
 	ID                  string `json:"id,omitempty"`
 	Type                string `json:"type,omitempty"`
@@ -120,6 +146,8 @@ type PaymentMethodRequest struct {
 	Installments        int    `json:"installments,omitempty"`
 }
 
+// AutomaticPaymentsRequest represents configuration for recurring automatic payment scheduling.
+// It is used within [PaymentRequest] to define when and how automatic charges should occur.
 type AutomaticPaymentsRequest struct {
 	PaymentProfileID string `json:"payment_profile_id,omitempty"`
 	ScheduleDate     string `json:"schedule_date,omitempty"`
@@ -127,6 +155,9 @@ type AutomaticPaymentsRequest struct {
 	Retries          int    `json:"retries,omitempty"`
 }
 
+// StoredCredentialRequest represents stored credential information for a payment, used
+// to indicate whether the payment method should be saved for future use and whether this
+// is the initial or subsequent payment in a recurring series.
 type StoredCredentialRequest struct {
 	PaymentInitiator   string `json:"payment_initiator,omitempty"`
 	Reason             string `json:"reason,omitempty"`
@@ -134,6 +165,8 @@ type StoredCredentialRequest struct {
 	FirstPayment       bool   `json:"first_payment,omitempty"`
 }
 
+// SubscriptionDataRequest represents subscription billing details for a payment transaction.
+// It links the payment to a specific invoice and billing cycle within a subscription.
 type SubscriptionDataRequest struct {
 	InvoiceID            string                       `json:"invoice_id,omitempty"`
 	BillingDate          string                       `json:"billing_date,omitempty"`
@@ -141,16 +174,24 @@ type SubscriptionDataRequest struct {
 	InvoicePeriod        *InvoicePeriodRequest        `json:"invoice_period,omitempty"`
 }
 
+// SubscriptionSequenceRequest represents the position of a payment within a subscription series.
+// Number indicates the current installment, and Total indicates the total number of installments.
 type SubscriptionSequenceRequest struct {
 	Number int `json:"number,omitempty"`
 	Total  int `json:"total,omitempty"`
 }
 
+// InvoicePeriodRequest represents the billing period for a subscription invoice.
+// Type indicates the period unit (e.g., "monthly", "yearly") and Period indicates
+// the number of such units.
 type InvoicePeriodRequest struct {
 	Type   string `json:"type,omitempty"`
 	Period int    `json:"period,omitempty"`
 }
 
+// PayerRequest represents the payer associated with an order. It includes personal
+// identification, contact information, and address details used for payment processing
+// and fraud prevention.
 type PayerRequest struct {
 	Email          string                 `json:"email,omitempty"`
 	FirstName      string                 `json:"first_name,omitempty"`
@@ -162,6 +203,8 @@ type PayerRequest struct {
 	Address        *PayerAddressRequest   `json:"address,omitempty"`
 }
 
+// PayerAddress represents a payer's address. It is similar to [PayerAddressRequest]
+// but may be used in different contexts within the order lifecycle.
 type PayerAddress struct {
 	ZipCode      string `json:"zip_code,omitempty"`
 	StreetName   string `json:"street_name,omitempty"`
@@ -172,16 +215,20 @@ type PayerAddress struct {
 	Neighborhood string `json:"neighborhood,omitempty"`
 }
 
+// IdentificationRequest represents a payer's identification document (e.g., CPF, DNI, CURP).
+// Type specifies the document type and Number contains the document value.
 type IdentificationRequest struct {
 	Type   string `json:"type,omitempty"`
 	Number string `json:"number,omitempty"`
 }
 
+// PhoneRequest represents a phone number, split into area code and number components.
 type PhoneRequest struct {
 	AreaCode string `json:"area_code,omitempty"`
 	Number   string `json:"number,omitempty"`
 }
 
+// AddressRequest represents a generic address used for shipment destinations within an order.
 type AddressRequest struct {
 	StreetName   string `json:"street_name,omitempty"`
 	StreetNumber string `json:"street_number,omitempty"`
@@ -192,6 +239,8 @@ type AddressRequest struct {
 	Complement   string `json:"complement,omitempty"`
 }
 
+// ItemsRequest represents a line item in an order. Each item describes a product or service
+// being purchased, including its price, quantity, and descriptive metadata.
 type ItemsRequest struct {
 	Title        string `json:"title,omitempty"`
 	Type         string `json:"type,omitempty"`
@@ -205,20 +254,30 @@ type ItemsRequest struct {
 	Quantity     int    `json:"quantity,omitempty"`
 }
 
+// RefundRequest represents the body sent to the Orders API to initiate a partial refund.
+// It specifies which transactions to refund and the corresponding amounts.
+// For a full refund, pass nil instead of a [RefundRequest] to [Client.Refund].
 type RefundRequest struct {
 	Transactions []RefundTransaction `json:"transactions,omitempty"`
 }
 
+// RefundTransaction identifies a single transaction to refund and the amount to return.
+// ID is the transaction identifier and Amount is the value to refund as a decimal string.
 type RefundTransaction struct {
 	ID     string `json:"id,omitempty"`
 	Amount string `json:"amount,omitempty"`
 }
 
+// ConfigRequest represents order-level configuration options, including payment method
+// restrictions and online checkout redirect URLs.
 type ConfigRequest struct {
 	PaymentMethod *PaymentMethodConfigRequest `json:"payment_method,omitempty"`
 	Online        *OnlineConfigRequest        `json:"online,omitempty"`
 }
 
+// PaymentMethodConfigRequest represents constraints and defaults applied to the payment
+// methods available for an order. It allows blocking specific methods, setting a default,
+// and controlling installment limits.
 type PaymentMethodConfigRequest struct {
 	NotAllowedIDs       []string `json:"not_allowed_ids,omitempty"`
 	NotAllowedTypes     []string `json:"not_allowed_types,omitempty"`
@@ -227,6 +286,9 @@ type PaymentMethodConfigRequest struct {
 	DefaultInstallments int      `json:"default_installments,omitempty"`
 }
 
+// OnlineConfigRequest represents online checkout configuration for an order, including
+// redirect URLs for different payment outcomes and optional differential pricing or
+// 3D Secure transaction security settings.
 type OnlineConfigRequest struct {
 	CallbackURL         string                      `json:"callback_url,omitempty"`
 	SuccessURL          string                      `json:"success_url,omitempty"`
@@ -237,23 +299,31 @@ type OnlineConfigRequest struct {
 	TransactionSecurity *TransactionSecurityRequest `json:"transaction_security,omitempty"`
 }
 
+// DifferentialPricingRequest represents a differential pricing configuration identified by its ID.
+// Differential pricing allows offering different prices based on the payment method chosen.
 type DifferentialPricingRequest struct {
 	ID int `json:"id,omitempty"`
 }
 
+// TransactionSecurityRequest represents 3D Secure (3DS) configuration for a payment transaction.
+// Validation specifies the security validation mode, and LiabilityShift indicates who bears
+// liability for chargebacks.
 type TransactionSecurityRequest struct {
 	Validation     string `json:"validation,omitempty"`
 	LiabilityShift string `json:"liability_shift,omitempty"`
 }
 
-// SearchRequest contains parameters for searching orders.
+// SearchRequest contains the parameters for searching orders via the [Client.Search] method.
+// Filters is a key-value map of field names to expected values. Limit defaults to 30 if zero.
 type SearchRequest struct {
 	Limit   int
 	Offset  int
 	Filters map[string]string
 }
 
-// GetParams creates map to build query parameters. Keys will be changed to lower case.
+// GetParams converts the [SearchRequest] into a flat map of query parameters suitable
+// for URL encoding. Filter keys are lowercased automatically. If Limit is zero it
+// defaults to 30.
 func (sr *SearchRequest) GetParams() map[string]string {
 	params := map[string]string{}
 	for k, v := range sr.Filters {

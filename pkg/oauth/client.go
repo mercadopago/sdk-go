@@ -1,3 +1,12 @@
+// Package oauth provides a client for interacting with the MercadoPago OAuth API.
+//
+// OAuth is used to obtain credentials that allow operating on behalf of a seller
+// (marketplace or platform scenario). The flow involves redirecting the seller to
+// the MercadoPago authorization URL, receiving an authorization code, and exchanging
+// it for access and refresh tokens.
+//
+// For more information, see the MercadoPago OAuth API reference:
+// https://www.mercadopago.com/developers/en/reference/oauth/_oauth_token/post
 package oauth
 
 import (
@@ -14,29 +23,43 @@ const (
 	urlAuth = "https://auth.mercadopago.com/authorization"
 )
 
-// Client contains the method to interact with the Oauth API.
+// Client defines the interface for interacting with the MercadoPago OAuth API.
+// It provides methods to generate authorization URLs, create OAuth credentials,
+// and refresh expired tokens.
 type Client interface {
-
-	// Create oauth credentials to operate on behalf of a seller
-	// It is a post request to the endpoint: "https://api.mercadopago.com/oauth/token"
+	// Create exchanges an authorization code for OAuth credentials (access token and refresh token)
+	// that allow operating on behalf of a seller. The authorizationCode is obtained from the
+	// OAuth authorization flow, and redirectURI must match the one used when generating the
+	// authorization URL.
+	//
+	// It performs a POST request to: https://api.mercadopago.com/oauth/token
+	//
 	// Reference: https://www.mercadopago.com/developers/en/reference/oauth/_oauth_token/post
 	Create(ctx context.Context, authorizationCode, redirectURI string) (*Response, error)
 
-	// GetAuthorizationURL gets url for oauth authorization.
+	// GetAuthorizationURL builds and returns the MercadoPago authorization URL that the seller
+	// must visit to grant permissions. The clientID identifies the application, redirectURI is
+	// where the seller is sent after authorization, and state is a value preserved across the
+	// redirect to prevent CSRF attacks.
 	GetAuthorizationURL(clientID, redirectURI, state string) string
 
-	// Refresh token received when you create credentials.
-	// It is a post request to the endpoint: "https://api.mercadopago.com/oauth/token"
+	// Refresh exchanges a refresh token for a new set of OAuth credentials, extending the
+	// session without requiring the seller to re-authorize. The refreshToken is obtained
+	// from the original [Client.Create] response.
+	//
+	// It performs a POST request to: https://api.mercadopago.com/oauth/token
+	//
 	// Reference: https://www.mercadopago.com/developers/en/reference/oauth/_oauth_token/post
 	Refresh(ctx context.Context, refreshToken string) (*Response, error)
 }
 
-// client is the implementation of Client.
+// client is the unexported implementation of [Client].
 type client struct {
 	cfg *config.Config
 }
 
-// NewClient returns a new Oauth API Client.
+// NewClient creates and returns a new OAuth API [Client] configured with the provided [config.Config].
+// The config must contain a valid access token for authenticating requests to the MercadoPago API.
 func NewClient(c *config.Config) Client {
 	return &client{
 		cfg: c,

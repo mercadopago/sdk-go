@@ -1,6 +1,8 @@
 package paymentmethod
 
-// Response represents a detailed payment method.
+// Response represents a payment method returned by the MercadoPago Payment Methods API.
+// It includes configuration details such as allowed amount ranges, processing modes,
+// accreditation times, and card validation settings.
 type Response struct {
 	Settings              []SettingResponse              `json:"settings"`
 	FinancialInstitutions []FinancialInstitutionResponse `json:"financial_institutions"`
@@ -19,34 +21,39 @@ type Response struct {
 	ProcessingModes      []string `json:"processing_modes"`
 }
 
-// SettingResponse represents payment method settings.
+// SettingResponse contains validation settings for a payment method, including BIN patterns,
+// card number length, and security code requirements.
 type SettingResponse struct {
 	Bin          BinResponse          `json:"bin"`
 	CardNumber   CardNumberResponse   `json:"card_number"`
 	SecurityCode SecurityCodeResponse `json:"security_code"`
 }
 
-// BinResponse represents BIN (Bank Identification Number) settings.
+// BinResponse contains BIN (Bank Identification Number) pattern rules used to identify
+// which card numbers belong to this payment method.
 type BinResponse struct {
 	Pattern             string `json:"pattern"`
 	ExclusionPattern    string `json:"exclusion_pattern"`
 	InstallmentsPattern string `json:"installments_pattern"`
 }
 
-// CardNumberResponse represents card number settings.
+// CardNumberResponse defines the expected card number validation algorithm and length
+// for this payment method.
 type CardNumberResponse struct {
 	Validation string `json:"validation"`
 	Length     int    `json:"length"`
 }
 
-// SecurityCodeResponse represents security code settings.
+// SecurityCodeResponse defines the security code (CVV/CVC) requirements for this
+// payment method, including its display mode, physical location on the card, and length.
 type SecurityCodeResponse struct {
 	Mode         string `json:"mode"`
 	CardLocation string `json:"card_location"`
 	Length       int    `json:"length"`
 }
 
-// FinancialInstitutionResponse represents financial institution settings.
+// FinancialInstitutionResponse identifies a financial institution (e.g., a bank)
+// associated with the payment method.
 type FinancialInstitutionResponse struct {
 	ID          string `json:"id"`
 	Description string `json:"description"`

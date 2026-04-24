@@ -9,6 +9,10 @@ import (
 	"github.com/mercadopago/sdk-go/pkg/requester"
 )
 
+// Send executes the provided HTTP request using the given [requester.Requester]
+// and returns the raw response body bytes. If the response status code is 400
+// or above, it returns a [*mperror.ResponseError] containing the status code,
+// headers, and body so the caller can inspect the API failure in a structured way.
 func Send(requester requester.Requester, req *http.Request) ([]byte, error) {
 	res, err := requester.Do(req)
 	if err != nil {
