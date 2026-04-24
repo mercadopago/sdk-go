@@ -1,3 +1,12 @@
+// Package point provides a client for interacting with the MercadoPago Point Integration API.
+//
+// The Point API enables in-person payment processing through MercadoPago Point devices
+// (card readers). It allows creating payment intents that are sent to a physical device
+// for card-present transactions, managing device configurations, and tracking payment
+// intent status.
+//
+// For more information, see the MercadoPago Point Integration API reference:
+// https://www.mercadopago.com/developers/en/reference/integrations_api_paymentintent_mlb/_point_integration-api_devices_deviceid_payment-intents/post
 package point
 
 import (
@@ -17,40 +26,61 @@ const (
 	urlDevicesWithID       = urlDevices + "/{device_id}"
 )
 
-// client is the implementation of Client.
+// client is the unexported implementation of [Client].
 type client struct {
 	cfg *config.Config
 }
 
-// Client contains the methods to interact with the Point API.
+// Client defines the interface for interacting with the MercadoPago Point Integration API.
+// It provides methods to create, retrieve, and cancel payment intents on Point devices,
+// as well as manage device listings and operating modes.
 type Client interface {
-	// Create a point payment intent.
-	// It is a post request to the endpoint: https://api.mercadopago.com/point/integration-api/devices/{device_id}/payment-intents
+	// Create creates a payment intent on the specified Point device. The payment intent
+	// contains the transaction details (amount, description, payment method) and is sent
+	// to the physical device for the buyer to complete the payment.
+	//
+	// It performs a POST request to: https://api.mercadopago.com/point/integration-api/devices/{device_id}/payment-intents
+	//
 	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api_paymentintent_mlb/_point_integration-api_devices_deviceid_payment-intents/post
 	Create(ctx context.Context, deviceID string, request Request) (*Response, error)
 
-	// Get a point payment intent.
-	// It is a get request to the endpoint: https://api.mercadopago.com/point/integration-api/payment-intents/{payment_intent_id}
+	// Get retrieves the current state of a payment intent by its unique identifier.
+	// This is used to check the payment status after a payment intent has been created.
+	//
+	// It performs a GET request to: https://api.mercadopago.com/point/integration-api/payment-intents/{payment_intent_id}
+	//
 	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api/_point_integration-api_payment-intents_paymentintentid/get
 	Get(ctx context.Context, paymentIntentID string) (*Response, error)
 
-	// Cancel a point payment intent.
-	// It is a cancel request to the endpoint: https://api.mercadopago.com/point/integration-api/devices/{device_id}/payment-intents/{payment_intent_id}
+	// Cancel cancels a pending payment intent on a specific device. This is used when
+	// a transaction needs to be aborted before the buyer completes the payment on the device.
+	//
+	// It performs a DELETE request to: https://api.mercadopago.com/point/integration-api/devices/{device_id}/payment-intents/{payment_intent_id}
+	//
 	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api/_point_integration-api_devices_deviceid_payment-intents_paymentintentid/delete
 	Cancel(ctx context.Context, deviceID, paymentIntentID string) (*CancelResponse, error)
 
-	// ListDevices retrieve devices.
-	// It is a get request to the endpoint: https://api.mercadopago.com/point/integration-api/devices
+	// ListDevices retrieves all Point devices associated with the authenticated account.
+	// The response includes device identifiers, operating modes, and store associations.
+	//
+	// It performs a GET request to: https://api.mercadopago.com/point/integration-api/devices
+	//
 	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api/_point_integration-api_devices/get
 	ListDevices(ctx context.Context) (*DevicesResponse, error)
 
-	// UpdateOperatingMode update operating mode from device.
-	// It is a patch request to the endpoint: https://api.mercadopago.com/point/integration-api/devices/{device-id}
+	// UpdateOperatingMode changes the operating mode of a specific Point device.
+	// Use "PDV" for integrated mode (API-driven payments) or "STANDALONE" for
+	// standalone mode (device-driven payments without API integration).
+	//
+	// It performs a PATCH request to: https://api.mercadopago.com/point/integration-api/devices/{device-id}
+	//
 	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api/_point_integration-api_devices_device-id/patch
 	UpdateOperatingMode(ctx context.Context, deviceID, operatingMode string) (*OperatingModeResponse, error)
 }
 
-// NewClient returns a new Point Client.
+// NewClient creates and returns a new Point Integration API [Client] configured with
+// the provided [config.Config]. The config must contain a valid access token for
+// authenticating requests to the MercadoPago API.
 func NewClient(c *config.Config) Client {
 	return &client{cfg: c}
 }

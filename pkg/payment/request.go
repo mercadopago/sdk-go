@@ -4,7 +4,11 @@ import (
 	"time"
 )
 
-// Request represents a request for creating or updating a payment.
+// Request represents the body sent to the MercadoPago Payments API when creating a new payment.
+// It maps to the JSON payload described at
+// https://www.mercadopago.com/developers/en/reference/payments/_payments/post/.
+//
+// Fields are serialized as JSON with omitempty so only populated values are sent.
 type Request struct {
 	AdditionalInfo     *AdditionalInfoRequest     `json:"additional_info,omitempty"`
 	MerchantServices   *MerchantServicesRequest   `json:"merchant_services,omitempty"`
@@ -47,7 +51,8 @@ type Request struct {
 	BackURLs              []string       `json:"back_urls,omitempty"`
 }
 
-// AdditionalInfoRequest represents additional information request within Request.
+// AdditionalInfoRequest contains supplementary data about the payment such as payer details,
+// shipping information, item details, and IP address. It is embedded in [Request].
 type AdditionalInfoRequest struct {
 	Payer     *AdditionalInfoPayerRequest `json:"payer,omitempty"`
 	Shipments *ShipmentsRequest           `json:"shipments,omitempty"`
@@ -57,7 +62,8 @@ type AdditionalInfoRequest struct {
 	IPAddress string `json:"ip_address,omitempty"`
 }
 
-// AdditionalInfoPayerRequest represents payer information request within AdditionalInfoRequest.
+// AdditionalInfoPayerRequest contains additional payer information such as name, phone, address,
+// registration date, and purchase history. It is used within [AdditionalInfoRequest].
 type AdditionalInfoPayerRequest struct {
 	Phone            *AdditionalInfoPayerPhoneRequest   `json:"phone,omitempty"`
 	Address          *AdditionalInfoPayerAddressRequest `json:"address,omitempty"`
@@ -71,20 +77,23 @@ type AdditionalInfoPayerRequest struct {
 	IsFirstPurchaseOnline bool   `json:"is_first_purchase_online,omitempty"`
 }
 
-// AdditionalInfoPayerPhoneRequest represents phone request within AdditionalInfoPayerRequest.
+// AdditionalInfoPayerPhoneRequest contains the payer's phone number split into area code and number.
+// It is used within [AdditionalInfoPayerRequest].
 type AdditionalInfoPayerPhoneRequest struct {
 	AreaCode string `json:"area_code,omitempty"`
 	Number   string `json:"number,omitempty"`
 }
 
-// AdditionalInfoPayerAddressRequest represents address request within AdditionalInfoPayerRequest.
+// AdditionalInfoPayerAddressRequest contains the payer's address details for fraud prevention
+// and risk analysis. It is used within [AdditionalInfoPayerRequest].
 type AdditionalInfoPayerAddressRequest struct {
 	ZipCode      string `json:"zip_code,omitempty"`
 	StreetName   string `json:"street_name,omitempty"`
 	StreetNumber string `json:"street_number,omitempty"`
 }
 
-// ShipmentsRequest represents shipments request within AdditionalInfoRequest.
+// ShipmentsRequest contains shipping details including the receiver address and delivery options.
+// It is used within [AdditionalInfoRequest] to provide logistics context for the payment.
 type ShipmentsRequest struct {
 	ReceiverAddress *ReceiverAddressRequest `json:"receiver_address,omitempty"`
 
@@ -92,7 +101,8 @@ type ShipmentsRequest struct {
 	ExpressShipment bool `json:"express_shipment,omitempty"`
 }
 
-// ReceiverAddressRequest represents receiver address request within ShipmentsRequest.
+// ReceiverAddressRequest contains the destination address for the shipment.
+// It is used within [ShipmentsRequest].
 type ReceiverAddressRequest struct {
 	StateName       string `json:"state_name,omitempty"`
 	CityName        string `json:"city_name,omitempty"`
@@ -105,7 +115,8 @@ type ReceiverAddressRequest struct {
 	ExpressShipment bool   `json:"express_shipment,omitempty"`
 }
 
-// BarcodeRequest represents barcode request within AdditionalInfoRequest.
+// BarcodeRequest contains barcode information for ticket-based or offline payment methods.
+// It is used within [AdditionalInfoRequest].
 type BarcodeRequest struct {
 	Type    string  `json:"type,omitempty"`
 	Content string  `json:"content,omitempty"`
@@ -113,7 +124,8 @@ type BarcodeRequest struct {
 	Height  float64 `json:"height,omitempty"`
 }
 
-// ItemRequest represents an item request within AdditionalInfoRequest.
+// ItemRequest describes a purchased item or service associated with the payment.
+// Multiple items can be included in [AdditionalInfoRequest] to improve fraud analysis.
 type ItemRequest struct {
 	EventDate          string  `json:"event_date,omitempty"`
 	ID                 string  `json:"id,omitempty"`
@@ -130,7 +142,8 @@ type ItemRequest struct {
 	CategoryDescriptor CategoryDescriptorRequest `json:"category_descriptor,omitempty"`
 }
 
-// CategoryDescriptorRequest represents category descriptor request within ItemRequest.
+// CategoryDescriptorRequest provides category-specific metadata for an item, such as
+// passenger and route information for travel-related payments. It is used within [ItemRequest].
 type CategoryDescriptorRequest struct {
 	EventDate *time.Time `json:"event_date,omitempty"`
 	Type      string     `json:"type,omitempty"`
@@ -139,7 +152,8 @@ type CategoryDescriptorRequest struct {
 	Route     *RouteRequest     `json:"route,omitempty"`
 }
 
-// PassengerRequest represents passenger request within CategoryDescriptorRequest.
+// PassengerRequest contains passenger identification data for travel-related payments.
+// It is used within [CategoryDescriptorRequest].
 type PassengerRequest struct {
 	Identification *IdentificationRequest `json:"identification,omitempty"`
 
@@ -149,13 +163,15 @@ type PassengerRequest struct {
 	IdentificationNumber string `json:"identification_number,omitempty"`
 }
 
-// IdentificationRequest represents identification request within PaymentPassengerRequest.
+// IdentificationRequest contains a personal identification document type and number.
+// It is used within [PassengerRequest] and [PayerRequest] to identify individuals.
 type IdentificationRequest struct {
 	Type   string `json:"type,omitempty"`
 	Number string `json:"number,omitempty"`
 }
 
-// RouteRequest represents route request within CategoryDescriptorRequest.
+// RouteRequest describes a travel route with departure and destination details.
+// It is used within [CategoryDescriptorRequest] for transportation-related items.
 type RouteRequest struct {
 	Departure         string `json:"departure,omitempty"`
 	Destination       string `json:"destination,omitempty"`
@@ -164,19 +180,22 @@ type RouteRequest struct {
 	Company           string `json:"company,omitempty"`
 }
 
-// MerchantServicesRequest represents merchant services request within Request.
+// MerchantServicesRequest configures optional merchant-level services such as
+// fraud scoring and manual fraud review. It is used within [Request].
 type MerchantServicesRequest struct {
 	FraudScoring      bool `json:"fraud_scoring,omitempty"`
 	FraudManualReview bool `json:"fraud_manual_review,omitempty"`
 }
 
-// OrderRequest represents order request within Request.
+// OrderRequest associates the payment with an existing MercadoPago order.
+// It is used within [Request].
 type OrderRequest struct {
 	Type string `json:"type,omitempty"`
 	ID   int    `json:"id,omitempty"`
 }
 
-// PayerRequest represents payer request within Request.
+// PayerRequest identifies the person or entity making the payment including
+// contact information and identification documents. It is used within [Request].
 type PayerRequest struct {
 	Type                  string `json:"type,omitempty"`
 	ID                    string `json:"id,omitempty"`
@@ -195,16 +214,23 @@ type PayerRequest struct {
 	Address        *AddressRequest        `json:"address,omitempty"`
 }
 
-// ForwardData represents data used in special conditions for the payment.
+// ForwardDataRequest contains data forwarded to acquirers or processors under special conditions,
+// such as payment facilitator (sub-merchant) details or network transaction references.
+// It is used within [Request].
 type ForwardDataRequest struct {
 	SubMerchant            *SubMerchantRequest            `json:"sub_merchant,omitempty"`
 	NetworkTransactionData *NetworkTransactionDataRequest `json:"network_transaction_data,omitempty"`
 }
+
+// NetworkTransactionDataRequest contains network-level transaction identifiers used
+// for recurring or credential-on-file transactions. It is used within [ForwardDataRequest].
 type NetworkTransactionDataRequest struct {
 	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
 }
 
-// SubMerchantRequest represents sub merchant request within ForwardDataRequest.
+// SubMerchantRequest contains sub-merchant information for payment facilitator flows.
+// Acquirers require this data when the collector operates as a marketplace or aggregator.
+// It is used within [ForwardDataRequest].
 type SubMerchantRequest struct {
 	SubMerchantID     string `json:"sub_merchant_id,omitempty"`
 	MCC               string `json:"mcc,omitempty"`
@@ -222,7 +248,7 @@ type SubMerchantRequest struct {
 	AddressDoorNumber int    `json:"address_door_number,omitempty"`
 }
 
-// AddressRequest represents payer address request within PayerRequest.
+// AddressRequest contains the payer's billing address. It is used within [PayerRequest].
 type AddressRequest struct {
 	Neighborhood string `json:"neighborhood,omitempty"`
 	City         string `json:"city,omitempty"`
@@ -232,18 +258,21 @@ type AddressRequest struct {
 	StreetNumber string `json:"street_number,omitempty"`
 }
 
-// PhoneRequest represents payer phone request within PayerRequest.
+// PhoneRequest contains the payer's phone number split into area code and number.
+// It is used within [PayerRequest].
 type PhoneRequest struct {
 	AreaCode string `json:"area_code,omitempty"`
 	Number   string `json:"number,omitempty"`
 }
 
-// TransactionDetailsRequest represents transaction details request within Request.
+// TransactionDetailsRequest contains additional transaction-level details such as the
+// financial institution involved. It is used within [Request].
 type TransactionDetailsRequest struct {
 	FinancialInstitution string `json:"financial_institution,omitempty"`
 }
 
-// PointOfInteractionRequest represents point of interaction request within Request.
+// PointOfInteractionRequest describes the context in which the payment interaction originates,
+// such as a physical POS device or an online checkout. It is used within [Request].
 type PointOfInteractionRequest struct {
 	TransactionData *TransactionDataRequest `json:"transaction_data,omitempty"`
 
@@ -252,6 +281,8 @@ type PointOfInteractionRequest struct {
 	SubType  string `json:"sub_type,omitempty"`
 }
 
+// TransactionDataRequest contains transaction-specific data for the point of interaction,
+// including subscription and invoice details. It is used within [PointOfInteractionRequest].
 type TransactionDataRequest struct {
 	SubscriptionSequence *SubscriptionSequenceRequest `json:"subscription_sequence,omitempty"`
 	InvoicePeriod        *InvoicePeriodRequest        `json:"invoice_period,omitempty"`
@@ -262,41 +293,51 @@ type TransactionDataRequest struct {
 	FirstTimeUse   bool   `json:"first_time_use,omitempty"`
 }
 
+// SubscriptionSequenceRequest tracks the position of a payment within a recurring subscription.
+// It is used within [TransactionDataRequest].
 type SubscriptionSequenceRequest struct {
 	Number int `json:"number,omitempty"`
 	Total  int `json:"total,omitempty"`
 }
 
+// InvoicePeriodRequest defines the billing period type and length for subscription-based payments.
+// It is used within [TransactionDataRequest].
 type InvoicePeriodRequest struct {
 	Type   string `json:"type,omitempty"`
 	Period int    `json:"period,omitempty"`
 }
 
+// PaymentReferenceRequest contains a reference identifier linking to a related payment.
+// It is used within [TransactionDataRequest].
 type PaymentReferenceRequest struct {
 	ID string `json:"id,omitempty"`
 }
 
-// PaymentMethodRequest represents payment method request within Request.
+// PaymentMethodRequest specifies the payment method type and associated data such as
+// authentication and rules. It is used within [Request].
 type PaymentMethodRequest struct {
 	Data *DataRequest `json:"data,omitempty"`
 
 	Type string `json:"type,omitempty"`
 }
 
-// DataRequest represents payment data request within PaymentMethodRequest.
+// DataRequest contains authentication credentials and payment rules for a specific payment method.
+// It is used within [PaymentMethodRequest].
 type DataRequest struct {
 	Authentication *AuthenticationRequest `json:"authentication,omitempty"`
 	Rules          *RulesRequest          `json:"rules,omitempty"`
 }
 
-// RulesRequest represents payment rules request within DataRequest.
+// RulesRequest defines fine, interest, and discount rules applied to a payment method.
+// These are typically used for boleto-style payment methods. It is used within [DataRequest].
 type RulesRequest struct {
 	Fine      *FeeRequest       `json:"fine,omitempty"`
 	Interest  *FeeRequest       `json:"interest,omitempty"`
 	Discounts []DiscountRequest `json:"discounts,omitempty"`
 }
 
-// AuthenticationRequest represents payment authentication request within DataRequest.
+// AuthenticationRequest provides 3DS (Three-Domain Secure) authentication data for card payments.
+// It is used within [DataRequest] to supply cryptograms, transaction IDs, and ECI values.
 type AuthenticationRequest struct {
 	Type                 string `json:"type,omitempty"`
 	Cryptogram           string `json:"cryptogram,omitempty"`
@@ -308,13 +349,15 @@ type AuthenticationRequest struct {
 	AuthenticationStatus string `json:"authentication_status,omitempty"`
 }
 
-// FeeRequest represents fee request within RulesRequest.
+// FeeRequest defines a fine or interest fee to be applied to the payment.
+// It is used within [RulesRequest].
 type FeeRequest struct {
 	Type  string  `json:"type,omitempty"`
 	Value float64 `json:"value,omitempty"`
 }
 
-// DiscountRequest represents discount request within RulesRequest.
+// DiscountRequest defines an early-payment discount with an optional deadline.
+// It is used within [RulesRequest].
 type DiscountRequest struct {
 	LimitDate *time.Time `json:"limit_date,omitempty"`
 
@@ -322,26 +365,30 @@ type DiscountRequest struct {
 	Value float64 `json:"value,omitempty"`
 }
 
-// TaxRequest represents tax request within Request.
+// TaxRequest describes a tax applied to the payment, either as a fixed value or a percentage.
+// It is used within [Request].
 type TaxRequest struct {
 	Type       string  `json:"type,omitempty"`
 	Value      float64 `json:"value,omitempty"`
 	Percentage bool    `json:"percentage,omitempty"`
 }
 
-// AmountsRequest represents amounts request within Request.
+// AmountsRequest specifies currency-specific transaction amounts for both the collector and
+// the payer, enabling cross-border payment scenarios. It is used within [Request].
 type AmountsRequest struct {
 	Collector UserAmountsRequest `json:"collector,omitempty"`
 	Payer     UserAmountsRequest `json:"payer,omitempty"`
 }
 
-// UserAmountsRequest represents user amounts request within AmountsRequest.
+// UserAmountsRequest defines a transaction amount in a specific currency for one party
+// (collector or payer). It is used within [AmountsRequest].
 type UserAmountsRequest struct {
 	CurrencyID  string  `json:"currency_id,omitempty"`
 	Transaction float64 `json:"transaction,omitempty"`
 }
 
-// CounterCurrencyRequest represents counter currency request within Request.
+// CounterCurrencyRequest specifies the counter currency for cross-currency payments.
+// It is used within [Request].
 type CounterCurrencyRequest struct {
 	CurrencyID string `json:"currency_id,omitempty"`
 }

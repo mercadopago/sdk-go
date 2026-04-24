@@ -5,8 +5,11 @@ import (
 	"strings"
 )
 
-// SearchRequest is the helper structure to build search request.
-// Filters field can receive a lot of parameters. For details, see:
+// SearchRequest defines the parameters for searching payments via [Client.Search].
+// Limit and Offset control pagination. Filters is a free-form map of query parameters
+// supported by the MercadoPago search endpoint.
+//
+// For the full list of available filters see
 // https://www.mercadopago.com/developers/en/reference/payments/_payments_search/get.
 type SearchRequest struct {
 	Limit   int
@@ -14,7 +17,9 @@ type SearchRequest struct {
 	Filters map[string]string
 }
 
-// GetParams creates map to build query parameters. Keys will be changed to lower case.
+// GetParams converts the [SearchRequest] into a flat map of query parameters suitable
+// for an HTTP request. Filter keys are normalized to lower case. If Limit is zero it
+// defaults to 30.
 func (sr *SearchRequest) GetParams() map[string]string {
 	params := map[string]string{}
 	for k, v := range sr.Filters {

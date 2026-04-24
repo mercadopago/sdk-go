@@ -1,3 +1,9 @@
+// Package payment provides a client for the MercadoPago Payments API.
+//
+// It supports creating, searching, retrieving, cancelling, and capturing payments.
+// Use [NewClient] to obtain a [Client] and interact with the API.
+//
+// For full API documentation see https://www.mercadopago.com/developers/en/reference/payments/_payments/post/.
 package payment
 
 import (
@@ -15,42 +21,58 @@ const (
 	urlWithID = urlBase + "/{id}"
 )
 
-// Client contains the methods to interact with the Payments API.
+// Client provides methods to interact with the MercadoPago Payments API.
+// Create one via [NewClient].
 type Client interface {
-	// Create creates a new payment.
-	// It is a post request to the endpoint: https://api.mercadopago.com/v1/payments
+	// Create submits a new payment to the MercadoPago Payments API.
+	// The returned [Response] contains the full payment resource including its assigned ID and status.
+	//
+	// POST https://api.mercadopago.com/v1/payments
+	//
 	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments/post/
 	Create(ctx context.Context, request Request) (*Response, error)
 
-	// Search searches for payments.
-	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/search
+	// Search retrieves a paginated list of payments that match the criteria specified in [SearchRequest].
+	//
+	// GET https://api.mercadopago.com/v1/payments/search
+	//
 	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_search/get/
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 
-	// Get gets a payment by its ID.
-	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
+	// Get retrieves a single payment by its unique numeric ID.
+	//
+	// GET https://api.mercadopago.com/v1/payments/{id}
+	//
 	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_id/get/
 	Get(ctx context.Context, id int) (*Response, error)
 
-	// Cancel cancels a payment by its ID.
-	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
+	// Cancel transitions a payment to the "cancelled" status.
+	// Only payments that have not yet been approved can be cancelled.
+	//
+	// PUT https://api.mercadopago.com/v1/payments/{id}
 	Cancel(ctx context.Context, id int) (*Response, error)
 
-	// Capture captures a payment by its ID.
-	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
+	// Capture confirms a previously authorized payment, settling the full transaction amount.
+	// This is used when the payment was created with capture=false (two-step flow).
+	//
+	// PUT https://api.mercadopago.com/v1/payments/{id}
 	Capture(ctx context.Context, id int) (*Response, error)
 
-	// CaptureAmount captures amount of a payment by its ID.
-	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
+	// CaptureAmount confirms a previously authorized payment for a specific amount,
+	// which may differ from the originally authorized transaction amount.
+	// This is used in the two-step capture flow when a partial capture is needed.
+	//
+	// PUT https://api.mercadopago.com/v1/payments/{id}
 	CaptureAmount(ctx context.Context, id int, amount float64) (*Response, error)
 }
 
-// client is the implementation of Client.
+// client is the unexported implementation of [Client].
 type client struct {
 	cfg *config.Config
 }
 
-// NewClient returns a new Payments API Client.
+// NewClient creates a new Payments API client using the provided [config.Config].
+// The configuration must include valid credentials for authenticating with the MercadoPago API.
 func NewClient(c *config.Config) Client {
 	return &client{
 		cfg: c,
