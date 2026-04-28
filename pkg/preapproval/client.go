@@ -6,7 +6,7 @@
 //
 // For subscription plan templates (seller-side), see the [preapprovalplan] package instead.
 //
-// API reference: https://www.mercadopago.com/developers/en/reference/subscriptions
+// API reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/create-preapproval/post
 package preapproval
 
 import (
@@ -32,24 +32,24 @@ type Client interface {
 	// Create creates a new pre-approval (subscription) for a payer.
 	// The [Request] body must include payer information and recurrence settings.
 	// It is a POST request to the endpoint: https://api.mercadopago.com/preapproval
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval/post
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/create-preapproval/post
 	Create(ctx context.Context, request Request) (*Response, error)
 
 	// Get retrieves a pre-approval (subscription) by its unique identifier.
 	// It is a GET request to the endpoint: https://api.mercadopago.com/preapproval/{id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_id/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/get-preapproval/get
 	Get(ctx context.Context, id string) (*Response, error)
 
 	// Update modifies an existing pre-approval (subscription) identified by id.
 	// Only the fields present in [UpdateRequest] will be changed; absent fields are left unchanged.
 	// It is a PUT request to the endpoint: https://api.mercadopago.com/preapproval/{id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_id/put
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/update-preapproval/put
 	Update(ctx context.Context, id string, request UpdateRequest) (*Response, error)
 
 	// Search finds pre-approvals (subscriptions) that match the filters specified in [SearchRequest].
 	// Results are paginated; use Limit and Offset to control pagination.
 	// It is a GET request to the endpoint: https://api.mercadopago.com/preapproval/search
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_search/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/search-preapproval/get
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 }
 

@@ -3,7 +3,7 @@
 // It supports creating, searching, retrieving, cancelling, and capturing payments.
 // Use [NewClient] to obtain a [Client] and interact with the API.
 //
-// For full API documentation see https://www.mercadopago.com/developers/en/reference/payments/_payments/post/.
+// For full API documentation see https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api-payments/create-payment/post.
 package payment
 
 import (
@@ -29,21 +29,21 @@ type Client interface {
 	//
 	// POST https://api.mercadopago.com/v1/payments
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments/post/
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api-payments/create-payment/post
 	Create(ctx context.Context, request Request) (*Response, error)
 
 	// Search retrieves a paginated list of payments that match the criteria specified in [SearchRequest].
 	//
 	// GET https://api.mercadopago.com/v1/payments/search
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_search/get/
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api-payments/search-payments/get
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 
 	// Get retrieves a single payment by its unique numeric ID.
 	//
 	// GET https://api.mercadopago.com/v1/payments/{id}
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_id/get/
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api-payments/get-payment/get
 	Get(ctx context.Context, id int) (*Response, error)
 
 	// Cancel transitions a payment to the "cancelled" status.

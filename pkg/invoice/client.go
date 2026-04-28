@@ -7,7 +7,7 @@
 // across invoices for a subscription.
 //
 // For more information, see the MercadoPago Subscriptions API reference:
-// https://www.mercadopago.com/developers/en/reference/subscriptions/_authorized_payments_id/get
+// https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/get-authorized-payment/get
 package invoice
 
 import (
@@ -31,7 +31,7 @@ type Client interface {
 	//
 	// It performs a GET request to: https://api.mercadopago.com/authorized_payments/{id}
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_authorized_payments_id/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/get-authorized-payment/get
 	Get(ctx context.Context, id string) (*Response, error)
 
 	// Search finds invoices for subscriptions matching the filters specified in [SearchRequest].
@@ -39,7 +39,7 @@ type Client interface {
 	//
 	// It performs a GET request to: https://api.mercadopago.com/authorized_payments/search
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_authorized_payments_search/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/authorized-payment-search/get
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 }
 

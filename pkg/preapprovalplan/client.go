@@ -8,7 +8,7 @@
 //
 // Use this package to create, retrieve, update, and search subscription plan templates.
 //
-// API reference: https://www.mercadopago.com/developers/en/reference/subscriptions
+// API reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/create-preapproval-plan/post
 package preapprovalplan
 
 import (
@@ -35,24 +35,24 @@ type Client interface {
 	// Create creates a new pre-approval plan (subscription template) for the seller.
 	// The [Request] body must include recurrence settings and optionally allowed payment methods.
 	// It is a POST request to the endpoint: https://api.mercadopago.com/preapproval_plan
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_plan/post/
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/create-preapproval-plan/post
 	Create(ctx context.Context, request Request) (*Response, error)
 
 	// Get retrieves a pre-approval plan (subscription template) by its unique identifier.
 	// It is a GET request to the endpoint: https://api.mercadopago.com/preapproval_plan/{id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_plan_id/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/get-preapproval-plan/get
 	Get(ctx context.Context, id string) (*Response, error)
 
 	// Update modifies an existing pre-approval plan (subscription template) identified by id.
 	// The same [Request] struct is used; only non-zero fields are sent to the API.
 	// It is a PUT request to the endpoint: https://api.mercadopago.com/preapproval_plan/{id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_plan_id/put
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/update-preapproval-plan/put
 	Update(ctx context.Context, id string, request Request) (*Response, error)
 
 	// Search finds pre-approval plans (subscription templates) that match the filters
 	// specified in [SearchRequest]. Results are paginated; use Limit and Offset to control pagination.
 	// It is a GET request to the endpoint: https://api.mercadopago.com/preapproval_plan/search
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_plan_search/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/search-preapproval-plan/get
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 }
 

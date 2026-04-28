@@ -10,7 +10,7 @@ import (
 //
 // The Filters map accepts arbitrary key-value pairs that are forwarded as query parameters
 // to the MercadoPago API. For the full list of supported filter keys, see:
-// https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_search/get
+// https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/search-preapproval/get
 type SearchRequest struct {
 	// Limit is the maximum number of results to return per page. Defaults to 30 when zero.
 	Limit int

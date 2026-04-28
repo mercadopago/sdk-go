@@ -10,7 +10,7 @@ import (
 // supported by the MercadoPago search endpoint.
 //
 // For the full list of available filters see
-// https://www.mercadopago.com/developers/en/reference/payments/_payments_search/get.
+// https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api-payments/search-payments/get
 type SearchRequest struct {
 	Limit   int
 	Offset  int

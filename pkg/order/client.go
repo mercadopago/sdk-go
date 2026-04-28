@@ -36,7 +36,7 @@ const (
 type Client interface {
 	// Create creates a new order.
 	// It is a POST request to the endpoint: https://api.mercadopago.com/v1/orders
-	// Reference: https://www.mercadopago.com/developers/en/reference/order/online-payments/create/post
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api/create-order/post
 	Create(ctx context.Context, request Request) (*Response, error)
 
 	// Get retrieves an existing order by its unique identifier.

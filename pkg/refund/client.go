@@ -5,7 +5,7 @@
 // an existing payment identified by its numeric ID.
 // Use [NewClient] to obtain a [Client] and interact with the API.
 //
-// For full API documentation see https://www.mercadopago.com/developers/en/reference/chargebacks/_payments_id_refunds/post.
+// For full API documentation see https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api-payments/create-refund/post
 package refund
 
 import (
@@ -30,14 +30,14 @@ type Client interface {
 	//
 	// GET https://api.mercadopago.com/v1/payments/{id}/refunds/{refund_id}
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/chargebacks/_payments_id_refunds_refund_id/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api-payments/get-refund/get
 	Get(ctx context.Context, paymentID, refundID int) (*Response, error)
 
 	// List retrieves all refunds associated with the given payment ID.
 	//
 	// GET https://api.mercadopago.com/v1/payments/{id}/refunds
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/chargebacks/_payments_id_refunds/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api-payments/get-refunds/get
 	List(ctx context.Context, paymentID int) ([]Response, error)
 
 	// Create issues a full refund for the given payment ID, returning the full
@@ -45,7 +45,7 @@ type Client interface {
 	//
 	// POST https://api.mercadopago.com/v1/payments/{id}/refunds
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/chargebacks/_payments_id_refunds/post
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api-payments/create-refund/post
 	Create(ctx context.Context, paymentID int) (*Response, error)
 
 	// CreatePartialRefund issues a partial refund for the given payment ID,
@@ -54,7 +54,7 @@ type Client interface {
 	//
 	// POST https://api.mercadopago.com/v1/payments/{id}/refunds
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/chargebacks/_payments_id_refunds/post
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api-payments/create-refund/post
 	CreatePartialRefund(ctx context.Context, paymentID int, amount float64) (*Response, error)
 }
 
