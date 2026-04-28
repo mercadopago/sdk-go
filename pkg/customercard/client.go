@@ -29,30 +29,30 @@ type Client interface {
 	// Create saves a new payment card for the customer identified by customerID.
 	// The card token in the [Request] must be obtained beforehand via the Card Token API.
 	// It is a post request to the endpoint: https://api.mercadopago.com/v1/customer/{customer_id}/cards
-	// Reference: https://www.mercadopago.com/developers/en/reference/cards/_customers_customer_id_cards/post
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api/cards/save-card/post
 	Create(ctx context.Context, customerID string, request Request) (*Response, error)
 
 	// Get retrieves a specific saved card identified by cardID for the customer
 	// identified by customerID.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/customer/{customer_id}/cards/{card_id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/cards/_customers_customer_id_cards_id/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api/cards/get-card/get
 	Get(ctx context.Context, customerID, cardID string) (*Response, error)
 
 	// Update modifies a saved card identified by cardID for the customer
 	// identified by customerID. Only the fields present in the [Request] are updated.
 	// It is a put request to the endpoint: https://api.mercadopago.com/v1/customer/{customer_id}/cards/{card_id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/cards/_customers_customer_id_cards_id/put
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api/cards/update-card/put
 	Update(ctx context.Context, customerID, cardID string, request Request) (*Response, error)
 
 	// Delete removes a saved card identified by cardID from the customer
 	// identified by customerID. The deleted card's data is returned in the response.
 	// It is a delete request to the endpoint: https://api.mercadopago.com/v1/customer/{customer_id}/cards/{card_id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/cards/_customers_customer_id_cards_id/delete
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api/cards/delete-card/delete
 	Delete(ctx context.Context, customerID, cardID string) (*Response, error)
 
 	// List retrieves all saved payment cards for the customer identified by customerID.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/customer/{customer_id}/cards
-	// Reference: https://www.mercadopago.com/developers/en/reference/cards/_customers_customer_id_cards/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api/cards/get-customer-cards/get
 	List(ctx context.Context, customerID string) ([]Response, error)
 }
 

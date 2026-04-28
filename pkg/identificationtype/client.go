@@ -24,7 +24,7 @@ type Client interface {
 	// with the authenticated credentials. Each entry includes the document type ID, name,
 	// and allowed length constraints.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/identification_types
-	// Reference: https://www.mercadopago.com/developers/en/reference/identification_types/_identification_types/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api/identification-types/get
 	List(ctx context.Context) ([]Response, error)
 }
 

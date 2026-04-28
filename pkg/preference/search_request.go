@@ -10,7 +10,7 @@ import (
 // filters that correspond to the query parameters accepted by the MercadoPago API.
 //
 // For the full list of supported filter parameters, see:
-// https://www.mercadopago.com/developers/en/reference/preferences/_checkout_preferences_search/get
+// https://www.mercadopago.com/developers/en/reference/online-payments/checkout-pro/preferences/search-preferences/get
 type SearchRequest struct {
 	// Limit is the maximum number of results to return per page. Defaults to 30 if zero.
 	Limit int

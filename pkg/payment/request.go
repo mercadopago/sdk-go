@@ -6,7 +6,7 @@ import (
 
 // Request represents the body sent to the MercadoPago Payments API when creating a new payment.
 // It maps to the JSON payload described at
-// https://www.mercadopago.com/developers/en/reference/payments/_payments/post/.
+// https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api-payments/create-payment/post
 //
 // Fields are serialized as JSON with omitempty so only populated values are sent.
 type Request struct {

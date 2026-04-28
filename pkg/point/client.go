@@ -6,7 +6,7 @@
 // intent status.
 //
 // For more information, see the MercadoPago Point Integration API reference:
-// https://www.mercadopago.com/developers/en/reference/integrations_api_paymentintent_mlb/_point_integration-api_devices_deviceid_payment-intents/post
+// https://www.mercadopago.com.ar/developers/en/reference/in-person-payments/point/orders/create-order/post
 package point
 
 import (
@@ -41,7 +41,7 @@ type Client interface {
 	//
 	// It performs a POST request to: https://api.mercadopago.com/point/integration-api/devices/{device_id}/payment-intents
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api_paymentintent_mlb/_point_integration-api_devices_deviceid_payment-intents/post
+	// Reference: https://www.mercadopago.com.ar/developers/en/reference/in-person-payments/point/orders/create-order/post
 	Create(ctx context.Context, deviceID string, request Request) (*Response, error)
 
 	// Get retrieves the current state of a payment intent by its unique identifier.
@@ -49,7 +49,7 @@ type Client interface {
 	//
 	// It performs a GET request to: https://api.mercadopago.com/point/integration-api/payment-intents/{payment_intent_id}
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api/_point_integration-api_payment-intents_paymentintentid/get
+	// Reference: https://www.mercadopago.com.ar/developers/en/reference/in-person-payments/point/orders/get-order/get
 	Get(ctx context.Context, paymentIntentID string) (*Response, error)
 
 	// Cancel cancels a pending payment intent on a specific device. This is used when
@@ -57,7 +57,7 @@ type Client interface {
 	//
 	// It performs a DELETE request to: https://api.mercadopago.com/point/integration-api/devices/{device_id}/payment-intents/{payment_intent_id}
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api/_point_integration-api_devices_deviceid_payment-intents_paymentintentid/delete
+	// Reference: https://www.mercadopago.com.ar/developers/en/reference/in-person-payments/point/orders/cancel-order/post
 	Cancel(ctx context.Context, deviceID, paymentIntentID string) (*CancelResponse, error)
 
 	// ListDevices retrieves all Point devices associated with the authenticated account.
@@ -65,7 +65,7 @@ type Client interface {
 	//
 	// It performs a GET request to: https://api.mercadopago.com/point/integration-api/devices
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api/_point_integration-api_devices/get
+	// Reference: https://www.mercadopago.com.ar/developers/en/reference/in-person-payments/point/terminals/get-terminals/get
 	ListDevices(ctx context.Context) (*DevicesResponse, error)
 
 	// UpdateOperatingMode changes the operating mode of a specific Point device.
@@ -74,7 +74,7 @@ type Client interface {
 	//
 	// It performs a PATCH request to: https://api.mercadopago.com/point/integration-api/devices/{device-id}
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/integrations_api/_point_integration-api_devices_device-id/patch
+	// Reference: https://www.mercadopago.com.ar/developers/en/reference/in-person-payments/point/terminals/update-operation-mode/patch
 	UpdateOperatingMode(ctx context.Context, deviceID, operatingMode string) (*OperatingModeResponse, error)
 }
 

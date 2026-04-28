@@ -11,7 +11,7 @@ import (
 //
 // Supported filter keys include "email", "first_name", "last_name", and any other
 // field documented at:
-// https://www.mercadopago.com/developers/en/reference/customers/_customers_search/get.
+// https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api/customers/search-customer/get
 type SearchRequest struct {
 	// Limit is the maximum number of results to return per page. Defaults to 30 if zero.
 	Limit int

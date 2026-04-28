@@ -6,7 +6,7 @@
 // it for access and refresh tokens.
 //
 // For more information, see the MercadoPago OAuth API reference:
-// https://www.mercadopago.com/developers/en/reference/oauth/_oauth_token/post
+// https://www.mercadopago.com/developers/en/reference/authentication/oauth/_oauth_token/post
 package oauth
 
 import (
@@ -34,7 +34,7 @@ type Client interface {
 	//
 	// It performs a POST request to: https://api.mercadopago.com/oauth/token
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/oauth/_oauth_token/post
+	// Reference: https://www.mercadopago.com/developers/en/reference/authentication/oauth/_oauth_token/post
 	Create(ctx context.Context, authorizationCode, redirectURI string) (*Response, error)
 
 	// GetAuthorizationURL builds and returns the MercadoPago authorization URL that the seller
@@ -49,7 +49,7 @@ type Client interface {
 	//
 	// It performs a POST request to: https://api.mercadopago.com/oauth/token
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/oauth/_oauth_token/post
+	// Reference: https://www.mercadopago.com/developers/en/reference/authentication/oauth/_oauth_token/post
 	Refresh(ctx context.Context, refreshToken string) (*Response, error)
 }
 

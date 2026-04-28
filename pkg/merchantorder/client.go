@@ -6,7 +6,7 @@
 // overall status of a transaction, including paid amounts, refunds, and shipping progress.
 //
 // For more information, see the MercadoPago Merchant Orders API reference:
-// https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders/post
+// https://www.mercadopago.com/developers/en/reference
 package merchantorder
 
 import (
@@ -31,7 +31,7 @@ type Client interface {
 	//
 	// It performs a GET request to: https://api.mercadopago.com/merchant_orders/{id}
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_id/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-pro/merchant_orders/get-merchant-order/get
 	Get(ctx context.Context, id int) (*Response, error)
 
 	// Search finds merchant orders matching the filters specified in [SearchRequest].
@@ -39,7 +39,7 @@ type Client interface {
 	//
 	// It performs a GET request to: https://api.mercadopago.com/merchant_orders/search
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_search/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-pro/merchant_orders/search-merchant-order/get
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 
 	// Update modifies an existing merchant order identified by id with the provided [UpdateRequest] data.
@@ -47,14 +47,14 @@ type Client interface {
 	//
 	// It performs a PUT request to: https://api.mercadopago.com/merchant_orders/{id}
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_id/put
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-pro/merchant_orders/update-merchant-order/put
 	Update(ctx context.Context, id int, request UpdateRequest) (*Response, error)
 
 	// Create creates a new merchant order with the provided [Request] data.
 	//
 	// It performs a POST request to: https://api.mercadopago.com/merchant_orders
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders/post
+	// Reference: https://www.mercadopago.com/developers/en/reference (see Checkout Pro > Merchant orders — Create endpoint not found in current reference)
 	Create(ctx context.Context, request Request) (*Response, error)
 }
 
