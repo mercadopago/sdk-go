@@ -10,7 +10,7 @@ import (
 // to the query parameters accepted by the MercadoPago Merchant Orders search endpoint.
 //
 // For the full list of supported filter parameters, see:
-// https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_search/get
+// https://www.mercadopago.com/developers/en/reference/online-payments/checkout-pro/merchant_orders/search-merchant-order/get
 type SearchRequest struct {
 	// Limit is the maximum number of results to return per page. Defaults to 30 if zero.
 	Limit int

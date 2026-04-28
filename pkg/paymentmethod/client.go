@@ -4,7 +4,7 @@
 // including card brands, bank transfers, and offline methods.
 // Use [NewClient] to obtain a [Client] and interact with the API.
 //
-// For full API documentation see https://www.mercadopago.com/developers/en/reference/payment_methods/_payment_methods/get/.
+// For full API documentation see https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api/payment-methods/get.
 package paymentmethod
 
 import (
@@ -26,7 +26,7 @@ type Client interface {
 	//
 	// GET https://api.mercadopago.com/v1/payment_methods
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/payment_methods/_payment_methods/get/
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api/payment-methods/get
 	List(ctx context.Context) ([]Response, error)
 }
 

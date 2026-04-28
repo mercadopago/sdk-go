@@ -6,7 +6,7 @@
 // the MercadoPago checkout flow.
 //
 // For more information, see the MercadoPago Preferences API reference:
-// https://www.mercadopago.com/developers/en/reference/preferences/_checkout_preferences/post
+// https://www.mercadopago.com/developers/en/reference/online-payments/checkout-pro/preferences/create-preference/post
 package preference
 
 import (
@@ -31,14 +31,14 @@ type Client interface {
 	//
 	// It performs a POST request to: https://api.mercadopago.com/checkout/preferences
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/preferences/_checkout_preferences/post
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-pro/preferences/create-preference/post
 	Create(ctx context.Context, request Request) (*Response, error)
 
 	// Get retrieves an existing checkout preference by its unique identifier.
 	//
 	// It performs a GET request to: https://api.mercadopago.com/checkout/preferences/{id}
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/preferences/_checkout_preferences_id/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-pro/preferences/get-preference/get
 	Get(ctx context.Context, id string) (*Response, error)
 
 	// Update modifies an existing checkout preference identified by id with the provided [Request] data.
@@ -46,7 +46,7 @@ type Client interface {
 	//
 	// It performs a PUT request to: https://api.mercadopago.com/checkout/preferences/{id}
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/preferences/_checkout_preferences_id/put
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-pro/preferences/update-preference/put
 	Update(ctx context.Context, id string, request Request) (*Response, error)
 
 	// Search finds all preferences matching the filters specified in [SearchRequest].
@@ -54,7 +54,7 @@ type Client interface {
 	//
 	// It performs a GET request to: https://api.mercadopago.com/checkout/preferences/search
 	//
-	// Reference: https://www.mercadopago.com/developers/en/reference/preferences/_checkout_preferences_search/get
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-pro/preferences/search-preferences/get
 	Search(ctx context.Context, request SearchRequest) (*PagingResponse, error)
 }
 
