@@ -1,0 +1,76 @@
+pkg/payment/request.go
+  c41f08f119a41ea4 9
+pkg/preapprovalplan/client.go
+  c41f08f119a41ea4 11,38,43,49,55
+pkg/merchantorder/client.go
+  c41f08f119a41ea4 9,34,42,50,57
+pkg/preference/client.go
+  c41f08f119a41ea4 9,34,41,49,57
+pkg/paymentmethod/client.go
+  c41f08f119a41ea4 7,29
+pkg/merchantorder/search_request.go
+  c41f08f119a41ea4 13
+pkg/order/client.go
+  c41f08f119a41ea4 39
+pkg/payment/client.go
+  c41f08f119a41ea4 6,32,39,46
+pkg/identificationtype/client.go
+  c41f08f119a41ea4 27
+pkg/preapproval/search_request.go
+  c41f08f119a41ea4 13
+pkg/payment/search_request.go
+  c41f08f119a41ea4 13
+pkg/invoice/client.go
+  c41f08f119a41ea4 10,34,42
+pkg/customercard/client.go
+  c41f08f119a41ea4 32,38,44,50,55
+pkg/oauth/client.go
+  c41f08f119a41ea4 9,37,52
+pkg/refund/client.go
+  c41f08f119a41ea4 8,33,40,48,57
+pkg/preference/search_request.go
+  c41f08f119a41ea4 13
+pkg/customer/client.go
+  c41f08f119a41ea4 31,37,43,49
+pkg/customer/search_request.go
+  c41f08f119a41ea4 14
+pkg/preapprovalplan/search_request.go
+  c41f08f119a41ea4 13
+pkg/point/client.go
+  c41f08f119a41ea4 9,44,52,60,68,77
+pkg/preapproval/client.go
+  c41f08f119a41ea4 9,35,40,46,52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "d07e54cd6ec87559560198e4488a66b13e139cf2",
+  "prompts": {
+    "0810996d4ac20c7b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f4c86897-3881-49f6-b4d1-ab32a2b9d9e1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Alfaro",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 12,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    },
+    "c41f08f119a41ea4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c73b4aba-d595-410d-9557-e603769bec29",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Daniel Alfaro",
+      "messages": [],
+      "total_additions": 324,
+      "total_deletions": 70,
+      "accepted_lines": 303,
+      "overriden_lines": 0
+    }
+  }
+}
