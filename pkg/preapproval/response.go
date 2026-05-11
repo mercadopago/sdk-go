@@ -18,7 +18,7 @@ type Response struct {
 	InitPoint          string `json:"init_point"`
 	SandboxInitPoint   string `json:"sandbox_init_point"`
 	PaymentMethodID    string `json:"payment_method_id"`
-	FirstInvoiceOffset int `json:"first_invoice_offset"`
+	FirstInvoiceOffset int    `json:"first_invoice_offset"`
 	BackURL            string `json:"back_url"`
 	PreapprovalPlanID  string `json:"preapproval_plan_id"`
 	PayerFirstName     string `json:"payer_first_name"`
@@ -27,7 +27,7 @@ type Response struct {
 	Version            int    `json:"version"`
 	PayerID            int64  `json:"payer_id"`
 	CollectorID        int64  `json:"collector_id"`
-	ApplicationID      int    `json:"application_id"`
+	ApplicationID      uint64 `json:"application_id"`
 }
 
 // AutoRecurringResponse represents the recurrence settings.

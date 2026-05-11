@@ -16,7 +16,7 @@ type Response struct {
 	Status        string `json:"status"`
 	InitPoint     string `json:"init_point"`
 	CollectorID   int64  `json:"collector_id"`
-	ApplicationID int    `json:"application_id"`
+	ApplicationID uint64 `json:"application_id"`
 }
 
 // AutoRecurringResponse represents the recurrence settings.

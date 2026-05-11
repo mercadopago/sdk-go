@@ -129,7 +129,7 @@ type ShipmentsResponse struct {
 
 // FreeMethodResponse contains information about free shipping methods.
 type FreeMethodResponse struct {
-	ID int `json:"id"`
+	ID uint64 `json:"id"`
 }
 
 // ReceiverAddressResponse represents a sending address.
@@ -145,7 +145,7 @@ type ReceiverAddressResponse struct {
 
 // DifferentialPricingResponse contains information about the differential pricing configuration in the preference.
 type DifferentialPricingResponse struct {
-	ID int `json:"id"`
+	ID uint64 `json:"id"`
 }
 
 // TaxResponse contains information about taxes in the preference.

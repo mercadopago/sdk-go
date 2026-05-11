@@ -19,7 +19,7 @@ func main() {
 
 	client := payment.NewClient(cfg)
 
-	paymentID := 123
+	paymentID := uint64(123)
 
 	resource, err := client.Cancel(context.Background(), paymentID)
 	if err != nil {

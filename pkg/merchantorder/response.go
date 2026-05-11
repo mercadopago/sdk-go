@@ -28,20 +28,20 @@ type Response struct {
 	RefundedAmount    float64 `json:"refunded_amount"`
 	ShippingCost      float64 `json:"shipping_cost"`
 	TotalAmount       float64 `json:"total_amount"`
-	ID                int     `json:"id"`
+	ID                uint64  `json:"id"`
 	Cancelled         bool    `json:"cancelled"`
 }
 
 // PayerResponse represents buyer information.
 type PayerResponse struct {
 	Nickname string `json:"nickname"`
-	ID       int    `json:"id"`
+	ID       uint64 `json:"id"`
 }
 
 // CollectorResponse represents collector information.
 type CollectorResponse struct {
 	Nickname string `json:"nickname"`
-	ID       int    `json:"id"`
+	ID       uint64 `json:"id"`
 }
 
 // PaymentResponse represents payment information.
@@ -57,7 +57,7 @@ type PaymentResponse struct {
 	TotalPaidAmount   float64 `json:"total_paid_amount"`
 	ShippingCost      float64 `json:"shipping_cost"`
 	AmountRefunded    float64 `json:"amount_refunded"`
-	ID                int     `json:"id"`
+	ID                uint64  `json:"id"`
 }
 
 // ItemResponse represents item information.
@@ -86,9 +86,9 @@ type ShipmentResponse struct {
 	Status            string           `json:"status"`
 	ShippingSubstatus string           `json:"shipping_substatus"`
 	ServiceID         string           `json:"service_id"`
-	ID                int              `json:"id"`
-	SenderID          int              `json:"sender_id"`
-	ReceiverID        int              `json:"receiver_id"`
+	ID                uint64           `json:"id"`
+	SenderID          uint64           `json:"sender_id"`
+	ReceiverID        uint64           `json:"receiver_id"`
 	Items             []map[string]any `json:"items"`
 }
 
@@ -109,7 +109,7 @@ type ReceiverAddressResponse struct {
 	Phone        string `json:"phone"`
 	Latitude     string `json:"latitude"`
 	Longitude    string `json:"longitude"`
-	ID           int    `json:"id"`
+	ID           uint64 `json:"id"`
 }
 
 // ShippingOptionResponse represents shipping option information.
@@ -121,8 +121,8 @@ type ShippingOptionResponse struct {
 	CurrencyID       string  `json:"currency_id"`
 	Cost             float64 `json:"cost"`
 	ListCost         float64 `json:"list_cost"`
-	ID               int     `json:"id"`
-	ShippingMethodID int     `json:"shipping_method_id"`
+	ID               uint64  `json:"id"`
+	ShippingMethodID uint64  `json:"shipping_method_id"`
 }
 
 // CityResponse represents city information.

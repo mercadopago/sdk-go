@@ -22,8 +22,8 @@ type Response struct {
 	DefaultAddress string `json:"default_address"`
 	Status         string `json:"status"`
 	UserID         int64  `json:"user_id"`
-	MerchantID     int    `json:"merchant_id"`
-	ClientID       int    `json:"client_id"`
+	MerchantID     uint64 `json:"merchant_id"`
+	ClientID       uint64 `json:"client_id"`
 	LiveMode       bool   `json:"live_mode"`
 }
 
@@ -75,7 +75,7 @@ type IdentificationResponse struct {
 // IssuerResponse represents a response for an issuer.
 type IssuerResponse struct {
 	Name string `json:"name"`
-	ID   int    `json:"id"`
+	ID   uint64 `json:"id"`
 }
 
 // PaymentMethodResponse represents a response for a payment method.

@@ -19,7 +19,7 @@ func main() {
 
 	client := merchantorder.NewClient(cfg)
 
-	merchantOrderID := 1234566788
+	merchantOrderID := uint64(1234566788)
 
 	resource, err := client.Get(context.Background(), merchantOrderID)
 	if err != nil {

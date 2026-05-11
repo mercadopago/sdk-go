@@ -17,7 +17,7 @@ type UpdateRequest struct {
 	ExternalReference string `json:"external_reference,omitempty"`
 	Marketplace       string `json:"marketplace,omitempty"`
 	Version           int    `json:"version,omitempty"`
-	SponsorID         int    `json:"sponsor_id,omitempty"`
+	SponsorID         uint64 `json:"sponsor_id,omitempty"`
 }
 
 // ShipmentRequest represents shipment information.
@@ -34,9 +34,9 @@ type ShipmentRequest struct {
 	Status            string           `json:"status,omitempty"`
 	ShippingSubstatus string           `json:"shipping_substatus,omitempty"`
 	ServiceID         string           `json:"service_id,omitempty"`
-	ID                int              `json:"id,omitempty"`
-	SenderID          int              `json:"sender_id,omitempty"`
-	ReceiverID        int              `json:"receiver_id,omitempty"`
+	ID                uint64           `json:"id,omitempty"`
+	SenderID          uint64           `json:"sender_id,omitempty"`
+	ReceiverID        uint64           `json:"receiver_id,omitempty"`
 	Items             []map[string]any `json:"items,omitempty"`
 }
 
@@ -57,7 +57,7 @@ type ReceiverAddressRequest struct {
 	Phone        string `json:"phone,omitempty"`
 	Latitude     string `json:"latitude,omitempty"`
 	Longitude    string `json:"longitude,omitempty"`
-	ID           int    `json:"id,omitempty"`
+	ID           uint64 `json:"id,omitempty"`
 }
 
 // ShippingOptionRequest represents shipping option information.
@@ -69,8 +69,8 @@ type ShippingOptionRequest struct {
 	CurrencyID       string  `json:"currency_id,omitempty"`
 	Cost             float64 `json:"cost,omitempty"`
 	ListCost         float64 `json:"list_cost,omitempty"`
-	ShippingMethodID int     `json:"shipping_method_id,omitempty"`
-	ID               int     `json:"id,omitempty"`
+	ShippingMethodID uint64  `json:"shipping_method_id,omitempty"`
+	ID               uint64  `json:"id,omitempty"`
 }
 
 // CityRequest represents city information.

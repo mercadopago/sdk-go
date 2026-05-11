@@ -19,7 +19,7 @@ type Response struct {
 	Summarized        string  `json:"summarized"`
 	Type              string  `json:"type"`
 	TransactionAmount float64 `json:"transaction_amount"`
-	ID                int     `json:"id"`
+	ID                uint64  `json:"id"`
 	RetryAttempt      int     `json:"retry_attempt"`
 }
 
@@ -27,5 +27,5 @@ type Response struct {
 type PaymentResponse struct {
 	Status       string `json:"status"`
 	StatusDetail string `json:"status_detail"`
-	ID           int    `json:"id"`
+	ID           uint64 `json:"id"`
 }
