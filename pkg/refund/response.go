@@ -13,8 +13,8 @@ type Response struct {
 	UniqueSequenceNumber string  `json:"unique_sequence_number"`
 	Amount               float64 `json:"amount"`
 	AdjustmentAmount     float64 `json:"adjustment_amount"`
-	ID                   int     `json:"id"`
-	PaymentID            int     `json:"payment_id"`
+	ID                   uint64  `json:"id"`
+	PaymentID            uint64  `json:"payment_id"`
 }
 
 // SourceResponse represents the data to identify who originated the refund

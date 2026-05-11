@@ -22,7 +22,7 @@ type SearchResponse struct {
 	Purpose           string   `json:"purpose"`
 	SiteID            string   `json:"site_id"`
 	CollectorID       int64    `json:"collector_id"`
-	SponsorID         int      `json:"sponsor_id"`
+	SponsorID         uint64   `json:"sponsor_id"`
 	LiveMode          bool     `json:"live_mode"`
 	Expires           bool     `json:"expires"`
 	Items             []string `json:"items"`

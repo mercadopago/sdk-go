@@ -238,7 +238,7 @@ type OnlineConfigRequest struct {
 }
 
 type DifferentialPricingRequest struct {
-	ID int `json:"id,omitempty"`
+	ID uint64 `json:"id,omitempty"`
 }
 
 type TransactionSecurityRequest struct {

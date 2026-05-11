@@ -22,7 +22,7 @@ type PaymentResponse struct {
 	Type             string `json:"type"`
 	InstallmentsCost string `json:"installments_cost"`
 	VoucherType      string `json:"voucher_type"`
-	ID               int    `json:"id"`
+	ID               uint64 `json:"id"`
 	Installments     int    `json:"installments"`
 }
 
@@ -39,7 +39,7 @@ type DeviceResponse struct {
 	ID            string `json:"id"`
 	ExternalPosID string `json:"external_pos_id"`
 	OperatingMode string `json:"operating_mode"`
-	PosID         int    `json:"pos_id"`
+	PosID         uint64 `json:"pos_id"`
 	StoreID       string `json:"store_id"`
 }
 

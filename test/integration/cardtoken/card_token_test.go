@@ -22,7 +22,7 @@ func TestCardToken(t *testing.T) {
 			SiteID:          "Teste",
 			CardNumber:      "5031433215406351",
 			ExpirationMonth: "11",
-			ExpirationYear:  "2025",
+			ExpirationYear:  "2032",
 			SecurityCode:    "123",
 			Cardholder: &cardtoken.CardholderRequest{
 				Identification: &cardtoken.IdentificationRequest{

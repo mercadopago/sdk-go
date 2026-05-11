@@ -30,19 +30,19 @@ type Client interface {
 	// Get gets a payment by its ID.
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/payments/_payments_id/get/
-	Get(ctx context.Context, id int) (*Response, error)
+	Get(ctx context.Context, id uint64) (*Response, error)
 
 	// Cancel cancels a payment by its ID.
 	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
-	Cancel(ctx context.Context, id int) (*Response, error)
+	Cancel(ctx context.Context, id uint64) (*Response, error)
 
 	// Capture captures a payment by its ID.
 	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
-	Capture(ctx context.Context, id int) (*Response, error)
+	Capture(ctx context.Context, id uint64) (*Response, error)
 
 	// CaptureAmount captures amount of a payment by its ID.
 	// It is a put request to the endpoint: https://api.mercadopago.com/v1/payments/{id}
-	CaptureAmount(ctx context.Context, id int, amount float64) (*Response, error)
+	CaptureAmount(ctx context.Context, id uint64, amount float64) (*Response, error)
 }
 
 // client is the implementation of Client.
@@ -87,9 +87,9 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 	return resource, nil
 }
 
-func (c *client) Get(ctx context.Context, id int) (*Response, error) {
+func (c *client) Get(ctx context.Context, id uint64) (*Response, error) {
 	pathParams := map[string]string{
-		"id": strconv.Itoa(id),
+		"id": strconv.FormatUint(id, 10),
 	}
 
 	requestData := httpclient.RequestData{
@@ -105,11 +105,11 @@ func (c *client) Get(ctx context.Context, id int) (*Response, error) {
 	return resource, nil
 }
 
-func (c *client) Cancel(ctx context.Context, id int) (*Response, error) {
+func (c *client) Cancel(ctx context.Context, id uint64) (*Response, error) {
 	request := &CancelRequest{Status: "cancelled"}
 
 	pathParams := map[string]string{
-		"id": strconv.Itoa(id),
+		"id": strconv.FormatUint(id, 10),
 	}
 
 	requestData := httpclient.RequestData{
@@ -126,11 +126,11 @@ func (c *client) Cancel(ctx context.Context, id int) (*Response, error) {
 	return resource, nil
 }
 
-func (c *client) Capture(ctx context.Context, id int) (*Response, error) {
+func (c *client) Capture(ctx context.Context, id uint64) (*Response, error) {
 	request := &CaptureRequest{Capture: true}
 
 	pathParams := map[string]string{
-		"id": strconv.Itoa(id),
+		"id": strconv.FormatUint(id, 10),
 	}
 
 	requestData := httpclient.RequestData{
@@ -147,11 +147,11 @@ func (c *client) Capture(ctx context.Context, id int) (*Response, error) {
 	return resource, nil
 }
 
-func (c *client) CaptureAmount(ctx context.Context, id int, amount float64) (*Response, error) {
+func (c *client) CaptureAmount(ctx context.Context, id uint64, amount float64) (*Response, error) {
 	request := &CaptureRequest{TransactionAmount: amount, Capture: true}
 
 	pathParams := map[string]string{
-		"id": strconv.Itoa(id),
+		"id": strconv.FormatUint(id, 10),
 	}
 
 	requestData := httpclient.RequestData{

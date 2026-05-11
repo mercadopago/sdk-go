@@ -20,6 +20,6 @@ type AdditionalInfoRequest struct {
 type PaymentRequest struct {
 	Type             string `json:"type,omitempty"`
 	InstallmentsCost string `json:"installments_cost,omitempty"`
-	ID               int    `json:"id,omitempty"`
+	ID               uint64 `json:"id,omitempty"`
 	Installments     int    `json:"installments,omitempty"`
 }

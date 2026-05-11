@@ -28,7 +28,7 @@ type Response struct {
 	Amounts            *AmountsResponse           `json:"amounts,omitempty"`
 	CounterCurrency    *CounterCurrencyResponse   `json:"counter_currency,omitempty"`
 
-	DifferentialPricingID     int            `json:"differential_pricing_id"`
+	DifferentialPricingID     uint64         `json:"differential_pricing_id"`
 	MoneyReleaseSchema        string         `json:"money_release_schema"`
 	OperationType             string         `json:"operation_type"`
 	IssuerID                  string         `json:"issuer_id"`
@@ -63,8 +63,8 @@ type Response struct {
 	ShippingAmount            float64        `json:"shipping_amount"`
 	NetAmount                 float64        `json:"net_amount"`
 	Installments              int            `json:"installments"`
-	ID                        int            `json:"id"`
-	SponsorID                 int            `json:"sponsor_id"`
+	ID                        uint64         `json:"id"`
+	SponsorID                 uint64         `json:"sponsor_id"`
 	CollectorID               int64          `json:"collector_id"`
 	LiveMode                  bool           `json:"live_mode"`
 	Captured                  bool           `json:"captured"`
@@ -235,7 +235,7 @@ type TransactionDetailsResponse struct {
 	TotalPaidAmount          float64 `json:"total_paid_amount"`
 	InstallmentAmount        float64 `json:"installment_amount"`
 	OverpaidAmount           float64 `json:"overpaid_amount"`
-	BankTransferID           int     `json:"bank_transfer_id"`
+	BankTransferID           uint64  `json:"bank_transfer_id"`
 }
 
 // CardResponse represents card information.
@@ -287,7 +287,7 @@ type TransactionDataResponse struct {
 	TicketURL            string `json:"ticket_url"`
 	SubscriptionID       string `json:"subscription_id"`
 	BillingDate          string `json:"billing_date"`
-	BankTransferID       int    `json:"bank_transfer_id"`
+	BankTransferID       uint64 `json:"bank_transfer_id"`
 	FinancialInstitution int    `json:"financial_institution"`
 	FirstTimeUse         bool   `json:"first_time_use"`
 }
@@ -321,13 +321,13 @@ type PaymentReferenceResponse struct {
 type BankInfoPayerResponse struct {
 	Email     string `json:"email"`
 	LongName  string `json:"long_name"`
-	AccountID int    `json:"account_id"`
+	AccountID uint64 `json:"account_id"`
 }
 
 // BankInfoCollectorResponse represents collector information within BankInfoResponse.
 type BankInfoCollectorResponse struct {
 	LongName  string `json:"long_name"`
-	AccountID int    `json:"account_id"`
+	AccountID uint64 `json:"account_id"`
 }
 
 // PaymentMethodResponse represents payment method information.
@@ -398,8 +398,8 @@ type RefundResponse struct {
 	UniqueSequenceNumber string  `json:"unique_sequence_number"`
 	Amount               float64 `json:"amount"`
 	AdjustmentAmount     float64 `json:"adjustment_amount"`
-	ID                   int     `json:"id"`
-	PaymentID            int     `json:"payment_id"`
+	ID                   uint64  `json:"id"`
+	PaymentID            uint64  `json:"payment_id"`
 }
 
 // SourceResponse represents source information.

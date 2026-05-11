@@ -14,13 +14,13 @@ type Request struct {
 	ExternalReference string `json:"external_reference,omitempty"`
 	Marketplace       string `json:"marketplace,omitempty"`
 	Version           int    `json:"version,omitempty"`
-	SponsorID         int    `json:"sponsor_id,omitempty"`
+	SponsorID         uint64 `json:"sponsor_id,omitempty"`
 }
 
 // PayerRequest represents payer information.
 type PayerRequest struct {
 	Nickname string `json:"nickname,omitempty"`
-	ID       int    `json:"id,omitempty"`
+	ID       uint64 `json:"id,omitempty"`
 }
 
 // ItemRequest represents item information.

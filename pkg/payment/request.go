@@ -37,9 +37,9 @@ type Request struct {
 	NetAmount             float64        `json:"net_amount,omitempty"`
 	TransactionAmount     float64        `json:"transaction_amount,omitempty"`
 	Installments          int            `json:"installments,omitempty"`
-	CampaignID            int            `json:"campaign_id,omitempty"`
-	DifferentialPricingID int            `json:"differential_pricing_id,omitempty"`
-	SponsorID             int            `json:"sponsor_id,omitempty"`
+	CampaignID            uint64         `json:"campaign_id,omitempty"`
+	DifferentialPricingID uint64         `json:"differential_pricing_id,omitempty"`
+	SponsorID             uint64         `json:"sponsor_id,omitempty"`
 	BinaryMode            bool           `json:"binary_mode,omitempty"`
 	Capture               bool           `json:"capture,omitempty"`
 	Metadata              map[string]any `json:"metadata,omitempty"`
@@ -173,7 +173,7 @@ type MerchantServicesRequest struct {
 // OrderRequest represents order request within Request.
 type OrderRequest struct {
 	Type string `json:"type,omitempty"`
-	ID   int    `json:"id,omitempty"`
+	ID   uint64 `json:"id,omitempty"`
 }
 
 // PayerRequest represents payer request within Request.

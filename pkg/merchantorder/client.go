@@ -20,7 +20,7 @@ type Client interface {
 	// Get a specific merchant order by id.
 	// It is a get request to the endpoint: https://api.mercadopago.com/merchant_orders/{id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_id/get
-	Get(ctx context.Context, id int) (*Response, error)
+	Get(ctx context.Context, id uint64) (*Response, error)
 
 	// Search for merchant orders.
 	// It is a get request to the endpoint: https://api.mercadopago.com/merchant_orders/search
@@ -30,7 +30,7 @@ type Client interface {
 	// Update a merchant order.
 	// It is a put request to the endpoint: https://api.mercadopago.com/merchant_orders/{id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_id/put
-	Update(ctx context.Context, id int, request UpdateRequest) (*Response, error)
+	Update(ctx context.Context, id uint64, request UpdateRequest) (*Response, error)
 
 	// Create a merchant order.
 	// It is a post request to the endpoint: https://api.mercadopago.com/merchant_orders
@@ -50,9 +50,9 @@ func NewClient(c *config.Config) Client {
 	}
 }
 
-func (c *client) Get(ctx context.Context, id int) (*Response, error) {
+func (c *client) Get(ctx context.Context, id uint64) (*Response, error) {
 	pathParams := map[string]string{
-		"id": strconv.Itoa(id),
+		"id": strconv.FormatUint(id, 10),
 	}
 
 	requestData := httpclient.RequestData{
@@ -84,9 +84,9 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 	return resource, nil
 }
 
-func (c *client) Update(ctx context.Context, id int, request UpdateRequest) (*Response, error) {
+func (c *client) Update(ctx context.Context, id uint64, request UpdateRequest) (*Response, error) {
 	pathParams := map[string]string{
-		"id": strconv.Itoa(id),
+		"id": strconv.FormatUint(id, 10),
 	}
 
 	requestData := httpclient.RequestData{

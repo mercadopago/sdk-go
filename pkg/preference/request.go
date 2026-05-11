@@ -45,7 +45,7 @@ type BackURLsRequest struct {
 
 // DifferentialPricingRequest contains information about differential pricing configuration.
 type DifferentialPricingRequest struct {
-	ID int `json:"id,omitempty"`
+	ID uint64 `json:"id,omitempty"`
 }
 
 type PassengerRequest struct {
@@ -159,7 +159,7 @@ type ShipmentsRequest struct {
 
 // FreeMethodRequest contains information about free shipping methods in the preference.
 type FreeMethodRequest struct {
-	ID int `json:"id,omitempty"`
+	ID uint64 `json:"id,omitempty"`
 }
 
 // ReceiverAddressRequest contains information about the send address in the preference.
