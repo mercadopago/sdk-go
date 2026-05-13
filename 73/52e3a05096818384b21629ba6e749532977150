@@ -1,0 +1,24 @@
+pkg/webhook/webhook.go
+  s_1f89798e886786::t_bd78c2d9b12265 81-127
+  s_1f89798e886786::t_e10e54afbdf8c3 157-159
+  s_1f89798e886786::t_351216349418e5 236-241
+  s_1f89798e886786::t_2e9c016fa3cd23 56-63
+pkg/webhook/webhook_test.go
+  s_1f89798e886786::t_2a9ea31feeddc1 177-181
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "7352e3a05096818384b21629ba6e749532977150",
+  "prompts": {},
+  "sessions": {
+    "s_1f89798e886786": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a03db55-28c1-4343-a817-4d847f934bfd",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Daniel Alfaro <daniel.alfaro@mercadolibre.com.co>"
+    }
+  }
+}
