@@ -10,7 +10,7 @@ A comprehensive Go client library for integrating with the Mercado Pago API.
 
 ## 💡 Requirements
 
-The SDK requires Go 1.18 or higher.
+The SDK requires Go 1.23 or higher.
 
 ## 📲 Installation
 
