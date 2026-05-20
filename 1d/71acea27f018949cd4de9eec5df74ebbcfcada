@@ -1,0 +1,20 @@
+pkg/order/request.go
+  s_69fabdbcb9c498::t_9e770c6e1271c5 117-122
+  s_69fabdbcb9c498::t_af4c37d8df35c8 48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "1d71acea27f018949cd4de9eec5df74ebbcfcada",
+  "prompts": {},
+  "sessions": {
+    "s_69fabdbcb9c498": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6841e5d1-e091-4d60-b9db-cbe4c995446d",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Daniel Alfaro <daniel.alfaro@mercadolibre.com.co>"
+    }
+  }
+}
