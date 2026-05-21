@@ -1,3 +1,7 @@
+// Package user provides a client for retrieving the authenticated MercadoPago user's information.
+//
+// The User API returns account details such as name, email, country, and site for the
+// user associated with the access token in the SDK configuration.
 package user
 
 import (
@@ -10,19 +14,22 @@ import (
 
 const url = "https://api.mercadopago.com/users/me"
 
-// Client contains the method to interact with the User API.
+// Client defines the interface for interacting with the MercadoPago User API.
 type Client interface {
-	// Get user information.
-	// It is a get request to the endpoint: https://api.mercadopago.com/users/me
+	// Get retrieves the account information of the authenticated MercadoPago user.
+	// The returned [Response] contains the user's name, email, country, and site information.
+	//
+	// It performs a GET request to: https://api.mercadopago.com/users/me
 	Get(ctx context.Context) (*Response, error)
 }
 
-// client is the implementation of Client.
+// client is the unexported implementation of [Client].
 type client struct {
 	cfg *config.Config
 }
 
-// NewClient returns a new User API Client.
+// NewClient creates and returns a new User API [Client] configured with the provided [config.Config].
+// The config must contain a valid access token for authenticating requests to the MercadoPago API.
 func NewClient(c *config.Config) Client {
 	return &client{
 		cfg: c,

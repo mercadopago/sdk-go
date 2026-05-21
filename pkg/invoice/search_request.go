@@ -5,14 +5,26 @@ import (
 	"strings"
 )
 
-// SearchRequest is the helper structure to build search request.
+// SearchRequest represents the parameters for searching invoices (authorized payments)
+// via [Client.Search]. It supports pagination through Limit and Offset, and arbitrary
+// filters that correspond to the query parameters accepted by the MercadoPago API.
+//
+// Common filter keys include "preapproval_id" (subscription ID) and "status".
 type SearchRequest struct {
-	Limit   int
-	Offset  int
+	// Limit is the maximum number of results to return per page. Defaults to 30 if zero.
+	Limit int
+
+	// Offset is the number of results to skip, used for paginating through large result sets.
+	Offset int
+
+	// Filters is a map of additional query parameter filters.
+	// Filter keys are automatically lowercased before being sent to the API.
 	Filters map[string]string
 }
 
-// GetParams creates map to build query parameters. Keys will be changed to lower case.
+// GetParams converts the SearchRequest into a map of query parameters suitable for
+// the MercadoPago search endpoint. Filter keys are lowercased, and Limit defaults to 30
+// if not explicitly set.
 func (sr *SearchRequest) GetParams() map[string]string {
 	params := map[string]string{}
 	for k, v := range sr.Filters {

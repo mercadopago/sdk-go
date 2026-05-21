@@ -1,3 +1,12 @@
+// Package merchantorder provides a client for interacting with the MercadoPago Merchant Orders API.
+//
+// Merchant orders are entities that group payments, shipments, and items into a single
+// commercial transaction. They are automatically created when a checkout preference is
+// used, or can be created manually for custom integrations. Merchant orders track the
+// overall status of a transaction, including paid amounts, refunds, and shipping progress.
+//
+// For more information, see the MercadoPago Merchant Orders API reference:
+// https://www.mercadopago.com/developers/en/reference
 package merchantorder
 
 import (
@@ -15,35 +24,48 @@ const (
 	urlWithID = urlBase + "/{id}"
 )
 
-// Client contains the methods to interact with the Merchant orders API.
+// Client defines the interface for interacting with the MercadoPago Merchant Orders API.
+// It provides methods to create, retrieve, update, and search merchant orders.
 type Client interface {
-	// Get a specific merchant order by id.
-	// It is a get request to the endpoint: https://api.mercadopago.com/merchant_orders/{id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_id/get
+	// Get retrieves a specific merchant order by its numeric identifier.
+	//
+	// It performs a GET request to: https://api.mercadopago.com/merchant_orders/{id}
+	//
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-pro/merchant_orders/get-merchant-order/get
 	Get(ctx context.Context, id int) (*Response, error)
 
-	// Search for merchant orders.
-	// It is a get request to the endpoint: https://api.mercadopago.com/merchant_orders/search
-	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_search/get
+	// Search finds merchant orders matching the filters specified in [SearchRequest].
+	// Results are paginated and returned as a [SearchResponse].
+	//
+	// It performs a GET request to: https://api.mercadopago.com/merchant_orders/search
+	//
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-pro/merchant_orders/search-merchant-order/get
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 
-	// Update a merchant order.
-	// It is a put request to the endpoint: https://api.mercadopago.com/merchant_orders/{id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders_id/put
+	// Update modifies an existing merchant order identified by id with the provided [UpdateRequest] data.
+	// Only the fields present in the request will be updated.
+	//
+	// It performs a PUT request to: https://api.mercadopago.com/merchant_orders/{id}
+	//
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-pro/merchant_orders/update-merchant-order/put
 	Update(ctx context.Context, id int, request UpdateRequest) (*Response, error)
 
-	// Create a merchant order.
-	// It is a post request to the endpoint: https://api.mercadopago.com/merchant_orders
-	// Reference: https://www.mercadopago.com/developers/en/reference/merchant_orders/_merchant_orders/post
+	// Create creates a new merchant order with the provided [Request] data.
+	//
+	// It performs a POST request to: https://api.mercadopago.com/merchant_orders
+	//
+	// Reference: https://www.mercadopago.com/developers/en/reference (see Checkout Pro > Merchant orders — Create endpoint not found in current reference)
 	Create(ctx context.Context, request Request) (*Response, error)
 }
 
-// client is the implementation of Client.
+// client is the unexported implementation of [Client].
 type client struct {
 	cfg *config.Config
 }
 
-// NewClient contains the methods to interact with the merchant order API client.
+// NewClient creates and returns a new Merchant Orders API [Client] configured with the
+// provided [config.Config]. The config must contain a valid access token for authenticating
+// requests to the MercadoPago API.
 func NewClient(c *config.Config) Client {
 	return &client{
 		cfg: c,
