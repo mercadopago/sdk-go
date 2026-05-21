@@ -1,3 +1,7 @@
+## VERSION 1.10.0
+
+Added webhook capability
+
 ## VERSION 1.9.1
 
 Updated inline comments within codebase and PSE fields in orders
