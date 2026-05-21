@@ -57,6 +57,7 @@ type AdditionalInfoRequest struct {
 	PayerIsPrimeUser                   bool                      `json:"payer.is_prime_user,omitempty"`
 	PayerIsFirstPurchaseOnLine         bool                      `json:"payer.is_first_purchase_online,omitempty"`
 	PayerLastPurchase                  string                    `json:"payer.last_purchase,omitempty"`
+	PayerIPAddress                     string                    `json:"payer.ip_address,omitempty"`
 	ShipmentExpress                    bool                      `json:"shipment.express,omitempty"`
 	ShipmentLocalPickup                bool                      `json:"shipment.local_pickup,omitempty"`
 	PlatFormShipmentDeliveryPromise    string                    `json:"platform.shipment.delivery_promise,omitempty"`
@@ -139,11 +140,12 @@ type PaymentRequest struct {
 // It identifies how the payer intends to pay (e.g., credit card, debit card, boleto)
 // and includes tokenized card data when applicable.
 type PaymentMethodRequest struct {
-	ID                  string `json:"id,omitempty"`
-	Type                string `json:"type,omitempty"`
-	Token               string `json:"token,omitempty"`
-	StatementDescriptor string `json:"statement_descriptor,omitempty"`
-	Installments        int    `json:"installments,omitempty"`
+	ID                   string `json:"id,omitempty"`
+	Type                 string `json:"type,omitempty"`
+	Token                string `json:"token,omitempty"`
+	StatementDescriptor  string `json:"statement_descriptor,omitempty"`
+	Installments         int    `json:"installments,omitempty"`
+	FinancialInstitution string `json:"financial_institution,omitempty"`
 }
 
 // AutomaticPaymentsRequest represents configuration for recurring automatic payment scheduling.
