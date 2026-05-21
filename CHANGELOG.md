@@ -1,3 +1,7 @@
+## VERSION 1.9.0
+
+Updated go version
+
 ## VERSION 1.8.1
 
 Added search orders
