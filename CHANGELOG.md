@@ -1,3 +1,7 @@
+## VERSION 1.9.1
+
+Updated inline comments within codebase and PSE fields in orders
+
 ## VERSION 1.9.0
 
 Updated go version
