@@ -1,3 +1,12 @@
+// Package defaultrequester provides the SDK's built-in [requester.Requester]
+// implementation. It wraps the standard [net/http.Client] with automatic retry
+// logic for transient server errors (HTTP 5xx, excluding 501 Not Implemented)
+// and network-level failures. Retries use a constant back-off strategy and
+// respect the request context's deadline and cancellation signals.
+//
+// This package is internal; SDK consumers interact with it indirectly through
+// [config.New] or by supplying their own [requester.Requester] via
+// [config.WithHTTPClient].
 package defaultrequester
 
 import (
@@ -10,34 +19,43 @@ import (
 )
 
 var (
-	// defaultRetryMax is the maximum number of retries used by default requester.
+	// defaultRetryMax is the maximum number of retry attempts before the
+	// requester gives up and returns the last error.
 	defaultRetryMax = 3
 
-	// defaultHTTPClient is the http client used by default requester.
+	// defaultHTTPClient is the shared [http.Client] used for all requests made
+	// through the default requester. It enforces [defaultTimeout] per request.
 	defaultHTTPClient = &http.Client{Timeout: defaultTimeout}
 
-	// defaultTimeout is the timeout used by default requester.
+	// defaultTimeout is the per-request timeout applied to the shared
+	// [http.Client].
 	defaultTimeout = 10 * time.Second
 
-	// defaultBackoffStrategy is the retry strategy used by default requester.
+	// defaultBackoffStrategy defines how long to wait between consecutive retry
+	// attempts. The default is a constant 2-second delay regardless of the
+	// attempt number.
 	defaultBackoffStrategy = constantBackoff(time.Second * 2)
 )
 
-// defaultRequester provides an immutable implementation of option.Requester.
+// defaultRequester is a stateless [requester.Requester] implementation that
+// delegates HTTP execution to [defaultHTTPClient] with automatic retry support.
 type defaultRequester struct{}
 
-// backoffFunc specifies a policy for how long to wait between retries. It is
-// called after a failing request to determine the amount of time that should
-// pass before trying again.
+// backoffFunc defines a strategy for computing the wait duration between retry
+// attempts. It receives the zero-based attempt number and returns how long to
+// sleep before the next try.
 type backoffFunc func(attempt int) time.Duration
 
-// New return the default implementation of Requester interface.
+// New returns a new [requester.Requester] backed by the SDK's default HTTP
+// client with automatic retries and constant back-off.
 func New() requester.Requester {
 	return &defaultRequester{}
 }
 
-// Do send an HTTP request and returns an HTTP response. It is the default
-// implementation of Requester interface.
+// Do executes the given HTTP request with automatic retries on transient server
+// errors (HTTP 5xx, excluding 501). It rewinds the request body between attempts,
+// respects the request context's deadline and cancellation, and drains response
+// bodies of failed attempts so that the underlying TCP connection can be reused.
 func (d *defaultRequester) Do(req *http.Request) (*http.Response, error) {
 	var resp *http.Response
 	var err error

@@ -1,3 +1,8 @@
+// Package httpclient is an internal package that provides HTTP request
+// construction, header management, and JSON marshalling/unmarshalling helpers
+// used by the MercadoPago Go SDK's resource clients. It handles path-parameter
+// substitution, query-string encoding, standard MercadoPago headers (tracking,
+// idempotency, authentication), and generic response deserialisation.
 package httpclient
 
 import (
@@ -27,15 +32,36 @@ var (
 	trackingID = fmt.Sprintf("platform:%s,type:SDK%s,so;", runtime.Version(), currentSDKVersion)
 )
 
+// RequestData holds all the information needed to build an HTTP request to the
+// MercadoPago API. Resource clients populate this struct and pass it to
+// [DoRequest] for execution.
 type RequestData struct {
+	// Body is the request payload that will be JSON-encoded before sending.
+	// A nil Body results in a request with no body (e.g. GET, DELETE).
 	Body any
 
-	Method      string
-	URL         string
-	PathParams  map[string]string
+	// Method is the HTTP verb (GET, POST, PUT, PATCH, DELETE, etc.).
+	Method string
+
+	// URL is the absolute endpoint URL, potentially containing path parameter
+	// placeholders in the form {paramName} that will be replaced using
+	// PathParams.
+	URL string
+
+	// PathParams maps placeholder names (without braces) to their substitution
+	// values. For example, {"id": "123"} replaces {id} in the URL with 123.
+	PathParams map[string]string
+
+	// QueryParams maps query-string parameter names to their values, which are
+	// URL-encoded and appended to the request URL.
 	QueryParams map[string]string
 }
 
+// DoRequest builds an HTTP request from the given [RequestData], executes it
+// through the [config.Config]'s [requester.Requester], and deserialises the JSON
+// response body into a value of type T. It returns the zero value of T together
+// with an error when the request fails at any stage (construction, transport,
+// API error, or JSON unmarshalling).
 func DoRequest[T any](ctx context.Context, cfg *config.Config, requestData RequestData) (T, error) {
 	var resource T
 

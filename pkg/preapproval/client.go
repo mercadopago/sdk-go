@@ -1,3 +1,12 @@
+// Package preapproval provides a client for the MercadoPago Subscriptions (Pre-Approval) API.
+//
+// A pre-approval represents an individual subscription created by a payer, optionally linked
+// to a [preapprovalplan]. It manages the lifecycle of recurring charges including creation,
+// status updates, and search operations.
+//
+// For subscription plan templates (seller-side), see the [preapprovalplan] package instead.
+//
+// API reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/create-preapproval/post
 package preapproval
 
 import (
@@ -9,40 +18,48 @@ import (
 )
 
 const (
-	urlBase   = "https://api.mercadopago.com/preapproval"
+	// urlBase is the base endpoint for the Pre-Approval API.
+	urlBase = "https://api.mercadopago.com/preapproval"
+	// urlWithID is the endpoint for operating on a specific pre-approval by its ID.
 	urlWithID = urlBase + "/{id}"
+	// urlSearch is the endpoint for searching pre-approvals with filters.
 	urlSearch = urlBase + "/search"
 )
 
-// Client contains the methods to interact with the Pre Approval API.
+// Client provides methods to interact with the MercadoPago Pre-Approval (Subscriptions) API.
+// It supports creating, retrieving, updating, and searching subscriptions.
 type Client interface {
-	// Create creates a new pre-approval.
-	// It is a post request to the endpoint: https://api.mercadopago.com/preapproval
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval/post
+	// Create creates a new pre-approval (subscription) for a payer.
+	// The [Request] body must include payer information and recurrence settings.
+	// It is a POST request to the endpoint: https://api.mercadopago.com/preapproval
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/create-preapproval/post
 	Create(ctx context.Context, request Request) (*Response, error)
 
-	// Get finds a pre-approval by ID.
-	// It is a get request to the endpoint: https://api.mercadopago.com/preapproval/{id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_id/get
+	// Get retrieves a pre-approval (subscription) by its unique identifier.
+	// It is a GET request to the endpoint: https://api.mercadopago.com/preapproval/{id}
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/get-preapproval/get
 	Get(ctx context.Context, id string) (*Response, error)
 
-	// Update updates details a pre-approval by ID.
-	// It is a put request to the endpoint: https://api.mercadopago.com/preapproval/{id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_id/put
+	// Update modifies an existing pre-approval (subscription) identified by id.
+	// Only the fields present in [UpdateRequest] will be changed; absent fields are left unchanged.
+	// It is a PUT request to the endpoint: https://api.mercadopago.com/preapproval/{id}
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/update-preapproval/put
 	Update(ctx context.Context, id string, request UpdateRequest) (*Response, error)
 
-	// Search finds all pre-approval information generated through specific filters.
-	// It is a get request to the endpoint: https://api.mercadopago.com/preapproval/search
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_search/get
+	// Search finds pre-approvals (subscriptions) that match the filters specified in [SearchRequest].
+	// Results are paginated; use Limit and Offset to control pagination.
+	// It is a GET request to the endpoint: https://api.mercadopago.com/preapproval/search
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/search-preapproval/get
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 }
 
-// client is the implementation of Client.
+// client is the internal implementation of [Client].
 type client struct {
 	cfg *config.Config
 }
 
-// NewClient returns a new Pre Approval API Client.
+// NewClient creates a new Pre-Approval API client using the provided [config.Config].
+// The configuration must include valid authentication credentials.
 func NewClient(c *config.Config) Client {
 	return &client{
 		cfg: c,

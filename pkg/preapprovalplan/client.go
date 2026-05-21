@@ -1,3 +1,14 @@
+// Package preapprovalplan provides a client for the MercadoPago Subscription Plan
+// (Pre-Approval Plan) API.
+//
+// A pre-approval plan is a seller-defined subscription template that specifies recurring
+// billing rules such as amount, frequency, currency, and allowed payment methods. Payers
+// subscribe to a plan through the [preapproval] package, which creates individual
+// subscriptions linked to these templates.
+//
+// Use this package to create, retrieve, update, and search subscription plan templates.
+//
+// API reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/create-preapproval-plan/post
 package preapprovalplan
 
 import (
@@ -9,40 +20,49 @@ import (
 )
 
 const (
-	urlBase   = "https://api.mercadopago.com/preapproval_plan"
+	// urlBase is the base endpoint for the Pre-Approval Plan API.
+	urlBase = "https://api.mercadopago.com/preapproval_plan"
+	// urlWithID is the endpoint for operating on a specific pre-approval plan by its ID.
 	urlWithID = urlBase + "/{id}"
+	// urlSearch is the endpoint for searching pre-approval plans with filters.
 	urlSearch = urlBase + "/search"
 )
 
-// Client contains the methods to interact with the Pre Approval Plan API.
+// Client provides methods to interact with the MercadoPago Pre-Approval Plan
+// (Subscription Plan) API. It supports creating, retrieving, updating, and
+// searching subscription plan templates.
 type Client interface {
-	// Create creates a new pre-approval plan.
-	// It is a post request to the endpoint: https://api.mercadopago.com/preapproval_plan
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_plan/post/
+	// Create creates a new pre-approval plan (subscription template) for the seller.
+	// The [Request] body must include recurrence settings and optionally allowed payment methods.
+	// It is a POST request to the endpoint: https://api.mercadopago.com/preapproval_plan
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/create-preapproval-plan/post
 	Create(ctx context.Context, request Request) (*Response, error)
 
-	// Get finds a pre-approval plan by ID.
-	// It is a get request to the endpoint: https://api.mercadopago.com/preapproval_plan/{id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_plan_id/get
+	// Get retrieves a pre-approval plan (subscription template) by its unique identifier.
+	// It is a GET request to the endpoint: https://api.mercadopago.com/preapproval_plan/{id}
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/get-preapproval-plan/get
 	Get(ctx context.Context, id string) (*Response, error)
 
-	// Update updates details a pre-approval plan by ID.
-	// It is a put request to the endpoint: https://api.mercadopago.com/preapproval_plan/{id}
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_plan_id/put
+	// Update modifies an existing pre-approval plan (subscription template) identified by id.
+	// The same [Request] struct is used; only non-zero fields are sent to the API.
+	// It is a PUT request to the endpoint: https://api.mercadopago.com/preapproval_plan/{id}
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/update-preapproval-plan/put
 	Update(ctx context.Context, id string, request Request) (*Response, error)
 
-	// Search finds all pre-approval plan information generated through specific filters.
-	// It is a get request to the endpoint: https://api.mercadopago.com/preapproval_plan/search
-	// Reference: https://www.mercadopago.com/developers/en/reference/subscriptions/_preapproval_plan_search/get
+	// Search finds pre-approval plans (subscription templates) that match the filters
+	// specified in [SearchRequest]. Results are paginated; use Limit and Offset to control pagination.
+	// It is a GET request to the endpoint: https://api.mercadopago.com/preapproval_plan/search
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/search-preapproval-plan/get
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
 }
 
-// client is the implementation of Client.
+// client is the internal implementation of [Client].
 type client struct {
 	cfg *config.Config
 }
 
-// NewClient returns a new Pre Approval Plan API Client.
+// NewClient creates a new Pre-Approval Plan API client using the provided [config.Config].
+// The configuration must include valid authentication credentials.
 func NewClient(c *config.Config) Client {
 	return &client{
 		cfg: c,

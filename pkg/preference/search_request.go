@@ -5,16 +5,27 @@ import (
 	"strings"
 )
 
-// SearchRequest is the helper structure to build search request.
-// Filters field can receive a lot of parameters. For details, see:
-// https://www.mercadopago.com/developers/en/reference/preferences/_checkout_preferences_search/get.
+// SearchRequest represents the parameters for searching checkout preferences via
+// [Client.Search]. It supports pagination through Limit and Offset, and arbitrary
+// filters that correspond to the query parameters accepted by the MercadoPago API.
+//
+// For the full list of supported filter parameters, see:
+// https://www.mercadopago.com/developers/en/reference/online-payments/checkout-pro/preferences/search-preferences/get
 type SearchRequest struct {
-	Limit   int
-	Offset  int
+	// Limit is the maximum number of results to return per page. Defaults to 30 if zero.
+	Limit int
+
+	// Offset is the number of results to skip, used for paginating through large result sets.
+	Offset int
+
+	// Filters is a map of additional query parameter filters (e.g., "external_reference", "site_id").
+	// Filter keys are automatically lowercased before being sent to the API.
 	Filters map[string]string
 }
 
-// GetParams creates map to build query parameters. Keys will be changed to lower case.
+// GetParams converts the SearchRequest into a map of query parameters suitable for
+// the MercadoPago search endpoint. Filter keys are lowercased, and Limit defaults to 30
+// if not explicitly set.
 func (sr *SearchRequest) GetParams() map[string]string {
 	params := map[string]string{}
 	for k, v := range sr.Filters {
