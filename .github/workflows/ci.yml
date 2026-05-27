@@ -46,3 +46,9 @@ jobs:
       if: always()
       with:
         config: ./.testcoverage.yml
+
+    - name: Install govulncheck
+      run: go install golang.org/x/vuln/cmd/govulncheck@latest
+
+    - name: Dependency audit
+      run: govulncheck ./...
