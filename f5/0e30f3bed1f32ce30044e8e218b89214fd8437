@@ -1,0 +1,23 @@
+examples/advancedpayment/main.go
+  s_ca33c7d96b2139::t_e93e4b2dcf0976 1-58
+examples/chargeback/main.go
+  s_ca33c7d96b2139::t_5ac71f9584457b 1-35
+examples/disbursementrefund/main.go
+  s_ca33c7d96b2139::t_b5f09f9837b581 1-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.12",
+  "base_commit_sha": "f50e30f3bed1f32ce30044e8e218b89214fd8437",
+  "prompts": {},
+  "sessions": {
+    "s_ca33c7d96b2139": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31d8d73a-8320-4e75-89be-a5971fd08efd",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Daniel Alfaro <daniel.alfaro@mercadolibre.com.co>"
+    }
+  }
+}
