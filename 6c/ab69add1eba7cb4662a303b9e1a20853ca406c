@@ -1,0 +1,64 @@
+pkg/advancedpayment/client.go
+  s_ca33c7d96b2139::t_d292915c77692a 1-178
+pkg/chargeback/search_request.go
+  s_ca33c7d96b2139::t_41e8d5049320c6 1-36
+resources/mocks/advancedpayment/search_response.json
+  s_ca33c7d96b2139::t_9e46ea3911f0f3 1-12
+pkg/chargeback/client.go
+  s_ca33c7d96b2139::t_40417884532283 1-84
+resources/mocks/disbursementrefund/get_response.json
+  s_ca33c7d96b2139::t_13266cffefea5f 1-8
+pkg/disbursementrefund/client.go
+  s_ca33c7d96b2139::t_5dea933425ac0e 51
+  s_ca33c7d96b2139::t_4cfef1ae73c4ba 1-50,52-88
+pkg/advancedpayment/search_response.go
+  s_ca33c7d96b2139::t_eb6d4bbc68874c 1-22
+pkg/disbursementrefund/response.go
+  s_ca33c7d96b2139::t_5344518eba9252 1-24
+resources/mocks/chargeback/search_response.json
+  s_ca33c7d96b2139::t_a5e9c4c963bc5c 1-12
+pkg/advancedpayment/client_test.go
+  s_ca33c7d96b2139::t_fdf39a2bdcddc4 100
+  s_ca33c7d96b2139::t_26e85e7a6bab0a 47
+  s_ca33c7d96b2139::t_97efb431182d17 1-3,5-46,48-99,101-126
+  s_ca33c7d96b2139::t_e7db3939246d6d 4
+pkg/advancedpayment/search_request.go
+  s_ca33c7d96b2139::t_0a5daffe39d129 1-36
+pkg/disbursementrefund/request.go
+  s_ca33c7d96b2139::t_9455a23989958f 1-7
+pkg/disbursementrefund/client_test.go
+  s_ca33c7d96b2139::t_baa087b1c28c11 1-3,5-44,46-71
+  s_ca33c7d96b2139::t_e30442b3e0ecdd 4
+  s_ca33c7d96b2139::t_2938339d5f4b8d 45
+pkg/chargeback/client_test.go
+  s_ca33c7d96b2139::t_015aa873b563b8 99
+  s_ca33c7d96b2139::t_30949c1cce4a70 1-3,5-46,48-98,100-125
+  s_ca33c7d96b2139::t_6614ccf19ae752 4
+  s_ca33c7d96b2139::t_5adf20ef34e71f 47
+resources/mocks/chargeback/get_response.json
+  s_ca33c7d96b2139::t_e95adb74b9b310 1-11
+pkg/chargeback/search_response.go
+  s_ca33c7d96b2139::t_82b90a12a2f17b 1-22
+resources/mocks/advancedpayment/get_response.json
+  s_ca33c7d96b2139::t_fa48cefc614d8d 1-23
+pkg/chargeback/response.go
+  s_ca33c7d96b2139::t_577994e99d1ad1 1-35
+pkg/advancedpayment/request.go
+  s_ca33c7d96b2139::t_ce09bcc2678176 1-66
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.12",
+  "base_commit_sha": "6cab69add1eba7cb4662a303b9e1a20853ca406c",
+  "prompts": {},
+  "sessions": {
+    "s_ca33c7d96b2139": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31d8d73a-8320-4e75-89be-a5971fd08efd",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Daniel Alfaro <daniel.alfaro@mercadolibre.com.co>"
+    }
+  }
+}
