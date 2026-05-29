@@ -26,6 +26,9 @@ type Request struct {
 	Config              *ConfigRequest         `json:"config,omitempty"`
 	Shipment            *ShipmentRequest       `json:"shipment,omitempty"`
 	AdditionalInfo      *AdditionalInfoRequest `json:"additional_info,omitempty"`
+	// IntegrationData contains integration metadata identifying the integrator, platform,
+	// corporation, and sponsor.
+	IntegrationData *IntegrationDataRequest `json:"integration_data,omitempty"`
 }
 
 // TravelPassengerRequest represents a passenger in a travel-related order.
@@ -130,6 +133,7 @@ type TransactionRequest struct {
 type PaymentRequest struct {
 	Amount            string                    `json:"amount,omitempty"`
 	ExpirationTime    string                    `json:"expiration_time,omitempty"`
+	DateOfExpiration  string                    `json:"date_of_expiration,omitempty"`
 	PaymentMethod     *PaymentMethodRequest     `json:"payment_method,omitempty"`
 	AutomaticPayments *AutomaticPaymentsRequest `json:"automatic_payments,omitempty"`
 	StoredCredential  *StoredCredentialRequest  `json:"stored_credential,omitempty"`
@@ -165,6 +169,7 @@ type StoredCredentialRequest struct {
 	Reason             string `json:"reason,omitempty"`
 	StorePaymentMethod bool   `json:"store_payment_method,omitempty"`
 	FirstPayment       bool   `json:"first_payment,omitempty"`
+	PrevTransactionRef string `json:"prev_transaction_ref,omitempty"`
 }
 
 // SubscriptionDataRequest represents subscription billing details for a payment transaction.
@@ -340,4 +345,25 @@ func (sr *SearchRequest) GetParams() map[string]string {
 	params["offset"] = strconv.Itoa(sr.Offset)
 
 	return params
+}
+
+// IntegrationDataRequest contains integration metadata for an order. Identifies the integrator,
+// platform, and corporation associated with the integration, as well as any sponsoring
+// marketplace owner.
+type IntegrationDataRequest struct {
+	// IntegratorID is the identifier of the certified integrator. Type: string.
+	IntegratorID string `json:"integrator_id,omitempty"`
+	// PlatformID is the platform identifier assigned by MercadoPago. Type: string.
+	PlatformID string `json:"platform_id,omitempty"`
+	// CorporationID is the corporation identifier for multi-account setups. Type: string.
+	CorporationID string `json:"corporation_id,omitempty"`
+	// Sponsor contains sponsoring marketplace owner information.
+	Sponsor *SponsorRequest `json:"sponsor,omitempty"`
+}
+
+// SponsorRequest represents the sponsoring marketplace owner associated with an order's
+// integration metadata.
+type SponsorRequest struct {
+	// ID is the MercadoPago user ID of the sponsoring marketplace owner. Type: string.
+	ID string `json:"id,omitempty"`
 }
