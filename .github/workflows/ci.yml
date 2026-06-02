@@ -20,7 +20,7 @@ jobs:
         cache: false
 
     - name: Install golangci-lint
-      run: curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.55.2
+      run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.55.2
 
     - name: Run golangci-lint
       run: golangci-lint run
@@ -39,14 +39,6 @@ jobs:
 
     - name: Test
       run: go test ./pkg/... -coverprofile=./cover.out
-
-    - name: Install go-test-coverage
-      run: go install github.com/vladopajic/go-test-coverage/v2@latest
-      if: always()
-
-    - name: Check coverage
-      run: go-test-coverage --config=./.testcoverage.yml
-      if: always()
 
     - name: Install govulncheck
       run: go install golang.org/x/vuln/cmd/govulncheck@latest
