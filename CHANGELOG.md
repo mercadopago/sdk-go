@@ -1,3 +1,8 @@
+## VERSION 1.11.0 - 2026-05-27
+- AdvancedPayment: marketplace split-payment management — Create, Get, Search, Update, Capture, Cancel, UpdateReleaseDate (`POST/GET/PUT /v1/advanced_payments`).
+- DisbursementRefund: refund management for split payments — ListAll, CreateAll, Create (`GET/POST /v1/advanced_payments/{id}/refunds`).
+- Chargeback: read-only access to payment dispute records — Get, Search (`GET /v1/chargebacks`).
+
 ## VERSION 1.10.0
 
 Added webhook capability
