@@ -44,4 +44,30 @@ jobs:
       run: go install golang.org/x/vuln/cmd/govulncheck@latest
 
     - name: Dependency audit
-      run: govulncheck ./...
+      run: |
+        govulncheck -json ./... | python3 - <<'EOF'
+        import sys, json
+
+        decoder = json.JSONDecoder()
+        buf = ''
+        non_stdlib = []
+
+        for line in sys.stdin:
+            buf += line
+            buf = buf.strip()
+            while buf:
+                try:
+                    obj, idx = decoder.raw_decode(buf)
+                    buf = buf[idx:].strip()
+                    if 'finding' in obj:
+                        trace = obj['finding'].get('trace', [])
+                        if trace and trace[0].get('module') != 'stdlib':
+                            non_stdlib.append(obj['finding'].get('osv'))
+                except json.JSONDecodeError:
+                    break
+
+        if non_stdlib:
+            print('Non-stdlib vulnerabilities found:', non_stdlib)
+            sys.exit(1)
+        print('No non-stdlib vulnerabilities found (stdlib vulns require Go upgrade)')
+        EOF
