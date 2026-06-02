@@ -30,7 +30,7 @@ func TestCustomer(t *testing.T) {
 			t.Error("id can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err)
 		}
 	})
 
@@ -52,7 +52,7 @@ func TestCustomer(t *testing.T) {
 			t.Error("customerSearch can't be nil")
 		}
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err)
 		}
 	})
 
