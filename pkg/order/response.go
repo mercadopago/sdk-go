@@ -31,9 +31,11 @@ type Response struct {
 	IntegrationData     IntegrationDataResponse `json:"integration_data,omitempty"`
 	Config              ConfigResponse          `json:"config,omitempty"`
 	Payer               PayerResponse           `json:"payer,omitempty"`
-	Taxes               []TaxResponse           `json:"taxes,omitempty"`
-	Discounts           *DiscountsResponse      `json:"discounts,omitempty"`
-	TypeResponse        *TypeResponse           `json:"type_response,omitempty"`
+	Taxes          []TaxResponse      `json:"taxes,omitempty"`
+	Discounts      *DiscountsResponse `json:"discounts,omitempty"`
+	TypeResponse   *TypeResponse      `json:"type_response,omitempty"`
+	AdditionalInfo map[string]any     `json:"additional_info,omitempty"`
+	Shipment       map[string]any     `json:"shipment,omitempty"`
 }
 
 // TransactionResponse contains the financial transactions associated with an order,
@@ -247,6 +249,9 @@ type DifferentialPricingResponse struct {
 type PayerResponse struct {
 	CustomerID string `json:"customer_id,omitempty"`
 	EntityType string `json:"entity_type,omitempty"`
+	Email      string `json:"email,omitempty"`
+	FirstName  string `json:"first_name,omitempty"`
+	LastName   string `json:"last_name,omitempty"`
 }
 
 // AttemptResponse represents a single payment processing attempt within a transaction.
