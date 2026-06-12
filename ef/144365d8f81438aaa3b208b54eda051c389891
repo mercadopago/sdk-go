@@ -1,0 +1,22 @@
+pkg/order/response.go
+  s_5fdf4ed1da0b67::t_e0e9e65b833519 214-215
+  s_5fdf4ed1da0b67::t_026c782f7423c5 37-38
+  s_5fdf4ed1da0b67::t_7067b0d1bff176 241
+  s_5fdf4ed1da0b67::t_7fac6f1973339a 354-381
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "ef144365d8f81438aaa3b208b54eda051c389891",
+  "prompts": {},
+  "sessions": {
+    "s_5fdf4ed1da0b67": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2c44a824-72f5-457b-9a43-0dbfe5cec3a2",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Luis Sanchez <luismiguel.sanchezgarcia@mercadolibre.com.co>"
+    }
+  }
+}
