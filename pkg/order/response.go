@@ -34,8 +34,8 @@ type Response struct {
 	Taxes          []TaxResponse      `json:"taxes,omitempty"`
 	Discounts      *DiscountsResponse `json:"discounts,omitempty"`
 	TypeResponse   *TypeResponse      `json:"type_response,omitempty"`
-	AdditionalInfo map[string]any     `json:"additional_info,omitempty"`
-	Shipment       map[string]any     `json:"shipment,omitempty"`
+	AdditionalInfo map[string]any   `json:"additional_info,omitempty"`
+	Shipment       *ShipmentResponse `json:"shipment,omitempty"`
 }
 
 // TransactionResponse contains the financial transactions associated with an order,
@@ -211,6 +211,8 @@ type SponsorResponse struct {
 type ConfigResponse struct {
 	PaymentMethodResponse PaymentMethodConfigResponse `json:"payment_method,omitempty"`
 	Online                OnlineConfigResponse        `json:"online,omitempty"`
+	Point                 *PointConfigResponse        `json:"point,omitempty"`
+	Qr                    *QrConfigResponse           `json:"qr,omitempty"`
 }
 
 // PaymentMethodConfigResponse represents the payment method constraints and installment
@@ -236,6 +238,7 @@ type OnlineConfigResponse struct {
 	FailureURL          string                      `json:"failure_url,omitempty"`
 	AutoReturnURL       string                      `json:"auto_return_url,omitempty"`
 	DifferentialPricing DifferentialPricingResponse `json:"differential_pricing,omitempty"`
+	TransactionSecurity *TransactionSecurityResponse `json:"transaction_security,omitempty"`
 }
 
 // DifferentialPricingResponse represents a differential pricing configuration returned
@@ -347,4 +350,32 @@ type PagingResponse struct {
 	TotalPages string `json:"total_pages,omitempty"`
 	Offset     string `json:"offset,omitempty"`
 	Limit      string `json:"limit,omitempty"`
+}
+
+// PointConfigResponse represents the Point-of-Sale terminal configuration for in-store payments.
+type PointConfigResponse struct {
+	TerminalID      string `json:"terminal_id,omitempty"`
+	PrintOnTerminal string `json:"print_on_terminal,omitempty"`
+	TicketNumber    string `json:"ticket_number,omitempty"`
+}
+
+// QrConfigResponse represents the QR code configuration for QR-based in-person payments.
+type QrConfigResponse struct {
+	ExternalPosID string `json:"external_pos_id,omitempty"`
+	Mode          string `json:"mode,omitempty"`
+}
+
+// ShipmentAddressResponse represents the delivery address for an order shipment.
+type ShipmentAddressResponse struct {
+	ZipCode      string `json:"zip_code,omitempty"`
+	StreetName   string `json:"street_name,omitempty"`
+	StreetNumber string `json:"street_number,omitempty"`
+	City         string `json:"city,omitempty"`
+	State        string `json:"state,omitempty"`
+	Complement   string `json:"complement,omitempty"`
+}
+
+// ShipmentResponse represents shipment details for an online order with physical delivery.
+type ShipmentResponse struct {
+	Address *ShipmentAddressResponse `json:"address,omitempty"`
 }
