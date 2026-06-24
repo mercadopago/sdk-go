@@ -21,6 +21,7 @@ type Response struct {
 	Description         string                  `json:"description,omitempty"`
 	Marketplace         string                  `json:"marketplace,omitempty"`
 	MarketplaceFee      string                  `json:"marketplace_fee,omitempty"`
+	CheckoutURL         string                  `json:"checkout_url,omitempty"`
 	CheckoutAvailableAt string                  `json:"checkout_available_at,omitempty"`
 	ExpirationTime      string                  `json:"expiration_time,omitempty"`
 	CreatedDate         string                  `json:"created_date,omitempty"`
@@ -207,6 +208,8 @@ type SponsorResponse struct {
 // ConfigResponse represents the order-level configuration returned by the API, including
 // payment method restrictions and online checkout redirect settings.
 type ConfigResponse struct {
+	StatementDescriptor   string                      `json:"statement_descriptor,omitempty"`
+	DefaultPaymentDueDate string                      `json:"default_payment_due_date,omitempty"`
 	PaymentMethodResponse PaymentMethodConfigResponse `json:"payment_method,omitempty"`
 	Online                OnlineConfigResponse        `json:"online,omitempty"`
 }
@@ -233,7 +236,16 @@ type OnlineConfigResponse struct {
 	PendingURL          string                      `json:"pending_url,omitempty"`
 	FailureURL          string                      `json:"failure_url,omitempty"`
 	AutoReturnURL       string                      `json:"auto_return_url,omitempty"`
+	AvailableFrom       string                      `json:"available_from,omitempty"`
+	AllowedUserType     string                      `json:"allowed_user_type,omitempty"`
+	AutoReturn          string                      `json:"auto_return,omitempty"`
+	Retries             RetriesResponse             `json:"retries,omitempty"`
 	DifferentialPricing DifferentialPricingResponse `json:"differential_pricing,omitempty"`
+}
+
+// RetriesResponse represents automatic retry settings returned for an online order.
+type RetriesResponse struct {
+	Allowed bool `json:"allowed,omitempty"`
 }
 
 // DifferentialPricingResponse represents a differential pricing configuration returned
