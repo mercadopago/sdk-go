@@ -255,7 +255,7 @@ func parseSignatureHeader(header string) (ts string, hashes map[string]string) {
 func buildManifest(dataID, requestID, ts string) string {
 	parts := make([]string, 0, 3)
 	if dataID != "" {
-		parts = append(parts, "id:"+strings.ToLower(dataID))
+		parts = append(parts, "id:"+dataID)
 	}
 	if requestID != "" {
 		parts = append(parts, "request-id:"+requestID)
