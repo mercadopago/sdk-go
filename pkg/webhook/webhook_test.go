@@ -22,7 +22,7 @@ const (
 func computeHash(dataID, requestID, ts, secret string) string {
 	var parts []string
 	if dataID != "" {
-		parts = append(parts, "id:"+strings.ToLower(dataID))
+		parts = append(parts, "id:"+dataID)
 	}
 	if requestID != "" {
 		parts = append(parts, "request-id:"+requestID)
@@ -65,8 +65,8 @@ func TestValidateSignature_HappyPathLowercase(t *testing.T) {
 }
 
 // case 2
-func TestValidateSignature_UppercaseDataIDIsLowercased(t *testing.T) {
-	h := computeHash(dataIDLower, requestID, ts, secret)
+func TestValidateSignature_UppercaseDataIDIsPreserved(t *testing.T) {
+	h := computeHash(dataIDRaw, requestID, ts, secret)
 	if err := ValidateSignature(buildHeader(h), requestID, dataIDRaw, secret); err != nil {
 		t.Fatal(err)
 	}
