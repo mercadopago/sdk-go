@@ -124,9 +124,9 @@ type PayerAddressRequest struct {
 // ShipmentRequest represents shipping information for an order, including the delivery address.
 type ShipmentRequest struct {
 	Mode         string              `json:"mode,omitempty"`
-	LocalPickup  bool                `json:"local_pickup,omitempty"`
+	LocalPickup  *bool               `json:"local_pickup,omitempty"`
 	Cost         string              `json:"cost,omitempty"`
-	FreeShipping bool                `json:"free_shipping,omitempty"`
+	FreeShipping *bool               `json:"free_shipping,omitempty"`
 	FreeMethods  []FreeMethodRequest `json:"free_methods,omitempty"`
 	Address      *AddressRequest     `json:"address,omitempty"`
 }
@@ -255,6 +255,8 @@ type AddressRequest struct {
 	StreetName   string `json:"street_name,omitempty"`
 	StreetNumber string `json:"street_number,omitempty"`
 	ZipCode      string `json:"zip_code,omitempty"`
+	Floor        string `json:"floor,omitempty"`
+	Apartment    string `json:"apartment,omitempty"`
 	Neighborhood string `json:"neighborhood,omitempty"`
 	State        string `json:"state,omitempty"`
 	City         string `json:"city,omitempty"`
@@ -293,6 +295,7 @@ type RefundTransaction struct {
 // ConfigRequest represents order-level configuration options, including payment method
 // restrictions and online checkout redirect URLs.
 type ConfigRequest struct {
+	NotificationURL       string                      `json:"notification_url,omitempty"`
 	StatementDescriptor   string                      `json:"statement_descriptor,omitempty"`
 	DefaultPaymentDueDate string                      `json:"default_payment_due_date,omitempty"`
 	PaymentMethod         *PaymentMethodConfigRequest `json:"payment_method,omitempty"`
@@ -306,13 +309,13 @@ type PaymentMethodConfigRequest struct {
 	NotAllowedIDs       []string                   `json:"not_allowed_ids,omitempty"`
 	NotAllowedTypes     []string                   `json:"not_allowed_types,omitempty"`
 	DefaultID           string                     `json:"default_id,omitempty"`
-	MaxInstallments     int                        `json:"max_installments,omitempty"`
-	DefaultInstallments int                        `json:"default_installments,omitempty"`
+	MaxInstallments     *int                       `json:"max_installments,omitempty"`
+	DefaultInstallments *int                       `json:"default_installments,omitempty"`
 	Installments        *InstallmentsConfigRequest `json:"installments,omitempty"`
 }
 
 // InstallmentsConfigRequest represents installment rules for the payment methods available
-// in the Checkout Pro flow.
+// in the order flow.
 type InstallmentsConfigRequest struct {
 	InterestFree *InstallmentsInterestFreeRequest `json:"interest_free,omitempty"`
 }
@@ -340,7 +343,7 @@ type OnlineConfigRequest struct {
 	TransactionSecurity *TransactionSecurityRequest `json:"transaction_security,omitempty"`
 }
 
-// TrackRequest represents a tracking pixel configured for the Checkout Pro flow.
+// TrackRequest represents a tracking pixel configured for the online order flow.
 type TrackRequest struct {
 	Type   string            `json:"type,omitempty"`
 	Values map[string]string `json:"values,omitempty"`

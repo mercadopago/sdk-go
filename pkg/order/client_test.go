@@ -547,6 +547,9 @@ func TestCreate(t *testing.T) {
 }
 
 func TestCheckoutProRequestJSON(t *testing.T) {
+	localPickup := true
+	freeShipping := true
+	maxInstallments := 12
 	travelPassengers := []TravelPassengerRequest{
 		{
 			FirstName:            "John",
@@ -598,9 +601,9 @@ func TestCheckoutProRequestJSON(t *testing.T) {
 		},
 		Shipment: &ShipmentRequest{
 			Mode:         "custom",
-			LocalPickup:  true,
+			LocalPickup:  &localPickup,
 			Cost:         "15.00",
-			FreeShipping: true,
+			FreeShipping: &freeShipping,
 			FreeMethods: []FreeMethodRequest{
 				{ID: 73328},
 			},
@@ -608,11 +611,14 @@ func TestCheckoutProRequestJSON(t *testing.T) {
 				ZipCode:      "01310-100",
 				StreetName:   "Av. Paulista",
 				StreetNumber: "1000",
+				Floor:        "3",
+				Apartment:    "B",
 				Neighborhood: "Bela Vista",
 				City:         "Sao Paulo",
 			},
 		},
 		Config: &ConfigRequest{
+			NotificationURL:       "https://example.com/notifications",
 			StatementDescriptor:   "MYSTORE",
 			DefaultPaymentDueDate: "P1D",
 			Online: &OnlineConfigRequest{
@@ -633,7 +639,7 @@ func TestCheckoutProRequestJSON(t *testing.T) {
 				},
 			},
 			PaymentMethod: &PaymentMethodConfigRequest{
-				MaxInstallments: 12,
+				MaxInstallments: &maxInstallments,
 				NotAllowedIDs:   []string{"amex"},
 				NotAllowedTypes: []string{"ticket"},
 				Installments: &InstallmentsConfigRequest{
@@ -684,10 +690,25 @@ func TestCheckoutProRequestJSON(t *testing.T) {
 	installments := paymentMethod["installments"].(map[string]any)
 	interestFree := installments["interest_free"].(map[string]any)
 	shipment := got["shipment"].(map[string]any)
+	shipmentAddress := shipment["address"].(map[string]any)
+	items := got["items"].([]any)
+	firstItem := items[0].(map[string]any)
 	additionalInfo := got["additional_info"].(map[string]any)
 
 	if got["type"] != "online" {
 		t.Errorf("type = %v, want online", got["type"])
+	}
+	if got["processing_mode"] != "manual" {
+		t.Errorf("processing_mode = %v, want manual", got["processing_mode"])
+	}
+	if got["total_amount"] != "500.00" {
+		t.Errorf("total_amount = %v, want 500.00", got["total_amount"])
+	}
+	if firstItem["unit_price"] != "450.00" {
+		t.Errorf("items[0].unit_price = %v, want 450.00", firstItem["unit_price"])
+	}
+	if config["notification_url"] != "https://example.com/notifications" {
+		t.Errorf("notification_url = %v, want https://example.com/notifications", config["notification_url"])
 	}
 	if config["statement_descriptor"] != "MYSTORE" {
 		t.Errorf("statement_descriptor = %v, want MYSTORE", config["statement_descriptor"])
@@ -698,11 +719,26 @@ func TestCheckoutProRequestJSON(t *testing.T) {
 	if online["auto_return"] != "approved" {
 		t.Errorf("auto_return = %v, want approved", online["auto_return"])
 	}
+	if online["success_url"] != "https://example.com/success" {
+		t.Errorf("success_url = %v, want https://example.com/success", online["success_url"])
+	}
+	if online["failure_url"] != "https://example.com/failure" {
+		t.Errorf("failure_url = %v, want https://example.com/failure", online["failure_url"])
+	}
+	if online["pending_url"] != "https://example.com/pending" {
+		t.Errorf("pending_url = %v, want https://example.com/pending", online["pending_url"])
+	}
 	if interestFree["type"] != "range" {
 		t.Errorf("interest_free.type = %v, want range", interestFree["type"])
 	}
 	if shipment["mode"] != "custom" {
 		t.Errorf("shipment.mode = %v, want custom", shipment["mode"])
+	}
+	if shipmentAddress["floor"] != "3" {
+		t.Errorf("shipment.address.floor = %v, want 3", shipmentAddress["floor"])
+	}
+	if shipmentAddress["apartment"] != "B" {
+		t.Errorf("shipment.address.apartment = %v, want B", shipmentAddress["apartment"])
 	}
 	if additionalInfo["payer.authentication_type"] != "MOBILE" {
 		t.Errorf("payer.authentication_type = %v, want MOBILE", additionalInfo["payer.authentication_type"])
@@ -759,6 +795,53 @@ func TestCheckoutProResponseJSON(t *testing.T) {
 	}
 	if got.Config.PaymentMethodResponse.Installments.InterestFree.Type != "range" {
 		t.Errorf("InterestFree.Type = %v, want range", got.Config.PaymentMethodResponse.Installments.InterestFree.Type)
+	}
+}
+
+func TestOrderRequestJSONIncludesExplicitZeroValues(t *testing.T) {
+	localPickup := false
+	freeShipping := false
+	maxInstallments := 0
+	defaultInstallments := 0
+
+	request := Request{
+		Shipment: &ShipmentRequest{
+			LocalPickup:  &localPickup,
+			FreeShipping: &freeShipping,
+		},
+		Config: &ConfigRequest{
+			PaymentMethod: &PaymentMethodConfigRequest{
+				MaxInstallments:     &maxInstallments,
+				DefaultInstallments: &defaultInstallments,
+			},
+		},
+	}
+
+	body, err := json.Marshal(request)
+	if err != nil {
+		t.Fatalf("json.Marshal() error = %v", err)
+	}
+
+	var got map[string]any
+	if err := json.Unmarshal(body, &got); err != nil {
+		t.Fatalf("json.Unmarshal() error = %v", err)
+	}
+
+	shipment := got["shipment"].(map[string]any)
+	config := got["config"].(map[string]any)
+	paymentMethod := config["payment_method"].(map[string]any)
+
+	if shipment["local_pickup"] != false {
+		t.Errorf("shipment.local_pickup = %v, want false", shipment["local_pickup"])
+	}
+	if shipment["free_shipping"] != false {
+		t.Errorf("shipment.free_shipping = %v, want false", shipment["free_shipping"])
+	}
+	if paymentMethod["max_installments"] != float64(0) {
+		t.Errorf("payment_method.max_installments = %v, want 0", paymentMethod["max_installments"])
+	}
+	if paymentMethod["default_installments"] != float64(0) {
+		t.Errorf("payment_method.default_installments = %v, want 0", paymentMethod["default_installments"])
 	}
 }
 
