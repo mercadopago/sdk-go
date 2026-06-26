@@ -1,0 +1,21 @@
+pkg/order/client_test.go
+  s_e960189bea2608::t_5e77a404a24660 550-552,604,606,614-615,621,642,693-695,701-712,722-730,737-742,801-844
+pkg/order/request.go
+  s_e960189bea2608::t_0e7d7b109bc01b 127,129,258-259,298,312-313,318,346
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "1e55c25e3ac5553d026a6f18ece570f6eb6f5f9d",
+  "prompts": {},
+  "sessions": {
+    "s_e960189bea2608": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019ef72a-0619-7be2-b3b2-eba97fde6d40",
+        "model": "gpt-5.5"
+      },
+      "human_author": "Luis Sanchez <luismiguel.sanchezgarcia@mercadolibre.com.co>"
+    }
+  }
+}
