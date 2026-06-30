@@ -1,3 +1,6 @@
+## VERSION 1.12.0 - 2026-06-30
+- Orders: added Checkout Pro request and response fields.
+
 ## VERSION 1.11.0 - 2026-05-27
 - AdvancedPayment: marketplace split-payment management — Create, Get, Search, Update, Capture, Cancel, UpdateReleaseDate (`POST/GET/PUT /v1/advanced_payments`).
 - DisbursementRefund: refund management for split payments — ListAll, CreateAll, Create (`GET/POST /v1/advanced_payments/{id}/refunds`).

@@ -35,19 +35,23 @@ type Request struct {
 // It is used within [AdditionalInfoRequest] to provide fraud-prevention data
 // for airline or bus ticket purchases.
 type TravelPassengerRequest struct {
-	FirstName      string                 `json:"first_name,omitempty"`
-	LastName       string                 `json:"last_name,omitempty"`
-	Identification *IdentificationRequest `json:"identification,omitempty"`
+	FirstName            string                 `json:"first_name,omitempty"`
+	LastName             string                 `json:"last_name,omitempty"`
+	Identification       *IdentificationRequest `json:"identification,omitempty"`
+	IdentificationType   string                 `json:"identification_type,omitempty"`
+	IdentificationNumber string                 `json:"identification_number,omitempty"`
+	ItemReferences       []string               `json:"item_references,omitempty"`
 }
 
 // TravelRouteRequest represents a travel route segment for airline or bus ticket orders.
 // It is used within [AdditionalInfoRequest] to supply itinerary details for risk analysis.
 type TravelRouteRequest struct {
-	Departure         string `json:"departure,omitempty"`
-	Destination       string `json:"destination,omitempty"`
-	DepartureDateTime string `json:"departure_date_time,omitempty"`
-	ArrivalDateTime   string `json:"arrival_date_time,omitempty"`
-	Company           string `json:"company,omitempty"`
+	Departure         string   `json:"departure,omitempty"`
+	Destination       string   `json:"destination,omitempty"`
+	DepartureDateTime string   `json:"departure_date_time,omitempty"`
+	ArrivalDateTime   string   `json:"arrival_date_time,omitempty"`
+	Company           string   `json:"company,omitempty"`
+	ItemReferences    []string `json:"item_references,omitempty"`
 }
 
 // AdditionalInfoRequest represents supplementary data sent with an order to improve
@@ -96,11 +100,12 @@ type AdditionalInfoRequest struct {
 // TravelRouterRequest represents a travel route segment used within [AdditionalInfoRequest].
 // It captures departure and destination details for travel-related orders.
 type TravelRouterRequest struct {
-	Departure         string `json:"departure,omitempty"`
-	Destination       string `json:"destination,omitempty"`
-	DepartureDateTime string `json:"departure_date_time,omitempty"`
-	ArrivalDateTime   string `json:"arrival_date_time,omitempty"`
-	Company           string `json:"company,omitempty"`
+	Departure         string   `json:"departure,omitempty"`
+	Destination       string   `json:"destination,omitempty"`
+	DepartureDateTime string   `json:"departure_date_time,omitempty"`
+	ArrivalDateTime   string   `json:"arrival_date_time,omitempty"`
+	Company           string   `json:"company,omitempty"`
+	ItemReferences    []string `json:"item_references,omitempty"`
 }
 
 // PayerAddressRequest represents the payer's address when creating or updating an order.
@@ -118,7 +123,17 @@ type PayerAddressRequest struct {
 
 // ShipmentRequest represents shipping information for an order, including the delivery address.
 type ShipmentRequest struct {
-	Address *AddressRequest `json:"address,omitempty"`
+	Mode         string              `json:"mode,omitempty"`
+	LocalPickup  *bool               `json:"local_pickup,omitempty"`
+	Cost         string              `json:"cost,omitempty"`
+	FreeShipping *bool               `json:"free_shipping,omitempty"`
+	FreeMethods  []FreeMethodRequest `json:"free_methods,omitempty"`
+	Address      *AddressRequest     `json:"address,omitempty"`
+}
+
+// FreeMethodRequest represents a free shipping method offered for an order shipment.
+type FreeMethodRequest struct {
+	ID int `json:"id,omitempty"`
 }
 
 // TransactionRequest represents the collection of payment transactions to associate with an order.
@@ -240,6 +255,8 @@ type AddressRequest struct {
 	StreetName   string `json:"street_name,omitempty"`
 	StreetNumber string `json:"street_number,omitempty"`
 	ZipCode      string `json:"zip_code,omitempty"`
+	Floor        string `json:"floor,omitempty"`
+	Apartment    string `json:"apartment,omitempty"`
 	Neighborhood string `json:"neighborhood,omitempty"`
 	State        string `json:"state,omitempty"`
 	City         string `json:"city,omitempty"`
@@ -278,19 +295,35 @@ type RefundTransaction struct {
 // ConfigRequest represents order-level configuration options, including payment method
 // restrictions and online checkout redirect URLs.
 type ConfigRequest struct {
-	PaymentMethod *PaymentMethodConfigRequest `json:"payment_method,omitempty"`
-	Online        *OnlineConfigRequest        `json:"online,omitempty"`
+	NotificationURL       string                      `json:"notification_url,omitempty"`
+	StatementDescriptor   string                      `json:"statement_descriptor,omitempty"`
+	DefaultPaymentDueDate string                      `json:"default_payment_due_date,omitempty"`
+	PaymentMethod         *PaymentMethodConfigRequest `json:"payment_method,omitempty"`
+	Online                *OnlineConfigRequest        `json:"online,omitempty"`
 }
 
 // PaymentMethodConfigRequest represents constraints and defaults applied to the payment
 // methods available for an order. It allows blocking specific methods, setting a default,
 // and controlling installment limits.
 type PaymentMethodConfigRequest struct {
-	NotAllowedIDs       []string `json:"not_allowed_ids,omitempty"`
-	NotAllowedTypes     []string `json:"not_allowed_types,omitempty"`
-	DefaultID           string   `json:"default_id,omitempty"`
-	MaxInstallments     int      `json:"max_installments,omitempty"`
-	DefaultInstallments int      `json:"default_installments,omitempty"`
+	NotAllowedIDs       []string                   `json:"not_allowed_ids,omitempty"`
+	NotAllowedTypes     []string                   `json:"not_allowed_types,omitempty"`
+	DefaultID           string                     `json:"default_id,omitempty"`
+	MaxInstallments     *int                       `json:"max_installments,omitempty"`
+	DefaultInstallments *int                       `json:"default_installments,omitempty"`
+	Installments        *InstallmentsConfigRequest `json:"installments,omitempty"`
+}
+
+// InstallmentsConfigRequest represents installment rules for the payment methods available
+// in the order flow.
+type InstallmentsConfigRequest struct {
+	InterestFree *InstallmentsInterestFreeRequest `json:"interest_free,omitempty"`
+}
+
+// InstallmentsInterestFreeRequest represents interest-free installment configuration.
+type InstallmentsInterestFreeRequest struct {
+	Type   string `json:"type,omitempty"`
+	Values []int  `json:"values,omitempty"`
 }
 
 // OnlineConfigRequest represents online checkout configuration for an order, including
@@ -302,8 +335,18 @@ type OnlineConfigRequest struct {
 	PendingURL          string                      `json:"pending_url,omitempty"`
 	FailureURL          string                      `json:"failure_url,omitempty"`
 	AutoReturnURL       string                      `json:"auto_return_url,omitempty"`
+	AvailableFrom       string                      `json:"available_from,omitempty"`
+	AllowedUserType     string                      `json:"allowed_user_type,omitempty"`
+	AutoReturn          string                      `json:"auto_return,omitempty"`
+	Tracks              []TrackRequest              `json:"tracks,omitempty"`
 	DifferentialPricing *DifferentialPricingRequest `json:"differential_pricing,omitempty"`
 	TransactionSecurity *TransactionSecurityRequest `json:"transaction_security,omitempty"`
+}
+
+// TrackRequest represents a tracking pixel configured for the online order flow.
+type TrackRequest struct {
+	Type   string            `json:"type,omitempty"`
+	Values map[string]string `json:"values,omitempty"`
 }
 
 // DifferentialPricingRequest represents a differential pricing configuration identified by its ID.
