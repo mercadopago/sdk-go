@@ -89,11 +89,11 @@ func TestSearch(t *testing.T) {
 			want: &SearchResponse{
 				Data: []Response{
 					{
-						ID:          "01JDNPJ7XJSV1YS2W3JXEJNQ8",
-						Status:      "processed",
+						ID:           "01JDNPJ7XJSV1YS2W3JXEJNQ8",
+						Status:       "processed",
 						StatusDetail: "accredited",
-						TotalAmount: "100.00",
-						Currency:    "BRL",
+						TotalAmount:  "100.00",
+						Currency:     "BRL",
 					},
 				},
 				Paging: &PagingResponse{
@@ -543,6 +543,305 @@ func TestCreate(t *testing.T) {
 				t.Errorf("Create() got = %v, want %v", got, tt.want)
 			}
 		})
+	}
+}
+
+func TestCheckoutProRequestJSON(t *testing.T) {
+	localPickup := true
+	freeShipping := true
+	maxInstallments := 12
+	travelPassengers := []TravelPassengerRequest{
+		{
+			FirstName:            "John",
+			LastName:             "Smith",
+			IdentificationType:   "CPF",
+			IdentificationNumber: "12345678909",
+			ItemReferences:       []string{"ITEM-001"},
+		},
+	}
+	travelRoutes := []TravelRouterRequest{
+		{
+			Departure:         "SAO",
+			Destination:       "RIO",
+			DepartureDateTime: "2026-03-10T08:00:00.000-03:00",
+			ArrivalDateTime:   "2026-03-10T09:00:00.000-03:00",
+			Company:           "TAM",
+			ItemReferences:    []string{"ITEM-001"},
+		},
+	}
+
+	request := Request{
+		Type:              "online",
+		TotalAmount:       "500.00",
+		ExternalReference: "ext_ref_manual_full_test",
+		ProcessingMode:    "manual",
+		CaptureMode:       "automatic",
+		MarketPlaceFee:    "5.00",
+		Description:       "Travel package SAO-RIO with insurance",
+		ExpirationTime:    "P1D",
+		Payer: &PayerRequest{
+			Email:     "buyer@mercadopago.com",
+			FirstName: "John",
+			LastName:  "Smith",
+			Phone: &PhoneRequest{
+				AreaCode: "11",
+				Number:   "999998888",
+			},
+			Identification: &IdentificationRequest{
+				Type:   "CPF",
+				Number: "12345678909",
+			},
+			Address: &PayerAddressRequest{
+				ZipCode:      "01310-100",
+				StreetName:   "Av. Paulista",
+				StreetNumber: "1000",
+				Neighborhood: "Bela Vista",
+				City:         "Sao Paulo",
+			},
+		},
+		Shipment: &ShipmentRequest{
+			Mode:         "custom",
+			LocalPickup:  &localPickup,
+			Cost:         "15.00",
+			FreeShipping: &freeShipping,
+			FreeMethods: []FreeMethodRequest{
+				{ID: 73328},
+			},
+			Address: &AddressRequest{
+				ZipCode:      "01310-100",
+				StreetName:   "Av. Paulista",
+				StreetNumber: "1000",
+				Floor:        "3",
+				Apartment:    "B",
+				Neighborhood: "Bela Vista",
+				City:         "Sao Paulo",
+			},
+		},
+		Config: &ConfigRequest{
+			NotificationURL:       "https://example.com/notifications",
+			StatementDescriptor:   "MYSTORE",
+			DefaultPaymentDueDate: "P1D",
+			Online: &OnlineConfigRequest{
+				AvailableFrom:   "2026-01-01T00:00:00Z",
+				AllowedUserType: "account_only",
+				SuccessURL:      "https://example.com/success",
+				FailureURL:      "https://example.com/failure",
+				PendingURL:      "https://example.com/pending",
+				AutoReturn:      "approved",
+				Tracks: []TrackRequest{
+					{
+						Type: "google_ad",
+						Values: map[string]string{
+							"conversion_id":    "21312312312123",
+							"conversion_label": "TEST",
+						},
+					},
+				},
+			},
+			PaymentMethod: &PaymentMethodConfigRequest{
+				MaxInstallments: &maxInstallments,
+				NotAllowedIDs:   []string{"amex"},
+				NotAllowedTypes: []string{"ticket"},
+				Installments: &InstallmentsConfigRequest{
+					InterestFree: &InstallmentsInterestFreeRequest{
+						Type:   "range",
+						Values: []int{2, 6},
+					},
+				},
+			},
+		},
+		Items: []ItemsRequest{
+			{
+				ExternalCode: "ITEM-001",
+				Title:        "Flight SAO-RIO",
+				Description:  "Round trip, economy class",
+				CategoryID:   "travels",
+				PictureURL:   "https://example.com/img.jpg",
+				Quantity:     1,
+				UnitPrice:    "450.00",
+				Type:         "travel",
+				EventDate:    "2027-01-15T00:00:00.000-03:00",
+			},
+		},
+		AdditionalInfo: &AdditionalInfoRequest{
+			PayerRegistrationDate:      "2020-01-15T00:00:00.000-03:00",
+			PayerAuthenticationType:    "MOBILE",
+			PayerIsPrimeUser:           true,
+			PayerIsFirstPurchaseOnLine: true,
+			PayerLastPurchase:          "2025-12-01T00:00:00.000-03:00",
+			TravelPassengers:           &travelPassengers,
+			TravelRoutes:               &travelRoutes,
+		},
+	}
+
+	body, err := json.Marshal(request)
+	if err != nil {
+		t.Fatalf("json.Marshal() error = %v", err)
+	}
+
+	var got map[string]any
+	if err := json.Unmarshal(body, &got); err != nil {
+		t.Fatalf("json.Unmarshal() error = %v", err)
+	}
+
+	config := got["config"].(map[string]any)
+	online := config["online"].(map[string]any)
+	paymentMethod := config["payment_method"].(map[string]any)
+	installments := paymentMethod["installments"].(map[string]any)
+	interestFree := installments["interest_free"].(map[string]any)
+	shipment := got["shipment"].(map[string]any)
+	shipmentAddress := shipment["address"].(map[string]any)
+	items := got["items"].([]any)
+	firstItem := items[0].(map[string]any)
+	additionalInfo := got["additional_info"].(map[string]any)
+
+	if got["type"] != "online" {
+		t.Errorf("type = %v, want online", got["type"])
+	}
+	if got["processing_mode"] != "manual" {
+		t.Errorf("processing_mode = %v, want manual", got["processing_mode"])
+	}
+	if got["total_amount"] != "500.00" {
+		t.Errorf("total_amount = %v, want 500.00", got["total_amount"])
+	}
+	if firstItem["unit_price"] != "450.00" {
+		t.Errorf("items[0].unit_price = %v, want 450.00", firstItem["unit_price"])
+	}
+	if config["notification_url"] != "https://example.com/notifications" {
+		t.Errorf("notification_url = %v, want https://example.com/notifications", config["notification_url"])
+	}
+	if config["statement_descriptor"] != "MYSTORE" {
+		t.Errorf("statement_descriptor = %v, want MYSTORE", config["statement_descriptor"])
+	}
+	if online["available_from"] != "2026-01-01T00:00:00Z" {
+		t.Errorf("available_from = %v, want 2026-01-01T00:00:00Z", online["available_from"])
+	}
+	if online["auto_return"] != "approved" {
+		t.Errorf("auto_return = %v, want approved", online["auto_return"])
+	}
+	if online["success_url"] != "https://example.com/success" {
+		t.Errorf("success_url = %v, want https://example.com/success", online["success_url"])
+	}
+	if online["failure_url"] != "https://example.com/failure" {
+		t.Errorf("failure_url = %v, want https://example.com/failure", online["failure_url"])
+	}
+	if online["pending_url"] != "https://example.com/pending" {
+		t.Errorf("pending_url = %v, want https://example.com/pending", online["pending_url"])
+	}
+	if interestFree["type"] != "range" {
+		t.Errorf("interest_free.type = %v, want range", interestFree["type"])
+	}
+	if shipment["mode"] != "custom" {
+		t.Errorf("shipment.mode = %v, want custom", shipment["mode"])
+	}
+	if shipmentAddress["floor"] != "3" {
+		t.Errorf("shipment.address.floor = %v, want 3", shipmentAddress["floor"])
+	}
+	if shipmentAddress["apartment"] != "B" {
+		t.Errorf("shipment.address.apartment = %v, want B", shipmentAddress["apartment"])
+	}
+	if additionalInfo["payer.authentication_type"] != "MOBILE" {
+		t.Errorf("payer.authentication_type = %v, want MOBILE", additionalInfo["payer.authentication_type"])
+	}
+}
+
+func TestCheckoutProResponseJSON(t *testing.T) {
+	body := `{
+		"id": "ORDTST01KS5AJ6HTK2HRQ3XJ3C2JCKP9",
+		"type": "online",
+		"processing_mode": "manual",
+		"checkout_url": "https://www.mercadopago.cl/checkout/v1/redirect?order_id=ORDTST01KS5AJ6HTK2HRQ3XJ3C2JCKP9",
+		"client_token": "eyJhbGciOiJSUzI1NiIs",
+		"config": {
+			"statement_descriptor": "MYSTORE",
+			"default_payment_due_date": "P1D",
+			"online": {
+				"available_from": "2026-05-16T18:32:00Z",
+				"auto_return": "approved",
+				"retries": {
+					"allowed": true
+				}
+			},
+			"payment_method": {
+				"installments": {
+					"interest_free": {
+						"type": "range",
+						"values": [2, 6]
+					}
+				}
+			}
+		}
+	}`
+
+	var got Response
+	if err := json.Unmarshal([]byte(body), &got); err != nil {
+		t.Fatalf("json.Unmarshal() error = %v", err)
+	}
+
+	if got.CheckoutURL != "https://www.mercadopago.cl/checkout/v1/redirect?order_id=ORDTST01KS5AJ6HTK2HRQ3XJ3C2JCKP9" {
+		t.Errorf("CheckoutURL = %v, want checkout redirect URL", got.CheckoutURL)
+	}
+	if got.ClientToken != "eyJhbGciOiJSUzI1NiIs" {
+		t.Errorf("ClientToken = %v, want eyJhbGciOiJSUzI1NiIs", got.ClientToken)
+	}
+	if got.Config.StatementDescriptor != "MYSTORE" {
+		t.Errorf("Config.StatementDescriptor = %v, want MYSTORE", got.Config.StatementDescriptor)
+	}
+	if got.Config.Online.AvailableFrom != "2026-05-16T18:32:00Z" {
+		t.Errorf("Config.Online.AvailableFrom = %v, want 2026-05-16T18:32:00Z", got.Config.Online.AvailableFrom)
+	}
+	if !got.Config.Online.Retries.Allowed {
+		t.Errorf("Config.Online.Retries.Allowed = %v, want true", got.Config.Online.Retries.Allowed)
+	}
+	if got.Config.PaymentMethodResponse.Installments.InterestFree.Type != "range" {
+		t.Errorf("InterestFree.Type = %v, want range", got.Config.PaymentMethodResponse.Installments.InterestFree.Type)
+	}
+}
+
+func TestOrderRequestJSONIncludesExplicitZeroValues(t *testing.T) {
+	localPickup := false
+	freeShipping := false
+	maxInstallments := 0
+	defaultInstallments := 0
+
+	request := Request{
+		Shipment: &ShipmentRequest{
+			LocalPickup:  &localPickup,
+			FreeShipping: &freeShipping,
+		},
+		Config: &ConfigRequest{
+			PaymentMethod: &PaymentMethodConfigRequest{
+				MaxInstallments:     &maxInstallments,
+				DefaultInstallments: &defaultInstallments,
+			},
+		},
+	}
+
+	body, err := json.Marshal(request)
+	if err != nil {
+		t.Fatalf("json.Marshal() error = %v", err)
+	}
+
+	var got map[string]any
+	if err := json.Unmarshal(body, &got); err != nil {
+		t.Fatalf("json.Unmarshal() error = %v", err)
+	}
+
+	shipment := got["shipment"].(map[string]any)
+	config := got["config"].(map[string]any)
+	paymentMethod := config["payment_method"].(map[string]any)
+
+	if shipment["local_pickup"] != false {
+		t.Errorf("shipment.local_pickup = %v, want false", shipment["local_pickup"])
+	}
+	if shipment["free_shipping"] != false {
+		t.Errorf("shipment.free_shipping = %v, want false", shipment["free_shipping"])
+	}
+	if paymentMethod["max_installments"] != float64(0) {
+		t.Errorf("payment_method.max_installments = %v, want 0", paymentMethod["max_installments"])
+	}
+	if paymentMethod["default_installments"] != float64(0) {
+		t.Errorf("payment_method.default_installments = %v, want 0", paymentMethod["default_installments"])
 	}
 }
 
