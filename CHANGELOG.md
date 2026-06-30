@@ -1,4 +1,4 @@
-## VERSION 1.12.0-beta.1 - 2026-06-24
+## VERSION 1.12.0 - 2026-06-30
 - Orders: added Checkout Pro request and response fields.
 
 ## VERSION 1.11.0 - 2026-05-27
