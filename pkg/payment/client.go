@@ -26,6 +26,7 @@ const (
 type Client interface {
 	// Create submits a new payment to the MercadoPago Payments API.
 	// The returned [Response] contains the full payment resource including its assigned ID and status.
+	// To set a custom X-Idempotency-Key, attach one to ctx with [requestoptions.WithIdempotencyKey].
 	//
 	// POST https://api.mercadopago.com/v1/payments
 	//
@@ -48,12 +49,14 @@ type Client interface {
 
 	// Cancel transitions a payment to the "cancelled" status.
 	// Only payments that have not yet been approved can be cancelled.
+	// To set a custom X-Idempotency-Key, attach one to ctx with [requestoptions.WithIdempotencyKey].
 	//
 	// PUT https://api.mercadopago.com/v1/payments/{id}
 	Cancel(ctx context.Context, id int) (*Response, error)
 
 	// Capture confirms a previously authorized payment, settling the full transaction amount.
 	// This is used when the payment was created with capture=false (two-step flow).
+	// To set a custom X-Idempotency-Key, attach one to ctx with [requestoptions.WithIdempotencyKey].
 	//
 	// PUT https://api.mercadopago.com/v1/payments/{id}
 	Capture(ctx context.Context, id int) (*Response, error)
@@ -61,6 +64,7 @@ type Client interface {
 	// CaptureAmount confirms a previously authorized payment for a specific amount,
 	// which may differ from the originally authorized transaction amount.
 	// This is used in the two-step capture flow when a partial capture is needed.
+	// To set a custom X-Idempotency-Key, attach one to ctx with [requestoptions.WithIdempotencyKey].
 	//
 	// PUT https://api.mercadopago.com/v1/payments/{id}
 	CaptureAmount(ctx context.Context, id int, amount float64) (*Response, error)
