@@ -67,6 +67,7 @@ type AdditionalInfoRequest struct {
 type AdditionalInfoPayerRequest struct {
 	Phone            *AdditionalInfoPayerPhoneRequest   `json:"phone,omitempty"`
 	Address          *AdditionalInfoPayerAddressRequest `json:"address,omitempty"`
+	Identification   *IdentificationRequest             `json:"identification,omitempty"`
 	RegistrationDate *time.Time                         `json:"registration_date,omitempty"`
 	LastPurchase     *time.Time                         `json:"last_purchase,omitempty"`
 
