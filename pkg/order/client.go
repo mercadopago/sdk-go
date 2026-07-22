@@ -35,6 +35,7 @@ const (
 // Client contains the methods to interact with the MercadoPago Orders API.
 type Client interface {
 	// Create creates a new order.
+	// To set a custom X-Idempotency-Key, attach one to ctx with [requestoptions.WithIdempotencyKey].
 	// It is a POST request to the endpoint: https://api.mercadopago.com/v1/orders
 	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api/create-order/post
 	Create(ctx context.Context, request Request) (*Response, error)
@@ -44,27 +45,33 @@ type Client interface {
 	Get(ctx context.Context, orderID string) (*Response, error)
 
 	// Process triggers the processing of an order so that its payment transactions are executed.
+	// To set a custom X-Idempotency-Key, attach one to ctx with [requestoptions.WithIdempotencyKey].
 	// It is a POST request to the endpoint: https://api.mercadopago.com/v1/orders/{orderID}/process
 	Process(ctx context.Context, orderID string) (*Response, error)
 
 	// Cancel cancels an order that has not yet been fully processed.
+	// To set a custom X-Idempotency-Key, attach one to ctx with [requestoptions.WithIdempotencyKey].
 	// It is a POST request to the endpoint: https://api.mercadopago.com/v1/orders/{orderID}/cancel
 	Cancel(ctx context.Context, orderID string) (*Response, error)
 
 	// Capture captures a previously authorized order, settling its payment transactions.
+	// To set a custom X-Idempotency-Key, attach one to ctx with [requestoptions.WithIdempotencyKey].
 	// It is a POST request to the endpoint: https://api.mercadopago.com/v1/orders/{orderID}/capture
 	Capture(ctx context.Context, orderID string) (*Response, error)
 
 	// Refund initiates a full or partial refund for an order. Pass a nil [RefundRequest]
 	// for a full refund, or specify individual transaction amounts for a partial refund.
+	// To set a custom X-Idempotency-Key, attach one to ctx with [requestoptions.WithIdempotencyKey].
 	// It is a POST request to the endpoint: https://api.mercadopago.com/v1/orders/{orderID}/refund
 	Refund(ctx context.Context, orderID string, request *RefundRequest) (*Response, error)
 
 	// CreateTransaction adds a new payment transaction to an existing order.
+	// To set a custom X-Idempotency-Key, attach one to ctx with [requestoptions.WithIdempotencyKey].
 	// It is a POST request to the endpoint: https://api.mercadopago.com/v1/orders/{orderID}/transactions
 	CreateTransaction(ctx context.Context, orderID string, request TransactionRequest) (*TransactionResponse, error)
 
 	// UpdateTransaction modifies an existing payment transaction within an order.
+	// To set a custom X-Idempotency-Key, attach one to ctx with [requestoptions.WithIdempotencyKey].
 	// It is a PUT request to the endpoint: https://api.mercadopago.com/v1/orders/{orderID}/transactions/{transactionID}
 	UpdateTransaction(ctx context.Context, orderID string, transactionID string, request PaymentRequest) (*PaymentResponse, error)
 
@@ -158,7 +165,6 @@ func (c *client) CreateTransaction(ctx context.Context, orderID string, request 
 	}
 
 	return resource, nil
-
 }
 
 func (c *client) UpdateTransaction(ctx context.Context, orderID string, transactionID string, request PaymentRequest) (*PaymentResponse, error) {
