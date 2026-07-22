@@ -1,8 +1,27 @@
 package payment
 
 import (
+	"encoding/json"
 	"time"
 )
+
+// MaskedInt holds an integer field that the API may return as a masked string
+// (e.g. "***") instead of a number. It unmarshals both forms without error;
+// the value is nil when the field is masked or absent.
+type MaskedInt struct {
+	Value *int
+}
+
+func (m *MaskedInt) UnmarshalJSON(b []byte) error {
+	var n int
+	if err := json.Unmarshal(b, &n); err == nil {
+		m.Value = &n
+		return nil
+	}
+	// Treat any non-numeric value (e.g. "***") as absent.
+	m.Value = nil
+	return nil
+}
 
 // Response represents the full payment resource returned by the MercadoPago Payments API.
 // It is returned by [Client.Create], [Client.Get], [Client.Cancel], [Client.Capture],
@@ -264,8 +283,8 @@ type CardResponse struct {
 	ID              string `json:"id"`
 	LastFourDigits  string `json:"last_four_digits"`
 	FirstSixDigits  string `json:"first_six_digits"`
-	ExpirationYear  int    `json:"expiration_year"`
-	ExpirationMonth int    `json:"expiration_month"`
+	ExpirationYear  MaskedInt `json:"expiration_year"`
+	ExpirationMonth MaskedInt `json:"expiration_month"`
 }
 
 // CardholderResponse contains the cardholder's name and identification document.

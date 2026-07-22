@@ -99,6 +99,19 @@ To make requests to the Mercado Pago APIs, you can use the packages provided by 
 	resources, err := client.List(context.Background())
 ```
 
+### Setting a custom idempotency key
+
+For non-GET requests (Create, Cancel, Capture, etc.) the SDK automatically generates a UUID as the `X-Idempotency-Key` header. To supply your own stable key — for example, when retrying a failed request — attach it to the context using `requestoptions.WithIdempotencyKey` before calling the client method:
+
+```go
+import "github.com/mercadopago/sdk-go/pkg/requestoptions"
+
+ctx := requestoptions.WithIdempotencyKey(context.Background(), "my-stable-idempotency-key")
+resource, err := client.Create(ctx, request)
+```
+
+The key travels with the context and is applied automatically; no change to the method signature is required.
+
 ### Exception throwing handling
 
 Every package methods returns two variables: response (type of the package) and error (type of the std lib), which will contain any error thrown. It is important to handle these errors in the best possible way.
