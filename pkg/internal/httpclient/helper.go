@@ -131,10 +131,12 @@ func setHeaders(req *http.Request, cfg *config.Config, requestData RequestData) 
 
 func setPathParams(req *http.Request, params map[string]string) error {
 	pathURL := req.URL.Path
+	rawPathURL := req.URL.Path
 
 	for k, v := range params {
 		pathParam := "{" + k + "}"
 		pathURL = strings.Replace(pathURL, pathParam, v, 1)
+		rawPathURL = strings.Replace(rawPathURL, pathParam, url.PathEscape(v), 1)
 	}
 
 	matches := pathParamRegexp.FindAllString(pathURL, -1)
@@ -143,6 +145,7 @@ func setPathParams(req *http.Request, params map[string]string) error {
 	}
 
 	req.URL.Path = pathURL
+	req.URL.RawPath = rawPathURL
 	return nil
 }
 
