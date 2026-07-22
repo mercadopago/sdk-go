@@ -128,6 +128,9 @@ type PassengerRequest struct {
 
 	// IdentificationNumber is the passenger's identification document number.
 	IdentificationNumber string `json:"identification_number,omitempty"`
+
+	// Identification contains the passenger's identity document details as a nested struct.
+	Identification *IdentificationRequest `json:"identification,omitempty"`
 }
 
 // RouteRequest represents travel route details for travel-related items in the checkout preference.
@@ -196,8 +199,8 @@ type ItemRequest struct {
 	// Quantity is the number of units of this item being purchased.
 	Quantity int `json:"quantity,omitempty"`
 
-	// Warranty is a description of the item warranty.
-	Warranty string `json:"warranty,omitempty"`
+	// Warranty indicates whether the item includes a warranty.
+	Warranty *bool `json:"warranty,omitempty"`
 
 	// CategoryDescriptor provides additional categorization metadata, such as travel or event details.
 	CategoryDescriptor CategoryDescriptorRequest `json:"category_descriptor,omitempty"`
@@ -231,8 +234,8 @@ type PayerRequest struct {
 	// RegistrationDate is the date when the buyer registered in the integrator's platform.
 	RegistrationDate *time.Time `json:"registration_date,omitempty"`
 
-	// LastPurchaseDate is the date of the buyer's most recent purchase.
-	LastPurchaseDate *time.Time `json:"last_purchase_date,omitempty"`
+	// LastPurchase is the date of the buyer's most recent purchase.
+	LastPurchase *time.Time `json:"last_purchase,omitempty"`
 
 	// Identification contains the buyer's identity document details.
 	Identification *IdentificationRequest `json:"identification,omitempty"`
