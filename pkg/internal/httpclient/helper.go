@@ -18,6 +18,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/mercadopago/sdk-go/pkg/config"
+	"github.com/mercadopago/sdk-go/pkg/requestoptions"
 )
 
 const (
@@ -55,6 +56,10 @@ type RequestData struct {
 	// QueryParams maps query-string parameter names to their values, which are
 	// URL-encoded and appended to the request URL.
 	QueryParams map[string]string
+
+	// IdempotencyKey overrides the auto-generated UUID in X-Idempotency-Key
+	// when non-empty.
+	IdempotencyKey string
 }
 
 // DoRequest builds an HTTP request from the given [RequestData], executes it
@@ -62,8 +67,15 @@ type RequestData struct {
 // response body into a value of type T. It returns the zero value of T together
 // with an error when the request fails at any stage (construction, transport,
 // API error, or JSON unmarshalling).
+//
+// If ctx carries an idempotency key set via [requestoptions.WithIdempotencyKey],
+// it is used as the X-Idempotency-Key header instead of an auto-generated UUID.
 func DoRequest[T any](ctx context.Context, cfg *config.Config, requestData RequestData) (T, error) {
 	var resource T
+
+	if key, ok := requestoptions.IdempotencyKeyFrom(ctx); ok {
+		requestData.IdempotencyKey = key
+	}
 
 	req, err := createRequest(ctx, cfg, requestData)
 	if err != nil {
@@ -112,7 +124,11 @@ func setHeaders(req *http.Request, cfg *config.Config, requestData RequestData) 
 	req.Header.Set("X-Request-Id", uuid.New().String())
 
 	if !strings.EqualFold(requestData.Method, http.MethodGet) {
-		req.Header.Set("X-Idempotency-Key", uuid.New().String())
+		idempotencyKey := requestData.IdempotencyKey
+		if idempotencyKey == "" {
+			idempotencyKey = uuid.New().String()
+		}
+		req.Header.Set("X-Idempotency-Key", idempotencyKey)
 	}
 
 	if cfg.CorporationID != "" {
