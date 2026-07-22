@@ -266,6 +266,7 @@ type AddressRequest struct {
 // ItemsRequest represents a line item in an order. Each item describes a product or service
 // being purchased, including its price, quantity, and descriptive metadata.
 type ItemsRequest struct {
+	ID           string `json:"id,omitempty"`
 	Title        string `json:"title,omitempty"`
 	Type         string `json:"type,omitempty"`
 	Warranty     bool   `json:"warranty,omitempty"`
