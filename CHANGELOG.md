@@ -1,3 +1,6 @@
+## VERSION 1.12.1 - 2026-07-22
+- Patch release: dependency updates and bug fixes.
+
 ## VERSION 1.12.0 - 2026-06-30
 - Orders: added Checkout Pro request and response fields.
 
