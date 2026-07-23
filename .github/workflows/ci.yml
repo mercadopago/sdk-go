@@ -11,10 +11,10 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v7
 
     - name: Set up Go
-      uses: actions/setup-go@v7
+      uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v7
       with:
         go-version: '1.25'
         cache: false
@@ -29,10 +29,10 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v7
 
     - name: Set up Go
-      uses: actions/setup-go@v7
+      uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v7
       with:
         go-version: '1.25'
         cache: false
