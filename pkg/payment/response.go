@@ -314,10 +314,11 @@ type ApplicationDataResponse struct {
 // TransactionDataResponse contains transaction-specific data from the point of interaction,
 // including QR codes, ticket URLs, bank information, and subscription details.
 type TransactionDataResponse struct {
-	BankInfo             BankInfoResponse             `json:"bank_info"`
-	SubscriptionSequence SubscriptionSequenceResponse `json:"subscription_sequence"`
-	InvoicePeriod        InvoicePeriodResponse        `json:"invoice_period"`
-	PaymentReference     PaymentReferenceResponse     `json:"payment_reference"`
+	BankInfo             BankInfoResponse              `json:"bank_info"`
+	SubscriptionSequence SubscriptionSequenceResponse  `json:"subscription_sequence"`
+	InvoicePeriod        InvoicePeriodResponse         `json:"invoice_period"`
+	PaymentReference     PaymentReferenceResponse      `json:"payment_reference"`
+	Reference            TransactionReferenceResponse  `json:"reference,omitempty"`
 
 	QRCode               string `json:"qr_code"`
 	QRCodeBase64         string `json:"qr_code_base64"`
@@ -328,6 +329,15 @@ type TransactionDataResponse struct {
 	BankTransferID       int    `json:"bank_transfer_id"`
 	FinancialInstitution int    `json:"financial_institution"`
 	FirstTimeUse         bool   `json:"first_time_use"`
+	FirstTransaction     bool   `json:"first_transaction,omitempty"`
+	Storage              string `json:"storage,omitempty"`
+	TransactionInitiator string `json:"transaction_initiator,omitempty"`
+}
+
+// TransactionReferenceResponse contains a reference identifier for credential-on-file transactions.
+// It is used within [TransactionDataResponse].
+type TransactionReferenceResponse struct {
+	ID string `json:"id"`
 }
 
 // BankInfoResponse contains banking details for both the payer and the collector,
