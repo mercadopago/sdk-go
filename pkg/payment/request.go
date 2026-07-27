@@ -288,10 +288,14 @@ type TransactionDataRequest struct {
 	SubscriptionSequence *SubscriptionSequenceRequest `json:"subscription_sequence,omitempty"`
 	InvoicePeriod        *InvoicePeriodRequest        `json:"invoice_period,omitempty"`
 	PaymentReference     *PaymentReferenceRequest     `json:"payment_reference,omitempty"`
+	Reference            *ReferenceRequest            `json:"reference,omitempty"`
 
-	SubscriptionID string `json:"subscription_id,omitempty"`
-	BillingDate    string `json:"billing_date,omitempty"`
-	FirstTimeUse   bool   `json:"first_time_use,omitempty"`
+	SubscriptionID       string `json:"subscription_id,omitempty"`
+	BillingDate          string `json:"billing_date,omitempty"`
+	FirstTimeUse         bool   `json:"first_time_use,omitempty"`
+	FirstTransaction     bool   `json:"first_transaction,omitempty"`
+	Storage              string `json:"storage,omitempty"`
+	TransactionInitiator string `json:"transaction_initiator,omitempty"`
 }
 
 // SubscriptionSequenceRequest tracks the position of a payment within a recurring subscription.
@@ -312,6 +316,12 @@ type InvoicePeriodRequest struct {
 // It is used within [TransactionDataRequest].
 type PaymentReferenceRequest struct {
 	ID string `json:"id,omitempty"`
+}
+
+// ReferenceRequest contains a reference identifier for credential-on-file transactions.
+// It is used within [TransactionDataRequest].
+type ReferenceRequest struct {
+	ID string `json:"id"`
 }
 
 // PaymentMethodRequest specifies the payment method type and associated data such as
