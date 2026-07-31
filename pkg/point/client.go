@@ -18,12 +18,14 @@ import (
 )
 
 const (
-	urlBase                = "https://api.mercadopago.com/point"
-	urlDevices             = urlBase + "/integration-api/devices"
-	urlPaymentIntent       = urlDevices + "/{device_id}/payment-intents"
-	urlPaymentIntentGet    = urlBase + "/integration-api/payment-intents/{payment_intent_id}"
-	urlPaymentIntentCancel = urlDevices + "/{device_id}/payment-intents/{payment_intent_id}"
-	urlDevicesWithID       = urlDevices + "/{device_id}"
+	urlBase                     = "https://api.mercadopago.com/point"
+	urlDevices                  = urlBase + "/integration-api/devices"
+	urlPaymentIntent            = urlDevices + "/{device_id}/payment-intents"
+	urlPaymentIntentGet         = urlBase + "/integration-api/payment-intents/{payment_intent_id}"
+	urlPaymentIntentCancel      = urlDevices + "/{device_id}/payment-intents/{payment_intent_id}"
+	urlDevicesWithID            = urlDevices + "/{device_id}"
+	urlPaymentIntentEvents      = urlBase + "/integration-api/payment-intents/events"
+	urlPaymentIntentStatusEvents = urlBase + "/integration-api/payment-intents/{payment_intent_id}/events"
 )
 
 // client is the unexported implementation of [Client].
@@ -76,6 +78,16 @@ type Client interface {
 	//
 	// Reference: https://www.mercadopago.com.ar/developers/en/reference/in-person-payments/point/terminals/update-operation-mode/patch
 	UpdateOperatingMode(ctx context.Context, deviceID, operatingMode string) (*OperatingModeResponse, error)
+
+	// GetPaymentIntentList retrieves a list of payment intent events within the specified date range.
+	//
+	// It performs a GET request to: https://api.mercadopago.com/point/integration-api/payment-intents/events
+	GetPaymentIntentList(ctx context.Context, request PaymentIntentListRequest) (*PaymentIntentListResponse, error)
+
+	// GetPaymentIntentStatus retrieves the status events for a specific payment intent.
+	//
+	// It performs a GET request to: https://api.mercadopago.com/point/integration-api/payment-intents/{payment_intent_id}/events
+	GetPaymentIntentStatus(ctx context.Context, paymentIntentID string) (*PaymentIntentStatusResponse, error)
 }
 
 // NewClient creates and returns a new Point Integration API [Client] configured with
@@ -168,6 +180,40 @@ func (c *client) UpdateOperatingMode(ctx context.Context, deviceID, operatingMod
 		PathParams: pathParams,
 	}
 	resource, err := httpclient.DoRequest[*OperatingModeResponse](ctx, c.cfg, requestData)
+	if err != nil {
+		return nil, err
+	}
+
+	return resource, nil
+}
+
+func (c *client) GetPaymentIntentList(ctx context.Context, request PaymentIntentListRequest) (*PaymentIntentListResponse, error) {
+	queryParams := request.GetParams()
+
+	requestData := httpclient.RequestData{
+		Method:      http.MethodGet,
+		URL:         urlPaymentIntentEvents,
+		QueryParams: queryParams,
+	}
+	resource, err := httpclient.DoRequest[*PaymentIntentListResponse](ctx, c.cfg, requestData)
+	if err != nil {
+		return nil, err
+	}
+
+	return resource, nil
+}
+
+func (c *client) GetPaymentIntentStatus(ctx context.Context, paymentIntentID string) (*PaymentIntentStatusResponse, error) {
+	pathParams := map[string]string{
+		"payment_intent_id": paymentIntentID,
+	}
+
+	requestData := httpclient.RequestData{
+		Method:     http.MethodGet,
+		URL:        urlPaymentIntentStatusEvents,
+		PathParams: pathParams,
+	}
+	resource, err := httpclient.DoRequest[*PaymentIntentStatusResponse](ctx, c.cfg, requestData)
 	if err != nil {
 		return nil, err
 	}
