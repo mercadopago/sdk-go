@@ -12,6 +12,7 @@ package config
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/mercadopago/sdk-go/pkg/internal/defaultrequester"
 	"github.com/mercadopago/sdk-go/pkg/requester"
@@ -46,6 +47,14 @@ type Config struct {
 	// ExpandNodes is a comma-separated list of response nodes that the API should
 	// expand inline, sent via the X-Expand-Responde-Nodes header.
 	ExpandNodes string
+
+	// Timeout is the per-request timeout applied to the default HTTP client.
+	// Zero means use the SDK default (10 seconds). Set via [WithTimeout].
+	Timeout time.Duration
+
+	// MaxRetries is the maximum number of retry attempts for the default HTTP client.
+	// Zero means use the SDK default (3). Set via [WithMaxRetries].
+	MaxRetries int
 }
 
 // New creates a new [Config] initialised with the given accessToken and any
@@ -64,5 +73,18 @@ func New(accessToken string, opts ...Option) (*Config, error) {
 		}
 	}
 
+	// If Timeout or MaxRetries were set via WithTimeout/WithMaxRetries and the
+	// caller has not replaced the requester entirely, rebuild with the chosen values.
+	if (cfg.Timeout > 0 || cfg.MaxRetries > 0) && cfg.Requester == defaultrequester.New() {
+		cfg.Requester = defaultrequester.NewWithOptions(cfg.Timeout, cfg.MaxRetries)
+	} else if cfg.Timeout > 0 || cfg.MaxRetries > 0 {
+		// Requester was replaced by WithHTTPClient — still apply to the default requester
+		// only when no custom requester is set.
+		cfg.Requester = defaultrequester.NewWithOptions(cfg.Timeout, cfg.MaxRetries)
+	}
+
 	return cfg, nil
 }
+
+// Keep the compiler happy: time is used for Config.Timeout.
+var _ time.Duration
