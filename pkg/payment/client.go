@@ -68,6 +68,12 @@ type Client interface {
 	//
 	// PUT https://api.mercadopago.com/v1/payments/{id}
 	CaptureAmount(ctx context.Context, id int, amount float64) (*Response, error)
+
+	// Update modifies an existing payment with the fields provided in [UpdateRequest].
+	// To set a custom X-Idempotency-Key, attach one to ctx with [requestoptions.WithIdempotencyKey].
+	//
+	// PUT https://api.mercadopago.com/v1/payments/{id}
+	Update(ctx context.Context, id int, request UpdateRequest) (*Response, error)
 }
 
 // client is the unexported implementation of [Client].
@@ -176,6 +182,25 @@ func (c *client) Capture(ctx context.Context, id int) (*Response, error) {
 func (c *client) CaptureAmount(ctx context.Context, id int, amount float64) (*Response, error) {
 	request := &CaptureRequest{TransactionAmount: amount, Capture: true}
 
+	pathParams := map[string]string{
+		"id": strconv.Itoa(id),
+	}
+
+	requestData := httpclient.RequestData{
+		Body:       request,
+		Method:     http.MethodPut,
+		URL:        urlWithID,
+		PathParams: pathParams,
+	}
+	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
+	if err != nil {
+		return nil, err
+	}
+
+	return resource, nil
+}
+
+func (c *client) Update(ctx context.Context, id int, request UpdateRequest) (*Response, error) {
 	pathParams := map[string]string{
 		"id": strconv.Itoa(id),
 	}
