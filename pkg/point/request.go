@@ -45,3 +45,24 @@ type PaymentRequest struct {
 	// Installments is the number of installments for the payment.
 	Installments int `json:"installments,omitempty"`
 }
+
+// PaymentIntentListRequest defines the date range filters for [Client.GetPaymentIntentList].
+type PaymentIntentListRequest struct {
+	// StartDate is the start of the date range in ISO 8601 format.
+	StartDate string
+
+	// EndDate is the end of the date range in ISO 8601 format.
+	EndDate string
+}
+
+// GetParams converts the [PaymentIntentListRequest] into query parameters for the HTTP request.
+func (r PaymentIntentListRequest) GetParams() map[string]string {
+	params := map[string]string{}
+	if r.StartDate != "" {
+		params["startDate"] = r.StartDate
+	}
+	if r.EndDate != "" {
+		params["endDate"] = r.EndDate
+	}
+	return params
+}
