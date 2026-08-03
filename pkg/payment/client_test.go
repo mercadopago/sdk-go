@@ -33,6 +33,9 @@ var (
 
 	captureAmountResponseJSON, _ = os.Open("../../resources/mocks/payment/capture_amount_response.json")
 	captureAmountResponse, _     = io.ReadAll(captureAmountResponseJSON)
+
+	updateResponseJSON, _ = os.Open("../../resources/mocks/payment/update_response.json")
+	updateResponse, _     = io.ReadAll(updateResponseJSON)
 )
 
 func TestCreate(t *testing.T) {
@@ -446,6 +449,87 @@ func TestCapture(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("client.Capture() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestUpdate(t *testing.T) {
+	type fields struct {
+		config *config.Config
+	}
+	type args struct {
+		ctx     context.Context
+		id      int
+		request UpdateRequest
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *Response
+		wantErr string
+	}{
+		{
+			name: "should_fail_to_send_request",
+			fields: fields{
+				config: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("some error")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+			},
+			want:    nil,
+			wantErr: "transport level error: some error",
+		},
+		{
+			name: "should_return_response",
+			fields: fields{
+				config: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							stringReader := strings.NewReader(string(updateResponse))
+							stringReadCloser := io.NopCloser(stringReader)
+							return &http.Response{
+								Body: stringReadCloser,
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx:     context.Background(),
+				request: UpdateRequest{Status: "cancelled"},
+			},
+			want: &Response{
+				ID:           123,
+				Status:       "cancelled",
+				StatusDetail: "by_collector",
+			},
+			wantErr: "",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.config,
+			}
+			got, err := c.Update(tt.args.ctx, tt.args.id, tt.args.request)
+			gotErr := ""
+			if err != nil {
+				gotErr = err.Error()
+			}
+
+			if gotErr != tt.wantErr {
+				t.Errorf("client.Update() error = %v, wantErr %v", err, tt.wantErr)
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("client.Update() = %v, want %v", got, tt.want)
 			}
 		})
 	}
