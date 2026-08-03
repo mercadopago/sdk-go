@@ -13,3 +13,10 @@ type CaptureRequest struct {
 	TransactionAmount float64 `json:"transaction_amount,omitempty"`
 	Capture           bool    `json:"capture,omitempty"`
 }
+
+// UpdateRequest contains fields that can be updated on an existing payment.
+type UpdateRequest struct {
+	Status            string  `json:"status,omitempty"`
+	Capture           bool    `json:"capture,omitempty"`
+	TransactionAmount float64 `json:"transaction_amount,omitempty"`
+}
