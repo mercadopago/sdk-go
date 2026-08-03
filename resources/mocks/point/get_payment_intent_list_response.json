@@ -1,0 +1,9 @@
+{
+  "events": [
+    {
+      "payment_intent_id": "7f25f9aa-eea6-4f9c-bf16-a341f71ba2f1",
+      "status": "FINISHED",
+      "created_on": "2024-02-08T09:05:42.725-04:00"
+    }
+  ]
+}

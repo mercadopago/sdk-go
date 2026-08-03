@@ -108,3 +108,30 @@ type OperatingModeResponse struct {
 	// OperatingMode is the new operating mode of the device: "PDV" (integrated) or "STANDALONE".
 	OperatingMode string `json:"operating_mode"`
 }
+
+// PaymentIntentListResponse represents the list of payment intent events returned by [Client.GetPaymentIntentList].
+type PaymentIntentListResponse struct {
+	// Events is the list of payment intent events matching the requested date range.
+	Events []PaymentIntentEventResponse `json:"events"`
+}
+
+// PaymentIntentEventResponse represents a single payment intent event within a [PaymentIntentListResponse].
+type PaymentIntentEventResponse struct {
+	// PaymentIntentID is the unique identifier of the payment intent.
+	PaymentIntentID string `json:"payment_intent_id"`
+
+	// Status is the status of the payment intent at the time of the event.
+	Status string `json:"status"`
+
+	// CreatedOn is the timestamp when the event was recorded.
+	CreatedOn string `json:"created_on"`
+}
+
+// PaymentIntentStatusResponse represents the status event returned by [Client.GetPaymentIntentStatus].
+type PaymentIntentStatusResponse struct {
+	// Status is the current status of the payment intent.
+	Status string `json:"status"`
+
+	// CreatedOn is the timestamp when the status event was recorded.
+	CreatedOn string `json:"created_on"`
+}
