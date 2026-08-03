@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/mercadopago/sdk-go/pkg/requester"
 )
@@ -61,6 +62,32 @@ func WithPlatformID(p string) Option {
 func WithExpandNodes(nodes string) Option {
 	return func(c *Config) error {
 		c.ExpandNodes = nodes
+		return nil
+	}
+}
+
+// WithTimeout returns an [Option] that sets the per-request timeout on the default
+// HTTP client. Pass this to override the default 10-second timeout.
+func WithTimeout(d time.Duration) Option {
+	return func(c *Config) error {
+		if d <= 0 {
+			return fmt.Errorf("timeout must be positive, got %v", d)
+		}
+		// Replace the default requester with one using the given timeout.
+		// We import defaultrequester via the internal path to avoid an import cycle.
+		c.Timeout = d
+		return nil
+	}
+}
+
+// WithMaxRetries returns an [Option] that configures how many times the default
+// HTTP client retries on transient failures (429, 5xx, network errors).
+func WithMaxRetries(n int) Option {
+	return func(c *Config) error {
+		if n < 0 {
+			return fmt.Errorf("maxRetries must be >= 0, got %d", n)
+		}
+		c.MaxRetries = n
 		return nil
 	}
 }

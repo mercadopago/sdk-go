@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
 
 	"github.com/mercadopago/sdk-go/pkg/mperror"
 	"github.com/mercadopago/sdk-go/pkg/requester"
@@ -31,11 +32,20 @@ func Send(requester requester.Requester, req *http.Request) ([]byte, error) {
 	}
 
 	if res.StatusCode > 399 {
-		return nil, &mperror.ResponseError{
+		base := &mperror.ResponseError{
 			StatusCode: res.StatusCode,
 			Message:    string(response),
 			Headers:    res.Header,
 		}
+		retryAfter := 0
+		if res.StatusCode == 429 {
+			if ra := res.Header.Get("Retry-After"); ra != "" {
+				if secs, parseErr := strconv.Atoi(ra); parseErr == nil {
+					retryAfter = secs
+				}
+			}
+		}
+		return nil, mperror.BuildError(base, retryAfter)
 	}
 
 	return response, nil
