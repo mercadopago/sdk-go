@@ -95,6 +95,83 @@ func TestCreate(t *testing.T) {
 	}
 }
 
+func TestGet(t *testing.T) {
+	type fields struct {
+		cfg *config.Config
+	}
+	type args struct {
+		ctx context.Context
+		id  string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *Response
+		wantErr string
+	}{
+		{
+			name: "should_fail_get_card_token",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							return nil, fmt.Errorf("some error")
+						},
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+				id:  "abc123token",
+			},
+			want:    nil,
+			wantErr: "transport level error: some error",
+		},
+		{
+			name: "should_get_card_token",
+			fields: fields{
+				cfg: &config.Config{
+					Requester: &httpclient.Mock{
+						DoMock: func(req *http.Request) (*http.Response, error) {
+							stringReader := strings.NewReader(string(cardTokenResponse))
+							stringReadCloser := io.NopCloser(stringReader)
+							return &http.Response{
+								Body: stringReadCloser,
+							}, nil
+						},
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+				id:  "abc123token",
+			},
+			want:    mockCardToken(),
+			wantErr: "",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{
+				cfg: tt.fields.cfg,
+			}
+			got, err := c.Get(tt.args.ctx, tt.args.id)
+			gotErr := ""
+			if err != nil {
+				gotErr = err.Error()
+			}
+
+			if gotErr != tt.wantErr {
+				t.Errorf("card token client.Get() error = %v, wantErr %v", err, tt.wantErr)
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("card token client.Get() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func mockCardToken() *Response {
 	return &Response{
 		ID:              "3d40b34eb41a6d0923e5bc545927c2e9",
