@@ -48,6 +48,11 @@ type Client interface {
 	// It is a put request to the endpoint: https://api.mercadopago.com/v1/customers/{id}
 	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api/customers/update-customer/put
 	Update(ctx context.Context, id string, request Request) (*Response, error)
+
+	// Delete removes the customer identified by the given id from MercadoPago.
+	// It is a delete request to the endpoint: https://api.mercadopago.com/v1/customers/{id}
+	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api/customers/delete-customer/delete
+	Delete(ctx context.Context, id string) (*Response, error)
 }
 
 // client is the implementation of [Client].
@@ -119,6 +124,24 @@ func (c *client) Update(ctx context.Context, id string, request Request) (*Respo
 	requestData := httpclient.RequestData{
 		Body:       request,
 		Method:     http.MethodPut,
+		URL:        urlWithID,
+		PathParams: pathParams,
+	}
+	resource, err := httpclient.DoRequest[*Response](ctx, c.cfg, requestData)
+	if err != nil {
+		return nil, err
+	}
+
+	return resource, nil
+}
+
+func (c *client) Delete(ctx context.Context, id string) (*Response, error) {
+	pathParams := map[string]string{
+		"id": id,
+	}
+
+	requestData := httpclient.RequestData{
+		Method:     http.MethodDelete,
 		URL:        urlWithID,
 		PathParams: pathParams,
 	}
