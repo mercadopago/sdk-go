@@ -1,3 +1,10 @@
+## VERSION 1.13.0 - 2026-08-04
+- feat: SDK ergonomics — typed errors, configurable retry and auto-pagination ([#143](https://github.com/mercadopago/sdk-go/pull/143)). New typed error hierarchy with 12 specific subtypes per HTTP status code. Request config gains optional `MaxRetries`, `RetryOn`, `InitialDelayMs`, `MaxDelayMs` and `OnRetry` callback. New auto-pagination support on search endpoints.
+- feat: add missing API methods — `DisbursementRefund.List()`, `AdvancedPayment.Update()`, `CustomerCard.Update()`, `Payment.Update()` ([#141](https://github.com/mercadopago/sdk-go/pull/141))
+- feat: add CREDENTIAL_ON_FILE messaging fields to Payment types ([#137](https://github.com/mercadopago/sdk-go/pull/137)): `FirstTransaction`, `Storage`, `TransactionInitiator`, `Reference`
+- Bump `actions/checkout` to `v7.0.1` ([#140](https://github.com/mercadopago/sdk-go/pull/140))
+- Bump `actions/setup-go` to `v7.0.0` ([#136](https://github.com/mercadopago/sdk-go/pull/136))
+
 ## VERSION 1.12.1 - 2026-07-22
 - Patch release: dependency updates and bug fixes.
 
