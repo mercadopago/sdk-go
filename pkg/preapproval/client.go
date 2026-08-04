@@ -11,10 +11,12 @@ package preapproval
 
 import (
 	"context"
+	"iter"
 	"net/http"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/pagination"
 )
 
 const (
@@ -51,6 +53,9 @@ type Client interface {
 	// It is a GET request to the endpoint: https://api.mercadopago.com/preapproval/search
 	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/subscriptions/search-preapproval/get
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
+
+	// SearchAll lazily fetches all pages (Go 1.23+).
+	SearchAll(ctx context.Context, request SearchRequest) iter.Seq2[Response, error]
 }
 
 // client is the internal implementation of [Client].
@@ -131,4 +136,16 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 	}
 
 	return resource, nil
+}
+
+func (c *client) SearchAll(ctx context.Context, request SearchRequest) iter.Seq2[Response, error] {
+	return pagination.SearchAll[Response, *SearchResponse](
+		ctx, request.Offset, request.Limit,
+		func(ctx context.Context, offset, limit int) (*SearchResponse, error) {
+			req := request
+			req.Offset = offset
+			req.Limit = limit
+			return c.Search(ctx, req)
+		},
+	)
 }

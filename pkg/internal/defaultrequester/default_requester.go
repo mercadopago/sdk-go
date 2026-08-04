@@ -37,9 +37,26 @@ var (
 	defaultBackoffStrategy = constantBackoff(time.Second * 2)
 )
 
-// defaultRequester is a stateless [requester.Requester] implementation that
-// delegates HTTP execution to [defaultHTTPClient] with automatic retry support.
-type defaultRequester struct{}
+// defaultRequester is a [requester.Requester] implementation that delegates HTTP
+// execution with automatic retry support. Fields override the package defaults.
+type defaultRequester struct {
+	httpClient *http.Client
+	maxRetries int
+}
+
+func (d *defaultRequester) client() *http.Client {
+	if d.httpClient != nil {
+		return d.httpClient
+	}
+	return defaultHTTPClient
+}
+
+func (d *defaultRequester) retryMax() int {
+	if d.maxRetries > 0 {
+		return d.maxRetries
+	}
+	return defaultRetryMax
+}
 
 // backoffFunc defines a strategy for computing the wait duration between retry
 // attempts. It receives the zero-based attempt number and returns how long to
@@ -52,10 +69,23 @@ func New() requester.Requester {
 	return &defaultRequester{}
 }
 
-// Do executes the given HTTP request with automatic retries on transient server
-// errors (HTTP 5xx, excluding 501). It rewinds the request body between attempts,
-// respects the request context's deadline and cancellation, and drains response
-// bodies of failed attempts so that the underlying TCP connection can be reused.
+// NewWithOptions returns a [requester.Requester] whose timeout and retry count
+// are overridden by the supplied values. Zero values use the package defaults.
+func NewWithOptions(timeout time.Duration, maxRetries int) requester.Requester {
+	d := &defaultRequester{}
+	if timeout > 0 {
+		d.httpClient = &http.Client{Timeout: timeout}
+	}
+	if maxRetries > 0 {
+		d.maxRetries = maxRetries
+	}
+	return d
+}
+
+// Do executes the given HTTP request with automatic retries on transient errors
+// (429, 5xx excluding 501, and network failures). It rewinds the request body
+// between attempts, respects context deadlines/cancellations, and drains
+// response bodies of failed attempts so TCP connections can be reused.
 func (d *defaultRequester) Do(req *http.Request) (*http.Response, error) {
 	var resp *http.Response
 	var err error
@@ -66,41 +96,27 @@ func (d *defaultRequester) Do(req *http.Request) (*http.Response, error) {
 			return nil, err
 		}
 
-		// Attempt the request using the default http client.
-		resp, err = defaultHTTPClient.Do(req)
+		resp, err = d.client().Do(req)
 
-		// Check if we should continue with retries. We always check after a request
-		// to allow the user to define what a successful request is. If this call
-		// return (false, nil) then we can assert that the request was successful
-		// and therefore, we can return the given response to the user.
-		shouldRetry, retryErr := shouldRetry(req.Context(), resp, err)
-
-		// Now decide if we should continue based on shouldRetry answer.
-		if !shouldRetry {
+		shouldRetryResult, retryErr := shouldRetry(req.Context(), resp, err)
+		if !shouldRetryResult {
 			if retryErr != nil {
 				err = retryErr
 			}
 			return resp, err
 		}
 
-		// If we have no retries left then we return the last response and error
-		// from the last request executed by the client.
-		remainingRetries := defaultRetryMax - i
+		remainingRetries := d.retryMax() - i
 		if remainingRetries <= 0 {
 			return resp, err
 		}
 
-		// We're going to retry, consume any response so TCP connection can be reused.
 		if err == nil && resp != nil {
 			drainBody(resp.Body)
 		}
 
-		// Call backoff to see how much time we must wait until next retry.
 		backoffWait := backoffDuration(i)
 
-		// If the request context has a deadline, check whether that deadline
-		// happens before the wait period of the backoff strategy. In case
-		// it do we return the last error without waiting.
 		if deadline, ok := req.Context().Deadline(); ok {
 			ctxDeadline := time.Until(deadline)
 			if ctxDeadline <= backoffWait {
@@ -108,7 +124,6 @@ func (d *defaultRequester) Do(req *http.Request) (*http.Response, error) {
 			}
 		}
 
-		// Wait for either the backoff period or the cancellation of the request context.
 		select {
 		case <-req.Context().Done():
 			return nil, req.Context().Err()
@@ -139,8 +154,18 @@ func requestFromInternal(req *http.Request) (*http.Request, error) {
 	return r2, nil
 }
 
-// shouldRetry provides a sane default implementation of a
-// retry policy, it will retry on server (5xx) errors.
+// defaultRetryOn contains the HTTP status codes that trigger automatic retries.
+// Includes 429 (Too Many Requests) and 5xx server errors (excluding 501).
+var defaultRetryOn = map[int]bool{
+	429: true,
+	500: true,
+	502: true,
+	503: true,
+	504: true,
+}
+
+// shouldRetry decides whether a failed request should be retried.
+// Retries on: network errors, 429 Too Many Requests, and 5xx server errors (excluding 501).
 func shouldRetry(ctx context.Context, resp *http.Response, err error) (bool, error) {
 	// do not retry on context.Canceled or context.DeadlineExceeded
 	if ctx.Err() != nil {
@@ -151,11 +176,12 @@ func shouldRetry(ctx context.Context, resp *http.Response, err error) (bool, err
 		return true, err
 	}
 
-	// Check the response code. We retry on 500-range responses to allow
-	// the server time to recover, as 500's are typically not permanent
-	// errors and may relate to outages on the server side. This will catch
-	// invalid response codes as well, like 0 and 999.
-	if resp.StatusCode == 0 || (resp.StatusCode >= 500 && resp.StatusCode != http.StatusNotImplemented) {
+	// Retry on codes in defaultRetryOn (429 + 5xx except 501)
+	if defaultRetryOn[resp.StatusCode] {
+		return true, nil
+	}
+	// Also catch unexpected codes (0, 999, etc.)
+	if resp.StatusCode == 0 {
 		return true, nil
 	}
 
