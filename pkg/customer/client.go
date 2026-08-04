@@ -10,9 +10,11 @@ package customer
 
 import (
 	"context"
+	"iter"
 	"net/http"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
+	"github.com/mercadopago/sdk-go/pkg/internal/pagination"
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
 )
 
@@ -36,6 +38,15 @@ type Client interface {
 	// It is a get request to the endpoint: https://api.mercadopago.com/v1/customers/search
 	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api/customers/search-customer/get
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
+
+	// SearchAll lazily fetches all pages of customers matching the criteria.
+	// Use a range-over-function loop (Go 1.23+):
+	//
+	//	for customer, err := range client.SearchAll(ctx, customer.SearchRequest{}) {
+	//	    if err != nil { return err }
+	//	    process(customer)
+	//	}
+	SearchAll(ctx context.Context, request SearchRequest) iter.Seq2[Response, error]
 
 	// Get retrieves the full profile of a customer identified by the given id, including
 	// personal information, saved cards, and registered addresses.
@@ -96,6 +107,20 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 	}
 
 	return resource, nil
+}
+
+func (c *client) SearchAll(ctx context.Context, request SearchRequest) iter.Seq2[Response, error] {
+	return pagination.SearchAll[Response, *SearchResponse](
+		ctx,
+		request.Offset,
+		request.Limit,
+		func(ctx context.Context, offset, limit int) (*SearchResponse, error) {
+			req := request
+			req.Offset = offset
+			req.Limit = limit
+			return c.Search(ctx, req)
+		},
+	)
 }
 
 func (c *client) Get(ctx context.Context, id string) (*Response, error) {

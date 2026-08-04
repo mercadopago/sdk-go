@@ -8,11 +8,13 @@ package payment
 
 import (
 	"context"
+	"iter"
 	"net/http"
 	"strconv"
 
 	"github.com/mercadopago/sdk-go/pkg/config"
 	"github.com/mercadopago/sdk-go/pkg/internal/httpclient"
+	"github.com/mercadopago/sdk-go/pkg/internal/pagination"
 )
 
 const (
@@ -39,6 +41,16 @@ type Client interface {
 	//
 	// Reference: https://www.mercadopago.com/developers/en/reference/online-payments/checkout-api-payments/search-payments/get
 	Search(ctx context.Context, request SearchRequest) (*SearchResponse, error)
+
+	// SearchAll returns a lazy [iter.Seq2] that auto-fetches all pages of payments matching
+	// the criteria in request. Pages are fetched on demand as the iterator advances.
+	// Use a range-over-function loop (Go 1.23+):
+	//
+	//	for payment, err := range client.SearchAll(ctx, payment.SearchRequest{Filters: map[string]string{"status": "approved"}}) {
+	//	    if err != nil { return err }
+	//	    process(payment)
+	//	}
+	SearchAll(ctx context.Context, request SearchRequest) iter.Seq2[Response, error]
 
 	// Get retrieves a single payment by its unique numeric ID.
 	//
@@ -117,6 +129,20 @@ func (c *client) Search(ctx context.Context, request SearchRequest) (*SearchResp
 	}
 
 	return resource, nil
+}
+
+func (c *client) SearchAll(ctx context.Context, request SearchRequest) iter.Seq2[Response, error] {
+	return pagination.SearchAll[Response, *SearchResponse](
+		ctx,
+		request.Offset,
+		request.Limit,
+		func(ctx context.Context, offset, limit int) (*SearchResponse, error) {
+			req := request
+			req.Offset = offset
+			req.Limit = limit
+			return c.Search(ctx, req)
+		},
+	)
 }
 
 func (c *client) Get(ctx context.Context, id int) (*Response, error) {
