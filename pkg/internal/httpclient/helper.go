@@ -22,7 +22,7 @@ import (
 )
 
 const (
-	currentSDKVersion string = "1.13.0"
+	currentSDKVersion string = "1.14.0"
 	productID         string = "CNITR48HSRV0CRPT3NI0"
 )
 
