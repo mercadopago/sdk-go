@@ -124,3 +124,263 @@ func TestSearch(t *testing.T) {
 		})
 	}
 }
+
+func TestCreate(t *testing.T) {
+	tests := []struct {
+		name    string
+		cfg     *config.Config
+		wantErr string
+	}{
+		{
+			name: "should_return_error_when_send_request",
+			cfg: &config.Config{
+				Requester: &httpclient.Mock{
+					DoMock: func(req *http.Request) (*http.Response, error) {
+						return nil, fmt.Errorf("some error")
+					},
+				},
+			},
+			wantErr: "transport level error: some error",
+		},
+		{
+			name: "should_return_response",
+			cfg: &config.Config{
+				Requester: &httpclient.Mock{
+					DoMock: func(req *http.Request) (*http.Response, error) {
+						return &http.Response{
+							StatusCode: http.StatusCreated,
+							Body:       io.NopCloser(bytes.NewReader(getResponse)),
+						}, nil
+					},
+				},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := NewClient(tt.cfg)
+			result, err := c.Create(context.Background(), Request{})
+			if tt.wantErr != "" {
+				if err == nil || err.Error() != tt.wantErr {
+					t.Errorf("expected error %q, got %v", tt.wantErr, err)
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if result == nil {
+				t.Fatal("expected result, got nil")
+			}
+		})
+	}
+}
+
+func TestUpdate(t *testing.T) {
+	tests := []struct {
+		name    string
+		cfg     *config.Config
+		wantErr string
+	}{
+		{
+			name: "should_return_error_when_send_request",
+			cfg: &config.Config{
+				Requester: &httpclient.Mock{
+					DoMock: func(req *http.Request) (*http.Response, error) {
+						return nil, fmt.Errorf("some error")
+					},
+				},
+			},
+			wantErr: "transport level error: some error",
+		},
+		{
+			name: "should_return_response",
+			cfg: &config.Config{
+				Requester: &httpclient.Mock{
+					DoMock: func(req *http.Request) (*http.Response, error) {
+						return &http.Response{
+							StatusCode: http.StatusOK,
+							Body:       io.NopCloser(bytes.NewReader(getResponse)),
+						}, nil
+					},
+				},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := NewClient(tt.cfg)
+			result, err := c.Update(context.Background(), 20458724, UpdateRequest{})
+			if tt.wantErr != "" {
+				if err == nil || err.Error() != tt.wantErr {
+					t.Errorf("expected error %q, got %v", tt.wantErr, err)
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if result == nil {
+				t.Fatal("expected result, got nil")
+			}
+		})
+	}
+}
+
+func TestCapture(t *testing.T) {
+	tests := []struct {
+		name    string
+		cfg     *config.Config
+		wantErr string
+	}{
+		{
+			name: "should_return_error_when_send_request",
+			cfg: &config.Config{
+				Requester: &httpclient.Mock{
+					DoMock: func(req *http.Request) (*http.Response, error) {
+						return nil, fmt.Errorf("some error")
+					},
+				},
+			},
+			wantErr: "transport level error: some error",
+		},
+		{
+			name: "should_return_response",
+			cfg: &config.Config{
+				Requester: &httpclient.Mock{
+					DoMock: func(req *http.Request) (*http.Response, error) {
+						return &http.Response{
+							StatusCode: http.StatusOK,
+							Body:       io.NopCloser(bytes.NewReader(getResponse)),
+						}, nil
+					},
+				},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := NewClient(tt.cfg)
+			result, err := c.Capture(context.Background(), 20458724)
+			if tt.wantErr != "" {
+				if err == nil || err.Error() != tt.wantErr {
+					t.Errorf("expected error %q, got %v", tt.wantErr, err)
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if result == nil {
+				t.Fatal("expected result, got nil")
+			}
+		})
+	}
+}
+
+func TestCancel(t *testing.T) {
+	tests := []struct {
+		name    string
+		cfg     *config.Config
+		wantErr string
+	}{
+		{
+			name: "should_return_error_when_send_request",
+			cfg: &config.Config{
+				Requester: &httpclient.Mock{
+					DoMock: func(req *http.Request) (*http.Response, error) {
+						return nil, fmt.Errorf("some error")
+					},
+				},
+			},
+			wantErr: "transport level error: some error",
+		},
+		{
+			name: "should_return_response",
+			cfg: &config.Config{
+				Requester: &httpclient.Mock{
+					DoMock: func(req *http.Request) (*http.Response, error) {
+						return &http.Response{
+							StatusCode: http.StatusOK,
+							Body:       io.NopCloser(bytes.NewReader(getResponse)),
+						}, nil
+					},
+				},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := NewClient(tt.cfg)
+			result, err := c.Cancel(context.Background(), 20458724)
+			if tt.wantErr != "" {
+				if err == nil || err.Error() != tt.wantErr {
+					t.Errorf("expected error %q, got %v", tt.wantErr, err)
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if result == nil {
+				t.Fatal("expected result, got nil")
+			}
+		})
+	}
+}
+
+func TestUpdateReleaseDate(t *testing.T) {
+	tests := []struct {
+		name    string
+		cfg     *config.Config
+		wantErr string
+	}{
+		{
+			name: "should_return_error_when_send_request",
+			cfg: &config.Config{
+				Requester: &httpclient.Mock{
+					DoMock: func(req *http.Request) (*http.Response, error) {
+						return nil, fmt.Errorf("some error")
+					},
+				},
+			},
+			wantErr: "transport level error: some error",
+		},
+		{
+			name: "should_return_response",
+			cfg: &config.Config{
+				Requester: &httpclient.Mock{
+					DoMock: func(req *http.Request) (*http.Response, error) {
+						return &http.Response{
+							StatusCode: http.StatusOK,
+							Body:       io.NopCloser(bytes.NewReader(getResponse)),
+						}, nil
+					},
+				},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := NewClient(tt.cfg)
+			result, err := c.UpdateReleaseDate(context.Background(), 20458724, "2022-07-01T00:00:00.000-04:00")
+			if tt.wantErr != "" {
+				if err == nil || err.Error() != tt.wantErr {
+					t.Errorf("expected error %q, got %v", tt.wantErr, err)
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if result == nil {
+				t.Fatal("expected result, got nil")
+			}
+		})
+	}
+}

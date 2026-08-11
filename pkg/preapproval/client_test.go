@@ -453,6 +453,56 @@ func TestUpdate(t *testing.T) {
 	}
 }
 
+func TestSearchAll(t *testing.T) {
+	tests := []struct {
+		name    string
+		cfg     *config.Config
+		wantErr string
+	}{
+		{
+			name: "should_return_error_when_send_request",
+			cfg: &config.Config{
+				Requester: &httpclient.Mock{
+					DoMock: func(req *http.Request) (*http.Response, error) {
+						return nil, fmt.Errorf("some error")
+					},
+				},
+			},
+			wantErr: "transport level error: some error",
+		},
+		{
+			name: "should_return_iterator",
+			cfg: &config.Config{
+				Requester: &httpclient.Mock{
+					DoMock: func(req *http.Request) (*http.Response, error) {
+						stringReader := strings.NewReader(string(searchResponse))
+						return &http.Response{
+							Body: io.NopCloser(stringReader),
+						}, nil
+					},
+				},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &client{cfg: tt.cfg}
+			iter := c.SearchAll(context.Background(), SearchRequest{})
+			var gotErr string
+			for _, err := range iter {
+				if err != nil {
+					gotErr = err.Error()
+					break
+				}
+			}
+			if gotErr != tt.wantErr {
+				t.Errorf("SearchAll() error = %v, wantErr %v", gotErr, tt.wantErr)
+			}
+		})
+	}
+}
+
 func parseDate(s string) time.Time {
 	d, _ := time.Parse(time.RFC3339, s)
 	return d

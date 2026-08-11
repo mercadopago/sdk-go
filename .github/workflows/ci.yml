@@ -2,72 +2,61 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "**" ]
+    branches: ["**"]
 
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
 
-    - name: Set up Go
-      uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
-      with:
-        go-version: '1.25'
-        cache: false
+      - name: Setup Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version-file: go.mod
+          cache: false
 
-    - name: Install golangci-lint
-      run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
+      - name: Install golangci-lint
+        run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
 
-    - name: Run golangci-lint
-      run: golangci-lint run
+      - name: Run golangci-lint
+        run: golangci-lint run
 
   test:
-    name: Test
+    name: Test on Go ${{ matrix.go-version }}
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        go-version: ["1.23", "1.24", "1.25"]
+
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
 
-    - name: Set up Go
-      uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
-      with:
-        go-version: '1.25'
-        cache: false
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache: false
 
-    - name: Test
-      run: go test ./pkg/... -coverprofile=./cover.out
+      - name: Run unit tests
+        run: go test ./pkg/... -coverprofile=./cover.out
 
-    - name: Install govulncheck
-      run: go install golang.org/x/vuln/cmd/govulncheck@latest
+      - name: Dependency audit
+        if: matrix.go-version == '1.25'
+        run: |
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+          govulncheck ./...
 
-    - name: Dependency audit
-      run: |
-        govulncheck -json ./... | python3 - <<'EOF'
-        import sys, json
-
-        decoder = json.JSONDecoder()
-        buf = ''
-        non_stdlib = []
-
-        for line in sys.stdin:
-            buf += line
-            buf = buf.strip()
-            while buf:
-                try:
-                    obj, idx = decoder.raw_decode(buf)
-                    buf = buf[idx:].strip()
-                    if 'finding' in obj:
-                        trace = obj['finding'].get('trace', [])
-                        if trace and trace[0].get('module') != 'stdlib':
-                            non_stdlib.append(obj['finding'].get('osv'))
-                except json.JSONDecodeError:
-                    break
-
-        if non_stdlib:
-            print('Non-stdlib vulnerabilities found:', non_stdlib)
-            sys.exit(1)
-        print('No non-stdlib vulnerabilities found (stdlib vulns require Go upgrade)')
-        EOF
+      - name: Dependency review
+        if: github.event_name == 'pull_request'
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v4
+        with:
+          fail-on-severity: high
