@@ -184,7 +184,7 @@ type StoredCredentialRequest struct {
 	Reason             string `json:"reason,omitempty"`
 	StorePaymentMethod bool   `json:"store_payment_method,omitempty"`
 	FirstPayment       bool   `json:"first_payment,omitempty"`
-	PrevTransactionRef string `json:"prev_transaction_ref,omitempty"`
+	PrevTransactionRef string `json:"previous_transaction_reference,omitempty"`
 }
 
 // SubscriptionDataRequest represents subscription billing details for a payment transaction.
