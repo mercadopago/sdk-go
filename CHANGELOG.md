@@ -1,3 +1,10 @@
+## VERSION 1.14.0 - 2026-08-11
+- feat(go): expose `SearchAll()` on `PaymentClient`, `CustomerClient`, `PreapprovalClient`, `PreapprovalPlanClient` ([#142](https://github.com/mercadopago/sdk-go/pull/142))
+- feat(order): add Automatic Payments example — two-step recurring flow ([#142](https://github.com/mercadopago/sdk-go/pull/142))
+- feat: add `Delete` to `CustomerClient`, `Get` to `CardTokenClient`, `GetPaymentIntentList` and `GetPaymentIntentStatus` to `PointClient` ([#142](https://github.com/mercadopago/sdk-go/pull/142))
+- fix(order): rename `PrevTransactionRef` to `PreviousTransactionReference` in stored credential ([#142](https://github.com/mercadopago/sdk-go/pull/142))
+- ci: standardize CI/CD workflows, fix Go matrix and govulncheck ([#145](https://github.com/mercadopago/sdk-go/pull/145))
+
 ## VERSION 1.13.0 - 2026-08-04
 - feat: SDK ergonomics — typed errors, configurable retry and auto-pagination ([#143](https://github.com/mercadopago/sdk-go/pull/143)). New typed error hierarchy with 12 specific subtypes per HTTP status code. Request config gains optional `MaxRetries`, `RetryOn`, `InitialDelayMs`, `MaxDelayMs` and `OnRetry` callback. New auto-pagination support on search endpoints.
 - feat: add missing API methods — `DisbursementRefund.List()`, `AdvancedPayment.Update()`, `CustomerCard.Update()`, `Payment.Update()` ([#141](https://github.com/mercadopago/sdk-go/pull/141))
