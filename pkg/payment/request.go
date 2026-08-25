@@ -276,10 +276,16 @@ type TransactionDetailsRequest struct {
 // such as a physical POS device or an online checkout. It is used within [Request].
 type PointOfInteractionRequest struct {
 	TransactionData *TransactionDataRequest `json:"transaction_data,omitempty"`
+	NetworkData     *NetworkDataRequest     `json:"network_data,omitempty"`
 
 	LinkedTo string `json:"linked_to,omitempty"`
 	Type     string `json:"type,omitempty"`
 	SubType  string `json:"sub_type,omitempty"`
+}
+
+type NetworkDataRequest struct {
+	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
+	TransactionLinkID    string `json:"transaction_link_id,omitempty"`
 }
 
 // TransactionDataRequest contains transaction-specific data for the point of interaction,
