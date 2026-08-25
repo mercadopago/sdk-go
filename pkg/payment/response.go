@@ -280,9 +280,9 @@ type CardResponse struct {
 	DateCreated     time.Time          `json:"date_created"`
 	DateLastUpdated time.Time          `json:"date_last_updated"`
 
-	ID              string `json:"id"`
-	LastFourDigits  string `json:"last_four_digits"`
-	FirstSixDigits  string `json:"first_six_digits"`
+	ID              string    `json:"id"`
+	LastFourDigits  string    `json:"last_four_digits"`
+	FirstSixDigits  string    `json:"first_six_digits"`
 	ExpirationYear  MaskedInt `json:"expiration_year"`
 	ExpirationMonth MaskedInt `json:"expiration_month"`
 }
@@ -299,10 +299,16 @@ type CardholderResponse struct {
 type PointOfInteractionResponse struct {
 	ApplicationData ApplicationDataResponse `json:"application_data"`
 	TransactionData TransactionDataResponse `json:"transaction_data"`
+	NetworkData     NetworkDataResponse     `json:"network_data,omitempty"`
 
 	Type     string `json:"type"`
 	SubType  string `json:"sub_type"`
 	LinkedTo string `json:"linked_to"`
+}
+
+type NetworkDataResponse struct {
+	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
+	TransactionLinkID    string `json:"transaction_link_id,omitempty"`
 }
 
 // ApplicationDataResponse identifies the application that originated the payment interaction.
@@ -314,11 +320,11 @@ type ApplicationDataResponse struct {
 // TransactionDataResponse contains transaction-specific data from the point of interaction,
 // including QR codes, ticket URLs, bank information, and subscription details.
 type TransactionDataResponse struct {
-	BankInfo             BankInfoResponse              `json:"bank_info"`
-	SubscriptionSequence SubscriptionSequenceResponse  `json:"subscription_sequence"`
-	InvoicePeriod        InvoicePeriodResponse         `json:"invoice_period"`
-	PaymentReference     PaymentReferenceResponse      `json:"payment_reference"`
-	Reference            TransactionReferenceResponse  `json:"reference,omitempty"`
+	BankInfo             BankInfoResponse             `json:"bank_info"`
+	SubscriptionSequence SubscriptionSequenceResponse `json:"subscription_sequence"`
+	InvoicePeriod        InvoicePeriodResponse        `json:"invoice_period"`
+	PaymentReference     PaymentReferenceResponse     `json:"payment_reference"`
+	Reference            TransactionReferenceResponse `json:"reference,omitempty"`
 
 	QRCode               string `json:"qr_code"`
 	QRCodeBase64         string `json:"qr_code_base64"`

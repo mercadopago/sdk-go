@@ -120,6 +120,7 @@ type StoredCredentialResponse struct {
 	Reason             string `json:"reason,omitempty"`
 	StorePaymentMethod bool   `json:"store_payment_method,omitempty"`
 	FirstPayment       bool   `json:"first_payment,omitempty"`
+	PrevTransactionRef string `json:"previous_transaction_reference,omitempty"`
 }
 
 // SubscriptionDataResponse represents the subscription billing details returned by the API
