@@ -1,3 +1,6 @@
+## VERSION 1.15.0 - 2026-08-25
+- feat: add COF network data support — new fields on `pkg/payment/request.go`, `pkg/payment/response.go`, and `pkg/order/response.go`
+
 ## VERSION 1.14.0 - 2026-08-11
 - feat(go): expose `SearchAll()` on `PaymentClient`, `CustomerClient`, `PreapprovalClient`, `PreapprovalPlanClient` ([#142](https://github.com/mercadopago/sdk-go/pull/142))
 - feat(order): add Automatic Payments example — two-step recurring flow ([#142](https://github.com/mercadopago/sdk-go/pull/142))
