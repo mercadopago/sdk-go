@@ -332,6 +332,7 @@ type TransactionDataResponse struct {
 	TicketURL            string `json:"ticket_url"`
 	SubscriptionID       string `json:"subscription_id"`
 	BillingDate          string `json:"billing_date"`
+	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
 	BankTransferID       int    `json:"bank_transfer_id"`
 	FinancialInstitution int    `json:"financial_institution"`
 	FirstTimeUse         bool   `json:"first_time_use"`
