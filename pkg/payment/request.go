@@ -298,6 +298,7 @@ type TransactionDataRequest struct {
 
 	SubscriptionID       string `json:"subscription_id,omitempty"`
 	BillingDate          string `json:"billing_date,omitempty"`
+	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
 	FirstTimeUse         bool   `json:"first_time_use,omitempty"`
 	FirstTransaction     bool   `json:"first_transaction,omitempty"`
 	Storage              string `json:"storage,omitempty"`
