@@ -299,7 +299,6 @@ type CardholderResponse struct {
 type PointOfInteractionResponse struct {
 	ApplicationData ApplicationDataResponse `json:"application_data"`
 	TransactionData TransactionDataResponse `json:"transaction_data"`
-	NetworkData     NetworkDataResponse     `json:"network_data,omitempty"`
 
 	Type     string `json:"type"`
 	SubType  string `json:"sub_type"`
@@ -307,8 +306,8 @@ type PointOfInteractionResponse struct {
 }
 
 type NetworkDataResponse struct {
-	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
-	TransactionLinkID    string `json:"transaction_link_id,omitempty"`
+	TransactionID     string `json:"transaction_id,omitempty"`
+	TransactionLinkID string `json:"transaction_link_id,omitempty"`
 }
 
 // ApplicationDataResponse identifies the application that originated the payment interaction.
@@ -326,19 +325,20 @@ type TransactionDataResponse struct {
 	PaymentReference     PaymentReferenceResponse     `json:"payment_reference"`
 	Reference            TransactionReferenceResponse `json:"reference,omitempty"`
 
-	QRCode               string `json:"qr_code"`
-	QRCodeBase64         string `json:"qr_code_base64"`
-	TransactionID        string `json:"transaction_id"`
-	TicketURL            string `json:"ticket_url"`
-	SubscriptionID       string `json:"subscription_id"`
-	BillingDate          string `json:"billing_date"`
-	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
-	BankTransferID       int    `json:"bank_transfer_id"`
-	FinancialInstitution int    `json:"financial_institution"`
-	FirstTimeUse         bool   `json:"first_time_use"`
-	FirstTransaction     bool   `json:"first_transaction,omitempty"`
-	Storage              string `json:"storage,omitempty"`
-	TransactionInitiator string `json:"transaction_initiator,omitempty"`
+	QRCode               string              `json:"qr_code"`
+	QRCodeBase64         string              `json:"qr_code_base64"`
+	TransactionID        string              `json:"transaction_id"`
+	TicketURL            string              `json:"ticket_url"`
+	SubscriptionID       string              `json:"subscription_id"`
+	BillingDate          string              `json:"billing_date"`
+	NetworkTransactionID string              `json:"network_transaction_id,omitempty"`
+	NetworkData          NetworkDataResponse `json:"network_data,omitempty"`
+	BankTransferID       int                 `json:"bank_transfer_id"`
+	FinancialInstitution int                 `json:"financial_institution"`
+	FirstTimeUse         bool                `json:"first_time_use"`
+	FirstTransaction     bool                `json:"first_transaction,omitempty"`
+	Storage              string              `json:"storage,omitempty"`
+	TransactionInitiator string              `json:"transaction_initiator,omitempty"`
 }
 
 // TransactionReferenceResponse contains a reference identifier for credential-on-file transactions.
@@ -499,6 +499,7 @@ type GatewayResponse struct {
 // ReferenceResponse contains network-level transaction references from the payment gateway.
 type ReferenceResponse struct {
 	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
+	NetworkData          *NetworkDataResponse `json:"network_data,omitempty"`
 }
 
 // AmountsResponse contains currency-specific transaction amounts for both the collector
