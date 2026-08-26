@@ -499,6 +499,7 @@ type GatewayResponse struct {
 // ReferenceResponse contains network-level transaction references from the payment gateway.
 type ReferenceResponse struct {
 	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
+	NetworkData          *NetworkDataResponse `json:"network_data,omitempty"`
 }
 
 // AmountsResponse contains currency-specific transaction amounts for both the collector

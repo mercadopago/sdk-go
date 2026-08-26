@@ -43,3 +43,13 @@ func TestNetworkDataIsDeserializedFromTransactionData(t *testing.T) {
 		t.Fatal("transaction_id was not deserialized")
 	}
 }
+
+func TestExpandedGatewayReferenceNetworkDataDeserializes(t *testing.T) {
+	var response Response
+	if err := json.Unmarshal([]byte(`{"expanded":{"gateway":{"reference":{"network_data":{"transaction_id":"ABC123","transaction_link_id":"550e8400"}}}}}`), &response); err != nil {
+		t.Fatalf("unmarshal response: %v", err)
+	}
+	if response.Expanded.Gateway.Reference.NetworkData.TransactionID != "ABC123" {
+		t.Fatal("expanded gateway network_data was not deserialized")
+	}
+}
