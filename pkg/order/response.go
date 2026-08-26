@@ -107,10 +107,26 @@ type TransactionSecurityResponse struct {
 // AutomaticPaymentResponse represents the automatic payment scheduling information
 // returned by the API for a recurring payment transaction.
 type AutomaticPaymentResponse struct {
-	PaymentProfileID string `json:"payment_profile_id,omitempty"`
-	ScheduleDate     string `json:"schedule_date,omitempty"`
-	DueDate          string `json:"due_date,omitempty"`
-	Retries          int    `json:"retries,omitempty"`
+	PaymentProfileID string                                 `json:"payment_profile_id,omitempty"`
+	ScheduleDate     string                                 `json:"schedule_date,omitempty"`
+	DueDate          string                                 `json:"due_date,omitempty"`
+	Retries          int                                    `json:"retries,omitempty"`
+	Subscription     *AutomaticPaymentsSubscriptionResponse `json:"subscription,omitempty"`
+}
+
+type AutomaticPaymentsSubscriptionResponse struct {
+	ID       string                            `json:"id,omitempty"`
+	Sequence *SubscriptionSequenceResponse     `json:"sequence,omitempty"`
+	Invoice  *AutomaticPaymentsInvoiceResponse `json:"invoice,omitempty"`
+}
+type AutomaticPaymentsInvoiceResponse struct {
+	ID          string                           `json:"id,omitempty"`
+	BillingDate string                           `json:"billing_date,omitempty"`
+	Period      *AutomaticPaymentsPeriodResponse `json:"period,omitempty"`
+}
+type AutomaticPaymentsPeriodResponse struct {
+	Interval int    `json:"interval,omitempty"`
+	Type     string `json:"type,omitempty"`
 }
 
 // StoredCredentialResponse represents the stored credential metadata returned by the API,

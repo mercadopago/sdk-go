@@ -170,10 +170,28 @@ type PaymentMethodRequest struct {
 // AutomaticPaymentsRequest represents configuration for recurring automatic payment scheduling.
 // It is used within [PaymentRequest] to define when and how automatic charges should occur.
 type AutomaticPaymentsRequest struct {
-	PaymentProfileID string `json:"payment_profile_id,omitempty"`
-	ScheduleDate     string `json:"schedule_date,omitempty"`
-	DueDate          string `json:"due_date,omitempty"`
-	Retries          int    `json:"retries,omitempty"`
+	PaymentProfileID string                                `json:"payment_profile_id,omitempty"`
+	ScheduleDate     string                                `json:"schedule_date,omitempty"`
+	DueDate          string                                `json:"due_date,omitempty"`
+	Retries          int                                   `json:"retries,omitempty"`
+	Subscription     *AutomaticPaymentsSubscriptionRequest `json:"subscription,omitempty"`
+}
+
+type AutomaticPaymentsSubscriptionRequest struct {
+	ID       string                           `json:"id,omitempty"`
+	Sequence *SubscriptionSequenceRequest     `json:"sequence,omitempty"`
+	Invoice  *AutomaticPaymentsInvoiceRequest `json:"invoice,omitempty"`
+}
+
+type AutomaticPaymentsInvoiceRequest struct {
+	ID          string                          `json:"id,omitempty"`
+	BillingDate string                          `json:"billing_date,omitempty"`
+	Period      *AutomaticPaymentsPeriodRequest `json:"period,omitempty"`
+}
+
+type AutomaticPaymentsPeriodRequest struct {
+	Interval int    `json:"interval,omitempty"`
+	Type     string `json:"type,omitempty"`
 }
 
 // StoredCredentialRequest represents stored credential information for a payment, used

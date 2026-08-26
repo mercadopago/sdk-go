@@ -276,7 +276,6 @@ type TransactionDetailsRequest struct {
 // such as a physical POS device or an online checkout. It is used within [Request].
 type PointOfInteractionRequest struct {
 	TransactionData *TransactionDataRequest `json:"transaction_data,omitempty"`
-	NetworkData     *NetworkDataRequest     `json:"network_data,omitempty"`
 
 	LinkedTo string `json:"linked_to,omitempty"`
 	Type     string `json:"type,omitempty"`
@@ -284,8 +283,8 @@ type PointOfInteractionRequest struct {
 }
 
 type NetworkDataRequest struct {
-	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
-	TransactionLinkID    string `json:"transaction_link_id,omitempty"`
+	TransactionID     string `json:"transaction_id,omitempty"`
+	TransactionLinkID string `json:"transaction_link_id,omitempty"`
 }
 
 // TransactionDataRequest contains transaction-specific data for the point of interaction,
@@ -296,13 +295,14 @@ type TransactionDataRequest struct {
 	PaymentReference     *PaymentReferenceRequest     `json:"payment_reference,omitempty"`
 	Reference            *ReferenceRequest            `json:"reference,omitempty"`
 
-	SubscriptionID       string `json:"subscription_id,omitempty"`
-	BillingDate          string `json:"billing_date,omitempty"`
-	NetworkTransactionID string `json:"network_transaction_id,omitempty"`
-	FirstTimeUse         bool   `json:"first_time_use,omitempty"`
-	FirstTransaction     bool   `json:"first_transaction,omitempty"`
-	Storage              string `json:"storage,omitempty"`
-	TransactionInitiator string `json:"transaction_initiator,omitempty"`
+	SubscriptionID       string              `json:"subscription_id,omitempty"`
+	BillingDate          string              `json:"billing_date,omitempty"`
+	NetworkTransactionID string              `json:"network_transaction_id,omitempty"`
+	NetworkData          *NetworkDataRequest `json:"network_data,omitempty"`
+	FirstTimeUse         bool                `json:"first_time_use,omitempty"`
+	FirstTransaction     bool                `json:"first_transaction,omitempty"`
+	Storage              string              `json:"storage,omitempty"`
+	TransactionInitiator string              `json:"transaction_initiator,omitempty"`
 }
 
 // SubscriptionSequenceRequest tracks the position of a payment within a recurring subscription.
