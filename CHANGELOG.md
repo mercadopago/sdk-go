@@ -1,3 +1,6 @@
+## VERSION 1.16.0 - 2026-08-27
+- feat: add nested credential-on-file network data, expanded gateway network data, and automatic payment subscription support
+
 ## VERSION 1.15.0 - 2026-08-25
 - feat: add COF network data support — new fields on `pkg/payment/request.go`, `pkg/payment/response.go`, and `pkg/order/response.go`
 
