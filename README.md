@@ -4,7 +4,7 @@
   <p><strong>The official Mercado Pago SDK for Go applications.</strong></p>
   <p>Build payment experiences with a typed, idiomatic client for the Mercado Pago API.</p>
   <p>
-    <a href="https://github.com/mercadopago/sdk-go/actions/workflows/ci.yml"><img src="assets/badges/ci.svg" alt="CI workflow" /></a>
+    <a href="https://github.com/mercadopago/sdk-go/actions/workflows/ci.yml"><img src="https://github.com/mercadopago/sdk-go/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI status" /></a>
     <a href="#installation"><img src="assets/badges/package.svg" alt="Go package" /></a>
     <img src="assets/badges/runtime.svg" alt="Go 1.23 or later" />
     <a href="LICENSE"><img src="assets/badges/license.svg" alt="MIT license" /></a>
