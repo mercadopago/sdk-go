@@ -1,12 +1,23 @@
-# Mercado Pago SDK for Go
+<div align="center">
+  <img src="assets/mercado-pago.svg" alt="Mercado Pago" width="120" />
+  <h1>Mercado Pago SDK for Go</h1>
+  <p><strong>The official Mercado Pago SDK for Go applications.</strong></p>
+  <p>Build payment experiences with a typed, idiomatic client for the Mercado Pago API.</p>
+  <p>
+    <a href="https://github.com/mercadopago/sdk-go/actions/workflows/ci.yml"><img src="assets/badges/ci.svg" alt="CI workflow" /></a>
+    <a href="#installation"><img src="assets/badges/package.svg" alt="Go package" /></a>
+    <img src="assets/badges/runtime.svg" alt="Go 1.23 or later" />
+    <a href="LICENSE"><img src="assets/badges/license.svg" alt="MIT license" /></a>
+  </p>
+  <p>
+    <a href="#installation">Installation</a> ·
+    <a href="#getting-started">Getting started</a> ·
+    <a href="#documentation">Documentation</a> ·
+    <a href="#contributing">Contributing</a>
+  </p>
+</div>
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/mercadopago/sdk-go.svg)](https://pkg.go.dev/github.com/mercadopago/sdk-go)
-
-![mercado-pago-image-7130x2250](https://github.com/mercadopago/sdk-go/assets/84413927/c18102b2-b4ed-46c9-9a83-b5e6a30d659b)
-
-## Overview
-
-A comprehensive Go client library for integrating with the Mercado Pago API.
+---
 
 ## 💡 Requirements
 
@@ -123,13 +134,14 @@ Every package methods returns two variables: response (type of the package) and 
 	}
 ```
 
-For more details on the available methods and request parameters, please refer to the [Go Reference](https://pkg.go.dev/github.com/mercadopago/sdk-go) documentation.
+For more details on available methods and request parameters, see the [SDK source packages](https://github.com/mercadopago/sdk-go/tree/main/pkg) and the documentation index below.
 
 ## 📚 Documentation
 
-See our documentation for more details.
-
-- Mercado Pago API Reference: [English](https://www.mercadopago.com/developers/en/guides) | [Portuguese](https://www.mercadopago.com/developers/pt/guides) | [Spanish](https://www.mercadopago.com/developers/es/guides)
+- [SDK guides](docs/README.md): configuration, errors, webhooks, and production guidance.
+- [Examples](examples/README.md): integration flows supported by this SDK.
+- [Go source packages](https://github.com/mercadopago/sdk-go/tree/main/pkg): public packages and methods.
+- [API reference](https://www.mercadopago.com/developers/en/reference): request fields and response schemas.
 
 ## 🤝 Contributing
 
