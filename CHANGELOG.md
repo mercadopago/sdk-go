@@ -1,3 +1,7 @@
+## VERSION 1.16.1 - 2026-11-25
+- fix: accept webhook timestamps in seconds and milliseconds when checking tolerance
+- ci: harden workflows and audit dependencies with a supported Go release
+
 ## VERSION 1.16.0 - 2026-08-27
 - feat: add nested credential-on-file network data, expanded gateway network data, and automatic payment subscription support
 

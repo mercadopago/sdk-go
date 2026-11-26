@@ -11,12 +11,12 @@ import (
 )
 
 const (
-	secret       = "your_secret_key_here"
-	requestID    = "2066ca19-c6f1-498a-be75-1923005edd06"
-	dataIDRaw    = "ORD01JQ4S4KY8HWQ6NA5PXB65B3D3"
-	dataIDLower  = "ord01jq4s4ky8hwq6na5pxb65b3d3"
-	ts           = "1742505638683"
-	tsNum  int64 = 1742505638683
+	secret            = "your_secret_key_here"
+	requestID         = "2066ca19-c6f1-498a-be75-1923005edd06"
+	dataIDRaw         = "ORD01JQ4S4KY8HWQ6NA5PXB65B3D3"
+	dataIDLower       = "ord01jq4s4ky8hwq6na5pxb65b3d3"
+	ts                = "1742505638683"
+	tsNum       int64 = 1742505638683
 )
 
 func computeHash(dataID, requestID, ts, secret string) string {
@@ -122,6 +122,15 @@ func TestValidateSignature_WithinTolerance(t *testing.T) {
 	near := func() time.Time { return time.UnixMilli(tsNum + 30*1000) }
 	if err := ValidateSignature(buildHeader(h), requestID, dataIDLower, secret,
 		WithTolerance(60*time.Second), WithNow(near)); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestValidateSignature_SecondsWithinTolerance(t *testing.T) {
+	timestamp := "1704908010"
+	hash := computeHash(dataIDLower, requestID, timestamp, secret)
+	now := func() time.Time { return time.Unix(1704908011, 0) }
+	if err := ValidateSignature(buildHeader(hash, timestamp), requestID, dataIDLower, secret, WithTolerance(time.Minute), WithNow(now)); err != nil {
 		t.Fatal(err)
 	}
 }

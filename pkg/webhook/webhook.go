@@ -210,6 +210,9 @@ func ValidateSignature(xSignature, xRequestID, dataID, secret string, opts ...Op
 	}
 
 	if o.toleranceSet {
+		if len(ts) <= 10 {
+			tsMs *= 1000
+		}
 		nowMs := o.now().UnixMilli()
 		drift := nowMs - tsMs
 		if drift < 0 {
